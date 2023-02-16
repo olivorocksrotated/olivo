@@ -1,17 +1,29 @@
 import './globals.css'
-import Head from './head';
 import { AnalyticsWrapper } from './components/analytics';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
+import LoginButton from './components/login-btn';
+
+export default async function RootLayout({ children }: { children: React.ReactNode; }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return (
+      <html lang="en">
+        <head></head>
+        <body className='h-screen w-screen flex justify-center items-center'>
+          <LoginButton></LoginButton>
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html lang="en">
       <head></head>
       <body>
-        {children}
+        { children }
         <AnalyticsWrapper />
       </body>
     </html>
