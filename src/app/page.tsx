@@ -16,7 +16,7 @@ export default async function Home() {
         <div className={`${styles.logo} font-bold text-5xl p-10`}>
           Olivo
         </div>
-        <div className='text-zinc-500'>Welcome 👋 <span className='p-2'>{ session?.user?.name }</span></div>
+        <div className='text-zinc-500 font-bold'>Welcome 👋 <span className='p-2'>{ session?.user?.name }</span></div>
         <LogoutButton></LogoutButton>
       </div>
     </main>
