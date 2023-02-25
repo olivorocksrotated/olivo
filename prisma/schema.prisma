@@ -24,17 +24,18 @@ model Account {
   type               String
   provider           String
   providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
+  refreshToken       String?  @db.Text @map("refresh_token")
+  accessToken        String?  @db.Text @map("access_token")
+  expiresAt          Int?     @map("expires_at")
+  tokenType          String?  @map("token_type")
   scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  idToken            String?  @db.Text @map("id_token")
+  sessionState       String?  @map("session_state")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -43,6 +44,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
