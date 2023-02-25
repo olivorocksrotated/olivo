@@ -1,8 +1,11 @@
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '../../../lib/prisma';
 
 export const authOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -15,10 +18,11 @@ export const authOptions = {
         password: {  label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        return { id: "1", name: "Dev", email: "dev@olivo.rocks" }
+        return { id: "1", name: "Developer", email: "dev@olivo.rocks" };
       }
     }),
   ],
+  session: { strategy: 'jwt' as const },
   pages: {
     signIn: '/signin'
   }

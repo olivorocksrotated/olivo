@@ -1,8 +1,5 @@
+import { isDevEnvironment } from '@/lib/environment';
 import LoginButton from '../components/login-btn';
-
-function isDevEnvironment() {
-  return process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production';
-}
 
 const GithubLoginButton = () => <LoginButton>Login with Github</LoginButton>;
 
