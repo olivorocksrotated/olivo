@@ -1,10 +1,14 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client';
+import { isDevEnvironment } from './environment';
 
-declare global {
-  var prisma: PrismaClient | undefined
+// Remove warn for Next.js in development: https://www.prisma.io/docs/guides/database/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices
+
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+const prisma = globalForPrisma.prisma || new PrismaClient({ log: ['query'] });
+
+if (isDevEnvironment()) {
+  globalForPrisma.prisma = prisma;
 }
 
-const client = globalThis.prisma || new PrismaClient();
-if (process.env.NODE_ENV !== "production") globalThis.prisma = client;
-
-export default client;
+export default prisma;
