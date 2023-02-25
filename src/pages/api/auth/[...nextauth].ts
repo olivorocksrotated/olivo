@@ -18,10 +18,11 @@ export const authOptions = {
         password: {  label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        return { id: "1", name: "Dev", email: "dev@olivo.rocks" }
+        return { id: "1", name: "Developer", email: "dev@olivo.rocks" };
       }
     }),
   ],
+  session: { strategy: 'jwt' as const },
   pages: {
     signIn: '/signin'
   }
