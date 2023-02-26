@@ -23,6 +23,11 @@ export const authOptions = {
       }
     }),
   ],
+  callbacks: {
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      return baseUrl;
+    }
+  },
   session: { strategy: 'jwt' as const },
   pages: {
     signIn: '/signin'
