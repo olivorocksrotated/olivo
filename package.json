@@ -1,5 +1,5 @@
 {
-  "name": "hiring-steps",
+  "name": "olivo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,8 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "vercel-build": "prisma generate && next build",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "prisma:format": "prisma format",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix",
+    "*.prisma": "npm run prisma:format"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
@@ -29,6 +36,9 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.2",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.6"
   }
