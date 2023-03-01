@@ -9,7 +9,13 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "vercel-build": "prisma generate && next build",
-    "prisma:generate": "prisma generate",
+    "db:connect": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale connect olivo ${npm_config_branch:-$CURRENT_BRANCH} --port 3310",
+    "db:ls": "pscale branch list olivo",
+    "db:gui": "prisma studio",
+    "db:start-change": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale branch create olivo ${npm_config_branch:-$CURRENT_BRANCH}",
+    "db:apply-change": "prisma generate",
+    "db:push-change": "prisma db push",
+    "db:finish-change": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale branch delete olivo ${npm_config_branch:-$CURRENT_BRANCH}",
     "prepare": "husky install"
   },
   "lint-staged": {
