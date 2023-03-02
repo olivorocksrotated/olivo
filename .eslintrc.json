@@ -16,7 +16,7 @@
     "require-atomic-updates": "error",
     "valid-typeof": "error",
     "use-isnan": "error",
-    "arrow-body-style": ["error", "always"],
+    "arrow-body-style": ["error", "as-needed"],
     "no-confusing-arrow": "error",
     "block-scoped-var": "error",
     "class-methods-use-this": "error",
