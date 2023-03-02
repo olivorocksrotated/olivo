@@ -2,9 +2,7 @@ import { isDevEnvironment } from '@/lib/environment';
 
 import LoginButton from './login-btn';
 
-const GithubLoginButton = () => {
-    return <LoginButton>Login with Github</LoginButton>;
-};
+const GithubLoginButton = () => <LoginButton>Login with Github</LoginButton>;
 
 export default function SignIn() {
     return (
