@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
-import LogoutButton from './components/logout-btn';
+import LogoutButton from './logout-btn';
 import styles from './page.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
