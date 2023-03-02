@@ -15,7 +15,7 @@ export default async function Home() {
         <main className={styles.main}>
             <div className={`flex flex-col gap-4 justify-center items-center ${ inter.className }`}>
                 <div className={`${ styles.logo } bg-gradient-to-r from-transparent via-purple-400  to-transparent rounded-md font-bold text-5xl px-20 py-5`}>
-          OLIVO
+                    OLIVO
                 </div>
                 <div className="text-zinc-500 font-bold">Welcome 👋 <span className="p-2">{ session?.user?.name }</span></div>
                 <LogoutButton></LogoutButton>
