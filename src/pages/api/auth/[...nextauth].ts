@@ -29,7 +29,6 @@ if (isDevEnvironment()) {
     }));
 }
 
-
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers,
