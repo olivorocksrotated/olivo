@@ -38,14 +38,19 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  reports       ReportRelation[]
+  managers      ReportRelation[] @relation("manager")
+  reports       ReportRelation[] @relation("report")
 }
 
 model ReportRelation {
   id        String   @id @default(cuid())
-  report    User     @relation(fields: [reportId], references: [id])
+  manager   User     @relation("manager", fields: [managerId], references: [id])
+  managerId String
+  report    User     @relation("report", fields: [reportId], references: [id])
   reportId  String
   createdAt DateTime @default(now())
 
+  @@unique([managerId, reportId])
   @@index([reportId])
+  @@index([managerId])
 }
