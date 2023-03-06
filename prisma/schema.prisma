@@ -32,10 +32,25 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String           @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?          @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  managers      ReportRelation[] @relation("manager")
+  reports       ReportRelation[] @relation("report")
+}
+
+model ReportRelation {
+  id        String   @id @default(cuid())
+  manager   User     @relation("manager", fields: [managerId], references: [id])
+  managerId String
+  report    User     @relation("report", fields: [reportId], references: [id])
+  reportId  String
+  createdAt DateTime @default(now())
+
+  @@unique([managerId, reportId])
+  @@index([reportId])
+  @@index([managerId])
 }
