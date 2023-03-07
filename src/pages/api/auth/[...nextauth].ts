@@ -35,6 +35,13 @@ export const authOptions = {
     callbacks: {
         async redirect({ baseUrl }: { baseUrl: string }) {
             return baseUrl;
+        },
+        async session({ session, token }: any) {
+            if (session?.user) {
+                session.user.id = token.sub;
+            }
+
+            return session;
         }
     },
     session: { strategy: 'jwt' as const },
