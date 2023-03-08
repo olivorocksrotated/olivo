@@ -1,11 +1,9 @@
-import { getServerSession } from 'next-auth';
-
+import { getServerSession } from '@/lib/auth/session';
 import { getReportsByManager } from '@/lib/reports/get';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 export default async function Reports() {
-    const session = await getServerSession(authOptions);
-    const reports = await getReportsByManager(session?.user?.id);
+    const { user } = await getServerSession();
+    const reports = await getReportsByManager(user.id);
 
     return (
         <div>
