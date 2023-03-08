@@ -1,5 +1,6 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import NextAuth from 'next-auth';
+import NextAuth, { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import { Provider } from 'next-auth/providers';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
@@ -35,6 +36,12 @@ export const authOptions = {
     callbacks: {
         async redirect({ baseUrl }: { baseUrl: string }) {
             return baseUrl;
+        },
+        async session({ session, token }: { session: Session, token: JWT }) {
+            return {
+                ...session,
+                user: { ...session?.user, id: token.sub ?? '' }
+            };
         }
     },
     session: { strategy: 'jwt' as const },
