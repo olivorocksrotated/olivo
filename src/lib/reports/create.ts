@@ -1,5 +1,3 @@
-import 'server-only';
-
 import prisma from '../prisma';
 
 export async function createReportRelation(managerId: string, reportId: string) {
