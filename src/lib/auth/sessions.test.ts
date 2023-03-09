@@ -3,14 +3,10 @@ import { afterEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { getServerSession } from './session';
 
-vi.mock('next-auth', async () => {
-    const actual = await vi.importActual('next-auth') as any;
-
-    return {
-        ...actual,
-        getServerSession: vi.fn((): null | {} => null)
-    };
-});
+vi.mock('next-auth', async () => ({
+    ...await vi.importActual('next-auth') as any,
+    getServerSession: vi.fn((): null | {} => null)
+}));
 
 describe('lib auth', () => {
     describe('session', () => {
