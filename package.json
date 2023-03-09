@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "cypress run --component --quiet",
+    "test": "vitest run --coverage && cypress run --component --quiet",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "vercel-build": "prisma generate && next build",
