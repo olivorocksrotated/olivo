@@ -17,6 +17,7 @@
     "db:apply-change": "prisma generate",
     "db:push-change": "prisma db push",
     "db:finish-change": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale branch delete olivo ${npm_config_branch:-$CURRENT_BRANCH}",
+    "vitest": "vitest",
     "cypress": "cypress open",
     "cypress:component": "cypress run --component",
     "prepare": "husky install"
