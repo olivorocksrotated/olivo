@@ -7,5 +7,6 @@ export default defineConfig({
             bundler: 'webpack'
         }
     },
+    reporter: 'progress',
     video: false
 });
