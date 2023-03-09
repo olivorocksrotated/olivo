@@ -9,7 +9,7 @@ interface Props {
 
 export default function Report({ report }: Props) {
     return (
-        <div>{report.name ?? 'No name'}</div>
+        <div data-cy="report-name">{report.name ?? 'No name'}</div>
     );
 }
 
