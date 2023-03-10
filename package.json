@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "cypress run --component --quiet --reporter progress",
+    "test": "vitest run --coverage && cypress run --component --quiet",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "vercel-build": "prisma generate && next build",
@@ -17,7 +17,8 @@
     "db:apply-change": "prisma generate",
     "db:push-change": "prisma db push",
     "db:finish-change": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale branch delete olivo ${npm_config_branch:-$CURRENT_BRANCH}",
-    "cypress": "cypress open",
+    "vitest": "vitest",
+    "cypress:open": "cypress open",
     "cypress:component": "cypress run --component",
     "prepare": "husky install"
   },
@@ -33,24 +34,29 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vercel/analytics": "^0.1.8",
-    "client-only": "^0.0.1",
     "eslint": "^8.33.0",
     "eslint-config-next": "^13.1.6",
     "next": "^13.1.6",
     "next-auth": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "server-only": "^0.0.1",
     "typescript": "^4.9.5"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.2",
     "autoprefixer": "^10.4.13",
     "cypress": "^12.7.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.0",
+    "jsdom": "^21.1.0",
     "lint-staged": "^13.1.2",
     "postcss": "^8.4.21",
     "prisma": "^4.10.1",
-    "tailwindcss": "^3.2.6"
+    "prismock": "^1.8.1",
+    "tailwindcss": "^3.2.6",
+    "vitest": "^0.29.2",
+    "vitest-mock-extended": "^1.1.0"
   }
 }
