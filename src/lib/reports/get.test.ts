@@ -13,13 +13,29 @@ describe('lib reports', () => {
         describe('getReportsByManager', () => {
             it('should return all the reports of the manager', async () => {
                 const managerId = '1';
-                const expectedReport = { id: '2', name: 'name' };
+                const expectedReports = [
+                    { id: '2', image: 'image2', name: 'name2' },
+                    { id: '3', image: 'image3', name: 'name3' }
+                ];
+                prisma.user.create({ data: expectedReports[0] });
+                prisma.user.create({ data: expectedReports[1] });
+                prisma.reportRelation.create({ data: { managerId, reportId: expectedReports[0].id } });
+                prisma.reportRelation.create({ data: { managerId, reportId: expectedReports[1].id } });
+
+                const reports = await getReportsByManager(managerId);
+
+                expect(reports).to.be.deep.equal(expectedReports);
+            });
+
+            it('should return default values if the report does not have name and image', async () => {
+                const managerId = '1';
+                const expectedReport = { id: '4', image: null, name: null };
                 prisma.user.create({ data: expectedReport });
                 prisma.reportRelation.create({ data: { managerId, reportId: expectedReport.id } });
 
                 const reports = await getReportsByManager(managerId);
 
-                expect(reports).to.be.deep.equal([expectedReport]);
+                expect(reports).to.deep.contain({ id: '4', image: '', name: '' });
             });
         });
     });

@@ -4,7 +4,7 @@ import Report from './report';
 
 describe('user report', () => {
     describe('<Report />', () => {
-        const report = { id: '1', name: 'name' };
+        const report = { id: '1', name: 'name', image: 'image' };
 
         it('should render', () => {
             cy.mount(<Report report={report} />);

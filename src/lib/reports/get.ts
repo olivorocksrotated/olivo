@@ -7,11 +7,16 @@ export async function getReportsByManager(managerId: string) {
             report: {
                 select: {
                     id: true,
-                    name: true
+                    name: true,
+                    image: true
                 }
             }
         }
     });
 
-    return relations.map((relation) => relation.report);
+    return relations.map((relation) => ({
+        ...relation.report,
+        name: relation.report.name ?? '',
+        image: relation.report.image ?? ''
+    }));
 }
