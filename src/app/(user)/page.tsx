@@ -1,9 +1,7 @@
-import { getServerSession } from 'next-auth';
-
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getServerSession } from '@/lib/auth/session';
 
 export default async function Home() {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
 
     return (
         <main className="flex gap-4 justify-center mt-6 items-center">
