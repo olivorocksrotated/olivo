@@ -11,7 +11,7 @@ export default async function Reports() {
         <div>
             <h1 className="text-4xl mb-16">Team overview</h1>
             <div className="text-xl mb-4">Upcoming 1:1s</div>
-            <div className="mb16">
+            <div className="mb-8">
                 {reports.map((report) => <Report key={report.id} report={report}/>)}
             </div>
         </div>
