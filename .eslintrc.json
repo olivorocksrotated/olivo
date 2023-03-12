@@ -17,6 +17,7 @@
     "valid-typeof": "error",
     "use-isnan": "error",
     "arrow-body-style": ["error", "as-needed"],
+    "arrow-spacing": "error",
     "no-confusing-arrow": "error",
     "block-scoped-var": "error",
     "class-methods-use-this": "error",

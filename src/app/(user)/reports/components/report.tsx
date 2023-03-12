@@ -10,7 +10,7 @@ interface Props {
 }
 
 function ReportAvatar({ report }: Props) {
-    const nameAcronym = report.name.split(/\s/).reduce((response, word)=> response += word.slice(0, 1), '');
+    const nameAcronym = report.name.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
 
     return (
         <Avatar.Root className="rounded w-28 h-28 inline-flex items-center justify-center align-middle select-none overflow-hidden">
