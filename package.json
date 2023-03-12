@@ -22,10 +22,6 @@
     "cypress:component": "cypress run --component",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "*.{js, jsx, ts,tsx}": "eslint --fix",
-    "*.prisma": "npx prisma format"
-  },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
     "@next/font": "^13.1.6",
