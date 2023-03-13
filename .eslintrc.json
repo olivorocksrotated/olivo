@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["simple-import-sort"],
+  "plugins": ["simple-import-sort", "@typescript-eslint"],
   "rules": {
     "indent": ["error", 4],
     "no-dupe-keys": "error",
@@ -10,7 +10,8 @@
     "no-unexpected-multiline": "error",
     "no-unreachable": "error",
     "no-unsafe-negation": "error",
-    "no-unused-vars": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "no-unused-private-class-members": "error",
     "no-use-before-define": "error",
     "require-atomic-updates": "error",
