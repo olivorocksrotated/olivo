@@ -20,5 +20,5 @@ export default function LoginButton({
         onLoginAttempt(provider);
     };
 
-    return <Button onClick={handleClick}>{ children }</Button>;
+    return <Button onClick={handleClick}>{children}</Button>;
 }

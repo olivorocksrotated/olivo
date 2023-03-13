@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
         <html lang="en">
             <head></head>
             <body className={inter.className}>
-                { children }
+                {children}
                 <AnalyticsWrapper />
             </body>
         </html>

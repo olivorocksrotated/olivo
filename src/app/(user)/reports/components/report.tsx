@@ -14,7 +14,7 @@ function ReportAvatar({ report }: Props) {
 
     return (
         <Avatar.Root className="rounded w-28 h-28 inline-flex items-center justify-center align-middle select-none overflow-hidden">
-            <Avatar.Image src={report.image} alt={report.name} className="w-full h-full object-cover" style={{ borderRadius: 'inherit' }}/>
+            <Avatar.Image src={report.image} alt={report.name} className="w-full h-full object-cover" style={{ borderRadius: 'inherit' }} />
             <Avatar.Fallback>{nameAcronym}</Avatar.Fallback>
         </Avatar.Root>
     );
@@ -31,10 +31,10 @@ export default function Report({ report }: Props) {
             </div>
             <div className="flex flex-col items-end justify-between grow">
                 <div>
-                    <button>...</button>
+                    <button type="button">...</button>
                 </div>
                 <div>
-                    <button>Play</button>
+                    <button type="button">Play</button>
                 </div>
             </div>
         </div>
