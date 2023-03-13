@@ -1,6 +1,11 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["simple-import-sort", "@typescript-eslint"],
+  "plugins": ["simple-import-sort", "@typescript-eslint", "react"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "rules": {
     "indent": ["error", 4],
     "no-dupe-keys": "error",
