@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         req, res, authOptions
     );
     if (session?.user) {
-        const reportEmail = req.body.reportEmail;
+        const { reportEmail } = req.body;
         const report = await prisma.user.findUnique({ where: { email: reportEmail } });
         if (report) {
             await createReportRelation(session.user.id, report.id);
