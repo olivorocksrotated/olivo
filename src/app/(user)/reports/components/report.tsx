@@ -24,7 +24,7 @@ export default function Report({ report }: Props) {
                 <div>
                     <button type="button">...</button>
                 </div>
-                <div><StartButton /></div>
+                <div className="flex"><StartButton /></div>
             </div>
         </div>
     );
