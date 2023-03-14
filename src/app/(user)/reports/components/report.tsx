@@ -1,6 +1,7 @@
 'use client';
 
 import Avatar from './avatar';
+import StartButton from './start-btn';
 
 interface Props {
     report: {
@@ -23,9 +24,7 @@ export default function Report({ report }: Props) {
                 <div>
                     <button type="button">...</button>
                 </div>
-                <div>
-                    <button type="button">Play</button>
-                </div>
+                <div><StartButton /></div>
             </div>
         </div>
     );
