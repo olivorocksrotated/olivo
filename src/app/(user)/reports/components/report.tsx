@@ -13,7 +13,7 @@ function ReportAvatar({ report }: Props) {
     const nameAcronym = report.name.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
 
     return (
-        <Avatar.Root className="rounded w-28 h-28 inline-flex items-center justify-center align-middle select-none overflow-hidden">
+        <Avatar.Root className="rounded-full w-20 h-20 inline-flex items-center justify-center align-middle select-none overflow-hidden">
             <Avatar.Image src={report.image} alt={report.name} className="w-full h-full object-cover" style={{ borderRadius: 'inherit' }} />
             <Avatar.Fallback>{nameAcronym}</Avatar.Fallback>
         </Avatar.Root>
@@ -22,7 +22,7 @@ function ReportAvatar({ report }: Props) {
 
 export default function Report({ report }: Props) {
     return (
-        <div className="p-4 rounded w-96 min-w-fit flex gap-4 bg-indigo-500">
+        <div className="p-3 rounded-lg w-96 min-w-fit flex gap-4 bg-indigo-900">
             <div>
                 <ReportAvatar report={report} />
             </div>
