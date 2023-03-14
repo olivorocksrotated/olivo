@@ -1,6 +1,6 @@
 'use client';
 
-import ReportAvatar from './report-avatar';
+import Avatar from './avatar';
 
 interface Props {
     report: {
@@ -14,7 +14,7 @@ export default function Report({ report }: Props) {
     return (
         <div className="p-3 rounded-lg w-96 min-w-fit flex gap-4 bg-indigo-900">
             <div>
-                <ReportAvatar report={report} />
+                <Avatar report={report} />
             </div>
             <div className="text-lg" data-cy="report-name">
                 {report.name || 'No name'}
