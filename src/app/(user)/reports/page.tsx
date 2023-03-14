@@ -2,6 +2,7 @@ import PageTitle from '@/app/components/page-title';
 import { getServerSession } from '@/lib/auth/session';
 import { getReportsByManager } from '@/lib/reports/get';
 
+import AddReportButton from './components/add-report-button';
 import Report from './components/report';
 
 export default async function Reports() {
@@ -28,6 +29,7 @@ export default async function Reports() {
     return (
         <main>
             <PageTitle text="Reports" />
+            <AddReportButton></AddReportButton>
             {hasReports ? reportsList : noReports}
         </main>
     );
