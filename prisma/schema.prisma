@@ -40,6 +40,7 @@ model User {
   accounts      Account[]
   managers      ReportRelation[] @relation("manager")
   reports       ReportRelation[] @relation("report")
+  commitments   Commitment[]
 }
 
 model ReportRelation {
@@ -53,4 +54,14 @@ model ReportRelation {
   @@unique([managerId, reportId])
   @@index([reportId])
   @@index([managerId])
+}
+
+model Commitment {
+  id      String   @id @default(cuid())
+  title   String
+  by      DateTime @default(now())
+  owner   User     @relation(fields: [ownerId], references: [id])
+  ownerId String
+
+  @@index([ownerId])
 }
