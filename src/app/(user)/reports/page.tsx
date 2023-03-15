@@ -1,3 +1,4 @@
+import PageTitle from '@/app/components/page-title';
 import { getServerSession } from '@/lib/auth/session';
 import { getReportsByManager } from '@/lib/reports/get';
 
@@ -8,8 +9,8 @@ export default async function Reports() {
     const reports = await getReportsByManager(user.id);
 
     return (
-        <div>
-            <h1 className="text-4xl mb-16">Team overview</h1>
+        <main>
+            <PageTitle text="Reports" />
             <div className="bg-indigo-900 max-w-fit rounded-lg p-4">
                 <div className="text-lg mb-4 p-3 font-normal">Upcoming 1:1s</div>
                 <div className="divide-y divide-indigo-700">
@@ -20,6 +21,6 @@ export default async function Reports() {
                     ))}
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
