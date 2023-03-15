@@ -1,6 +1,6 @@
 import * as UiAvatar from '@radix-ui/react-avatar';
 
-import { getNameAcronym } from '@/lib/reports/name';
+import { getNameAcronym } from '../../../../lib/reports/name';
 
 interface Props {
     report: {
