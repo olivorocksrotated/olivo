@@ -18,7 +18,7 @@ export default function SignIn() {
 
     return (
         <div className="h-screen w-screen flex flex-col gap-20 py-64 items-center">
-            <div className={`${styles.logo} bg-gradient-to-r from-transparent via-purple-400 to-transparent rounded-md font-bold text-5xl px-64 py-5`}>
+            <div className={`${styles.logo} min-h-[90px] bg-gradient-to-r from-transparent via-purple-400 to-transparent rounded-md font-bold text-5xl px-64 py-5`}>
                 OLIVO
             </div>
             <div className="flex gap-4">
