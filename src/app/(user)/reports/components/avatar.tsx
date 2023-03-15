@@ -1,5 +1,7 @@
 import * as UiAvatar from '@radix-ui/react-avatar';
 
+import { getNameAcronym } from '@/lib/reports/name';
+
 interface Props {
     report: {
         id: string;
@@ -9,7 +11,7 @@ interface Props {
 }
 
 export default function Avatar({ report }: Props) {
-    const nameAcronym = report.name.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
+    const nameAcronym = getNameAcronym(report.name);
 
     return (
         <UiAvatar.Root className="rounded w-20 h-20 inline-flex items-center justify-center align-middle select-none overflow-hidden">
