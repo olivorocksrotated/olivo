@@ -1,15 +1,18 @@
 import Link from 'next/link';
 
 import { getServerSession } from '@/lib/auth/session';
+import { getFirstName } from '@/lib/reports/name';
 
 import Button from '../components/button';
+import PageTitle from '../components/page-title';
 
 export default async function Home() {
     const session = await getServerSession();
+    const firstName = getFirstName(session.user.name ?? '');
 
     return (
-        <main className="flex flex-col gap-4 justify-center mt-6 items-center">
-            <div className="text-zinc-500 text-2xl font-bold"> 👋 Hey, <span className="p-2">{session.user.name}</span></div>
+        <main>
+            <PageTitle text={`👋 Hey, ${firstName}`} />
             <div>
                 <Link href="/reports">
                     <Button>Check on your reports</Button>
