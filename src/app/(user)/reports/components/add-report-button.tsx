@@ -18,7 +18,7 @@ async function createReportRelationship(emailAddress: string) {
 
 export default function AddReportButton() {
     const [email, setEmail] = useState<string>();
-    const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const router = useRouter();
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
