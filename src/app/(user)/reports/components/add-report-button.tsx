@@ -9,12 +9,11 @@ import { getApiUrl } from '@/lib/api';
 import Button from '../../../components/button';
 
 async function createReportRelationship(emailAddress: string) {
-    const response = await fetch(getApiUrl('reportsRelationship'), {
+    await fetch(getApiUrl('reportsRelationship'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reportEmail: emailAddress })
     });
-    await response.json();
 }
 
 export default function AddReportButton() {
