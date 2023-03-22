@@ -57,11 +57,20 @@ model ReportRelation {
 }
 
 model Commitment {
-  id      String   @id @default(cuid())
-  title   String
-  by      DateTime @default(now())
-  owner   User     @relation(fields: [ownerId], references: [id])
-  ownerId String
+  id        String           @id @default(cuid())
+  title     String
+  status    CommitmentStatus @default(NotStartedYet)
+  doneBy    DateTime         @default(now())
+  createdAt DateTime         @default(now())
+  owner     User             @relation(fields: [ownerId], references: [id])
+  ownerId   String
 
   @@index([ownerId])
+}
+
+enum CommitmentStatus {
+  NotStartedYet
+  InProgress
+  Done
+  Abandoned
 }
