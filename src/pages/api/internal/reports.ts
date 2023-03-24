@@ -6,7 +6,13 @@ import { createReportRelation } from '@/lib/reports/create';
 
 import prisma from '../../../lib/prisma';
 
-async function post(req: NextApiRequest, res: NextApiResponse) {
+interface AddReportApiRequest extends NextApiRequest {
+    body: {
+        reportEmail: string;
+    }
+}
+
+async function post(req: AddReportApiRequest, res: NextApiResponse) {
     const session = await getServerSession(req, res);
     const { reportEmail } = req.body;
     const report = await prisma.user.findUnique({ where: { email: reportEmail } });
