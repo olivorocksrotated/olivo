@@ -5,13 +5,14 @@ import { MouseEvent, startTransition, useState } from 'react';
 
 import Button from '@/app/components/button';
 import PopoverButton from '@/app/components/popover-button';
-import { getApiUrl } from '@/lib/api';
+import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
+import { HttpMethod } from '@/lib/http/route';
 
 async function createCommitment(commitment: { title: string, doneBy: Date }) {
-    await fetch(getApiUrl('commitments'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(commitment)
+    await fetchFromApi({
+        method: HttpMethod.POST,
+        path: ResourcePath.Commitments,
+        body: commitment
     });
 }
 
