@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { HttpMethod, route } from '@/lib/api-method/route';
 import { getServerSession } from '@/lib/auth/session';
 import { createCommitment } from '@/lib/commitments/create';
+import { HttpMethod, route } from '@/lib/http/route';
 
 interface AddCommitmentApiRequest extends NextApiRequest {
     body: {

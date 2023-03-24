@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { HttpMethod, route } from '@/lib/api-method/route';
 import { getServerSession } from '@/lib/auth/session';
+import { HttpMethod, route } from '@/lib/http/route';
 import { createReportRelation } from '@/lib/reports/create';
 
 import prisma from '../../../lib/prisma';
