@@ -4,15 +4,16 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent, startTransition, useState } from 'react';
 
 import PopoverButton from '@/app/components/popover-button';
-import { getApiUrl } from '@/lib/api';
+import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
+import { HttpMethod } from '@/lib/http/route';
 
 import Button from '../../../components/button';
 
 async function createReportRelationship(emailAddress: string) {
-    await fetch(getApiUrl('reports'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reportEmail: emailAddress })
+    await fetchFromApi({
+        method: HttpMethod.POST,
+        path: ResourcePath.Reports,
+        body: { reportEmail: emailAddress }
     });
 }
 
