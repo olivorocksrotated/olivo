@@ -5,6 +5,7 @@ import { getFirstName } from '@/lib/reports/name';
 
 import Button from '../components/button';
 import PageTitle from '../components/page-title';
+import AddCommitmentButton from './(commitments)/components/add-commitment-btn';
 import CommitmentsList from './(commitments)/components/commitments-list';
 
 export default async function Home() {
@@ -21,6 +22,7 @@ export default async function Home() {
             </div>
             <div>
                 <div className="text-xl mb-4">Your commitments</div>
+                <div><AddCommitmentButton /></div>
                 <div className="max-w-3xl">{await CommitmentsList()}</div>
             </div>
         </main>
