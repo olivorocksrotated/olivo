@@ -18,14 +18,18 @@ async function createReportRelationship(emailAddress: string) {
 
 export default function AddReportButton() {
     const [email, setEmail] = useState<string>();
+    const [processing, setProcessing] = useState<boolean>();
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const router = useRouter();
+
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (email) {
+            setProcessing(true);
             await createReportRelationship(email);
             setIsPopoverOpen(false);
             setEmail('');
+            setProcessing(false);
             startTransition(() => {
                 router.refresh();
             });
@@ -49,7 +53,7 @@ export default function AddReportButton() {
                             placeholder="email"
                             className="w-full h-8 inline-flex items-center justify-centerrounded px-2.5 leading-none outline-none"
                         />
-                        <Button type="submit" disabled={!email} onClick={onSubmit} aria-label="Add report">Add</Button>
+                        <Button type="submit" disabled={!email || processing} onClick={onSubmit} aria-label="Add report">Add</Button>
                     </div>
                     <Popover.Close className="inline-flex items-center text-sm justify-center absolute top-[5px] right-[10px] bg-zinc-900 rounded-lg px-2 py-1"
                         aria-label="Close"
