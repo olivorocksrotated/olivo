@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { HttpMethod, route } from '@/lib/api-method/route';
 import { getServerSession } from '@/lib/auth/session';
 import { createReportRelation } from '@/lib/reports/create';
 
 import prisma from '../../../lib/prisma';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+async function post(req: NextApiRequest, res: NextApiResponse) {
     const session = await getServerSession(req, res);
     const { reportEmail } = req.body;
     const report = await prisma.user.findUnique({ where: { email: reportEmail } });
@@ -16,4 +17,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     res.status(500).json({});
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    route(req, res, {
+        [HttpMethod.POST]: post
+    });
 }
