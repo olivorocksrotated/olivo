@@ -5,11 +5,23 @@ import { useState } from 'react';
 
 import Button from './button';
 
-export default function PopoverButton({ children, label }: { children: React.ReactNode; label: string }) {
+type Properties = {
+    children: React.ReactNode;
+    label: string;
+    onClose?: () => void
+};
+
+export default function PopoverButton({ children, label, onClose }: Properties) {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+    function onOpenChanged(isOpen: boolean) {
+        if (!isOpen) {
+            onClose!();
+        }
+    }
+
     return (
-        <Popover.Root open={isPopoverOpen}>
+        <Popover.Root open={isPopoverOpen} onOpenChange={onOpenChanged}>
             <Popover.Trigger asChild>
                 <div><Button onClick={() => setIsPopoverOpen(true)} aria-label={label}>{label}</Button></div>
             </Popover.Trigger>

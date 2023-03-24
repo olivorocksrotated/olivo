@@ -29,7 +29,7 @@ export default function AddCommitmentButton() {
     }
 
     return (
-        <PopoverButton label="Add commitment">
+        <PopoverButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
             <div className="font-bold">Add commitment</div>
             <div className="flex justify-center items-center gap-2 mt-5">
                 <input id="title"
