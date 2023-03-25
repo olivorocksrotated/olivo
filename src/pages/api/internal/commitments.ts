@@ -18,8 +18,6 @@ async function post(req: AddCommitmentApiRequest, res: NextApiResponse) {
     return res.status(201).end();
 }
 
-export default async function handler(req: AddCommitmentApiRequest, res: NextApiResponse) {
-    route(req, res, {
-        [HttpMethod.POST]: post
-    });
-}
+export default route({
+    [HttpMethod.POST]: post
+});

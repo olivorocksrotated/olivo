@@ -25,8 +25,6 @@ async function post(req: AddReportApiRequest, res: NextApiResponse) {
     res.status(500).json({});
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    route(req, res, {
-        [HttpMethod.POST]: post
-    });
-}
+export default route({
+    [HttpMethod.POST]: post
+});
