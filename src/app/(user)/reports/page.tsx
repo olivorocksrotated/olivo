@@ -29,7 +29,9 @@ export default async function Reports() {
     return (
         <main>
             <PageTitle text="Reports" />
-            <AddReportButton></AddReportButton>
+            <div className="py-10">
+                <AddReportButton></AddReportButton>
+            </div>
             {hasReports ? reportsList : noReports}
         </main>
     );

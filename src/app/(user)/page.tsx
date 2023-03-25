@@ -22,7 +22,7 @@ export default async function Home() {
             </div>
             <div>
                 <div className="text-xl mb-4">Your commitments</div>
-                <div><AddCommitmentButton /></div>
+                <div className="py-10"><AddCommitmentButton /></div>
                 <div className="max-w-3xl">{await CommitmentsList()}</div>
             </div>
         </main>
