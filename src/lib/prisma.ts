@@ -13,3 +13,5 @@ if (isDevEnvironment()) {
 }
 
 export default prisma;
+
+export const UniqueContraintFailed = 'P2002';

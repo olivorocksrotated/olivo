@@ -1,8 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-import prisma from '../prisma';
-
-const UniqueContraintFailed = 'P2002';
+import prisma, { UniqueContraintFailed } from '../prisma';
 
 export async function createReportRelation(managerId: string, reportEmail: string) {
     try {
