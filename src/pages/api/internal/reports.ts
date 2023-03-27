@@ -3,9 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from '@/lib/auth/session';
 import { HttpMethod, route } from '@/lib/http/route';
 import { createReportRelation } from '@/lib/reports/create';
-
-import prisma from '../../../lib/prisma';
-
 interface AddReportApiRequest extends NextApiRequest {
     body: {
         reportEmail: string;
@@ -15,14 +12,13 @@ interface AddReportApiRequest extends NextApiRequest {
 async function post(req: AddReportApiRequest, res: NextApiResponse) {
     const session = await getServerSession(req, res);
     const { reportEmail } = req.body;
-    const report = await prisma.user.findUnique({ where: { email: reportEmail } });
-    if (report) {
-        await createReportRelation(session.user.id, report.id);
+    try {
+        await createReportRelation(session.user.id, reportEmail);
 
         return res.status(200).json({});
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
     }
-
-    res.status(400).json({ message: 'reportEmail does not belong to an existing user' });
 }
 
 export default route({
