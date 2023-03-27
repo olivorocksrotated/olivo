@@ -1,5 +1,6 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, startTransition, useState } from 'react';
 
@@ -9,8 +10,8 @@ import { HttpMethod } from '@/lib/http/route';
 
 import Button from '../../../components/button';
 
-async function createReportRelationship(emailAddress: string) {
-    await fetchFromApi({
+function createReportRelationship(emailAddress: string) {
+    return fetchFromApi({
         method: HttpMethod.POST,
         path: ResourcePath.Reports,
         body: { reportEmail: emailAddress }
@@ -19,6 +20,7 @@ async function createReportRelationship(emailAddress: string) {
 
 export default function AddReportButton() {
     const [email, setEmail] = useState<string>();
+    const [feedbackMessage, setFeedbackMessage] = useState<{ type: 'error' | 'success'; message: string }>();
     const [processing, setProcessing] = useState<boolean>();
     const router = useRouter();
 
@@ -26,17 +28,31 @@ export default function AddReportButton() {
         event.preventDefault();
         if (email) {
             setProcessing(true);
-            await createReportRelationship(email);
+            const response = await createReportRelationship(email);
+            if (response.status >= 400) {
+                const { message } = await response.json();
+                setFeedbackMessage({ type: 'error', message });
+            } else {
+                setFeedbackMessage({ type: 'success', message: 'Report added.' });
+            }
+
             setEmail('');
             setProcessing(false);
+
             startTransition(() => {
                 router.refresh();
             });
         }
     }
 
+    function reset() {
+        setEmail('');
+        setFeedbackMessage(undefined);
+        setProcessing(false);
+    }
+
     return (
-        <PopoverButton onClose={() => setEmail('')} label="Add Report">
+        <PopoverButton onClose={reset} label="Add Report">
             <div className="relative">
                 <div className="font-bold">Add Report</div>
                 <div className="flex justify-center items-center gap-2 mt-5">
@@ -48,6 +64,7 @@ export default function AddReportButton() {
                     />
                     <Button type="submit" disabled={!email || processing} onClick={onSubmit} aria-label="Add report">Add</Button>
                 </div>
+                <div className={clsx('h-12 flex items-center', { 'text-red-300': feedbackMessage?.type === 'error' })}> {feedbackMessage?.message} </div>
             </div>
         </PopoverButton>
     );
