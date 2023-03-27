@@ -29,15 +29,16 @@ export default function AddReportButton() {
         if (email) {
             setProcessing(true);
             const response = await createReportRelationship(email);
+            setProcessing(false);
             if (response.status >= 400) {
                 const { message } = await response.json();
-                setFeedbackMessage({ type: 'error', message });
-            } else {
-                setFeedbackMessage({ type: 'success', message: 'Report added.' });
+
+                return setFeedbackMessage({ type: 'error', message });
             }
+            setFeedbackMessage({ type: 'success', message: 'Report added.' });
+
 
             setEmail('');
-            setProcessing(false);
 
             startTransition(() => {
                 router.refresh();
@@ -64,7 +65,14 @@ export default function AddReportButton() {
                     />
                     <Button type="submit" disabled={!email || processing} onClick={onSubmit} aria-label="Add report">Add</Button>
                 </div>
-                <div className={clsx('h-12 flex items-center', { 'text-red-300': feedbackMessage?.type === 'error' })}> {feedbackMessage?.message} </div>
+                <div className={clsx(
+                    'h-12 flex items-center',
+                    { 'text-red-300': feedbackMessage?.type === 'error' },
+                    { 'text-green-300': feedbackMessage?.type === 'success' }
+                )}
+                >
+                    {feedbackMessage?.message}
+                </div>
             </div>
         </PopoverButton>
     );
