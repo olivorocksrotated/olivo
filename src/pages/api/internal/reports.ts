@@ -22,7 +22,7 @@ async function post(req: AddReportApiRequest, res: NextApiResponse) {
         return res.status(200).json({});
     }
 
-    res.status(500).json({});
+    res.status(400).json({ message: 'reportEmail does not belong to an existing user' });
 }
 
 export default route({
