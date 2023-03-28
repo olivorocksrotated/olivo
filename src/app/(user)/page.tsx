@@ -22,7 +22,7 @@ export default async function Home() {
                 </Link>
             </div>
             <div className="mb-10">
-                <NextMeetingCard></NextMeetingCard>
+                {await NextMeetingCard()}
             </div>
             <div>
                 <div className="text-xl mb-4">Your commitments</div>

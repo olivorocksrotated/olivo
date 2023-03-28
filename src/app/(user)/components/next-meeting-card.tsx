@@ -1,6 +1,12 @@
+import { getServerSession } from '@/lib/auth/session';
+import { getNextMeetingByUser } from '@/lib/meetings/get';
+
 import StartButton from '../../components/start-btn';
 
-export default function NextMeetingCard() {
+export default async function NextMeetingCard() {
+    const { user } = await getServerSession();
+    const meeting = await getNextMeetingByUser(user.id);
+
     return (
         <div className="p-3 rounded-lg inline-flex gap-4 bg-indigo-700 shadow-sm shadow-indigo-300">
             <div>
@@ -8,10 +14,10 @@ export default function NextMeetingCard() {
                     Next feedback session
                 </div>
                 <div className="font-light text-sm text-slate-100">
-                    1st of December
+                    {meeting.startDate.toString()}
                 </div>
                 <div className="font-semibold text-lg text-slate-300">
-                    10:30 - 11:30 am with Amit
+                    {`10:30 - 11:30 am with ${meeting.report}`}
                 </div>
             </div>
             <div className="flex justify-center items-center p-10">
