@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import { getServerSession } from '@/lib/auth/session';
 import { getNextMeetingByUser } from '@/lib/meetings/get';
 
@@ -7,6 +9,10 @@ export default async function NextMeetingCard() {
     const { user } = await getServerSession();
     const meeting = await getNextMeetingByUser(user.id);
 
+    const startTime = format(meeting.startDate, 'p');
+    const endTime = format(meeting.startDate, 'p');
+    const day = format(meeting.startDate, 'do \'of\' MMMM');
+
     return (
         <div className="p-3 rounded-lg inline-flex gap-4 bg-indigo-700 shadow-sm shadow-indigo-300">
             <div>
@@ -14,10 +20,10 @@ export default async function NextMeetingCard() {
                     Next feedback session
                 </div>
                 <div className="font-light text-sm text-slate-100">
-                    {meeting.startDate.toString()}
+                    {day}
                 </div>
                 <div className="font-semibold text-lg text-slate-300">
-                    {`10:30 - 11:30 am with ${meeting.report}`}
+                    {`${startTime} - ${endTime} with ${meeting.report}`}
                 </div>
             </div>
             <div className="flex justify-center items-center p-10">
