@@ -7,6 +7,7 @@ import Button from '../components/button';
 import PageTitle from '../components/page-title';
 import AddCommitmentButton from './(commitments)/components/add-commitment-btn';
 import CommitmentsList from './(commitments)/components/commitments-list';
+import NextMeetingCard from './components/next-meeting-card';
 
 export default async function Home() {
     const session = await getServerSession();
@@ -19,6 +20,9 @@ export default async function Home() {
                 <Link href="/reports">
                     <Button>Check on your reports</Button>
                 </Link>
+            </div>
+            <div className="mb-10">
+                <NextMeetingCard></NextMeetingCard>
             </div>
             <div>
                 <div className="text-xl mb-4">Your commitments</div>
