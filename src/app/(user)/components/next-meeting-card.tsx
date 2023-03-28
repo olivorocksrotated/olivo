@@ -1,4 +1,4 @@
-import StartButton from '../reports/components/start-btn';
+import StartButton from '../../components/start-btn';
 
 export default function NextMeetingCard() {
     return (
