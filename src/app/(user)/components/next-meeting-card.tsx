@@ -7,7 +7,7 @@ import StartButton from '../../components/start-btn';
 
 function MeetingInfo({ meeting }: { meeting: any }) {
     const startTime = format(meeting.startDate, 'p');
-    const endTime = format(meeting.startDate, 'p');
+    const endTime = format(meeting.endDate, 'p');
     const day = format(meeting.startDate, 'do \'of\' MMMM');
 
     return (
