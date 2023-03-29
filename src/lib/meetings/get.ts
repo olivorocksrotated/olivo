@@ -112,7 +112,5 @@ const meetingDescriptions: MeetingDescription[] = [
 
 /* eslint-disable */
 export async function getNextMeetingByUser(_userId: string) {
-    const nextM = calculateNextMeeting(meetingDescriptions);
-    console.log('next m', nextM);
-    return nextM;
+    return calculateNextMeeting(meetingDescriptions);
 }
