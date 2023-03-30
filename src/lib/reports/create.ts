@@ -1,6 +1,4 @@
-import { Prisma } from '@prisma/client';
-
-import prisma, { UniqueContraintFailed } from '../prisma';
+import prisma, { hasUniqueContraintFailed } from '../prisma';
 
 export async function createReportRelation(managerId: string, reportEmail: string) {
     try {
@@ -14,7 +12,7 @@ export async function createReportRelation(managerId: string, reportEmail: strin
 
         return relation.id;
     } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === UniqueContraintFailed) {
+        if (hasUniqueContraintFailed(error)) {
             throw new Error('The user is already a report of the manager');
         }
         throw error;
