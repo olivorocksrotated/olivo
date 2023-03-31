@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 import { isDevEnvironment } from './environment';
 
@@ -13,3 +13,9 @@ if (isDevEnvironment()) {
 }
 
 export default prisma;
+
+const UniqueContraintFailed = 'P2002';
+
+export function hasUniqueContraintFailed(error: any) {
+    return error instanceof Prisma.PrismaClientKnownRequestError && error.code === UniqueContraintFailed;
+}
