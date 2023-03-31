@@ -3,13 +3,7 @@ import { getCommitmentsByUser } from '@/lib/commitments/get';
 
 export default async function CommitmentsList() {
     const { user } = await getServerSession();
-    const fakeCommitment = {
-        id: 'fakeId1',
-        title: 'Fake commitment 1',
-        status: 'NotStartedYet',
-        doneBy: new Date()
-    };
-    const commitments = [...await getCommitmentsByUser(user.id), fakeCommitment];
+    const commitments = [...await getCommitmentsByUser(user.id)];
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded">
