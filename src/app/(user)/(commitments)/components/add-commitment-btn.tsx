@@ -34,7 +34,7 @@ export default function AddCommitmentButton() {
         <PopoverButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
             <div className="font-bold">Add commitment</div>
             <div className="flex justify-center items-center gap-2 mt-5">
-                <span className="w-14">I will</span>
+                <span className="w-16">I will</span>
                 <input value={commitment.title}
                     onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
                     placeholder="e.g. do this task"
