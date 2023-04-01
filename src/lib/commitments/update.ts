@@ -8,7 +8,10 @@ export function updateCommitment(userId: string, commitmentId: string, { title, 
     doneBy?: Date
 }) {
     return prisma.commitment.update({
-        where: { id: commitmentId },
+        where: {
+            id: commitmentId,
+            ownerId: userId
+        },
         data: {
             ...title ? { title } : {},
             ...status ? { status } : {},
