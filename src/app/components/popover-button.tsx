@@ -49,11 +49,10 @@ export default function PopoverButton({ children, label, onClose }: Properties) 
                                         aria-label="Close"
                                         onClick={close}
                                     >
-                                        close
+                                        Close
                                     </Popover.Close>
                                 </div>
                                 {children}
-
                             </motion.div>
                         </Popover.Content>
                     </Popover.Portal> :
