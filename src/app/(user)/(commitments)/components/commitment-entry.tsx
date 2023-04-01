@@ -8,7 +8,7 @@ import { HttpMethod } from '@/lib/http/route';
 
 import Actions from './actions';
 
-type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'doneBy' | 'title'>;
+type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'title'> & { doneBy: string };
 interface Props {
     commitment: Commitment;
 }
@@ -33,7 +33,7 @@ export default function CommitmentEntry({ commitment }: Props) {
                 {thisCommitment.title}
             </th>
             <td className="px-6 py-4 w-44">
-                {thisCommitment.doneBy.toDateString()}
+                {thisCommitment.doneBy}
             </td>
             <td className="px-6 py-4 w-56">
                 <Actions commitment={thisCommitment}

@@ -3,7 +3,7 @@
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
 import { AiFillPlayCircle, AiOutlineCheckCircle, AiOutlineFieldTime } from 'react-icons/ai';
 
-type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'doneBy' | 'title'>
+type Commitment = Pick<CommitmentModel, 'status'>
 interface Props {
     commitment: Commitment,
     onStart?: (commitment: Commitment) => void
