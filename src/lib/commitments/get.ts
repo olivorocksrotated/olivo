@@ -8,6 +8,9 @@ export async function getCommitmentsByUser(userId: string) {
             title: true,
             status: true,
             doneBy: true
+        },
+        orderBy: {
+            doneBy: 'asc'
         }
     });
 
