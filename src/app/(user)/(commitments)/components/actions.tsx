@@ -19,10 +19,11 @@ export default function Actions({
     const handleOnDone = () => onDone(commitment);
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
+    const isDone = commitment.status === CommitmentStatus.Done;
     const styleDisabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default';
 
-    return (
-        <div className="flex items-center justify-between">
+    const displayedActions = !isDone ?
+        <>
             <div>
                 <button onClick={handleOnStart}
                     type="button"
@@ -43,6 +44,14 @@ export default function Actions({
                     <AiOutlineCheckCircle size={25} />
                 </button>
             </div>
+        </> :
+        <div className="rounded-full border p-1 pr-3 border-green-500 text-green-300">
+            <AiOutlineCheckCircle size={25} className="inline-block mr-2" />Done
+        </div>;
+
+    return (
+        <div className="flex items-center justify-end gap-3">
+            {displayedActions}
         </div>
     );
 }
