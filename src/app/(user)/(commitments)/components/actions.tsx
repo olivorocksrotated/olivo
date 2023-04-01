@@ -19,7 +19,7 @@ export default function Actions({
     const handleOnDone = () => onDone(commitment);
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
-    const disabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default';
+    const styleDisabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default';
 
     return (
         <div className="flex items-center justify-between">
@@ -27,7 +27,7 @@ export default function Actions({
                 <button onClick={handleOnStart}
                     type="button"
                     disabled={isStarted}
-                    className={`rounded-full border p-1 pr-3 border-indigo-500 text-indigo-300 ${disabled}`}
+                    className={`rounded-full border p-1 pr-3 border-indigo-500 text-indigo-300 ${styleDisabled}`}
                 >
                     {!isStarted ?
                         <><AiFillPlayCircle size={25} className="inline-block mr-2" />Start</> :
@@ -38,7 +38,7 @@ export default function Actions({
                 <button onClick={handleOnDone}
                     type="button"
                     disabled={!isStarted}
-                    className={`rounded-full border p-1 border-green-500 text-green-300 ${disabled}`}
+                    className={`rounded-full border p-1 border-green-500 text-green-300 ${styleDisabled}`}
                 >
                     <AiOutlineCheckCircle size={25} />
                 </button>
