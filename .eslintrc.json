@@ -7,7 +7,7 @@
     }
   },
   "rules": {
-    "indent": ["error", 4],
+    "indent": ["error", 4, { "flatTernaryExpressions": true }],
     "no-dupe-keys": "error",
     "no-duplicate-imports": "error",
     "no-irregular-whitespace": ["error", { "skipComments": true }],
