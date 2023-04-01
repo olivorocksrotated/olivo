@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { calculateNextMeeting } from './get';
-import { Meeting, MeetingDescription } from './types';
+import { Meeting, MeetingDescription, Rythm } from './types';
 
 describe('calculateNextMeeting', () => {
     const fakeCurrentDate = new Date(2023, 0, 1);
@@ -13,13 +13,13 @@ describe('calculateNextMeeting', () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
                 startDate: new Date(2023, 0, 2),
-                interval: '2 days',
+                rythm: Rythm.everyDay,
                 duration: 60,
                 report: 'Report 1'
             },
             {
                 startDate: new Date(2023, 0, 3),
-                interval: '3 days',
+                rythm: Rythm.everyDay,
                 duration: 30,
                 report: 'Report 2'
             }
@@ -39,13 +39,13 @@ describe('calculateNextMeeting', () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
                 startDate: new Date(2022, 11, 28, 12),
-                interval: '1 weeks',
+                rythm: Rythm.everyWeek,
                 duration: 60,
                 report: 'Report 1'
             },
             {
                 startDate: new Date(2022, 11, 26, 12),
-                interval: '1 weeks',
+                rythm: Rythm.everyWeek,
                 duration: 60,
                 report: 'Report 2'
             }

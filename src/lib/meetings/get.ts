@@ -1,29 +1,32 @@
 import { addDays, addMinutes, addMonths, addWeeks, differenceInMilliseconds, isAfter } from 'date-fns';
 
-import { Meeting, MeetingDescription } from './types';
+import { Meeting, MeetingDescription, Rythm } from './types';
 
-function getDate(occurrence: Date, unit: string, countNumber: number) {
-    switch (unit) {
-    case 'days':
-        return addDays(occurrence, countNumber);
-    case 'weeks':
-        return addWeeks(occurrence, countNumber);
-    case 'months':
-        return addMonths(occurrence, countNumber);
+function getDateFromRythm(occurrence: Date, rythm: Rythm) {
+    switch (rythm) {
+    case Rythm.everyDay:
+        return addDays(occurrence, 1);
+    case Rythm.everyOtherDay:
+        return addDays(occurrence, 2);
+    case Rythm.everyWeek:
+        return addWeeks(occurrence, 1);
+    case Rythm.everyOtherWeek:
+        return addWeeks(occurrence, 2);
+    case Rythm.everyMonth:
+        return addMonths(occurrence, 1);
+    case Rythm.everyOtherMonth:
+        return addMonths(occurrence, 2);
     default:
-        throw new Error('Invalid interval unit');
+        throw new Error('Invalid Meeting Rythm');
     }
 }
 
 function nextOccurrence(meetingDescription: MeetingDescription, currentDate: Date): Date | null {
     const startDate = meetingDescription.startDate;
 
-    const [count, unit] = meetingDescription.interval.split(' ');
-    const countNumber = parseInt(count, 10);
-
     let nextDate = startDate;
     while (isAfter(currentDate, nextDate)) {
-        nextDate = getDate(nextDate, unit, countNumber);
+        nextDate = getDateFromRythm(nextDate, meetingDescription.rythm);
     }
 
     // Adjust the time of the next occurrence based on the startDate's time
@@ -82,13 +85,13 @@ export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]):
 const meetingDescriptions: MeetingDescription[] = [
     {
         startDate: new Date('2023-03-29T14:30:00'), // Meeting starts at 14:30
-        interval: '2 weeks',
+        rythm: Rythm.everyOtherMonth,
         duration: 10,
         report: 'Amit'
     },
     {
         startDate: new Date('2023-03-29T15:30:00'), // Meeting starts at 13:30
-        interval: '1 weeks',
+        rythm: Rythm.everyMonth,
         duration: 10,
         report: 'Rafa'
     }
