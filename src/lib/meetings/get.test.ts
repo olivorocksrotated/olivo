@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { calculateNextMeeting, Meeting, MeetingDescription } from './get';
+import { calculateNextMeeting } from './get';
+import { Meeting, MeetingDescription } from './types';
 
 describe('calculateNextMeeting', () => {
     const fakeCurrentDate = new Date(2023, 0, 1);

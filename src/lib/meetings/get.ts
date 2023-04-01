@@ -1,17 +1,6 @@
 import { addDays, addMinutes, addMonths, addWeeks, differenceInMilliseconds, isAfter } from 'date-fns';
 
-export type MeetingDescription = {
-  startDate: Date;
-  interval: string;
-  duration: number;
-  report: string;
-};
-
-export type Meeting = {
-    startDate: Date;
-    endDate: Date;
-    report: string;
-};
+import { Meeting, MeetingDescription } from './types';
 
 function getDate(occurrence: Date, unit: string, countNumber: number) {
     switch (unit) {
