@@ -20,7 +20,7 @@ export default function Actions({
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
     const isDone = commitment.status === CommitmentStatus.Done;
-    const styleDisabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default';
+    const styleDisabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default disabled:cursor-not-allowed';
 
     const displayedActions = !isDone ?
         <>
