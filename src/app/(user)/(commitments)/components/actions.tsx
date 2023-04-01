@@ -1,12 +1,13 @@
 'use client';
 
-import { Commitment, CommitmentStatus } from '@prisma/client';
+import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
 import { AiFillPlayCircle, AiOutlineCheckCircle, AiOutlineFieldTime } from 'react-icons/ai';
 
+type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'doneBy' | 'title'>
 interface Props {
-    commitment: Pick<Commitment, 'id' | 'status'>,
-    onStart?: () => void
-    onDone?: () => void
+    commitment: Commitment,
+    onStart?: (commitment: Commitment) => void
+    onDone?: (commitment: Commitment) => void
 }
 
 export default function Actions({
@@ -14,13 +15,8 @@ export default function Actions({
     onStart = () => undefined,
     onDone = () => undefined
 }: Props) {
-    const handleOnStart = () => {
-        onStart();
-    };
-
-    const handleOnDone = () => {
-        onDone();
-    };
+    const handleOnStart = () => onStart(commitment);
+    const handleOnDone = () => onDone(commitment);
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
     const disabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default';
