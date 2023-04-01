@@ -1,13 +1,13 @@
 import { addDays, addMinutes, addMonths, addWeeks, differenceInMilliseconds, isAfter } from 'date-fns';
 
-type MeetingDescription = {
+export type MeetingDescription = {
   startDate: Date;
   interval: string;
   duration: number;
   report: string;
 };
 
-type Meeting = {
+export type Meeting = {
     startDate: Date;
     endDate: Date;
     report: string;
@@ -31,24 +31,19 @@ function nextOccurrence(meetingDescription: MeetingDescription, currentDate: Dat
 
     const [count, unit] = meetingDescription.interval.split(' ');
     const countNumber = parseInt(count, 10);
-    const duration = meetingDescription.duration;
 
-    const occurrences: Date[] = [startDate];
-
-    if (duration) {
-        for (let i = 1; i < duration; i++) {
-            const nextDate = getDate(occurrences[i - 1], unit, countNumber);
-            occurrences.push(nextDate);
-        }
+    let nextDate = startDate;
+    while (isAfter(currentDate, nextDate)) {
+        nextDate = getDate(nextDate, unit, countNumber);
     }
 
-    for (const date of occurrences) {
-        if (isAfter(date, currentDate)) {
-            return date;
-        }
-    }
+    // Adjust the time of the next occurrence based on the startDate's time
+    nextDate.setHours(startDate.getHours());
+    nextDate.setMinutes(startDate.getMinutes());
+    nextDate.setSeconds(startDate.getSeconds());
+    nextDate.setMilliseconds(startDate.getMilliseconds());
 
-    return null;
+    return nextDate;
 }
 
 function closestDateIndex(dates: Date[], currentDate: Date): number | null {
@@ -73,20 +68,20 @@ function closestDateIndex(dates: Date[], currentDate: Date): number | null {
     return closest;
 }
 
-function calculateNextMeeting(meetingDescriptions: MeetingDescription[]): Meeting | null {
+export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]): Meeting | null {
     const currentDate = new Date();
-    const nextMeetingsByUser = meetingDescriptions.reduce((meetings, meetingDescription) => {
+    const nextMeetingsByUser = meetingDescriptions.map((meetingDescription) => {
         const nextOccurrenceForReport = nextOccurrence(meetingDescription, currentDate);
         if (!nextOccurrenceForReport) {
-            return meetings;
+            return null;
         }
 
-        return [...meetings, {
+        return {
             startDate: nextOccurrenceForReport,
             endDate: addMinutes(nextOccurrenceForReport, meetingDescription.duration),
             report: meetingDescription.report
-        }];
-    }, [] as Meeting[]);
+        };
+    }).filter((meeting) => meeting !== null) as Meeting[];
 
     const dates = nextMeetingsByUser.map(({ startDate }) => startDate);
     const closestMeetingIndex = closestDateIndex(dates, currentDate);
