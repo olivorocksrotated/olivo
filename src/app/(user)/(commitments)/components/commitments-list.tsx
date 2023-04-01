@@ -1,6 +1,8 @@
 import { getServerSession } from '@/lib/auth/session';
 import { getCommitmentsByUser } from '@/lib/commitments/get';
 
+import Status from './status';
+
 export default async function CommitmentsList() {
     const { user } = await getServerSession();
     const commitments = [...await getCommitmentsByUser(user.id)];
@@ -34,7 +36,7 @@ export default async function CommitmentsList() {
                                 {commitment.doneBy.toDateString()}
                             </td>
                             <td className="px-6 py-4">
-                                {commitment.status}
+                                <Status status={commitment.status} />
                             </td>
                             <td className="px-6 py-4 text-right">
                                 <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
