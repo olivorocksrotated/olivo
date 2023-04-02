@@ -44,18 +44,18 @@ export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]):
     }
 
     const currentDate = new Date();
-    const nextMeetingsByUser = meetingDescriptions.map((meetingDescription) => {
+    const nextMeetingsByUser = meetingDescriptions.reduce((meetings, meetingDescription) => {
         const nextOccurrenceForReport = nextOccurrence(meetingDescription, currentDate);
-        if (!nextOccurrenceForReport) {
-            return null;
-        }
 
-        return {
-            startDate: nextOccurrenceForReport,
-            endDate: addMinutes(nextOccurrenceForReport, meetingDescription.duration),
-            report: meetingDescription.report
-        };
-    }).filter((meeting) => meeting !== null) as Meeting[];
+        return [
+            ...meetings,
+            ...!nextOccurrenceForReport ? [] : [{
+                startDate: nextOccurrenceForReport,
+                endDate: addMinutes(nextOccurrenceForReport, meetingDescription.duration),
+                report: meetingDescription.report
+            }]
+        ];
+    }, [] as Meeting[]);
 
     const dates = nextMeetingsByUser.map(({ startDate }) => startDate);
     const closestMeetingIndex = closestIndexTo(currentDate, dates);
