@@ -39,6 +39,10 @@ function nextOccurrence(meetingDescription: MeetingDescription, currentDate: Dat
 }
 
 export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]): Meeting | null {
+    if (meetingDescriptions.length === 0) {
+        return null;
+    }
+
     const currentDate = new Date();
     const nextMeetingsByUser = meetingDescriptions.map((meetingDescription) => {
         const nextOccurrenceForReport = nextOccurrence(meetingDescription, currentDate);
