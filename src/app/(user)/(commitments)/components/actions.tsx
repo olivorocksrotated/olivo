@@ -12,15 +12,18 @@ interface Props {
     commitment: Commitment,
     onStart?: (commitment: Commitment) => void
     onDone?: (commitment: Commitment) => void
+    onDelete?: (commitment: Commitment) => void
 }
 
 export default function Actions({
     commitment,
     onStart = () => undefined,
-    onDone = () => undefined
+    onDone = () => undefined,
+    onDelete = () => undefined
 }: Props) {
     const handleOnStart = () => onStart(commitment);
     const handleOnDone = () => onDone(commitment);
+    const handleOnDelete = () => onDelete(commitment);
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
     const isDone = commitment.status === CommitmentStatus.Done;
@@ -66,7 +69,7 @@ export default function Actions({
                     <Popover.Portal>
                         <Popover.Content align="start" sideOffset={2} className="rounded border bg-gray-700 border-gray-600 placeholder-gray-400 text-white">
                             <div>
-                                <button type="button" className="text-red-300 px-4 py-2 hover:bg-gray-600">
+                                <button onClick={handleOnDelete} type="button" className="text-red-300 px-4 py-2 hover:bg-gray-600">
                                     <AiOutlineDelete className="inline-block" /> Delete
                                 </button>
                             </div>

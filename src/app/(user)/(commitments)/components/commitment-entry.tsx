@@ -41,6 +41,7 @@ export default function CommitmentEntry({ commitment }: Props) {
                 <Actions commitment={thisCommitment}
                     onStart={handleStatusChange(CommitmentStatus.InProgress)}
                     onDone={handleStatusChange(CommitmentStatus.Done)}
+                    onDelete={handleStatusChange(CommitmentStatus.Abandoned)}
                 />
             </td>
         </tr>
