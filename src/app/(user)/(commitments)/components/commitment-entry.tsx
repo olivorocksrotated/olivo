@@ -7,7 +7,7 @@ import { formatRelativeDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
-import Actions from './actions';
+import Actions from './actions/actions';
 
 type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'title'> & { doneBy: string };
 interface Props {

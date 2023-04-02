@@ -1,11 +1,11 @@
 'use client';
 
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
-import * as Popover from '@radix-ui/react-popover';
-import { AiFillPlayCircle, AiOutlineCheckCircle, AiOutlineDelete, AiOutlineFieldTime } from 'react-icons/ai';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { AiFillPlayCircle, AiOutlineCheckCircle, AiOutlineFieldTime } from 'react-icons/ai';
 
 import { styleState } from '@/lib/styling/styleState';
+
+import ContextButton from './context-btn';
 
 type Commitment = Pick<CommitmentModel, 'status'>
 interface Props {
@@ -59,24 +59,7 @@ export default function Actions({
     return (
         <div className="flex items-center justify-end gap-3">
             {displayedActions}
-            <div>
-                <Popover.Root>
-                    <Popover.Trigger asChild>
-                        <button type="button" aria-label="More actions">
-                            <BsThreeDotsVertical size={18} />
-                        </button>
-                    </Popover.Trigger>
-                    <Popover.Portal>
-                        <Popover.Content align="start" sideOffset={2} className="rounded border bg-gray-700 border-gray-600 placeholder-gray-400 text-white">
-                            <div>
-                                <button onClick={handleOnDelete} type="button" className="text-red-300 px-4 py-2 hover:bg-gray-600">
-                                    <AiOutlineDelete className="inline-block" /> Delete
-                                </button>
-                            </div>
-                        </Popover.Content>
-                    </Popover.Portal>
-                </Popover.Root>
-            </div>
+            <ContextButton onDelete={handleOnDelete} />
         </div>
     );
 }
