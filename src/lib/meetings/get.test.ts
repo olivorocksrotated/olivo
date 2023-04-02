@@ -12,13 +12,13 @@ describe('calculateNextMeeting', () => {
     test('returns the closest next meeting', async () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
-                startDate: new Date(2023, 0, 2),
+                startDate: new Date('2023-01-01T23:00:00.000Z'),
                 rythm: Rythm.everyDay,
                 duration: 60,
                 report: 'Report 1'
             },
             {
-                startDate: new Date(2023, 0, 3),
+                startDate: new Date('2023-01-03T23:00:00.000Z'),
                 rythm: Rythm.everyDay,
                 duration: 30,
                 report: 'Report 2'
@@ -27,8 +27,8 @@ describe('calculateNextMeeting', () => {
 
         const result = calculateNextMeeting(meetingDescriptions);
         const expectedResult: Meeting = {
-            startDate: new Date(2023, 0, 2),
-            endDate: new Date(2023, 0, 2, 1),
+            startDate: new Date('2023-01-01T23:00:00.000Z'),
+            endDate: new Date('2023-01-02T00:00:00.000Z'),
             report: 'Report 1'
         };
 
@@ -38,13 +38,13 @@ describe('calculateNextMeeting', () => {
     test('returns the closest next meeting also when they are started in the past', async () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
-                startDate: new Date(2022, 11, 28, 12),
+                startDate: new Date('2022-12-28T11:00:00.000Z'),
                 rythm: Rythm.everyWeek,
                 duration: 60,
                 report: 'Report 1'
             },
             {
-                startDate: new Date(2022, 11, 26, 12),
+                startDate: new Date('2022-12-26T11:00:00.000Z'),
                 rythm: Rythm.everyWeek,
                 duration: 60,
                 report: 'Report 2'
@@ -53,8 +53,8 @@ describe('calculateNextMeeting', () => {
 
         const result = calculateNextMeeting(meetingDescriptions);
         const expectedResult: Meeting = {
-            startDate: new Date(2023, 0, 2, 12),
-            endDate: new Date(2023, 0, 2, 13),
+            startDate: new Date('2023-01-02T11:00:00.000Z'),
+            endDate: new Date('2023-01-02T12:00:00.000Z'),
             report: 'Report 2'
         };
 
