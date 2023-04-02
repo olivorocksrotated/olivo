@@ -23,7 +23,7 @@ export default function AddCommitmentButton() {
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        if (commitment.title) {
+        if (commitment.title && commitment.doneBy) {
             await createCommitment({ ...commitment, doneBy: new Date(commitment.doneBy) });
             setCommitment(nullCommitment);
             startTransition(() => router.refresh());
@@ -47,7 +47,7 @@ export default function AddCommitmentButton() {
                     placeholder="done by"
                     className="w-60 h-8 px-2.5"
                 />
-                <Button type="submit" disabled={!commitment.title} onClick={onSubmit} aria-label="Add commitment">Add</Button>
+                <Button type="submit" disabled={!commitment.title || !commitment.doneBy} onClick={onSubmit} glowing={true} aria-label="Add commitment">Add</Button>
             </div>
         </PopoverButton>
     );

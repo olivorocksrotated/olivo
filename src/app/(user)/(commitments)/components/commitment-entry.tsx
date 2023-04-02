@@ -3,6 +3,7 @@
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
 import { useState } from 'react';
 
+import { formatRelativeDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -15,6 +16,7 @@ interface Props {
 
 export default function CommitmentEntry({ commitment }: Props) {
     const [thisCommitment, setThisCommitment] = useState(commitment);
+    const now = new Date();
 
     const handleStatusChange = (status: CommitmentStatus) => async () => {
         await fetchFromApi({
@@ -33,7 +35,7 @@ export default function CommitmentEntry({ commitment }: Props) {
                 {thisCommitment.title}
             </th>
             <td className="px-6 py-4 w-44">
-                {thisCommitment.doneBy}
+                {formatRelativeDate(new Date(thisCommitment.doneBy), now)}
             </td>
             <td className="px-6 py-4 w-56">
                 <Actions commitment={thisCommitment}

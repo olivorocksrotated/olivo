@@ -3,6 +3,8 @@
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
 import { AiFillPlayCircle, AiOutlineCheckCircle, AiOutlineFieldTime } from 'react-icons/ai';
 
+import { styleState } from '@/lib/styling/styleState';
+
 type Commitment = Pick<CommitmentModel, 'status'>
 interface Props {
     commitment: Commitment,
@@ -20,7 +22,7 @@ export default function Actions({
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
     const isDone = commitment.status === CommitmentStatus.Done;
-    const styleDisabled = 'disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-default';
+    const styleDisabled = styleState('disabled', 'text-gray-400 border-gray-400 cursor-default cursor-not-allowed');
 
     const displayedActions = !isDone ?
         <>
