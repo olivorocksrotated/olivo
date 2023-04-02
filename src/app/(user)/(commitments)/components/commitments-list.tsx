@@ -24,7 +24,9 @@ export default async function CommitmentsList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {commitments.map((commitment) => <Commitment key={commitment.id} commitment={commitment} data-superjson />)}
+                    {commitments.map((commitment) => <Commitment key={commitment.id}
+                        commitment={{ ...commitment, doneBy: commitment.doneBy.toString() }}
+                    />)}
                 </tbody>
             </table>
         </div>
