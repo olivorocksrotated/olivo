@@ -1,11 +1,9 @@
 'use client';
 
-import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
-import { AiFillPlayCircle, AiOutlineCheckCircle, AiOutlineFieldTime } from 'react-icons/ai';
-
-import { styleState } from '@/lib/styling/styleState';
+import { Commitment as CommitmentModel } from '@prisma/client';
 
 import ContextButton from './context-btn';
+import StatusButton from './status-btn';
 
 type Commitment = Pick<CommitmentModel, 'status'>
 interface Props {
@@ -25,40 +23,9 @@ export default function Actions({
     const handleOnDone = () => onDone(commitment);
     const handleOnDelete = () => onDelete(commitment);
 
-    const isStarted = commitment.status === CommitmentStatus.InProgress;
-    const isDone = commitment.status === CommitmentStatus.Done;
-    const styleDisabled = styleState('disabled', 'text-gray-400 border-gray-400 cursor-default cursor-not-allowed');
-
-    const displayedActions = !isDone ?
-        <>
-            <div>
-                <button onClick={handleOnStart}
-                    type="button"
-                    disabled={isStarted}
-                    className={`rounded-full border p-1 pr-3 border-indigo-500 text-indigo-300 ${styleDisabled}`}
-                >
-                    {!isStarted ?
-                        <><AiFillPlayCircle size={25} className="inline-block mr-2" />Start</> :
-                        <><AiOutlineFieldTime size={25} className="inline-block mr-2" />In progress</>}
-                </button>
-            </div>
-            <div>
-                <button onClick={handleOnDone}
-                    type="button"
-                    disabled={!isStarted}
-                    className={`rounded-full border p-1 border-green-500 text-green-300 ${styleDisabled}`}
-                >
-                    <AiOutlineCheckCircle size={25} />
-                </button>
-            </div>
-        </> :
-        <div className="rounded-full border p-1 pr-3 border-green-500 text-green-300">
-            <AiOutlineCheckCircle size={25} className="inline-block mr-2" />Done
-        </div>;
-
     return (
         <div className="flex items-center justify-end gap-3">
-            {displayedActions}
+            <StatusButton commitment={commitment} onDone={handleOnDone} onStart={handleOnStart} />
             <ContextButton onDelete={handleOnDelete} />
         </div>
     );
