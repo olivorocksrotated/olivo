@@ -1,4 +1,4 @@
-import LogoutButton from './logout-btn';
+import LogoutButton from './components/logout-btn';
 
 export default function UserLayout({ children }: { children: React.ReactNode; }) {
     return (
