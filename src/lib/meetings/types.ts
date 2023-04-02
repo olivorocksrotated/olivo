@@ -1,10 +1,10 @@
 export enum Rythm {
-    'everyDay',
-    'everyOtherDay',
-    'everyWeek',
-    'everyOtherWeek',
-    'everyMonth',
-    'everyOtherMonth'
+    EveryDay,
+    EveryOtherDay,
+    EveryWeek,
+    EveryOtherWeek,
+    EveryMonth,
+    EveryOtherMonth
 }
 
 export type MeetingDescription = {

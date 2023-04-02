@@ -13,13 +13,13 @@ describe('calculateNextMeeting', () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
                 startDate: new Date('2023-01-01T23:00:00.000Z'),
-                rythm: Rythm.everyDay,
+                rythm: Rythm.EveryDay,
                 duration: 60,
                 report: 'Report 1'
             },
             {
                 startDate: new Date('2023-01-03T23:00:00.000Z'),
-                rythm: Rythm.everyDay,
+                rythm: Rythm.EveryDay,
                 duration: 30,
                 report: 'Report 2'
             }
@@ -39,13 +39,13 @@ describe('calculateNextMeeting', () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
                 startDate: new Date('2022-12-28T11:00:00.000Z'),
-                rythm: Rythm.everyWeek,
+                rythm: Rythm.EveryWeek,
                 duration: 60,
                 report: 'Report 1'
             },
             {
                 startDate: new Date('2022-12-26T11:00:00.000Z'),
-                rythm: Rythm.everyWeek,
+                rythm: Rythm.EveryWeek,
                 duration: 60,
                 report: 'Report 2'
             }

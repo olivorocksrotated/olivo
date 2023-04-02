@@ -4,17 +4,17 @@ import { Meeting, MeetingDescription, Rythm } from './types';
 
 function getDateFromRythm(occurrence: Date, rythm: Rythm) {
     switch (rythm) {
-    case Rythm.everyDay:
+    case Rythm.EveryDay:
         return addDays(occurrence, 1);
-    case Rythm.everyOtherDay:
+    case Rythm.EveryOtherDay:
         return addDays(occurrence, 2);
-    case Rythm.everyWeek:
+    case Rythm.EveryWeek:
         return addWeeks(occurrence, 1);
-    case Rythm.everyOtherWeek:
+    case Rythm.EveryOtherWeek:
         return addWeeks(occurrence, 2);
-    case Rythm.everyMonth:
+    case Rythm.EveryMonth:
         return addMonths(occurrence, 1);
-    case Rythm.everyOtherMonth:
+    case Rythm.EveryOtherMonth:
         return addMonths(occurrence, 2);
     default:
         throw new Error('Invalid Meeting Rythm');
@@ -67,13 +67,13 @@ export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]):
 const meetingDescriptions: MeetingDescription[] = [
     {
         startDate: new Date('2023-03-29T14:30:00'), // Meeting starts at 14:30
-        rythm: Rythm.everyOtherMonth,
+        rythm: Rythm.EveryOtherMonth,
         duration: 10,
         report: 'Amit'
     },
     {
         startDate: new Date('2023-03-29T15:30:00'), // Meeting starts at 13:30
-        rythm: Rythm.everyMonth,
+        rythm: Rythm.EveryMonth,
         duration: 10,
         report: 'Rafa'
     }
