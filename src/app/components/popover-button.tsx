@@ -37,14 +37,14 @@ export default function PopoverButton({ children, label, onClose }: Properties) 
                             align="start"
                             onEscapeKeyDown={close}
                         >
-                            <motion.div className="bg-zinc-800 border border-solid border-zinc-600 pb-8 px-3"
+                            <motion.div className="bg-zinc-800 border border-solid border-zinc-600 pb-8 pt-2 px-3"
                                 key="modal"
                                 initial={{ opacity: 0, scale: 0.85 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.5, type: 'spring', bounce: 0.15 }}
                                 exit={{ opacity: 0, scale: 0.85 }}
                             >
-                                <div className="flex justify-end p-2">
+                                <div className="flex justify-end">
                                     <Popover.Close className="inline-flex items-center text-sm justify-center bg-zinc-900 rounded-lg px-2 py-1"
                                         aria-label="Close"
                                         onClick={close}
