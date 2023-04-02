@@ -1,4 +1,4 @@
-import { addDays, addMinutes, addMonths, addWeeks, differenceInMilliseconds, isAfter } from 'date-fns';
+import { addDays, addMinutes, addMonths, addWeeks, closestIndexTo, isAfter } from 'date-fns';
 
 import { Meeting, MeetingDescription, Rythm } from './types';
 
@@ -38,28 +38,6 @@ function nextOccurrence(meetingDescription: MeetingDescription, currentDate: Dat
     return nextDate;
 }
 
-function closestDateIndex(dates: Date[], currentDate: Date): number | null {
-    if (dates.length === 0) {
-        return null;
-    }
-
-    let index = 0;
-    let closest = index;
-    let minDifference = Math.abs(differenceInMilliseconds(currentDate, dates[index]));
-
-    for (const date of dates.slice(1)) {
-        index = index + 1;
-        const difference = Math.abs(differenceInMilliseconds(currentDate, date));
-        if (difference < minDifference) {
-            minDifference = difference;
-
-            closest = index;
-        }
-    }
-
-    return closest;
-}
-
 export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]): Meeting | null {
     const currentDate = new Date();
     const nextMeetingsByUser = meetingDescriptions.map((meetingDescription) => {
@@ -76,9 +54,9 @@ export function calculateNextMeeting(meetingDescriptions: MeetingDescription[]):
     }).filter((meeting) => meeting !== null) as Meeting[];
 
     const dates = nextMeetingsByUser.map(({ startDate }) => startDate);
-    const closestMeetingIndex = closestDateIndex(dates, currentDate);
+    const closestMeetingIndex = closestIndexTo(currentDate, dates);
 
-    return closestMeetingIndex !== null ? nextMeetingsByUser[closestMeetingIndex] : null;
+    return closestMeetingIndex !== undefined ? nextMeetingsByUser[closestMeetingIndex] : null;
 }
 
 // Example usage
