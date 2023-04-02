@@ -23,7 +23,7 @@ export default function AddCommitmentButton() {
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        if (commitment.title) {
+        if (commitment.title && commitment.doneBy) {
             await createCommitment({ ...commitment, doneBy: new Date(commitment.doneBy) });
             setCommitment(nullCommitment);
             startTransition(() => router.refresh());
