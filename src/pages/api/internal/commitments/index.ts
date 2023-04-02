@@ -7,7 +7,7 @@ import { HttpMethod, route } from '@/lib/http/route';
 interface AddCommitmentApiRequest extends NextApiRequest {
     body: {
         title: string;
-        doneBy: Date
+        doneBy: string;
     }
 }
 
