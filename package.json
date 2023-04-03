@@ -48,7 +48,7 @@
     "@testing-library/react": "^14.0.0",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@vitejs/plugin-react": "^3.1.0",
-    "@vitest/coverage-c8": "^0.29.2",
+    "@vitest/coverage-c8": "^0.29.8",
     "autoprefixer": "^10.4.13",
     "cypress": "^12.7.0",
     "eslint-plugin-react": "^7.32.2",
@@ -60,7 +60,7 @@
     "prisma": "^4.12.0",
     "prismock": "^1.9.2",
     "tailwindcss": "^3.3.1",
-    "vitest": "^0.29.2",
-    "vitest-mock-extended": "^1.1.0"
+    "vitest": "^0.29.8",
+    "vitest-mock-extended": "^1.1.3"
   }
 }
