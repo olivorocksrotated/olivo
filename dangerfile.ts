@@ -1,21 +1,24 @@
-import { danger, markdown, message, warn } from 'danger';
+import { danger, message, warn } from 'danger';
 
 function keepLockfileUpToDate() {
     const packageChanged = danger.git.modified_files.includes('package.json');
     const lockfileChanged = danger.git.modified_files.includes('package-lock.json');
     if (packageChanged && !lockfileChanged) {
-        const msg = 'Changes were made to package.json, but not to package-lock.json';
+        const msg = ':lock: Changes were made to package.json, but not to package-lock.json';
         const idea = 'Perhaps you need to run `npm install`?';
         warn(`${msg} - <i>${idea}</i>`);
     }
 }
 
-function encourageSmallPRs() {
+async function encourageSmallPRs() {
+    const linesCount = await danger.git.linesOfCode('**/*') ?? 0;
+    // Exclude package.json files
+    const excludeLinesCount = await danger.git.linesOfCode('**/package*.json') ?? 0;
+    const totalLinesCount = linesCount - excludeLinesCount;
     const bigPRThreshold = 600;
-    const allChanges = danger.github.pr.additions + danger.github.pr.deletions;
-    if (allChanges > bigPRThreshold) {
-        warn(':exclamation: This seems like a big PR');
-        markdown('> If the PR contains multiple changes, splitting it into separate PRs will help getting a faster and easier review');
+    // const allChanges = danger.github.pr.additions + danger.github.pr.deletions;
+    if (totalLinesCount > bigPRThreshold) {
+        warn(`:exclamation: This seems like a big PR (>${bigPRThreshold}), ${totalLinesCount} lines where changed. If the PR contains multiple changes, splitting it into separate PRs will help getting a faster and easier review`);
     }
 }
 
@@ -25,7 +28,7 @@ function praiseCodeRemoved() {
     }
 }
 
-function main() {
+async function main() {
     // Sanity
     keepLockfileUpToDate();
 
@@ -36,4 +39,4 @@ function main() {
     praiseCodeRemoved();
 }
 
-main();
+main().then();
