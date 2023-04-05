@@ -20,6 +20,7 @@
     "vitest": "vitest",
     "cypress:open": "cypress open",
     "cypress:component": "cypress run --component",
+    "danger:ci": "danger ci",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -51,6 +52,7 @@
     "@vitest/coverage-c8": "^0.29.8",
     "autoprefixer": "^10.4.14",
     "cypress": "^12.9.0",
+    "danger": "^11.2.4",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.0",

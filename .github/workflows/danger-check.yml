@@ -1,0 +1,25 @@
+name: danger-check
+run-name: ${{ github.workflow }} - ${{ github.actor }} - Attempt ${{ github.run_attempt }}
+on: [pull_request]
+
+jobs:
+  run-check:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      issues: write
+      pull-requests: write
+      statuses: write
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install node modules
+        run: npm install
+      - name: Run danger checks
+        run: npm run danger:ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
