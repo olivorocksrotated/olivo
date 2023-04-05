@@ -1,5 +1,5 @@
 name: tests
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: Run tests - ${{ github.actor }}
 on: [push]
 jobs:
   run-tests:
@@ -9,5 +9,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - run: npm install
-      - run: npm test
+      - name: Install node modules
+        run: npm install
+      - name: Run tests suite
+        run: npm test
