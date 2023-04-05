@@ -8,15 +8,10 @@ jobs:
     permissions:
       actions: write
       checks: write
-      contents: read
-      deployments: read
-      issues: read
-      packages: read
-      pages: read
+      contents: write
+      issues: write
       pull-requests: write
-      repository-projects: read
-      security-events: read
-      statuses: read
+      statuses: write
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v3
