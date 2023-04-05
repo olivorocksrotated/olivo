@@ -20,6 +20,7 @@
     "vitest": "vitest",
     "cypress:open": "cypress open",
     "cypress:component": "cypress run --component",
+    "danger:ci": "danger ci",
     "prepare": "husky install"
   },
   "dependencies": {
