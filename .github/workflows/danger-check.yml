@@ -5,6 +5,18 @@ on: [pull_request]
 jobs:
   run-check:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      checks: write
+      contents: read
+      deployments: read
+      issues: read
+      packages: read
+      pages: read
+      pull-requests: write
+      repository-projects: read
+      security-events: read
+      statuses: read
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v3
