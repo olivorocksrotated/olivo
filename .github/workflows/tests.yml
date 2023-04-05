@@ -1,5 +1,5 @@
 name: tests
-run-name: Run tests - ${{ github.actor }} - ${{ github.workflow }}
+run-name: ${{ github.workflow }} - ${{ github.actor }} - Attempt ${{ github.run_attempt }}
 on: [push]
 jobs:
   run-tests:
