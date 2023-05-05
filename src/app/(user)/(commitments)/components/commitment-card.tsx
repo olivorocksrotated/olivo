@@ -29,20 +29,24 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     };
 
     return (
-        <div className="max-w-sm p-6 border rounded-lg shadow bg-gray-800 border-gray-700">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
-                <span className="text-gray-400">I will</span> {commitment.title}
-            </h5>
-            <p className="mb-3 font-normal text-gray-400">
-                By {formatRelativeDate(new Date(commitment.doneBy), now)}
-            </p>
-            <div className="flex items-center justify-between">
-                <Actions commitment={commitment}
-                    onStart={handleStatusChange(CommitmentStatus.InProgress)}
-                    onDone={handleStatusChange(CommitmentStatus.Done)}
-                    onDelete={handleStatusChange(CommitmentStatus.Abandoned)}
-                />
+        <li className="py-3 sm:py-4">
+            <div className="flex items-center space-x-4">
+                <div className="flex-1 min-w-0">
+                    <p className="text-md font-medium truncate text-white">
+                        <span className="text-gray-400">I will</span> {commitment.title}
+                    </p>
+                    <p className="text-sm truncate text-gray-400">
+                        By {formatRelativeDate(new Date(commitment.doneBy), now)}
+                    </p>
+                </div>
+                <div className="inline-flex items-center text-base font-semibold text-white">
+                    <Actions commitment={commitment}
+                        onStart={handleStatusChange(CommitmentStatus.InProgress)}
+                        onDone={handleStatusChange(CommitmentStatus.Done)}
+                        onDelete={handleStatusChange(CommitmentStatus.Abandoned)}
+                    />
+                </div>
             </div>
-        </div>
+        </li>
     );
 }
