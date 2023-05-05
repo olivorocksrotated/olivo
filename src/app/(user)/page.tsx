@@ -20,9 +20,7 @@ export default async function Home() {
                     <Button>Check on your reports</Button>
                 </Link>
             </div>
-            <div className="mb-10">
-                {await NextMeetingCard()}
-            </div>
+            <div className="mb-10">{await NextMeetingCard()}</div>
             <div>{await CommitmentsSection()}</div>
         </main>
     );
