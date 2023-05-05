@@ -19,14 +19,13 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const now = new Date();
 
     const handleStatusChange = (status: CommitmentStatus) => async () => {
+        setCommitment({ ...commitment, status });
         await fetchFromApi({
             method: HttpMethod.PUT,
             path: ResourcePath.Commitments,
             attachToPath: `/${commitment.id}`,
             body: { status }
         });
-
-        setCommitment({ ...commitment, status });
     };
 
     return (
