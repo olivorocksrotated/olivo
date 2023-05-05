@@ -12,6 +12,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "vercel-build": "prisma generate && next build",
+    "db:login": "pscale auth login",
     "db:connect": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale connect olivo ${npm_config_branch:-$CURRENT_BRANCH} --port 3310",
     "db:ls": "pscale branch list olivo",
     "db:gui": "prisma studio",
