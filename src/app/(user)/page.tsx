@@ -5,8 +5,7 @@ import { getFirstName } from '@/lib/reports/name';
 
 import Button from '../components/button';
 import PageTitle from '../components/page-title';
-import AddCommitmentButton from './(commitments)/components/add-commitment-btn';
-import CommitmentsList from './(commitments)/components/commitments-list';
+import CommitmentsSection from './(commitments)/components/commitments-section';
 import NextMeetingCard from './components/next-meeting-card';
 
 export default async function Home() {
@@ -24,11 +23,7 @@ export default async function Home() {
             <div className="mb-10">
                 {await NextMeetingCard()}
             </div>
-            <div>
-                <div className="text-xl mb-4">Your commitments</div>
-                <div className="py-10"><AddCommitmentButton /></div>
-                <div className="max-w-2xl">{await CommitmentsList()}</div>
-            </div>
+            <div>{await CommitmentsSection()}</div>
         </main>
     );
 }
