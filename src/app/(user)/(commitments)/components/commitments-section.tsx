@@ -15,7 +15,7 @@ export default async function CommitmentsSection() {
                 <div><AddCommitmentButton /></div>
             </div>
             <div className="flow-root">
-                <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                <ul role="list" className="divide-y divide-gray-700">
                     {commitments.map((commitment) => <CommitmentCard key={commitment.id}
                         commitment={{ ...commitment, doneBy: commitment.doneBy.toString() }}
                     />)}
