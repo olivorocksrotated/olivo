@@ -2,7 +2,7 @@
 
 import { Commitment as CommitmentModel } from '@prisma/client';
 
-import DeleteButton from './delete-btn';
+// import DeleteButton from './delete-btn';
 import StatusButton from './status-btn';
 
 type Commitment = Pick<CommitmentModel, 'status'>
@@ -25,7 +25,8 @@ export default function Actions({
 
     return (
         <div className="flex items-center justify-end gap-3">
-            <DeleteButton onDelete={handleOnDelete} />
+            {/* <DeleteButton onDelete={handleOnDelete} /> */}
+            <button type="button" onClick={handleOnDelete}>Delete</button>
             <StatusButton commitment={commitment} onDone={handleOnDone} onStart={handleOnStart} />
         </div>
     );
