@@ -20,7 +20,7 @@ export default function StatusButton({
 
     const isStarted = commitment.status === CommitmentStatus.InProgress;
     const isDone = commitment.status === CommitmentStatus.Done;
-    const styleDisabled = styleState('disabled', 'text-gray-400 border-gray-400 cursor-default cursor-not-allowed');
+    const styleDisabled = styleState('disabled', 'text-gray-400 border-gray-400 cursor-not-allowed');
 
     return (
         !isDone ?
