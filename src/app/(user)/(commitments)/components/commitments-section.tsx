@@ -2,7 +2,7 @@ import { getServerSession } from '@/lib/auth/session';
 import { getCommitmentsByUser } from '@/lib/commitments/get';
 
 import AddCommitmentButton from './add-commitment-btn';
-import CommitmentCard from './commitment-card';
+import CommitmentsList from './commitments-list';
 
 export default async function CommitmentsSection() {
     const { user } = await getServerSession();
@@ -15,11 +15,7 @@ export default async function CommitmentsSection() {
                 <div><AddCommitmentButton /></div>
             </div>
             <div className="flow-root">
-                <ul role="list" className="divide-y divide-gray-700">
-                    {commitments.map((commitment) => <CommitmentCard key={commitment.id}
-                        commitment={{ ...commitment, doneBy: commitment.doneBy.toString() }}
-                    />)}
-                </ul>
+                <CommitmentsList commitments={commitments} />
             </div>
         </div>
     );
