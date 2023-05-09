@@ -1,8 +1,7 @@
 'use client';
-
-import * as Popover from '@radix-ui/react-popover';
-import { AnimatePresence, motion } from 'framer-motion';
+import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
+import { IoCloseOutline } from 'react-icons/io5';
 
 import Button from './button';
 
@@ -13,7 +12,7 @@ type Properties = {
 };
 
 export default function PopoverButton({ children, label, onClose }: Properties) {
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     function onOpenChanged(isOpen: boolean) {
         if (!isOpen) {
@@ -22,42 +21,31 @@ export default function PopoverButton({ children, label, onClose }: Properties) 
     }
 
     async function close() {
-        setIsPopoverOpen(false);
+        setIsDialogOpen(false);
     }
 
     return (
-        <Popover.Root onOpenChange={onOpenChanged}>
-            <Popover.Trigger asChild>
-                <div><Button onClick={() => setIsPopoverOpen(true)} aria-label={label}>{label}</Button></div>
-            </Popover.Trigger>
-            <AnimatePresence>
-                {isPopoverOpen ?
-                    <Popover.Portal forceMount>
-                        <Popover.Content forceMount className="rounded min-w-[460px] mt-2 text-zinc-400"
-                            align="start"
-                            onEscapeKeyDown={close}
-                        >
-                            <motion.div className="bg-zinc-800 border border-solid border-zinc-600 pb-8 pt-2 px-3"
-                                key="modal"
-                                initial={{ opacity: 0, scale: 0.85 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5, type: 'spring', bounce: 0.15 }}
-                                exit={{ opacity: 0, scale: 0.85 }}
-                            >
-                                <div className="flex justify-end">
-                                    <Popover.Close className="inline-flex items-center text-sm justify-center bg-zinc-900 rounded-lg px-2 py-1"
-                                        aria-label="Close"
-                                        onClick={close}
-                                    >
-                                        Close
-                                    </Popover.Close>
-                                </div>
-                                {children}
-                            </motion.div>
-                        </Popover.Content>
-                    </Popover.Portal> :
-                    null}
-            </AnimatePresence>
-        </Popover.Root>
+        <Dialog.Root onOpenChange={onOpenChanged}>
+            <Dialog.Trigger asChild>
+                <div><Button onClick={() => setIsDialogOpen(true)} aria-label={label}>{label}</Button></div>
+            </Dialog.Trigger>
+            {isDialogOpen ?
+                <Dialog.Portal forceMount>
+                    <Dialog.Overlay forceMount className="bg-black opacity-60 fixed inset-0" />
+                    <Dialog.Content forceMount
+                        className="fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md max-h-[85vh] p-6 rounded bg-gray-900"
+                        onEscapeKeyDown={close}
+                    >
+                        <div className="flex justify-between">
+                            <Dialog.Title className="font-normal">{label}</Dialog.Title>
+                            <Dialog.Close asChild onClick={close} aria-label="close">
+                                <Button><IoCloseOutline /></Button>
+                            </Dialog.Close>
+                        </div>
+                        <div>{children}</div>
+                    </Dialog.Content>
+                </Dialog.Portal> :
+                null}
+        </Dialog.Root>
     );
 }
