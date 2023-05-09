@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { MouseEvent, startTransition, useState } from 'react';
+import { MouseEvent, useState, useTransition } from 'react';
 
 import Button from '@/app/components/button';
 import PopoverButton from '@/app/components/popover-button';
@@ -20,6 +20,7 @@ export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: '' };
     const [commitment, setCommitment] = useState(nullCommitment);
     const router = useRouter();
+    const [, startTransition] = useTransition();
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
