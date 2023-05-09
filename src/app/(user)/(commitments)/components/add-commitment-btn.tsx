@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent, useState, useTransition } from 'react';
 
 import Button from '@/app/components/button';
-import PopoverButton from '@/app/components/popover-button';
+import DialogButton from '@/app/components/dialog-button';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -32,7 +32,7 @@ export default function AddCommitmentButton() {
     }
 
     return (
-        <PopoverButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
+        <DialogButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
             <div className="font-bold">Add commitment</div>
             <div className="flex justify-center items-center gap-2 mt-5">
                 <span className="w-16">I will</span>
@@ -52,7 +52,7 @@ export default function AddCommitmentButton() {
                     Add
                 </Button>
             </div>
-        </PopoverButton>
+        </DialogButton>
     );
 }
 

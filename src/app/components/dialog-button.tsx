@@ -11,7 +11,7 @@ type Properties = {
     onClose?: () => void
 };
 
-export default function PopoverButton({ children, label, onClose }: Properties) {
+export default function DialogButton({ children, label, onClose }: Properties) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     function onOpenChanged(isOpen: boolean) {

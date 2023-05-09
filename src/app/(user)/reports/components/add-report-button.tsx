@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, startTransition, useState } from 'react';
 
-import PopoverButton from '@/app/components/popover-button';
+import DialogButton from '@/app/components/dialog-button';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -53,7 +53,7 @@ export default function AddReportButton() {
     }
 
     return (
-        <PopoverButton onClose={reset} label="Add Report">
+        <DialogButton onClose={reset} label="Add Report">
             <div className="relative">
                 <div className="font-bold">Add Report</div>
                 <div className="flex justify-center items-center gap-2 mt-5">
@@ -74,6 +74,6 @@ export default function AddReportButton() {
                     {feedbackMessage?.message}
                 </div>
             </div>
-        </PopoverButton>
+        </DialogButton>
     );
 }
