@@ -18,7 +18,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const [commitment, setCommitment] = useState(originalCommitment);
     const now = new Date();
 
-    const handleStatusChange = (status: CommitmentStatus) => async () => {
+    const handleStatusChange = async (status: CommitmentStatus) => {
         setCommitment({ ...commitment, status });
         await fetchFromApi({
             method: HttpMethod.PUT,
@@ -41,9 +41,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-white">
                     <Actions commitment={commitment}
-                        onStart={handleStatusChange(CommitmentStatus.InProgress)}
-                        onDone={handleStatusChange(CommitmentStatus.Done)}
-                        onDelete={handleStatusChange(CommitmentStatus.Abandoned)}
+                        onStatusChanged={handleStatusChange}
+                        onDelete={() => handleStatusChange(CommitmentStatus.Abandoned)}
                     />
                 </div>
             </div>
