@@ -25,14 +25,29 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         'hover:cursor-pointer hover:underline hover:decoration-dotted'
     );
 
-    const handleStatusChange = async (status: CommitmentStatus) => {
-        setCommitment({ ...commitment, status });
-        await fetchFromApi({
+    const updateCommitment = ({ status, title }: {
+        status?: CommitmentStatus;
+        title?: string;
+    }) => {
+        setCommitment((previous) => ({
+            ...previous,
+            title: title ?? previous.title,
+            status: status ?? previous.status
+        }));
+
+        return fetchFromApi({
             method: HttpMethod.PUT,
             path: ResourcePath.Commitments,
             attachToPath: `/${commitment.id}`,
-            body: { status }
+            body: {
+                ...status ? { status } : {},
+                ...title ? { title } : {}
+            }
         });
+    };
+
+    const handleStatusChange = async (status: CommitmentStatus) => {
+        await updateCommitment({ status });
     };
 
     const handleTitleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
@@ -45,14 +60,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         }
 
         const title = editTitle.value;
-        setCommitment({ ...commitment, title });
         setEditTitle(() => ({ value: title, isEditing: false }));
-        await fetchFromApi({
-            method: HttpMethod.PUT,
-            path: ResourcePath.Commitments,
-            attachToPath: `/${commitment.id}`,
-            body: { title }
-        });
+        await updateCommitment({ title });
     };
 
     return (
