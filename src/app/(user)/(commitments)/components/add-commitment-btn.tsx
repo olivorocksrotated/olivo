@@ -33,24 +33,29 @@ export default function AddCommitmentButton() {
 
     return (
         <DialogButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
-            <div className="font-bold">Add commitment</div>
-            <div className="flex justify-center items-center gap-2 mt-5">
-                <span className="w-16">I will</span>
-                <input value={commitment.title}
-                    onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
-                    placeholder="e.g. do this task"
-                    className="w-full h-8 inline-flex items-center justify-centerrounded px-2.5 leading-none outline-none"
-                />
-                <span>by</span>
-                <input type="date"
-                    value={commitment.doneBy}
-                    onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
-                    placeholder="done by"
-                    className="w-60 h-8 px-2.5"
-                />
-                <Button type="submit" disabled={!commitment.title || !commitment.doneBy} onClick={onSubmit} glowing={true} aria-label="Add commitment">
-                    Add
-                </Button>
+            <div>
+                <div className="flex items-center gap-2 mb-4">
+                    <span className="w-16">I will</span>
+                    <input value={commitment.title}
+                        onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
+                        placeholder="e.g. do this task"
+                        className="w-full h-8 inline-flex items-center justify-centerrounded px-2.5 leading-none outline-none"
+                    />
+                </div>
+                <div className="flex items-center gap-2 mb-4">
+                    <span>by</span>
+                    <input type="date"
+                        value={commitment.doneBy}
+                        onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
+                        placeholder="done by"
+                        className="w-60 h-8 px-2.5"
+                    />
+                </div>
+                <div>
+                    <Button type="submit" disabled={!commitment.title || !commitment.doneBy} onClick={onSubmit} glowing={true} aria-label="Add commitment">
+                        Add
+                    </Button>
+                </div>
             </div>
         </DialogButton>
     );
