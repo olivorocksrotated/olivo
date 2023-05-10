@@ -33,6 +33,11 @@ export default function DialogButton({
         }
     };
 
+    const handleOnSubmit = (event: MouseEvent<HTMLButtonElement>) => {
+        onSubmit(event);
+        close();
+    };
+
     return (
         <Dialog.Root onOpenChange={handleOpenChanged}>
             <Dialog.Trigger asChild>
@@ -53,7 +58,7 @@ export default function DialogButton({
                         </div>
                         <div>{children}</div>
                         <div className="text-right">
-                            <Button type="submit" disabled={actionDisabled} onClick={onSubmit} glowing={true} aria-label={label}>
+                            <Button type="submit" disabled={actionDisabled} onClick={handleOnSubmit} glowing={true} aria-label={label}>
                                 Add
                             </Button>
                         </div>
