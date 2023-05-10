@@ -1,7 +1,6 @@
 'use client';
 
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
-import clsx from 'clsx';
 import { KeyboardEvent, useState } from 'react';
 
 import { formatRelativeDate, formatStringDate } from '@/lib/date/format';
@@ -21,10 +20,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const [editDoneBy, setEditDoneBy] = useState({ value: formatStringDate(commitment.doneBy), isEditing: false });
     const now = new Date();
 
-    const titleStyle = clsx(
-        'truncate',
-        'hover:cursor-pointer hover:underline hover:decoration-dotted'
-    );
+    const editStyle = 'hover:cursor-pointer hover:underline hover:decoration-dotted';
 
     const updateCommitment = ({ status, title, doneBy }: {
         status?: CommitmentStatus;
@@ -86,7 +82,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         <div className="text-gray-400">I will{' '}</div>
                         <div className="grow">
                             {!editTitle.isEditing ?
-                                <span className={titleStyle} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
+                                <span className={`truncate ${editStyle}`} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
                                     {commitment.title}
                                 </span> :
                                 <input type="text"
@@ -102,7 +98,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         <div>By{' '}</div>
                         <div>
                             {!editDoneBy.isEditing ?
-                                <span className={titleStyle} onClick={() => setEditDoneBy((previous) => ({ ...previous, isEditing: true }))}>
+                                <span className={editStyle} onClick={() => setEditDoneBy((previous) => ({ ...previous, isEditing: true }))}>
                                     {formatRelativeDate(new Date(commitment.doneBy), now)}
                                 </span> :
                                 <input type="date"
