@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { MouseEvent, useState, useTransition } from 'react';
 
-import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
@@ -32,7 +31,11 @@ export default function AddCommitmentButton() {
     }
 
     return (
-        <DialogButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
+        <DialogButton label="Add commitment"
+            actionDisabled={!commitment.title || !commitment.doneBy}
+            onClose={() => setCommitment(nullCommitment)}
+            onSubmit={onSubmit}
+        >
             <div>
                 <div className="flex items-center gap-2 mb-4">
                     <span className="w-16">I will</span>
@@ -50,11 +53,6 @@ export default function AddCommitmentButton() {
                         placeholder="done by"
                         className="w-60 h-8 px-2.5"
                     />
-                </div>
-                <div>
-                    <Button type="submit" disabled={!commitment.title || !commitment.doneBy} onClick={onSubmit} glowing={true} aria-label="Add commitment">
-                        Add
-                    </Button>
                 </div>
             </div>
         </DialogButton>
