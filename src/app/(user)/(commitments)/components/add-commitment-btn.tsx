@@ -40,6 +40,7 @@ export default function AddCommitmentButton() {
                 <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
                     <input value={commitment.title}
+                        autoFocus
                         onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
                         placeholder="e.g. do this task"
                         className="inline-flex h-8 w-full items-center justify-center rounded px-2.5 leading-none outline-none"
