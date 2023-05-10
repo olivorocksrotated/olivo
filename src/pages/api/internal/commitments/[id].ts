@@ -8,6 +8,7 @@ import { HttpMethod, route } from '@/lib/http/route';
 interface PatchCommitmentApiRequest extends NextApiRequest {
     body: {
         status?: CommitmentStatus;
+        title?: string;
     }
 }
 
