@@ -9,14 +9,19 @@ interface PatchCommitmentApiRequest extends NextApiRequest {
     body: {
         status?: CommitmentStatus;
         title?: string;
+        doneBy?: string;
     }
 }
 
 async function put(req: PatchCommitmentApiRequest, res: NextApiResponse) {
     const session = await getServerSession(req, res);
     const { id } = req.query;
+    const { doneBy, ...otherBodyProperties } = req.body;
 
-    await updateCommitment(session.user.id, id as string, req.body);
+    await updateCommitment(session.user.id, id as string, {
+        ...otherBodyProperties,
+        ...doneBy ? { doneBy: new Date(doneBy) } : {}
+    });
 
     return res.status(200).end();
 }
