@@ -15,7 +15,7 @@ export default function Button({ children, ...props }: ButtonProperties) {
     return (
         <button type="button"
             {...nativeProps}
-            className={`px-4 py-1 rounded border border-solid border-zinc-500 text-white ${hoverStyle} ${glowingStyle} ${disabledStyle}`}
+            className={`px-4 py-1 rounded border border-solid border-zinc-500 text-white ${disabledStyle} ${hoverStyle} ${glowingStyle}`}
         >
             {children}
         </button>

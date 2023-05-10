@@ -1,10 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { MouseEvent, startTransition, useState } from 'react';
+import { MouseEvent, useState, useTransition } from 'react';
 
-import Button from '@/app/components/button';
-import PopoverButton from '@/app/components/popover-button';
+import DialogButton from '@/app/components/dialog-button';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -20,6 +19,7 @@ export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: '' };
     const [commitment, setCommitment] = useState(nullCommitment);
     const router = useRouter();
+    const [, startTransition] = useTransition();
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
@@ -31,27 +31,31 @@ export default function AddCommitmentButton() {
     }
 
     return (
-        <PopoverButton onClose={() => setCommitment(nullCommitment)} label="Add commitment">
-            <div className="font-bold">Add commitment</div>
-            <div className="flex justify-center items-center gap-2 mt-5">
-                <span className="w-16">I will</span>
-                <input value={commitment.title}
-                    onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
-                    placeholder="e.g. do this task"
-                    className="w-full h-8 inline-flex items-center justify-centerrounded px-2.5 leading-none outline-none"
-                />
-                <span>by</span>
-                <input type="date"
-                    value={commitment.doneBy}
-                    onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
-                    placeholder="done by"
-                    className="w-60 h-8 px-2.5"
-                />
-                <Button type="submit" disabled={!commitment.title || !commitment.doneBy} onClick={onSubmit} glowing={true} aria-label="Add commitment">
-                    Add
-                </Button>
+        <DialogButton label="Add commitment"
+            actionDisabled={!commitment.title || !commitment.doneBy}
+            onClose={() => setCommitment(nullCommitment)}
+            onSubmit={onSubmit}
+        >
+            <div>
+                <div className="flex items-center mb-4">
+                    <span className="w-16">I will</span>
+                    <input value={commitment.title}
+                        onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
+                        placeholder="e.g. do this task"
+                        className="w-full h-8 inline-flex items-center justify-centerrounded px-2.5 leading-none outline-none"
+                    />
+                </div>
+                <div className="flex items-center mb-4">
+                    <span className="w-16">by</span>
+                    <input type="date"
+                        value={commitment.doneBy}
+                        onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
+                        placeholder="done by"
+                        className="w-full h-8 px-2.5"
+                    />
+                </div>
             </div>
-        </PopoverButton>
+        </DialogButton>
     );
 }
 
