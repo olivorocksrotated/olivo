@@ -31,11 +31,11 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     return (
         <li className="py-3 sm:py-4">
             <div className="flex items-center space-x-4">
-                <div className="flex-1 min-w-0">
-                    <p className="text-md font-medium truncate text-white">
+                <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-white">
                         <span className="text-gray-400">I will</span> {commitment.title}
                     </p>
-                    <p className="text-sm truncate text-gray-400">
+                    <p className="truncate text-sm text-gray-400">
                         By {formatRelativeDate(new Date(commitment.doneBy), now)}
                     </p>
                 </div>

@@ -62,11 +62,11 @@ export default function AddReportButton() {
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         placeholder="email"
-                        className="w-full h-8 inline-flex items-center justify-center rounded px-2.5 leading-none outline-none"
+                        className="inline-flex h-8 w-full items-center justify-center rounded px-2.5 leading-none outline-none"
                     />
                 </div>
                 <div className={clsx(
-                    'h-12 flex items-center',
+                    'flex h-12 items-center',
                     { 'text-red-300': feedbackMessage?.type === 'error' },
                     { 'text-green-300': feedbackMessage?.type === 'success' }
                 )}

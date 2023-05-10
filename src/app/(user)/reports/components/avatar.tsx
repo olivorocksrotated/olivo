@@ -14,9 +14,9 @@ export default function Avatar({ report }: Props) {
     const nameAcronym = getNameAcronym(report.name);
 
     return (
-        <UiAvatar.Root className="rounded w-20 h-20 inline-flex items-center justify-center align-middle select-none overflow-hidden">
-            <UiAvatar.Image src={report.image} alt={report.name} className="w-full h-full object-cover rounded" />
-            <UiAvatar.Fallback delayMs={600} className="w-full h-full rounded border border-indigo-400 flex items-center justify-center">{nameAcronym}</UiAvatar.Fallback>
+        <UiAvatar.Root className="inline-flex h-20 w-20 select-none items-center justify-center overflow-hidden rounded align-middle">
+            <UiAvatar.Image src={report.image} alt={report.name} className="h-full w-full rounded object-cover" />
+            <UiAvatar.Fallback delayMs={600} className="flex h-full w-full items-center justify-center rounded border border-indigo-400">{nameAcronym}</UiAvatar.Fallback>
         </UiAvatar.Root>
     );
 }

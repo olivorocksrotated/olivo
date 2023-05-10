@@ -51,12 +51,12 @@ export default function DialogButton({
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            <Dialog.Overlay forceMount className="bg-black opacity-60 fixed inset-0" />
+                            <Dialog.Overlay forceMount className="fixed inset-0 bg-black opacity-60" />
                             <Dialog.Content forceMount
-                                className="fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md max-h-[85vh] p-6 rounded bg-gray-900"
+                                className="fixed left-2/4 top-2/4 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-gray-900 p-6"
                                 onEscapeKeyDown={close}
                             >
-                                <div className="flex justify-between mb-6">
+                                <div className="mb-6 flex justify-between">
                                     <Dialog.Title className="font-normal">{label}</Dialog.Title>
                                     <Dialog.Close asChild onClick={close} aria-label="close">
                                         <div><Button><IoCloseOutline /></Button></div>

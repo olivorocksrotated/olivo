@@ -37,21 +37,21 @@ export default function AddCommitmentButton() {
             onSubmit={onSubmit}
         >
             <div>
-                <div className="flex items-center mb-4">
+                <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
                     <input value={commitment.title}
                         onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
                         placeholder="e.g. do this task"
-                        className="w-full h-8 inline-flex items-center justify-centerrounded px-2.5 leading-none outline-none"
+                        className="inline-flex h-8 w-full items-center justify-center rounded px-2.5 leading-none outline-none"
                     />
                 </div>
-                <div className="flex items-center mb-4">
+                <div className="mb-4 flex items-center">
                     <span className="w-16">by</span>
                     <input type="date"
                         value={commitment.doneBy}
                         onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
                         placeholder="done by"
-                        className="w-full h-8 px-2.5"
+                        className="h-8 w-full px-2.5"
                     />
                 </div>
             </div>

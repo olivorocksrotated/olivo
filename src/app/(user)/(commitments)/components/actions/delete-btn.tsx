@@ -39,7 +39,7 @@ export default function DeleteButton({ onDelete = () => undefined }: Props) {
     useEffect(() => () => stopHolding(), []);
 
     return (
-        <div className={`${styles.circle} cursor-pointer rounded-full border p-1.5 border-red-500 text-red-200`}
+        <div className={`${styles.circle} cursor-pointer rounded-full border border-red-500 p-1.5 text-red-200`}
             onMouseDown={startHolding}
             onTouchStart={startHolding}
             onMouseUp={stopHolding}
@@ -47,7 +47,7 @@ export default function DeleteButton({ onDelete = () => undefined }: Props) {
             onTouchEnd={stopHolding}
         >
             <div className={`${styles.wave} ${isHoldingStyle}`}></div>
-            <div className="w-full h-full flex items-center justify-center z-10 relative">
+            <div className="relative z-10 flex h-full w-full items-center justify-center">
                 <AiOutlineDelete size={22} />
             </div>
         </div>

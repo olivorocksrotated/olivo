@@ -12,10 +12,10 @@ function MeetingInfo({ meeting }: { meeting: any }) {
 
     return (
         <>
-            <div className="font-light text-sm text-slate-100">
+            <div className="text-sm font-light text-slate-100">
                 {day}
             </div>
-            <div className="font-semibold text-lg text-slate-300">
+            <div className="text-lg font-semibold text-slate-300">
                 {`${startTime} - ${endTime} with ${meeting.report}`}
             </div>
         </>
@@ -27,14 +27,14 @@ export default async function NextMeetingCard() {
     const meeting = await getNextMeetingByUser(user.id);
 
     return (
-        <div className="p-3 rounded-lg inline-flex gap-4 bg-indigo-700 shadow-sm shadow-indigo-300">
+        <div className="inline-flex gap-4 rounded-lg bg-indigo-700 p-3 shadow-sm shadow-indigo-300">
             <div>
-                <div className="font-extralight text-sm text-slate-100 py-3">
+                <div className="py-3 text-sm font-extralight text-slate-100">
                     Next feedback session
                 </div>
                 {meeting ? <MeetingInfo meeting={meeting}></MeetingInfo> : <>No feedback session scheduled</>}
             </div>
-            <div className="flex justify-center items-center p-10">
+            <div className="flex items-center justify-center p-10">
                 <StartButton></StartButton>
             </div>
         </div>

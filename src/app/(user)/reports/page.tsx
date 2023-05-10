@@ -11,8 +11,8 @@ export default async function Reports() {
 
     const hasReports = reports.length !== 0;
     const reportsList = (
-        <div className="bg-indigo-900 max-w-fit rounded-lg p-4">
-            <div className="text-lg mb-4 p-3 font-normal">Upcoming 1:1s</div>
+        <div className="max-w-fit rounded-lg bg-indigo-900 p-4">
+            <div className="mb-4 p-3 text-lg font-normal">Upcoming 1:1s</div>
             <div className="divide-y divide-indigo-700">
                 {reports.map((report) => (
                     <div key={report.id}>

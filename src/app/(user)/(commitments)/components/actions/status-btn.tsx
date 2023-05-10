@@ -48,7 +48,7 @@ function Text({ text, onAnimationComplete, initial = 'visible' }: TextProps) {
     };
 
     return (
-        <motion.h1 layout className="flex overflow-hidden absolute right-2" variants={container}
+        <motion.h1 layout className="absolute right-2 flex overflow-hidden" variants={container}
             initial={initial}
             animate={initial === 'hidden' ? 'visible' : 'hidden'}
             onAnimationComplete={onAnimationComplete}
@@ -101,7 +101,7 @@ function StartButton({
             <motion.div layout
                 key="container"
                 className={clsx(
-                    'relative h-8 justify-start overflow-hidden items-center flex rounded-full border border-indigo-500 p-1 pr-3',
+                    'relative flex h-8 items-center justify-start overflow-hidden rounded-full border border-indigo-500 p-1 pr-3',
                     { 'cursor-pointer': animationStage === AnimationStage.RestingInProgress }
                 )}
                 whileHover={animationStage === AnimationStage.RestingInProgress ? { scale: 1.04, transition: { duration: 0.5 } } : undefined}
@@ -123,18 +123,18 @@ function StartButton({
             >
                 {(animationStage === AnimationStage.RestingStart || animationStage === AnimationStage.TransitionStartFadeOut) && (
                     <motion.div animate={animationStage === AnimationStage.TransitionStartFadeOut ? { opacity: 0, width: 0 } : undefined}>
-                        <AiFillPlayCircle className="text-indigo-300 cursor-pointer h-8 mr-2" size={25} onClick={handleOnRest} />
+                        <AiFillPlayCircle className="mr-2 h-8 cursor-pointer text-indigo-300" size={25} onClick={handleOnRest} />
                     </motion.div>
                 )}
                 {(animationStage === AnimationStage.TransitionInProgressFadeIn || animationStage === AnimationStage.RestingInProgress) && (
                     <motion.div animate={animationStage === AnimationStage.TransitionInProgressFadeIn ? { opacity: 1 } : undefined}>
-                        {!isHovered && <AiOutlineFieldTime className="text-indigo-300 cursor-pointer h-8 mr-2" size={25} onClick={handleOnRest} />}
+                        {!isHovered && <AiOutlineFieldTime className="mr-2 h-8 cursor-pointer text-indigo-300" size={25} onClick={handleOnRest} />}
                         {isHovered ? <AiOutlineCheckCircle className="text-green-300" size={25} /> : null}
                     </motion.div>
                 )}
                 {(animationStage === AnimationStage.RestingDone || animationStage === AnimationStage.TransitionInProgressFadeOut) && (
                     <motion.div layout
-                        className="h-8 items-center flex text-green-100"
+                        className="flex h-8 items-center text-green-100"
                         key="doneIndicatorButtonContainer"
                     >
                         <AiOutlineCheckCircle size={25} />
