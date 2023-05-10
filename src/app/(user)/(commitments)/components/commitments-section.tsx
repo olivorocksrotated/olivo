@@ -9,9 +9,9 @@ export default async function CommitmentsSection() {
     const commitments = await getCommitmentsByUser(user.id);
 
     return (
-        <div className="max-w-2xl p-4 border rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
-            <div className="flex items-baseline justify-between mb-4">
-                <div className="text-xl font-bold leading-none text-white mb-4">Your commitments</div>
+        <div className="max-w-2xl rounded-lg border border-gray-700 bg-gray-800 p-4 shadow sm:p-8">
+            <div className="mb-4 flex items-baseline justify-between">
+                <div className="mb-4 text-xl font-bold leading-none text-white">Your commitments</div>
                 <div><AddCommitmentButton /></div>
             </div>
             <div className="flow-root">

@@ -11,6 +11,8 @@ jobs:
           node-version: '18'
       - name: Install node modules
         run: npm install
+      - name: Generate prisma client
+        run: npm run db:apply-change
       - name: Run unit tests
         run: npm run test:unit
   integration-tests:

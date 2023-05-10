@@ -1,9 +1,9 @@
 'use client';
 
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 
-import { formatRelativeDate } from '@/lib/date/format';
+import { formatRelativeDate, formatStringDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -16,28 +16,100 @@ interface Props {
 
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
+    const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
+    const [editDoneBy, setEditDoneBy] = useState({ value: formatStringDate(commitment.doneBy), isEditing: false });
     const now = new Date();
 
-    const handleStatusChange = async (status: CommitmentStatus) => {
-        setCommitment({ ...commitment, status });
-        await fetchFromApi({
+    const editStyle = 'hover:cursor-pointer hover:underline hover:decoration-dotted';
+
+    const updateCommitment = ({ status, title, doneBy }: {
+        status?: CommitmentStatus;
+        title?: string;
+        doneBy?: string;
+    }) => {
+        setCommitment((previous) => ({
+            ...previous,
+            title: title ?? previous.title,
+            status: status ?? previous.status,
+            doneBy: doneBy ?? previous.doneBy
+        }));
+
+        return fetchFromApi({
             method: HttpMethod.PUT,
             path: ResourcePath.Commitments,
             attachToPath: `/${commitment.id}`,
-            body: { status }
+            body: {
+                ...status ? { status } : {},
+                ...title ? { title } : {},
+                ...doneBy ? { doneBy } : {}
+            }
         });
+    };
+
+    const handleStatusChange = async (status: CommitmentStatus) => {
+        await updateCommitment({ status });
+    };
+
+    const handleTitleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+        if (commitment.title === editTitle.value) {
+            return setEditTitle((previous) => ({ ...previous, isEditing: false }));
+        }
+
+        const title = editTitle.value;
+        setEditTitle(() => ({ value: title, isEditing: false }));
+        await updateCommitment({ title });
+    };
+
+    const handleDoneByKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+        const doneBy = editDoneBy.value;
+        setEditDoneBy(() => ({ value: doneBy, isEditing: false }));
+        await updateCommitment({ doneBy });
     };
 
     return (
         <li className="py-3 sm:py-4">
             <div className="flex items-center space-x-4">
-                <div className="flex-1 min-w-0">
-                    <p className="text-md font-medium truncate text-white">
-                        <span className="text-gray-400">I will</span> {commitment.title}
-                    </p>
-                    <p className="text-sm truncate text-gray-400">
-                        By {formatRelativeDate(new Date(commitment.doneBy), now)}
-                    </p>
+                <div className="min-w-0 flex-1">
+                    <div className="flex gap-1 font-medium text-white">
+                        <div className="text-gray-400">I will{' '}</div>
+                        <div className="grow">
+                            {!editTitle.isEditing ?
+                                <span className={`truncate ${editStyle}`} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
+                                    {commitment.title}
+                                </span> :
+                                <input type="text"
+                                    autoFocus
+                                    className="w-full bg-slate-700"
+                                    onKeyDown={handleTitleKeyDown}
+                                    value={editTitle.value}
+                                    onChange={(event) => setEditTitle((previous) => ({ ...previous, value: event.target.value }))}
+                                />}
+                        </div>
+                    </div>
+                    <div className="flex gap-1 text-sm text-gray-400">
+                        <div>By{' '}</div>
+                        <div>
+                            {!editDoneBy.isEditing ?
+                                <span className={editStyle} onClick={() => setEditDoneBy((previous) => ({ ...previous, isEditing: true }))}>
+                                    {formatRelativeDate(new Date(commitment.doneBy), now)}
+                                </span> :
+                                <input type="date"
+                                    autoFocus
+                                    className="bg-slate-700"
+                                    onKeyDown={handleDoneByKeyDown}
+                                    value={editDoneBy.value}
+                                    onChange={(event) => setEditDoneBy((previous) => ({ ...previous, value: event.target.value }))}
+                                />}
+                        </div>
+                    </div>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-white">
                     <Actions commitment={commitment}

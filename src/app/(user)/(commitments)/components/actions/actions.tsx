@@ -23,7 +23,7 @@ export default function Actions({
         <div className="flex items-center justify-end gap-3">
             {/* <DeleteButton onDelete={handleOnDelete} /> */}
             <button type="button" onClick={handleOnDelete}>Delete</button>
-            <div className="w-32 flex justify-end">
+            <div className="flex w-32 justify-end">
                 <StatusButton onStatusChanged={onStatusChanged} status={commitment.status} />
             </div>
         </div>
