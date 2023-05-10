@@ -4,7 +4,7 @@ import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client'
 import clsx from 'clsx';
 import { KeyboardEvent, useState } from 'react';
 
-import { formatRelativeDate } from '@/lib/date/format';
+import { formatRelativeDate, formatStringDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -18,6 +18,7 @@ interface Props {
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
     const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
+    const [editDoneBy, setEditDoneBy] = useState({ value: formatStringDate(commitment.doneBy), isEditing: false });
     const now = new Date();
 
     const titleStyle = clsx(
@@ -25,14 +26,16 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         'hover:cursor-pointer hover:underline hover:decoration-dotted'
     );
 
-    const updateCommitment = ({ status, title }: {
+    const updateCommitment = ({ status, title, doneBy }: {
         status?: CommitmentStatus;
         title?: string;
+        doneBy?: string;
     }) => {
         setCommitment((previous) => ({
             ...previous,
             title: title ?? previous.title,
-            status: status ?? previous.status
+            status: status ?? previous.status,
+            doneBy: doneBy ?? previous.doneBy
         }));
 
         return fetchFromApi({
@@ -41,7 +44,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
             attachToPath: `/${commitment.id}`,
             body: {
                 ...status ? { status } : {},
-                ...title ? { title } : {}
+                ...title ? { title } : {},
+                ...doneBy ? { doneBy } : {}
             }
         });
     };
@@ -64,14 +68,22 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         await updateCommitment({ title });
     };
 
+    const handleDoneByKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+        const doneBy = editDoneBy.value;
+        setEditDoneBy(() => ({ value: doneBy, isEditing: false }));
+        await updateCommitment({ doneBy });
+    };
+
     return (
         <li className="py-3 sm:py-4">
             <div className="flex items-center space-x-4">
                 <div className="min-w-0 flex-1">
                     <div className="flex gap-1 font-medium text-white">
-                        <div>
-                            <span className="text-gray-400">I will</span>{' '}
-                        </div>
+                        <div className="text-gray-400">I will{' '}</div>
                         <div className="grow">
                             {!editTitle.isEditing ?
                                 <span className={titleStyle} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
@@ -86,9 +98,22 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                                 />}
                         </div>
                     </div>
-                    <p className="truncate text-sm text-gray-400">
-                        By {formatRelativeDate(new Date(commitment.doneBy), now)}
-                    </p>
+                    <div className="flex gap-1 text-sm text-gray-400">
+                        <div>By{' '}</div>
+                        <div>
+                            {!editDoneBy.isEditing ?
+                                <span className={titleStyle} onClick={() => setEditDoneBy((previous) => ({ ...previous, isEditing: true }))}>
+                                    {formatRelativeDate(new Date(commitment.doneBy), now)}
+                                </span> :
+                                <input type="date"
+                                    autoFocus
+                                    className="bg-slate-700"
+                                    onKeyDown={handleDoneByKeyDown}
+                                    value={editDoneBy.value}
+                                    onChange={(event) => setEditDoneBy((previous) => ({ ...previous, value: event.target.value }))}
+                                />}
+                        </div>
+                    </div>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-white">
                     <Actions commitment={commitment}
