@@ -76,10 +76,10 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
 
     return (
         <li className="py-3 sm:py-4">
-            <div className="flex items-center space-x-4">
+            <div className="flex gap-x-4">
                 <div className="min-w-0 flex-1">
                     <div className="flex gap-1 font-medium text-white">
-                        <div className="text-gray-400">I will{' '}</div>
+                        <div className="min-w-fit text-gray-400">I will{' '}</div>
                         <div className="grow">
                             {!editTitle.isEditing ?
                                 <span className={`truncate ${editStyle}`} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
@@ -111,7 +111,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         </div>
                     </div>
                 </div>
-                <div className="inline-flex items-center text-base font-semibold text-white">
+                <div>
                     <Actions commitment={commitment}
                         onStatusChanged={handleStatusChange}
                         onDelete={() => handleStatusChange(CommitmentStatus.Abandoned)}
