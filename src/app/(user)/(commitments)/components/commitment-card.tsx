@@ -1,13 +1,15 @@
 'use client';
 
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { KeyboardEvent, useState } from 'react';
 
 import { formatRelativeDate, formatStringDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
-import Actions from './actions/actions';
+import DeleteButton from './actions/delete-btn';
+import StatusPopover from './actions/status-popover';
 
 type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'title'> & { doneBy: string };
 interface Props {
@@ -18,11 +20,12 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const [commitment, setCommitment] = useState(originalCommitment);
     const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
     const [editDoneBy, setEditDoneBy] = useState({ value: formatStringDate(commitment.doneBy), isEditing: false });
+    const router = useRouter();
     const now = new Date();
 
     const editStyle = 'hover:cursor-pointer hover:underline hover:decoration-dotted';
 
-    const updateCommitment = ({ status, title, doneBy }: {
+    const updateCommitment = async ({ status, title, doneBy }: {
         status?: CommitmentStatus;
         title?: string;
         doneBy?: string;
@@ -34,7 +37,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
             doneBy: doneBy ?? previous.doneBy
         }));
 
-        return fetchFromApi({
+        await fetchFromApi({
             method: HttpMethod.PUT,
             path: ResourcePath.Commitments,
             attachToPath: `/${commitment.id}`,
@@ -44,6 +47,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 ...doneBy ? { doneBy } : {}
             }
         });
+
+        router.refresh();
     };
 
     const handleStatusChange = async (status: CommitmentStatus) => {
@@ -76,13 +81,16 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
 
     return (
         <li className="py-3 sm:py-4">
-            <div className="flex gap-x-4">
+            <div className="flex items-center gap-x-4">
+                <div>
+                    <StatusPopover commitment={commitment} onStatusChange={handleStatusChange} />
+                </div>
                 <div className="min-w-0 flex-1">
                     <div className="flex gap-1 font-medium text-white">
                         <div className="min-w-fit text-gray-400">I will{' '}</div>
-                        <div className="grow">
+                        <div className="grow truncate">
                             {!editTitle.isEditing ?
-                                <span className={`truncate ${editStyle}`} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
+                                <span className={editStyle} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
                                     {commitment.title}
                                 </span> :
                                 <input type="text"
@@ -112,10 +120,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                     </div>
                 </div>
                 <div>
-                    <Actions commitment={commitment}
-                        onStatusChanged={handleStatusChange}
-                        onDelete={() => handleStatusChange(CommitmentStatus.Abandoned)}
-                    />
+                    <DeleteButton onDelete={() => handleStatusChange(CommitmentStatus.Abandoned)} />
                 </div>
             </div>
         </li>
