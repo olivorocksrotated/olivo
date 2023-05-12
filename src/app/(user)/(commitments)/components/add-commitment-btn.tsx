@@ -31,7 +31,8 @@ export default function AddCommitmentButton() {
     }
 
     return (
-        <DialogButton label="Add commitment"
+        <DialogButton title="Add commitment"
+            actionLabel="Add"
             actionDisabled={!commitment.title || !commitment.doneBy}
             onClose={() => setCommitment(nullCommitment)}
             onSubmit={onSubmit}
