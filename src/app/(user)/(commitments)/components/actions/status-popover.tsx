@@ -2,6 +2,7 @@
 
 import { Commitment, CommitmentStatus } from '@prisma/client';
 import * as Popover from '@radix-ui/react-popover';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 import AbandonedStatusMarker from '../status-marker/abandoned';
@@ -38,7 +39,12 @@ export default function StatusPopover({ commitment, onStatusChange }: Props) {
             </Popover.Trigger>
             <Popover.Portal>
                 <Popover.Content align="start">
-                    <div className="w-52 rounded bg-gray-700 p-2 text-sm shadow-sm will-change-transform">
+                    <motion.div className="w-52 rounded bg-gray-700 p-2 text-sm shadow-sm will-change-transform"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
                         <div onClick={() => handleStatusChange(CommitmentStatus.NotStartedYet)}
                             className="mb-2 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
                         >
@@ -55,7 +61,7 @@ export default function StatusPopover({ commitment, onStatusChange }: Props) {
                         >
                             <DoneStatusMarker /><span>Done</span>
                         </div>
-                    </div>
+                    </motion.div>
                     <Popover.Arrow className="fill-gray-700" />
                 </Popover.Content>
             </Popover.Portal>
