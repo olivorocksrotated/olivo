@@ -4,7 +4,7 @@ import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client'
 import { useRouter } from 'next/navigation';
 import { KeyboardEvent, useState } from 'react';
 
-import { formatRelativeDate, formatStringDate } from '@/lib/date/format';
+import { formatDate, formatRelativeDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -19,7 +19,7 @@ interface Props {
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
     const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
-    const [editDoneBy, setEditDoneBy] = useState({ value: formatStringDate(commitment.doneBy), isEditing: false });
+    const [editDoneBy, setEditDoneBy] = useState({ value: formatDate(commitment.doneBy), isEditing: false });
     const router = useRouter();
     const now = new Date();
 

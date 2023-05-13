@@ -5,6 +5,7 @@ import { MouseEvent, useState, useTransition } from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 
 import DialogButton from '@/app/components/dialog-button';
+import { formatDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -17,7 +18,7 @@ async function createCommitment(commitment: { title: string, doneBy: Date }) {
 }
 
 export default function AddCommitmentButton() {
-    const nullCommitment = { title: '', doneBy: '' };
+    const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
     const [commitment, setCommitment] = useState(nullCommitment);
     const router = useRouter();
     const [, startTransition] = useTransition();
