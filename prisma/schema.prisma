@@ -42,6 +42,7 @@ model User {
   managers      ReportRelation[] @relation("manager")
   reports       ReportRelation[] @relation("report")
   commitments   Commitment[]
+  moods         Mood[]
 }
 
 model ReportRelation {
@@ -69,9 +70,28 @@ model Commitment {
   @@index([ownerId])
 }
 
+model Mood {
+  id        String     @id @default(cuid())
+  status    MoodStatus
+  comment   String?
+  createdAt DateTime   @default(now())
+  owner     User       @relation(fields: [ownerId], references: [id])
+  ownerId   String
+
+  @@index([ownerId])
+}
+
 enum CommitmentStatus {
   NotStartedYet
   InProgress
   Done
   Abandoned
+}
+
+enum MoodStatus {
+  Bad
+  Okayish
+  Average
+  Good
+  Excellent
 }
