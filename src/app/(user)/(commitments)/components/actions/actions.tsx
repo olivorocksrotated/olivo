@@ -20,7 +20,7 @@ export default function Actions({
     const handleOnDelete = () => onDelete(commitment);
 
     return (
-        <div className="flex items-center justify-end gap-3">
+        <div className="flex items-start justify-end gap-3">
             {/* <DeleteButton onDelete={handleOnDelete} /> */}
             <button type="button" onClick={handleOnDelete}>Delete</button>
             <div className="flex w-32 justify-end">

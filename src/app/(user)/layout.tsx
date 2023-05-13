@@ -1,14 +1,14 @@
-import LogoutButton from './components/logout-btn';
+import { getServerSession } from '@/lib/auth/session';
 
-export default function UserLayout({ children }: { children: React.ReactNode; }) {
+import AuthContext from './components/auth-context';
+import Content from './components/content';
+
+export default async function UserLayout({ children }: { children: React.ReactNode }) {
+    const session = await getServerSession();
+
     return (
-        <div className="p-6">
-            <nav className="flex justify-end">
-                <LogoutButton></LogoutButton>
-            </nav>
-            <div>
-                {children}
-            </div>
-        </div>
+        <AuthContext session={session}>
+            <Content>{children}</Content>
+        </AuthContext>
     );
 }

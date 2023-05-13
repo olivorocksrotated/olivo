@@ -51,7 +51,8 @@ export default function AddReportButton() {
     }
 
     return (
-        <DialogButton label="Add report"
+        <DialogButton title="Add report"
+            actionLabel="Add"
             actionDisabled={!email || processing}
             onClose={reset}
             onSubmit={onSubmit}
