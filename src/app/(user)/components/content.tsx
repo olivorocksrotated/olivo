@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
+import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
@@ -20,6 +21,8 @@ export default function Content({ children }: { children: React.ReactNode }) {
         'translate-x-0': isMobileOpen,
         '': !isMobileOpen
     });
+
+    const closeMobileMenu = () => setIsMobileOpen(false);
 
     return (
         <div>
@@ -63,28 +66,28 @@ export default function Content({ children }: { children: React.ReactNode }) {
                             <div className={`z-50 my-4 ${isUserMenuOpen ? '' : 'hidden'} list-none divide-y divide-gray-600 rounded bg-gray-700 text-base shadow`} id="dropdown-user">
                                 <ul className="py-1" role="none">
                                     <li>
-                                        <a href="#" onClick={() => signOut()} className="block px-4 py-2 text-sm font-light text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Logout</a>
+                                        <Link href="#" onClick={() => signOut()} className="block px-4 py-2 text-sm font-light text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Logout</Link>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li className="mt-4 space-y-2 border-t border-gray-700 pt-4">
-                            <a href="/" className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
+                            <Link href="/" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
                                 <AiFillHome size={18} className="mr-3 text-gray-400" />
                                 <span>Home</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="">
-                            <a href="/reports" className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
+                            <Link href="/reports" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
                                 <BsPeopleFill size={18} className="mr-3 text-gray-400" />
                                 <span>Reports</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
             </aside>
 
-            {isMobileOpen ? <div onClick={() => setIsMobileOpen(false)} className="absolute h-screen w-screen bg-slate-900 opacity-60"></div> : null}
+            {isMobileOpen ? <div onClick={closeMobileMenu} className="absolute left-0 top-0 h-screen w-screen bg-slate-900 opacity-60"></div> : null}
 
             <main className="grow p-5 sm:ml-64">{children}</main>
         </div>
