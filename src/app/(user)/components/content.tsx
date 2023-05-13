@@ -17,10 +17,7 @@ export default function Content({ children }: { children: React.ReactNode }) {
 
     const nameAcronym = getNameAcronym(session?.user.name);
     const firstName = getFirstName(session?.user.name);
-    const asideMobileStyle = clsx({
-        'translate-x-0': isMobileOpen,
-        '': !isMobileOpen
-    });
+    const asideMobileStyle = clsx({ 'translate-x-0': isMobileOpen });
 
     const closeMobileMenu = () => setIsMobileOpen(false);
 
