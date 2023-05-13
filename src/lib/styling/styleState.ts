@@ -1,4 +1,4 @@
-type State = 'disabled' | 'hover' | 'hover:enabled';
+type State = 'disabled' | 'hover' | 'hover:enabled' | 'after' | 'before';
 
 export function styleState(state: State, className: string) {
     return className
