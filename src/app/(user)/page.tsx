@@ -1,5 +1,5 @@
 import { getServerSession } from '@/lib/auth/session';
-import { getFirstName } from '@/lib/reports/name';
+import { getFirstName } from '@/lib/name/name';
 
 import PageTitle from '../components/page-title';
 import CommitmentsSection from './(commitments)/components/commitments-section';

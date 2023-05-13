@@ -2,8 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { MouseEvent, useState, useTransition } from 'react';
+import { IoAddOutline } from 'react-icons/io5';
 
 import DialogButton from '@/app/components/dialog-button';
+import { formatDate } from '@/lib/date/format';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
 
@@ -16,7 +18,7 @@ async function createCommitment(commitment: { title: string, doneBy: Date }) {
 }
 
 export default function AddCommitmentButton() {
-    const nullCommitment = { title: '', doneBy: '' };
+    const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
     const [commitment, setCommitment] = useState(nullCommitment);
     const router = useRouter();
     const [, startTransition] = useTransition();
@@ -31,11 +33,18 @@ export default function AddCommitmentButton() {
     }
 
     return (
-        <DialogButton title="Add commitment"
-            actionLabel="Add"
-            actionDisabled={!commitment.title || !commitment.doneBy}
+        <DialogButton onSubmit={onSubmit}
             onClose={() => setCommitment(nullCommitment)}
-            onSubmit={onSubmit}
+            dialog={{
+                title: 'Add commitment',
+                actionLabel: 'Add',
+                actionDisabled: !commitment.title || !commitment.doneBy
+            }}
+            openButton={
+                <button type="button" aria-label="Add commitment" className="rounded p-1 text-slate-400 transition hover:bg-slate-700 hover:text-slate-200">
+                    <IoAddOutline size={20} />
+                </button>
+            }
         >
             <div>
                 <div className="mb-4 flex items-center">

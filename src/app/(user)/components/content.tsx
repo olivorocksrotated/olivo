@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { BsPeopleFill } from 'react-icons/bs';
 
-import { getFirstName, getNameAcronym } from '@/lib/reports/name';
+import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
 export default function Content({ children }: { children: React.ReactNode }) {
     const { data: session } = useSession();

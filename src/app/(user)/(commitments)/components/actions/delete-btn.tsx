@@ -10,7 +10,7 @@ export default function DeleteButton({ onDelete = () => undefined }: Props) {
     return (
         <button type="button"
             onClick={onDelete}
-            className="text-slate-600"
+            className="text-slate-600 transition hover:text-slate-400"
             title="Delete commitment"
         >
             <AiOutlineDelete size={22} />
