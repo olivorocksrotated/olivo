@@ -7,6 +7,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { BsPeopleFill } from 'react-icons/bs';
+import { FaTasks } from 'react-icons/fa';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
@@ -74,7 +75,13 @@ export default function Content({ children }: { children: React.ReactNode }) {
                                 <span>Home</span>
                             </Link>
                         </li>
-                        <li className="">
+                        <li>
+                            <Link href="/commitments" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
+                                <FaTasks size={18} className="mr-3 text-gray-400" />
+                                <span>Commitments</span>
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/reports" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
                                 <BsPeopleFill size={18} className="mr-3 text-gray-400" />
                                 <span>Reports</span>
