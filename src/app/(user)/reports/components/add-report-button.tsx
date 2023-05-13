@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, startTransition, useState } from 'react';
 
+import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
@@ -51,11 +52,14 @@ export default function AddReportButton() {
     }
 
     return (
-        <DialogButton title="Add report"
-            actionLabel="Add"
-            actionDisabled={!email || processing}
-            onClose={reset}
+        <DialogButton onClose={reset}
             onSubmit={onSubmit}
+            dialog={{
+                title: 'Add report',
+                actionLabel: 'Add',
+                actionDisabled: !email || processing
+            }}
+            openButton={<Button>Add report</Button>}
         >
             <div className="relative">
                 <div className="">

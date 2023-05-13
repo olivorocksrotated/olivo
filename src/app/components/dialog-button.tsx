@@ -8,18 +8,20 @@ import Button from './button';
 
 type Properties = {
     children: React.ReactNode;
-    title: string;
-    actionLabel?: string;
-    actionDisabled?: boolean;
+    dialog: {
+        title: string;
+        actionLabel: string;
+        actionDisabled?: boolean;
+    };
+    openButton: React.ReactNode;
     onSubmit: (event: MouseEvent<HTMLButtonElement>) => void
     onClose?: () => void
 };
 
 export default function DialogButton({
     children,
-    title,
-    actionLabel = '',
-    actionDisabled = false,
+    dialog,
+    openButton,
     onSubmit = () => undefined,
     onClose = () => undefined
 }: Properties) {
@@ -44,7 +46,7 @@ export default function DialogButton({
     return (
         <Dialog.Root onOpenChange={handleOpenChanged}>
             <Dialog.Trigger asChild>
-                <div><Button onClick={() => setIsDialogOpen(true)} aria-label={title}>{title}</Button></div>
+                <div onClick={() => setIsDialogOpen(true)}>{openButton}</div>
             </Dialog.Trigger>
             <AnimatePresence>
                 {isDialogOpen ?
@@ -59,15 +61,15 @@ export default function DialogButton({
                                 onEscapeKeyDown={close}
                             >
                                 <div className="mb-6 flex justify-between">
-                                    <Dialog.Title className="font-normal">{title}</Dialog.Title>
+                                    <Dialog.Title className="font-normal">{dialog.title}</Dialog.Title>
                                     <Dialog.Close asChild onClick={close} aria-label="close">
                                         <div><Button><IoCloseOutline /></Button></div>
                                     </Dialog.Close>
                                 </div>
                                 <div>{children}</div>
                                 <div className="text-right">
-                                    <Button type="submit" disabled={actionDisabled} onClick={handleOnSubmit} glowing={true} aria-label={title}>
-                                        {actionLabel || title}
+                                    <Button type="submit" disabled={dialog.actionDisabled ?? false} onClick={handleOnSubmit} glowing={true} aria-label={dialog.title}>
+                                        {dialog.actionLabel}
                                     </Button>
                                 </div>
                             </Dialog.Content>
