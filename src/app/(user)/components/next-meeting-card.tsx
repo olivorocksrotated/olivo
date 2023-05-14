@@ -5,6 +5,18 @@ import { getNextMeetingByUser } from '@/lib/meetings/get';
 
 import StartButton from '../../components/start-btn';
 
+function GradientBorder({ children, className }: any) {
+    return (
+        <div className={`${className}`}>
+            <div className="w-full rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-blue-500 p-1">
+                <div className={`${className} bg-gray-800 p-5`}>
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function MeetingInfo({ meeting }: { meeting: any }) {
     const startTime = format(meeting.startDate, 'p');
     const endTime = format(meeting.endDate, 'p');
@@ -27,7 +39,7 @@ export default async function NextMeetingCard() {
     const meeting = await getNextMeetingByUser(user.id);
 
     return (
-        <div className="inline-flex gap-4 rounded-lg bg-indigo-700 p-3 shadow-sm shadow-indigo-300">
+        <GradientBorder className="inline-flex gap-4 rounded-lg shadow-sm">
             <div>
                 <div className="py-3 text-sm font-extralight text-slate-100">
                     Next feedback session
@@ -37,6 +49,6 @@ export default async function NextMeetingCard() {
             <div className="flex items-center justify-center p-10">
                 <StartButton></StartButton>
             </div>
-        </div>
+        </GradientBorder>
     );
 }
