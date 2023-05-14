@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
@@ -10,6 +11,44 @@ import { BsPeopleFill } from 'react-icons/bs';
 import { FaTasks } from 'react-icons/fa';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
+
+function UserMenu({ children, isOpen, id }: { children: React.ReactNode; isOpen: boolean; id: string }) {
+    return (
+        <AnimatePresence mode="wait">
+            {isOpen ? (
+                <motion.div initial={{
+                    height: 0,
+                    opacity: 0
+                }}
+                animate={{
+                    height: 'auto',
+                    opacity: 1,
+                    transition: {
+                        height: { duration: 0.4 },
+                        opacity: {
+                            duration: 0.25,
+                            delay: 0.15
+                        }
+                    }
+                }}
+                exit={{
+                    height: 0,
+                    opacity: 0,
+                    transition: {
+                        height: { duration: 0.4 },
+                        opacity: { duration: 0.25 }
+                    }
+                }}
+                key="dropdown-user"
+                className="divide-y divide-gray-600 rounded bg-gray-700 text-base shadow"
+                id={id}
+                >
+                    {children}
+                </motion.div>
+            ) : null}
+        </AnimatePresence>
+    );
+}
 
 export default function Content({ children }: { children: React.ReactNode }) {
     const { data: session } = useSession();
@@ -48,7 +87,7 @@ export default function Content({ children }: { children: React.ReactNode }) {
                                 <div>
                                     <button type="button"
                                         onClick={() => setIsUserMenuOpen((previous) => !previous)}
-                                        className="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-600"
+                                        className="mb-4 flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-600"
                                         aria-expanded="false"
                                         data-dropdown-toggle="dropdown-user"
                                     >
@@ -61,13 +100,13 @@ export default function Content({ children }: { children: React.ReactNode }) {
                                     <p className="truncate text-xs font-light text-gray-300" role="none">{session?.user.email}</p>
                                 </div>
                             </div>
-                            <div className={`z-50 my-4 ${isUserMenuOpen ? '' : 'hidden'} list-none divide-y divide-gray-600 rounded bg-gray-700 text-base shadow`} id="dropdown-user">
-                                <ul className="py-1" role="none">
+                            <UserMenu id="dropdown-user" isOpen={isUserMenuOpen}>
+                                <ul className="list-none py-1" role="none">
                                     <li>
                                         <Link href="#" onClick={() => signOut()} className="block px-4 py-2 text-sm font-light text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Logout</Link>
                                     </li>
                                 </ul>
-                            </div>
+                            </UserMenu>
                         </li>
                         <li className="mt-4 space-y-2 border-t border-gray-700 pt-4">
                             <Link href="/" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
