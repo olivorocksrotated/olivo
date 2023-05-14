@@ -66,12 +66,14 @@ export default function DialogButton({
                                         <div><Button><IoCloseOutline /></Button></div>
                                     </Dialog.Close>
                                 </div>
-                                <div>{children}</div>
-                                <div className="text-right">
-                                    <Button type="submit" disabled={dialog.actionDisabled ?? false} onClick={handleOnSubmit} glowing={true} aria-label={dialog.title}>
-                                        {dialog.actionLabel}
-                                    </Button>
-                                </div>
+                                <form>
+                                    <div>{children}</div>
+                                    <div className="text-right">
+                                        <Button type="submit" disabled={dialog.actionDisabled ?? false} onClick={handleOnSubmit} glowing={true} aria-label={dialog.title}>
+                                            {dialog.actionLabel}
+                                        </Button>
+                                    </div>
+                                </form>
                             </Dialog.Content>
                         </motion.div>
                     </Dialog.Portal> :
