@@ -8,6 +8,12 @@ vi.mock('next-auth', async () => ({
     getServerSession: vi.fn((): null | {} => null)
 }));
 
+vi.mock('next/headers', async () => ({
+    ...await vi.importActual('next/headers') as any,
+    cookies: vi.fn().mockReturnValue({ getAll: () => [] }),
+    headers: vi.fn().mockReturnValue([])
+}));
+
 describe('lib auth', () => {
     describe('session', () => {
         const nextAuthGetServerSessionMock = nextAuthGetServerSession as Mock;
