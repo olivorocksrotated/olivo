@@ -40,10 +40,14 @@ export default function MoodSelector({ latestMood }: Props) {
         };
     }), [latestMood]);
 
-    const { mutate: createMood } = useZact(createMoodAction);
-    const { mutate: updateMood } = useZact(updateMoodAction);
+    const { mutate: createMood, isLoading: isCreatingMood } = useZact(createMoodAction);
+    const { mutate: updateMood, isLoading: isUpdatingMood } = useZact(updateMoodAction);
 
     const handleMoodClick = async (mood: MoodOption) => {
+        if (isCreatingMood) {
+            return;
+        }
+
         setMoodChoice((previous) => ({ ...previous, option: mood }));
         const action = !latestMood?.id ?
             createMood({ status: mood.name }) :
@@ -98,7 +102,7 @@ export default function MoodSelector({ latestMood }: Props) {
                     </div>
                     <div>
                         <button type="submit"
-                            disabled={!moodChoice.comment || !latestMood?.id}
+                            disabled={!moodChoice.comment || !latestMood?.id || isUpdatingMood}
                             onClick={handleSaveComment}
                             className="rounded border border-slate-400 px-3 py-2 hover:enabled:border-slate-300 disabled:opacity-50"
                         >
