@@ -1,6 +1,7 @@
 'use server';
 
 import { MoodStatus } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 import { z } from 'zod';
 
@@ -22,6 +23,8 @@ export const updateMoodAction = zact(z.object({
             },
             data: update
         });
+
+        revalidatePath('/');
 
         return updatedMood.id;
     }
