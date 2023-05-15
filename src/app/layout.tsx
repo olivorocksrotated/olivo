@@ -1,8 +1,7 @@
 import './globals.css';
 
-import { Inter } from 'next/font/google';
-
 import { AnalyticsWrapper } from './components/analytics';
+import Fonts from './fonts';
 
 export const metadata = {
     title: 'Olivo',
@@ -12,13 +11,11 @@ export const metadata = {
     }
 };
 
-const inter = Inter({ subsets: ['latin'] });
-
 export default function RootLayout({ children }: { children: React.ReactNode; }) {
     return (
         <html lang="en">
-            <head></head>
-            <body className={inter.className}>
+            <Fonts />
+            <body>
                 {children}
                 <AnalyticsWrapper />
             </body>
