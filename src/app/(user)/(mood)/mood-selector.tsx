@@ -54,7 +54,7 @@ export default function MoodSelector() {
                         className={`${moodStyle} ${clsx({ 'bg-slate-500 hover:bg-slate-500': mood.name === currentMoodChoice.name })}`}
                     >
                         <div className="text-2xl">{mood.icon}</div>
-                        <div className="">{mood.name}</div>
+                        <div className="hidden sm:block">{mood.name}</div>
                     </div>
                 ))}
             </div>
