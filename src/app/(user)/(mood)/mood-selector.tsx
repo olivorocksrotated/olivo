@@ -56,7 +56,7 @@ export default function MoodSelector({ latestMood }: Props) {
         await updateMood({ id: latestMood!.id, comment: moodChoice.comment });
     };
 
-    const parentContainerHeight = { initial: !latestMood?.id ? '150px' : '250px', expanded: '250px' };
+    const parentContainerHeight = { initial: !moodChoice.option?.name ? '150px' : '250px', expanded: '250px' };
 
     return (
         <motion.div className="rounded border border-indigo-700 bg-gray-800 p-4 sm:w-fit"
@@ -79,32 +79,34 @@ export default function MoodSelector({ latestMood }: Props) {
                     </div>
                 ))}
             </div>
-            {moodChoice.option?.name ?
-                <div className="border-t border-gray-700 pt-3">
-                    <div className="mb-2">Would you like to share a bit more?</div>
-                    <form>
-                        <div className="flex gap-2">
-                            <div className="w-full">
-                                <input type="text"
-                                    autoFocus
-                                    value={moodChoice.comment}
-                                    onChange={(event) => setMoodChoice((previous) => ({ ...previous, comment: event.target.value }))}
-                                    placeholder={`What is making you feel ${moodChoice.option.name.toLowerCase()}?`}
-                                    className="w-full p-2"
-                                />
-                            </div>
-                            <div>
-                                <button type="submit"
-                                    disabled={!moodChoice.comment || !latestMood?.id}
-                                    onClick={handleSaveComment}
-                                    className="rounded border border-slate-400 px-3 py-2 hover:enabled:border-slate-300 disabled:opacity-50"
-                                >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div> : null}
+            <div className={clsx({
+                'border-t border-gray-700 pt-3': true,
+                hidden: !moodChoice.option?.name,
+                block: moodChoice.option?.name
+            })}
+            >
+                <div className="mb-2">Would you like to share a bit more?</div>
+                <div className="flex gap-2">
+                    <div className="w-full">
+                        <input type="text"
+                            autoFocus
+                            value={moodChoice.comment}
+                            onChange={(event) => setMoodChoice((previous) => ({ ...previous, comment: event.target.value }))}
+                            placeholder={`What is making you feel ${moodChoice.option.name.toLowerCase()}?`}
+                            className="w-full p-2"
+                        />
+                    </div>
+                    <div>
+                        <button type="submit"
+                            disabled={!moodChoice.comment || !latestMood?.id}
+                            onClick={handleSaveComment}
+                            className="rounded border border-slate-400 px-3 py-2 hover:enabled:border-slate-300 disabled:opacity-50"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
         </motion.div>
     );
 }
