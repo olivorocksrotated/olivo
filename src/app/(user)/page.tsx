@@ -4,9 +4,9 @@ import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
 
 import PageTitle from '../components/page-title';
-import MoodSelector from './(mood)/mood-selector';
 import CommitmentsSection from './commitments/components/commitments-section';
 import NextMeetingCard from './components/next-meeting-card';
+import MoodSelector from './moods/mood-selector';
 
 export default async function Home() {
     const { user } = await getServerSession();
