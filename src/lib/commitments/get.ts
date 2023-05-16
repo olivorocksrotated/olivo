@@ -1,6 +1,6 @@
 import { CommitmentStatus } from '@prisma/client';
 
-import { tomorrowAtZeroHourUTC, yesterdayAtZeroHourUTC } from '../date/days';
+import { todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
 interface Filter {
@@ -9,7 +9,7 @@ interface Filter {
 
 export async function getCommitmentsByUser(userId: string, filters: Partial<Filter> = {}) {
     const filtersBuilder = {
-        ...filters.today ? { doneBy: { gt: yesterdayAtZeroHourUTC(), lt: tomorrowAtZeroHourUTC() } } : {}
+        ...filters.today ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {}
     };
 
     const commitments = await prisma.commitment.findMany({
