@@ -1,4 +1,4 @@
-import { lastWeekFromTodayAtZeroHourUTC } from '../date/days';
+import { lastWeekFromTodayAtZeroHourUTC, todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
 interface Filter {
@@ -27,19 +27,17 @@ export function getMoods(userId: string, filters: Filter) {
     });
 }
 
-export function getLatestMood(userId: string) {
+export function getTodaysMood(userId: string) {
     return prisma.mood.findFirst({
         where: {
-            ownerId: userId
+            ownerId: userId,
+            createdAt: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() }
         },
         select: {
             id: true,
             status: true,
             comment: true,
             createdAt: true
-        },
-        orderBy: {
-            createdAt: 'desc'
         }
     });
 }

@@ -2,7 +2,6 @@
 
 import { Mood, MoodStatus } from '@prisma/client';
 import clsx from 'clsx';
-import { isToday } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
@@ -11,7 +10,7 @@ import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
 interface Props {
-    latestMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
+    todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
 }
 
 interface MoodOption {
@@ -29,16 +28,16 @@ const moodOptions: MoodOption[] = [
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
 
-export default function MoodSelector({ latestMood }: Props) {
+export default function MoodSelector({ todaysMood }: Props) {
     const [moodChoice, setMoodChoice] = useState(nullState);
     useEffect(() => setMoodChoice(() => {
-        const isMoodCheckAlreadyDoneToday = !!latestMood && isToday(latestMood.createdAt);
+        const isMoodCheckAlreadyDoneToday = !!todaysMood;
 
         return !isMoodCheckAlreadyDoneToday ? nullState : {
-            option: moodOptions.find(({ name }) => name === latestMood!.status) ?? nullMoodOption,
-            comment: latestMood.comment ?? ''
+            option: moodOptions.find(({ name }) => name === todaysMood!.status) ?? nullMoodOption,
+            comment: todaysMood.comment ?? ''
         };
-    }), [latestMood]);
+    }), [todaysMood]);
 
     const { mutate: createMood, isLoading: isCreatingMood } = useZact(createMoodAction);
     const { mutate: updateMood, isLoading: isUpdatingMood } = useZact(updateMoodAction);
@@ -49,15 +48,15 @@ export default function MoodSelector({ latestMood }: Props) {
         }
 
         setMoodChoice((previous) => ({ ...previous, option: mood }));
-        const action = !latestMood?.id ?
+        const action = !todaysMood?.id ?
             createMood({ status: mood.name }) :
-            updateMood({ id: latestMood!.id, status: mood.name });
+            updateMood({ id: todaysMood!.id, status: mood.name });
 
         await action;
     };
 
     const handleSaveComment = async () => {
-        await updateMood({ id: latestMood!.id, comment: moodChoice.comment });
+        await updateMood({ id: todaysMood!.id, comment: moodChoice.comment });
     };
 
     const parentContainerHeight = { initial: !moodChoice.option?.name ? '150px' : '250px', expanded: '250px' };
@@ -102,7 +101,7 @@ export default function MoodSelector({ latestMood }: Props) {
                     </div>
                     <div>
                         <button type="submit"
-                            disabled={!moodChoice.comment || !latestMood?.id || isUpdatingMood}
+                            disabled={!moodChoice.comment || !todaysMood?.id || isUpdatingMood}
                             onClick={handleSaveComment}
                             className="rounded border border-slate-400 px-3 py-2 hover:enabled:border-slate-300 disabled:opacity-50"
                         >
