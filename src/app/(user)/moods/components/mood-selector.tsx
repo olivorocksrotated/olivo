@@ -9,7 +9,7 @@ import { useZact } from 'zact/client';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
-import { MoodOption, moodOptions } from '../constants';
+import { MoodOption, moodOptions as moodMap } from '../constants';
 
 interface Props {
     todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
@@ -18,13 +18,15 @@ interface Props {
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
 
+const moodOptions = Object.values(moodMap);
+
 export default function MoodSelector({ todaysMood }: Props) {
     const [moodChoice, setMoodChoice] = useState(nullState);
     useEffect(() => setMoodChoice(() => {
         const isMoodCheckAlreadyDoneToday = !!todaysMood;
 
         return !isMoodCheckAlreadyDoneToday ? nullState : {
-            option: moodOptions.find(({ name }) => name === todaysMood!.status) ?? nullMoodOption,
+            option: moodMap[todaysMood!.status] ?? nullMoodOption,
             comment: todaysMood.comment ?? ''
         };
     }), [todaysMood]);

@@ -5,10 +5,10 @@ export interface MoodOption {
     name: MoodStatus;
 }
 
-export const moodOptions: MoodOption[] = [
-    { icon: '💩', name: MoodStatus.Bad },
-    { icon: '😓', name: MoodStatus.Okayish },
-    { icon: '🆗', name: MoodStatus.Average },
-    { icon: '🙂', name: MoodStatus.Good },
-    { icon: '💚', name: MoodStatus.Excellent }
-];
+export const moodOptions: { [name in MoodStatus]: MoodOption } = {
+    [MoodStatus.Bad]: { icon: '💩', name: MoodStatus.Bad },
+    [MoodStatus.Okayish]: { icon: '😓', name: MoodStatus.Okayish },
+    [MoodStatus.Average]: { icon: '🆗', name: MoodStatus.Average },
+    [MoodStatus.Good]: { icon: '🙂', name: MoodStatus.Good },
+    [MoodStatus.Excellent]: { icon: '💚', name: MoodStatus.Excellent }
+};
