@@ -17,7 +17,7 @@ export default function MoodsList({ moods }: Props) {
             <ul role="list" className="divide-y divide-gray-700">
                 {moods.map((mood) => (
                     <li key={mood.id} className="py-3 sm:py-4">
-                        <div className="text-lg font-normal">
+                        <div className="text-lg">
                             {moodOptions[mood.status].icon} {formatRelativeDate(mood.createdAt, now)} you were feeling <strong>{mood.status.toLowerCase()}</strong>
                         </div>
                         {mood.comment ? (

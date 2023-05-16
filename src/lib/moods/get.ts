@@ -5,9 +5,13 @@ interface Filter {
     from: 'last week';
 }
 
-export function getMoods(userId: string, filters: Filter) {
+export function getMoods({ userId, filters, order = 'desc' }: {
+    userId: string,
+    filters?: Filter,
+    order?: 'asc' | 'desc'
+}) {
     const filtersBuilder = {
-        ...filters.from === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {}
+        ...filters?.from === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {}
     };
 
     return prisma.mood.findMany({
@@ -22,7 +26,7 @@ export function getMoods(userId: string, filters: Filter) {
             createdAt: true
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: order
         }
     });
 }
