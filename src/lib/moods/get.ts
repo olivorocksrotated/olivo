@@ -7,7 +7,7 @@ interface Filter {
 
 export function getMoods(userId: string, filters: Filter) {
     const filtersBuilder = {
-        ...filters.from === 'last week' ? { createdAt: lastWeekFromTodayAtZeroHourUTC() } : {}
+        ...filters.from === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {}
     };
 
     return prisma.mood.findMany({
