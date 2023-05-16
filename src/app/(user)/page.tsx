@@ -6,7 +6,7 @@ import { getFirstName } from '@/lib/name/name';
 import PageTitle from '../components/page-title';
 import CommitmentsSection from './commitments/components/commitments-section';
 import NextMeetingCard from './components/next-meeting-card';
-import MoodSelector from './moods/mood-selector';
+import MoodSelector from './moods/components/mood-selector';
 
 export default async function Home() {
     const { user } = await getServerSession();
