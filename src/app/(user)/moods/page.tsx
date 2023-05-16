@@ -2,6 +2,8 @@ import PageTitle from '@/app/components/page-title';
 import { getServerSession } from '@/lib/auth/session';
 import { getMoods } from '@/lib/moods/get';
 
+import MoodsList from './components/moods-list';
+
 export default async function Moods() {
     const { user } = await getServerSession();
     const moods = await getMoods(user.id, { from: 'last week' });
@@ -14,7 +16,10 @@ export default async function Moods() {
     return (
         <main>
             <PageTitle text="Your mood" />
-            {!hasMoods ? noMoods : <div>Hello</div>}
+            {!hasMoods ? noMoods :
+            <div>
+                <MoodsList moods={moods} />
+            </div>}
         </main>
     );
 }
