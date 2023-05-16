@@ -9,22 +9,12 @@ import { useZact } from 'zact/client';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
+import { MoodOption, moodOptions } from '../constants';
+
 interface Props {
     todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
 }
 
-interface MoodOption {
-    icon: string;
-    name: MoodStatus;
-}
-
-const moodOptions: MoodOption[] = [
-    { icon: '💩', name: MoodStatus.Bad },
-    { icon: '😓', name: MoodStatus.Okayish },
-    { icon: '🆗', name: MoodStatus.Average },
-    { icon: '🙂', name: MoodStatus.Good },
-    { icon: '💚', name: MoodStatus.Excellent }
-];
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
 
