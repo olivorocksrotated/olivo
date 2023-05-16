@@ -4,6 +4,10 @@ export function todayAtZeroHourUTC() {
     return new Date(new Date().setUTCHours(0, 0, 0, 0));
 }
 
+export function todayAtMidnightUTC() {
+    return new Date(new Date().setUTCHours(24, 0, 0, 0));
+}
+
 export function yesterdayAtZeroHourUTC() {
     return sub(todayAtZeroHourUTC(), { days: 1 });
 }
