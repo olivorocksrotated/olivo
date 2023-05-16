@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaTasks } from 'react-icons/fa';
+import { TbMoodCheck } from 'react-icons/tb';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
@@ -124,6 +125,12 @@ export default function Content({ children }: { children: React.ReactNode }) {
                             <Link href="/reports" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
                                 <BsPeopleFill size={18} className="mr-3 text-gray-400" />
                                 <span>Reports</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/moods" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
+                                <TbMoodCheck size={18} className="mr-3 text-gray-400" />
+                                <span>Your mood</span>
                             </Link>
                         </li>
                     </ul>

@@ -21,7 +21,7 @@ export const createMoodAction = zact(z.object({
             }
         });
 
-        revalidatePath('/');
+        revalidatePath('/moods');
 
         return createdMood.id;
     }
