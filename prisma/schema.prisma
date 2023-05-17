@@ -73,7 +73,7 @@ model Commitment {
 model Mood {
   id        String     @id @default(cuid())
   status    MoodStatus
-  comment   String?
+  comment   String?    @db.Text
   createdAt DateTime   @default(now())
   owner     User       @relation(fields: [ownerId], references: [id])
   ownerId   String
