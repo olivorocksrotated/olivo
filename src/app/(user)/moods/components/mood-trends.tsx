@@ -54,6 +54,11 @@ export default function MoodTrend({ moods }: Props) {
                 plugins: {
                     legend: {
                         position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (item) => moodIndex[item.raw as number]
+                        }
                     }
                 },
                 scales: {
