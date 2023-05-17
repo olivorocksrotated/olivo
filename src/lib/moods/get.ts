@@ -2,7 +2,7 @@ import { lastWeekFromTodayAtZeroHourUTC, monthsFirstDayAtZeroHourUTC, monthsLast
 import prisma from '../prisma';
 
 interface Filter {
-    from: 'last week' | 'last month' | 'current month';
+    created: 'last week' | 'last month' | 'this month';
 }
 
 const defaultSelect = {
@@ -18,9 +18,9 @@ export function getMoods({ userId, filters, order = 'desc' }: {
     order?: 'asc' | 'desc'
 }) {
     const filtersBuilder = {
-        ...filters?.from === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {},
-        ...filters?.from === 'last month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(1), lt: monthsFirstDayAtZeroHourUTC() } } : {},
-        ...filters?.from === 'current month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(), lte: monthsLastDayAtMidnightUTC() } } : {}
+        ...filters?.created === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {},
+        ...filters?.created === 'last month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(1), lt: monthsFirstDayAtZeroHourUTC() } } : {},
+        ...filters?.created === 'this month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(), lte: monthsLastDayAtMidnightUTC() } } : {}
     };
 
     return prisma.mood.findMany({
