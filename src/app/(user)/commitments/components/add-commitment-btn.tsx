@@ -1,34 +1,24 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { MouseEvent, useState, useTransition } from 'react';
+import { MouseEvent, useState } from 'react';
 import { IoAddOutline } from 'react-icons/io5';
+import { useZact } from 'zact/client';
 
 import DialogButton from '@/app/components/dialog-button';
+import { createCommitmentAction } from '@/lib/commitments/create';
 import { formatDate } from '@/lib/date/format';
-import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
-import { HttpMethod } from '@/lib/http/route';
-
-async function createCommitment(commitment: { title: string, doneBy: Date }) {
-    await fetchFromApi({
-        method: HttpMethod.POST,
-        path: ResourcePath.Commitments,
-        body: commitment
-    });
-}
 
 export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
     const [commitment, setCommitment] = useState(nullCommitment);
-    const router = useRouter();
-    const [, startTransition] = useTransition();
+
+    const { mutate: createCommitment } = useZact(createCommitmentAction);
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (commitment.title && commitment.doneBy) {
-            await createCommitment({ ...commitment, doneBy: new Date(commitment.doneBy) });
+            await createCommitment({ ...commitment, doneBy: new Date(commitment.doneBy).toISOString() });
             setCommitment(nullCommitment);
-            startTransition(() => router.refresh());
         }
     }
 
