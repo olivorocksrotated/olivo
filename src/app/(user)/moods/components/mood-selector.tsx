@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
+import { useDebounce } from '@/lib/hooks/useDebounce';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
@@ -20,8 +21,10 @@ const nullState = { option: nullMoodOption, comment: '' };
 const moodOptions = Object.values(moodMap);
 
 export default function MoodSelector({ todaysMood }: Props) {
-    const [moodChoice, setMoodChoice] = useState(nullState);
-    useEffect(() => setMoodChoice(() => {
+    const [selectedMood, setSelectedMood] = useState(nullState);
+    const debouncedSelectedMood = useDebounce(selectedMood, 1000);
+
+    useEffect(() => setSelectedMood(() => {
         const isMoodCheckAlreadyDoneToday = !!todaysMood;
 
         return !isMoodCheckAlreadyDoneToday ? nullState : {
@@ -31,14 +34,14 @@ export default function MoodSelector({ todaysMood }: Props) {
     }), [todaysMood]);
 
     const { mutate: createMood, isLoading: isCreatingMood } = useZact(createMoodAction);
-    const { mutate: updateMood, isLoading: isUpdatingMood } = useZact(updateMoodAction);
+    const { mutate: updateMood } = useZact(updateMoodAction);
 
     const handleMoodClick = async (mood: MoodOption) => {
         if (isCreatingMood) {
             return;
         }
 
-        setMoodChoice((previous) => ({ ...previous, option: mood }));
+        setSelectedMood((previous) => ({ ...previous, option: mood }));
         const action = !todaysMood?.id ?
             createMood({ status: mood.name }) :
             updateMood({ id: todaysMood!.id, status: mood.name });
@@ -46,16 +49,23 @@ export default function MoodSelector({ todaysMood }: Props) {
         await action;
     };
 
-    const handleSaveComment = async () => {
-        await updateMood({ id: todaysMood!.id, comment: moodChoice.comment });
-    };
+    useEffect(() => {
+        async function updateComment() {
+            if (!todaysMood || !debouncedSelectedMood.comment || todaysMood?.comment === debouncedSelectedMood.comment) {
+                return;
+            }
+            await updateMood({ id: todaysMood!.id, comment: debouncedSelectedMood.comment });
+        }
+        updateComment();
+    }, [debouncedSelectedMood, todaysMood, updateMood]);
 
-    const parentContainerHeight = { initial: !moodChoice.option?.name ? '150px' : '250px', expanded: '250px' };
+    const expandedHeight = '290px';
+    const parentContainerHeight = { initial: !selectedMood.option?.name ? '150px' : expandedHeight, expanded: expandedHeight };
 
     return (
         <motion.div className="rounded border border-indigo-700 bg-gray-800 p-4 sm:w-fit"
             initial={{ height: parentContainerHeight.initial }}
-            animate={{ height: moodChoice.option?.name ? parentContainerHeight.expanded : parentContainerHeight.initial }}
+            animate={{ height: selectedMood.option?.name ? parentContainerHeight.expanded : parentContainerHeight.initial }}
         >
             <div className="mb-4 text-lg text-white">How are you feeling today?</div>
             <div className="mb-4 flex gap-2">
@@ -64,8 +74,8 @@ export default function MoodSelector({ todaysMood }: Props) {
                         onClick={() => handleMoodClick(mood)}
                         className={clsx({
                             'flex w-20 cursor-pointer flex-col items-center rounded p-2 transition': true,
-                            'bg-slate-700 hover:bg-slate-600': mood.name !== moodChoice.option?.name,
-                            'bg-slate-500 hover:bg-slate-500': mood.name === moodChoice.option?.name
+                            'bg-slate-700 hover:bg-slate-600': mood.name !== selectedMood.option?.name,
+                            'bg-slate-500 hover:bg-slate-500': mood.name === selectedMood.option?.name
                         })}
                     >
                         <div className="text-2xl">{mood.icon}</div>
@@ -75,30 +85,18 @@ export default function MoodSelector({ todaysMood }: Props) {
             </div>
             <div className={clsx({
                 'border-t border-gray-700 pt-3': true,
-                hidden: !moodChoice.option?.name,
-                block: moodChoice.option?.name
+                hidden: !selectedMood.option?.name,
+                block: selectedMood.option?.name
             })}
             >
                 <div className="mb-2">Would you like to share a bit more?</div>
-                <div className="flex gap-2">
-                    <div className="w-full">
-                        <input type="text"
-                            autoFocus
-                            value={moodChoice.comment}
-                            onChange={(event) => setMoodChoice((previous) => ({ ...previous, comment: event.target.value }))}
-                            placeholder={`What is making you feel ${moodChoice.option.name.toLowerCase()}?`}
-                            className="w-full p-2"
-                        />
-                    </div>
-                    <div>
-                        <button type="submit"
-                            disabled={!moodChoice.comment || !todaysMood?.id || isUpdatingMood}
-                            onClick={handleSaveComment}
-                            className="rounded border border-slate-400 px-3 py-2 hover:enabled:border-slate-300 disabled:opacity-50"
-                        >
-                            Save
-                        </button>
-                    </div>
+                <div className="mb-2 w-full">
+                    <textarea autoFocus
+                        value={selectedMood.comment}
+                        onChange={(event) => setSelectedMood((previous) => ({ ...previous, comment: event.target.value }))}
+                        placeholder={`What is making you feel ${selectedMood.option.name.toLowerCase()}?`}
+                        className="h-20 max-h-20 w-full resize-none rounded p-2"
+                    />
                 </div>
             </div>
         </motion.div>
