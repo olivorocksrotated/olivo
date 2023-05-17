@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { isSameDay, sub } from 'date-fns';
 import { Line } from 'react-chartjs-2';
+import * as colors from 'tailwindcss/colors';
 
 import { formatRelativeDate } from '@/lib/date/format';
 
@@ -62,7 +63,7 @@ export default function MoodTrend({ moods }: Props) {
                             callback: (value) => moodIndex[value as number]
                         },
                         grid: {
-                            color: (context) => (context.tick.value === 2 ? 'green' : 'transparent')
+                            color: (context) => (context.tick.value === moodValues[MoodStatus.Average] ? colors.slate[500] : 'transparent')
                         }
                     }
                 }
@@ -73,8 +74,8 @@ export default function MoodTrend({ moods }: Props) {
                     {
                         label: 'Your mood',
                         data: values,
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: colors.indigo[500],
+                        backgroundColor: colors.indigo[300],
                         pointStyle: 'circle',
                         pointRadius: 5,
                         pointHoverRadius: 10
