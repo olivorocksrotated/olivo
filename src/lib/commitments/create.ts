@@ -7,17 +7,6 @@ import { z } from 'zod';
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
 
-export async function createCommitment(userId: string, commitment: { title: string, doneBy: string }) {
-    const createdCommitment = await prisma.commitment.create({
-        data: {
-            ownerId: userId,
-            ...commitment
-        }
-    });
-
-    return createdCommitment.id;
-}
-
 export const createCommitmentAction = zact(z.object({
     title: z.string(),
     doneBy: z.string().datetime()
