@@ -26,9 +26,9 @@ export default async function Moods() {
         <main>
             <PageTitle text="Your mood" />
             {!hasMoods ? noMoods :
-            <div className="flex gap-12 align-top">
+            <div className="flex flex-col-reverse gap-12 sm:flex-row sm:align-top">
                 <div><MoodsList moods={moodsForList} /></div>
-                <div className="grow"><MoodTrend moods={moodsForTrend} /></div>
+                <div className="max-w-3xl grow"><MoodTrend moods={moodsForTrend} /></div>
             </div>}
         </main>
     );

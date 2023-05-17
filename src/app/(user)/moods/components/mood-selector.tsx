@@ -17,7 +17,6 @@ interface Props {
 
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
-
 const moodOptions = Object.values(moodMap);
 
 export default function MoodSelector({ todaysMood }: Props) {

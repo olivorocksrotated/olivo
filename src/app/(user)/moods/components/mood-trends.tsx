@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { isSameDay, sub } from 'date-fns';
 import { Line } from 'react-chartjs-2';
+import * as colors from 'tailwindcss/colors';
 
 import { formatRelativeDate } from '@/lib/date/format';
 
@@ -34,8 +35,10 @@ interface Props {
 
 export default function MoodTrend({ moods }: Props) {
     const today = new Date();
-    const lastWeek = [...Array.from([6, 5, 4, 3, 2, 1]).map((n) => sub(today, { days: n })), today];
-    const values = lastWeek.map((day) => {
+    const daysToDisplay = 7;
+    const days = new Array(daysToDisplay).fill(0).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
+
+    const values = days.map((day) => {
         const mood = moods.find((m) => isSameDay(day, m.createdAt));
 
         return moodValues[mood?.status as MoodStatus];
@@ -50,6 +53,11 @@ export default function MoodTrend({ moods }: Props) {
                 plugins: {
                     legend: {
                         position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (item) => moodIndex[item.raw as number]
+                        }
                     }
                 },
                 scales: {
@@ -59,19 +67,19 @@ export default function MoodTrend({ moods }: Props) {
                             callback: (value) => moodIndex[value as number]
                         },
                         grid: {
-                            color: (context) => (context.tick.value === 2 ? 'green' : 'transparent')
+                            color: (context) => (context.tick.value === moodValues[MoodStatus.Average] ? colors.slate[500] : 'transparent')
                         }
                     }
                 }
             }} data={{
-                labels: lastWeek.map((day) => formatRelativeDate(day, today)),
+                labels: days.map((day) => formatRelativeDate(day, today)),
                 yLabels: [MoodStatus.Bad, MoodStatus.Okayish, MoodStatus.Average, MoodStatus.Good, MoodStatus.Excellent],
                 datasets: [
                     {
                         label: 'Your mood',
                         data: values,
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: colors.indigo[500],
+                        backgroundColor: colors.indigo[300],
                         pointStyle: 'circle',
                         pointRadius: 5,
                         pointHoverRadius: 10

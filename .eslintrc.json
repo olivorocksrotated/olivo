@@ -96,7 +96,7 @@
     "linebreak-style": ["error", "unix"],
     "lines-between-class-members": ["error", "always"],
     "max-statements-per-line": ["error", { "max": 1 }],
-    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 3 }],
     "no-extra-parens": ["error", "all", { "ignoreJSX": "all", "enforceForArrowConditionals": false }],
     "no-mixed-spaces-and-tabs": "error",
     "no-multi-spaces": "error",

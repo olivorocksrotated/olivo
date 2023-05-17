@@ -25,10 +25,10 @@ function UserMenu({ children, isOpen, id }: { children: React.ReactNode; isOpen:
                     height: 'auto',
                     opacity: 1,
                     transition: {
-                        height: { duration: 0.4 },
+                        height: { duration: 0.2 },
                         opacity: {
                             duration: 0.25,
-                            delay: 0.15
+                            delay: 0.05
                         }
                     }
                 }}
@@ -36,7 +36,7 @@ function UserMenu({ children, isOpen, id }: { children: React.ReactNode; isOpen:
                     height: 0,
                     opacity: 0,
                     transition: {
-                        height: { duration: 0.4 },
+                        height: { duration: 0.2 },
                         opacity: { duration: 0.25 }
                     }
                 }}

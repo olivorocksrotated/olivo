@@ -1,12 +1,11 @@
 'use client';
 
 import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { KeyboardEvent, useState } from 'react';
+import { useZact } from 'zact/client';
 
+import { updateCommitmentAction } from '@/lib/commitments/update';
 import { formatDate, formatRelativeDate } from '@/lib/date/format';
-import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
-import { HttpMethod } from '@/lib/http/route';
 
 import DeleteButton from './actions/delete-btn';
 import StatusPopover from './actions/status-popover';
@@ -20,10 +19,11 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const [commitment, setCommitment] = useState(originalCommitment);
     const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
     const [editDoneBy, setEditDoneBy] = useState({ value: formatDate(commitment.doneBy), isEditing: false });
-    const router = useRouter();
     const now = new Date();
 
     const editStyle = 'hover:cursor-pointer hover:underline hover:decoration-dotted';
+
+    const { mutate: update } = useZact(updateCommitmentAction);
 
     const updateCommitment = async ({ status, title, doneBy }: {
         status?: CommitmentStatus;
@@ -37,18 +37,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
             doneBy: doneBy ?? previous.doneBy
         }));
 
-        await fetchFromApi({
-            method: HttpMethod.PUT,
-            path: ResourcePath.Commitments,
-            attachToPath: `/${commitment.id}`,
-            body: {
-                ...status ? { status } : {},
-                ...title ? { title } : {},
-                ...doneBy ? { doneBy } : {}
-            }
-        });
-
-        router.refresh();
+        await update({ id: commitment.id, status, title, doneBy });
     };
 
     const handleStatusChange = async (status: CommitmentStatus) => {
