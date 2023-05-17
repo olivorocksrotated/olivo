@@ -1,13 +1,17 @@
-import { lastWeekFromTodayAtZeroHourUTC } from '../date/days';
+import { lastWeekFromTodayAtZeroHourUTC, todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
 interface Filter {
     from: 'last week';
 }
 
-export function getMoods(userId: string, filters: Filter) {
+export function getMoods({ userId, filters, order = 'desc' }: {
+    userId: string,
+    filters?: Filter,
+    order?: 'asc' | 'desc'
+}) {
     const filtersBuilder = {
-        ...filters.from === 'last week' ? { createdAt: lastWeekFromTodayAtZeroHourUTC() } : {}
+        ...filters?.from === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {}
     };
 
     return prisma.mood.findMany({
@@ -22,24 +26,22 @@ export function getMoods(userId: string, filters: Filter) {
             createdAt: true
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: order
         }
     });
 }
 
-export function getLatestMood(userId: string) {
+export function getTodaysMood(userId: string) {
     return prisma.mood.findFirst({
         where: {
-            ownerId: userId
+            ownerId: userId,
+            createdAt: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() }
         },
         select: {
             id: true,
             status: true,
             comment: true,
             createdAt: true
-        },
-        orderBy: {
-            createdAt: 'desc'
         }
     });
 }

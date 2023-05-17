@@ -24,7 +24,7 @@ export const updateMoodAction = zact(z.object({
             data: update
         });
 
-        revalidatePath('/');
+        revalidatePath('/moods');
 
         return updatedMood.id;
     }
