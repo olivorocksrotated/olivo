@@ -34,8 +34,11 @@ interface Props {
 
 export default function MoodTrend({ moods }: Props) {
     const today = new Date();
-    const lastWeek = [...Array.from([6, 5, 4, 3, 2, 1]).map((n) => sub(today, { days: n })), today];
-    const values = lastWeek.map((day) => {
+    const daysToDisplay = 7;
+    const days = new Array(daysToDisplay).fill(0)
+        .map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
+
+    const values = days.map((day) => {
         const mood = moods.find((m) => isSameDay(day, m.createdAt));
 
         return moodValues[mood?.status as MoodStatus];
@@ -64,7 +67,7 @@ export default function MoodTrend({ moods }: Props) {
                     }
                 }
             }} data={{
-                labels: lastWeek.map((day) => formatRelativeDate(day, today)),
+                labels: days.map((day) => formatRelativeDate(day, today)),
                 yLabels: [MoodStatus.Bad, MoodStatus.Okayish, MoodStatus.Average, MoodStatus.Good, MoodStatus.Excellent],
                 datasets: [
                     {
