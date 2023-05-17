@@ -36,8 +36,7 @@ interface Props {
 export default function MoodTrend({ moods }: Props) {
     const today = new Date();
     const daysToDisplay = 7;
-    const days = new Array(daysToDisplay).fill(0)
-        .map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
+    const days = new Array(daysToDisplay).fill(0).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
 
     const values = days.map((day) => {
         const mood = moods.find((m) => isSameDay(day, m.createdAt));
