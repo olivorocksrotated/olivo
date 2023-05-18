@@ -1,53 +1,30 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { useRouter } from 'next/navigation';
-import { MouseEvent, startTransition, useState } from 'react';
+import { MouseEvent, useState } from 'react';
+import { useZact } from 'zact/client';
 
 import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
-import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
-import { HttpMethod } from '@/lib/http/route';
-
-function createReportRelationship(emailAddress: string) {
-    return fetchFromApi({
-        method: HttpMethod.POST,
-        path: ResourcePath.Reports,
-        body: { reportEmail: emailAddress }
-    });
-}
+import { createConnectionAction } from '@/lib/network/create';
 
 export default function ConnectButton() {
     const [email, setEmail] = useState<string>();
     const [feedbackMessage, setFeedbackMessage] = useState<{ type: 'error' | 'success'; message: string }>();
-    const [processing, setProcessing] = useState<boolean>();
-    const router = useRouter();
+    const { mutate: createConnection, isLoading } = useZact(createConnectionAction);
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (email) {
-            setProcessing(true);
-            const response = await createReportRelationship(email);
-            setProcessing(false);
-            if (response.status >= 400) {
-                const { message } = await response.json();
-
-                return setFeedbackMessage({ type: 'error', message });
-            }
-            setFeedbackMessage({ type: 'success', message: 'Report added.' });
-
+            await createConnection({ userEmail: email });
+            setFeedbackMessage({ type: 'success', message: 'Connection established.' });
             setEmail('');
-
-            startTransition(() => {
-                router.refresh();
-            });
         }
     }
 
     function reset() {
         setEmail('');
         setFeedbackMessage(undefined);
-        setProcessing(false);
     }
 
     return (
@@ -56,7 +33,7 @@ export default function ConnectButton() {
             dialog={{
                 title: 'Add the email of the user you would like to connect with',
                 actionLabel: 'Connect',
-                actionDisabled: !email || processing
+                actionDisabled: !email || isLoading
             }}
             openButton={<Button>Connect</Button>}
         >
