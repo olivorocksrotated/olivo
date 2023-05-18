@@ -55,8 +55,8 @@ export default function AddReportButton() {
         <DialogButton onClose={reset}
             onSubmit={onSubmit}
             dialog={{
-                title: 'Connect with',
-                actionLabel: 'Add',
+                title: 'Add the email of the user you would like to connect with',
+                actionLabel: 'Connect',
                 actionDisabled: !email || processing
             }}
             openButton={<Button>Connect</Button>}
