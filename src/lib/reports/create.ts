@@ -13,12 +13,12 @@ export const createConnectionAction = zact(z.object({
     async ({ userEmail }) => {
         try {
             const { user } = await getServerSession();
-            const report = await prisma.user.findUnique({ where: { email: userEmail } });
-            if (!report) {
+            const targetUser = await prisma.user.findUnique({ where: { email: userEmail } });
+            if (!targetUser) {
                 throw new Error('The email does not belong to an existing user');
             }
             await prisma.reportRelation.create({
-                data: { managerId: user.id, reportId: report.id }
+                data: { managerId: user.id, reportId: targetUser.id }
             });
         } catch (error) {
             if (hasUniqueContraintFailed(error)) {
