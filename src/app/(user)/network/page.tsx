@@ -11,14 +11,12 @@ export default async function Network() {
 
     const hasNetwork = connections.length !== 0;
     const network = (
-        <div className="max-w-fit rounded-lg bg-indigo-900 p-4">
-            <div className="divide-y divide-indigo-700">
-                {connections.map((connection) => (
-                    <div key={connection.id}>
-                        <Connection connection={connection} />
-                    </div>
-                ))}
-            </div>
+        <div className="grid grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {connections.map((connection) => (
+                <div key={connection.id}>
+                    <Connection connection={connection} />
+                </div>
+            ))}
         </div>
     );
 
@@ -29,7 +27,7 @@ export default async function Network() {
     return (
         <main>
             <PageTitle text="Network" />
-            <div className="py-10">
+            <div>
                 <ConnectButton></ConnectButton>
             </div>
             {hasNetwork ? network : emptyNetworkMessage}
