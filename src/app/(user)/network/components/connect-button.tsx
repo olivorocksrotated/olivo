@@ -17,7 +17,7 @@ function createReportRelationship(emailAddress: string) {
     });
 }
 
-export default function AddReportButton() {
+export default function ConnectButton() {
     const [email, setEmail] = useState<string>();
     const [feedbackMessage, setFeedbackMessage] = useState<{ type: 'error' | 'success'; message: string }>();
     const [processing, setProcessing] = useState<boolean>();
@@ -35,7 +35,6 @@ export default function AddReportButton() {
                 return setFeedbackMessage({ type: 'error', message });
             }
             setFeedbackMessage({ type: 'success', message: 'Report added.' });
-
 
             setEmail('');
 
@@ -55,11 +54,11 @@ export default function AddReportButton() {
         <DialogButton onClose={reset}
             onSubmit={onSubmit}
             dialog={{
-                title: 'Add report',
-                actionLabel: 'Add',
+                title: 'Add the email of the user you would like to connect with',
+                actionLabel: 'Connect',
                 actionDisabled: !email || processing
             }}
-            openButton={<Button>Add report</Button>}
+            openButton={<Button>Connect</Button>}
         >
             <div className="relative">
                 <div className="">

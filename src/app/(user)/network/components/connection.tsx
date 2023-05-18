@@ -1,35 +1,35 @@
 'use client';
 
-import StartButton from '../../../components/start-btn';
+import { GradientBorder } from '@/app/components/grandient-border';
+
 import Avatar from './avatar';
 import ContextButton from './context-btn';
 
 interface Props {
-    report: {
+    connection: {
         id: string;
         name: string;
         image: string;
     };
 }
 
-export default function Report({ report }: Props) {
+export default function Connection({ connection }: Props) {
     return (
-        <div className="flex w-96 min-w-fit gap-4 rounded-lg bg-indigo-900 p-3">
+        <GradientBorder className="flex gap-4">
             <div>
-                <Avatar report={report} />
+                <Avatar connection={connection} />
             </div>
             <div>
                 <div className="text-lg font-extralight text-slate-100" data-cy="report-name">
-                    {report.name || 'No name'}
+                    {connection.name || 'No name'}
                 </div>
                 <div className="text-sm font-light text-slate-400">
-                    Developer
+                    Human Being
                 </div>
             </div>
             <div className="flex grow flex-col items-end justify-between">
                 <div className="pr-2"><ContextButton /></div>
-                <div className="flex"><StartButton /></div>
             </div>
-        </div>
+        </GradientBorder>
     );
 }
