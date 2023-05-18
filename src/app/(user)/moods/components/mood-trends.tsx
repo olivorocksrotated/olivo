@@ -47,7 +47,7 @@ export default function MoodTrend({ moods }: Props) {
     const moodIndex = Object.fromEntries(Object.entries(moodValues).map(([key, value]) => [value, key]));
 
     return (
-        <div className="">
+        <div>
             <Line options={{
                 responsive: true,
                 plugins: {
