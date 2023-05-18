@@ -21,7 +21,7 @@ export default async function Network() {
     );
 
     const emptyNetworkMessage = (
-        <div>The network is empty for now, start connecting to people!</div>
+        <div className="py-10 text-xl">Your network is empty for now, start growing it by connecting with people.</div>
     );
 
     return (
