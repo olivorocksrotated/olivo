@@ -1,13 +1,11 @@
 import PageTitle from '@/app/components/page-title';
-import { getServerSession } from '@/lib/auth/session';
-import { getReportsByManager } from '@/lib/reports/get';
+import { getNetwork } from '@/lib/reports/get';
 
 import ConnectButton from './components/connect-button';
 import Connection from './components/connection';
 
 export default async function Network() {
-    const { user } = await getServerSession();
-    const connections = await getReportsByManager(user.id);
+    const connections = await getNetwork();
 
     const hasNetwork = connections.length !== 0;
     const network = (

@@ -1,8 +1,10 @@
+import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
 
-export async function getReportsByManager(managerId: string) {
+export async function getNetwork() {
+    const { user } = await getServerSession();
     const relations = await prisma.reportRelation.findMany({
-        where: { managerId },
+        where: { managerId: user.id },
         include: {
             report: {
                 select: {
