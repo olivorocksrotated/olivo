@@ -84,7 +84,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                                 </span> :
                                 <input type="text"
                                     autoFocus
-                                    className="w-full bg-slate-700"
+                                    className="w-full"
                                     onKeyDown={handleTitleKeyDown}
                                     value={editTitle.value}
                                     onChange={(event) => setEditTitle((previous) => ({ ...previous, value: event.target.value }))}
@@ -100,7 +100,6 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                                 </span> :
                                 <input type="date"
                                     autoFocus
-                                    className="bg-slate-700"
                                     onKeyDown={handleDoneByKeyDown}
                                     value={editDoneBy.value}
                                     onChange={(event) => setEditDoneBy((previous) => ({ ...previous, value: event.target.value }))}
