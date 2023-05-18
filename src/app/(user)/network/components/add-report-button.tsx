@@ -55,11 +55,11 @@ export default function AddReportButton() {
         <DialogButton onClose={reset}
             onSubmit={onSubmit}
             dialog={{
-                title: 'Add report',
+                title: 'Connect with',
                 actionLabel: 'Add',
                 actionDisabled: !email || processing
             }}
-            openButton={<Button>Add report</Button>}
+            openButton={<Button>Connect</Button>}
         >
             <div className="relative">
                 <div className="">

@@ -23,12 +23,12 @@ export default async function Reports() {
         </div>
     );
     const noReports = (
-        <div>You do not have any reports yet</div>
+        <div>The network is empty for now, start connecting to people!</div>
     );
 
     return (
         <main>
-            <PageTitle text="Reports" />
+            <PageTitle text="Network" />
             <div className="py-10">
                 <AddReportButton></AddReportButton>
             </div>

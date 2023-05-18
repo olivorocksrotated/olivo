@@ -122,9 +122,9 @@ export default function Content({ children }: { children: React.ReactNode }) {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/reports" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
+                            <Link href="/network" onClick={closeMobileMenu} className="flex items-center rounded-lg p-2 text-sm font-thin text-white hover:bg-gray-700">
                                 <BsPeopleFill size={18} className="mr-3 text-gray-400" />
-                                <span>Reports</span>
+                                <span>Yout network</span>
                             </Link>
                         </li>
                         <li>
