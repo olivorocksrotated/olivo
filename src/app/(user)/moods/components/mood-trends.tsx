@@ -11,7 +11,7 @@ import {
     Title,
     Tooltip
 } from 'chart.js';
-import { isSameDay, sub } from 'date-fns';
+import { getDaysInMonth, isSameDay, sub } from 'date-fns';
 import { Line } from 'react-chartjs-2';
 import * as colors from 'tailwindcss/colors';
 
@@ -35,7 +35,7 @@ interface Props {
 
 export default function MoodTrend({ moods }: Props) {
     const today = new Date();
-    const daysToDisplay = 7;
+    const daysToDisplay = getDaysInMonth(today);
     const days = new Array(daysToDisplay).fill(0).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
 
     const values = days.map((day) => {
