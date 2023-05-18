@@ -6,7 +6,7 @@ import { useZact } from 'zact/client';
 
 import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
-import { createConnectionAction } from '@/lib/reports/create';
+import { createConnectionAction } from '@/lib/network/create';
 
 export default function ConnectButton() {
     const [email, setEmail] = useState<string>();

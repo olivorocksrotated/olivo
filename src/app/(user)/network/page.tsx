@@ -1,5 +1,5 @@
 import PageTitle from '@/app/components/page-title';
-import { getNetwork } from '@/lib/reports/get';
+import { getNetwork } from '@/lib/network/get';
 
 import ConnectButton from './components/connect-button';
 import Connection from './components/connection';
