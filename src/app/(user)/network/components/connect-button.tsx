@@ -3,41 +3,27 @@
 import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, startTransition, useState } from 'react';
+import { useZact } from 'zact/client';
 
 import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
-import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
-import { HttpMethod } from '@/lib/http/route';
-
-function createReportRelationship(emailAddress: string) {
-    return fetchFromApi({
-        method: HttpMethod.POST,
-        path: ResourcePath.Reports,
-        body: { reportEmail: emailAddress }
-    });
-}
+import { createConnectionAction } from '@/lib/reports/create';
 
 export default function ConnectButton() {
     const [email, setEmail] = useState<string>();
     const [feedbackMessage, setFeedbackMessage] = useState<{ type: 'error' | 'success'; message: string }>();
     const [processing, setProcessing] = useState<boolean>();
     const router = useRouter();
+    const { mutate: createConnection } = useZact(createConnectionAction);
 
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (email) {
             setProcessing(true);
-            const response = await createReportRelationship(email);
+            await createConnection({ userEmail: email });
             setProcessing(false);
-            if (response.status >= 400) {
-                const { message } = await response.json();
-
-                return setFeedbackMessage({ type: 'error', message });
-            }
             setFeedbackMessage({ type: 'success', message: 'Report added.' });
-
             setEmail('');
-
             startTransition(() => {
                 router.refresh();
             });
