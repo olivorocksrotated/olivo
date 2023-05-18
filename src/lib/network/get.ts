@@ -3,10 +3,15 @@ import prisma from '../prisma';
 
 export async function getNetwork() {
     const { user } = await getServerSession();
-    const relations = await prisma.reportRelation.findMany({
-        where: { managerId: user.id },
+    const relations = await prisma.networkConnection.findMany({
+        where: {
+            OR: [
+                { requesterId: user.id },
+                { acceptorId: user.id }
+            ]
+        },
         include: {
-            report: {
+            acceptor: {
                 select: {
                     id: true,
                     name: true,
@@ -17,8 +22,8 @@ export async function getNetwork() {
     });
 
     return relations.map((relation) => ({
-        ...relation.report,
-        name: relation.report.name ?? '',
-        image: relation.report.image ?? ''
+        ...relation.acceptor,
+        name: relation.acceptor.name ?? '',
+        image: relation.acceptor.image ?? ''
     }));
 }
