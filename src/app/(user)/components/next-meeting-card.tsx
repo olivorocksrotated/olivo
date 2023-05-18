@@ -1,21 +1,10 @@
 import { format } from 'date-fns';
 
+import { GradientBorder } from '@/app/components/grandient-border';
 import { getServerSession } from '@/lib/auth/session';
 import { getNextMeetingByUser } from '@/lib/meetings/get';
 
 import StartButton from '../../components/start-btn';
-
-function GradientBorder({ children, className }: any) {
-    return (
-        <div className={`${className}`}>
-            <div className="w-full rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-blue-500 p-1">
-                <div className={`${className} bg-gray-800 p-5`}>
-                    {children}
-                </div>
-            </div>
-        </div>
-    );
-}
 
 function MeetingInfo({ meeting }: { meeting: any }) {
     const startTime = format(meeting.startDate, 'p');
