@@ -17,8 +17,6 @@ import * as colors from 'tailwindcss/colors';
 
 import { formatRelativeDate } from '@/lib/date/format';
 
-import { moodValues } from '../constants';
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -32,6 +30,14 @@ ChartJS.register(
 interface Props {
     moods: Pick<Mood, 'id' | 'comment' | 'status' | 'createdAt'>[];
 }
+
+export const moodValues: { [name in MoodStatus]: number } = {
+    [MoodStatus.Bad]: 0,
+    [MoodStatus.Okayish]: 1,
+    [MoodStatus.Average]: 2,
+    [MoodStatus.Good]: 3,
+    [MoodStatus.Excellent]: 4
+};
 
 export default function MoodTrend({ moods }: Props) {
     const today = new Date();

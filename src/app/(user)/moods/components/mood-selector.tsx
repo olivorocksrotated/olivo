@@ -10,11 +10,22 @@ import { useDebounce } from '@/lib/hooks/useDebounce';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
-import { MoodOption, moodOptions as moodMap } from '../constants';
-
 interface Props {
     todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
 }
+
+export interface MoodOption {
+    icon: string;
+    name: MoodStatus;
+}
+
+export const moodMap: { [name in MoodStatus]: MoodOption } = {
+    [MoodStatus.Bad]: { icon: '💩', name: MoodStatus.Bad },
+    [MoodStatus.Okayish]: { icon: '😓', name: MoodStatus.Okayish },
+    [MoodStatus.Average]: { icon: '🆗', name: MoodStatus.Average },
+    [MoodStatus.Good]: { icon: '🙂', name: MoodStatus.Good },
+    [MoodStatus.Excellent]: { icon: '💚', name: MoodStatus.Excellent }
+};
 
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
