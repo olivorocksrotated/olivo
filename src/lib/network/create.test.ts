@@ -13,7 +13,7 @@ vi.mock('next/cache', async () => ({
 }));
 
 vi.mock('../auth/session', async () => ({
-    getServerSession: vi.fn().mockResolvedValue({ user: { id: '1' } })
+    getServerSession: vi.fn().mockResolvedValue({ user: { id: '1', email: 'dev@olivo.rocks' } })
 }));
 
 describe('lib network', () => {
@@ -38,10 +38,24 @@ describe('lib network', () => {
 
                 const connection = await prisma.networkConnection.findFirst();
 
-                console.log('connect', connection);
-
                 expect(connection?.requesterId).toBe(loggedInUserId);
                 expect(connection?.acceptorId).toBe(anotherUser.id);
+            });
+
+            it('should return an error when the user does not exist', async () => {
+                try {
+                    await createConnectionAction({ userEmail: 'unexisting@olivo.rocks' });
+                } catch (error: any) {
+                    expect(error.message).toBe('The email does not belong to an existing user');
+                }
+            });
+
+            it('should return an error when the user attempts to create a connection with themselves', async () => {
+                try {
+                    await createConnectionAction({ userEmail: 'dev@olivo.rocks' });
+                } catch (error: any) {
+                    expect(error.message).toBe('It is not possible to create a connection with yourself');
+                }
             });
         });
     });
