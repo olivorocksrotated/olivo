@@ -1,5 +1,5 @@
 import { generatePrismock } from 'prismock';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '../prisma';
 import { getNetwork } from './get';
@@ -15,7 +15,16 @@ vi.mock('../auth/session', async () => ({
 describe('lib network', () => {
     describe('get', () => {
         describe('getNetwork', () => {
-            const requesterId = '1';
+            const loggedInUserId = '1'; // must match what getServerSession mock returns.
+
+            beforeEach(async () => {
+                await prisma.user.create({ data: { id: loggedInUserId, name: 'loggedInUser' } });
+            });
+
+            afterEach(async () => {
+                await prisma.user.deleteMany({});
+                await prisma.networkConnection.deleteMany({});
+            });
 
             it('should return the network of the user', async () => {
                 const expectedUsers = [
@@ -24,22 +33,32 @@ describe('lib network', () => {
                 ];
                 prisma.user.create({ data: expectedUsers[0] });
                 prisma.user.create({ data: expectedUsers[1] });
-                prisma.networkConnection.create({ data: { requesterId, acceptorId: expectedUsers[0].id } });
-                prisma.networkConnection.create({ data: { requesterId, acceptorId: expectedUsers[1].id } });
+                prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: expectedUsers[0].id } });
+                prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: expectedUsers[1].id } });
 
                 const network = await getNetwork();
 
                 expect(network).to.be.deep.equal(expectedUsers);
             });
 
-            it('should return default values if the acceptor user does not have name and image', async () => {
-                const expectedUser = { id: '4', image: null, name: null };
-                prisma.user.create({ data: expectedUser });
-                prisma.networkConnection.create({ data: { requesterId, acceptorId: expectedUser.id } });
+            it('should return default values if the user does not have name and image', async () => {
+                const anotherUser = { id: '4', image: null, name: null };
+                prisma.user.create({ data: anotherUser });
+                prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: anotherUser.id } });
 
                 const network = await getNetwork();
 
                 expect(network).to.deep.contain({ id: '4', image: '', name: '' });
+            });
+
+            it('should return the other user of the relation', async () => {
+                const anotherUser = { id: '4', image: 'img', name: 'usr' };
+                prisma.user.create({ data: anotherUser });
+                prisma.networkConnection.create({ data: { requesterId: anotherUser.id, acceptorId: loggedInUserId } });
+
+                const network = await getNetwork();
+
+                expect(network).to.deep.contain(anotherUser);
             });
         });
     });
