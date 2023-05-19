@@ -10,7 +10,7 @@ export default async function Network() {
     const hasNetwork = connections.length !== 0;
     const network = (
         <div className="grid grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {connections.map((connection) => (
+            {connections.map((connection: { id: string, image: string, name: string }) => (
                 <div key={connection.id}>
                     <Connection connection={connection} />
                 </div>

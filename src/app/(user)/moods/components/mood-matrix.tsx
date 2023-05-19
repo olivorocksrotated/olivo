@@ -1,6 +1,9 @@
+'use client';
+
 import { Mood, MoodStatus } from '@prisma/client';
 import clsx from 'clsx';
 import { getDay, getWeekOfMonth, getWeeksInMonth } from 'date-fns';
+import { Fragment, useState } from 'react';
 
 type MatrixMood = Pick<Mood, 'id' | 'comment' | 'status' | 'createdAt'>;
 
@@ -32,6 +35,8 @@ const colorScale: { [name in MoodStatus]: string } = {
 };
 
 export default function MoodMatrix({ moods }: Props) {
+    const [selectedMoodStatus, setSelectedMoodStatus] = useState(null as unknown as (null | MoodStatus));
+
     const today = new Date();
     const weeksOfThisMonth = getWeeksInMonth(today);
 
@@ -39,7 +44,7 @@ export default function MoodMatrix({ moods }: Props) {
         const week = index + 1;
 
         const moodsForThisWeek = daysOfTheWeek.map((day) => {
-            const nullMood = { id: `${week}-${day.value}`, comment: '', status: 'Null' as MoodStatus, createdAt: new Date() };
+            const nullMood = { id: `${week}-${day.value}`, comment: '', status: null as unknown as MoodStatus, createdAt: new Date() };
             const foundMood = moods.find((mood) => getWeekOfMonth(mood.createdAt) === week && getDay(mood.createdAt) === day.value);
 
             return foundMood || nullMood;
@@ -48,6 +53,14 @@ export default function MoodMatrix({ moods }: Props) {
         return { week, moods: moodsForThisWeek };
     });
 
+    const handleSelectStatus = (status: (null | MoodStatus)) => {
+        if (selectedMoodStatus === status) {
+            return setSelectedMoodStatus(null);
+        }
+
+        setSelectedMoodStatus(status);
+    };
+
     return (
         <div className="flex flex-row items-center gap-5 sm:flex-col sm:items-start">
             <div className="mb-6 grid grid-cols-8 gap-2">
@@ -55,22 +68,35 @@ export default function MoodMatrix({ moods }: Props) {
                 {daysOfTheWeek.map((day) => <div key={day.value} className="text-center">{day.abbreviation}</div>)}
 
                 {weeklyMoods.map((weekly) => (
-                    <>
+                    <Fragment key={weekly.week}>
                         <div className="text-sm"># {weekly.week} </div>
                         {weekly.moods.map((mood) => (
-                            <div key={mood.id} className={`${colorScale[mood.status]} ${clsx({
-                                'bg-green-400': colorScale[mood.status],
-                                'bg-neutral-700': !colorScale[mood.status]
-                            })}`}
+                            <div key={mood.id}
+                                onClick={() => handleSelectStatus(mood.status)}
+                                className={clsx({
+                                    [colorScale[mood.status] ?? '']: true,
+                                    'rounded cursor-pointer': true,
+                                    'bg-green-400': !!colorScale[mood.status],
+                                    'bg-neutral-700 !opacity-100': !colorScale[mood.status] || selectedMoodStatus && selectedMoodStatus !== mood.status
+                                })}
                             >
                             </div>))}
-                    </>
+                    </Fragment>
                 ))}
             </div>
             <div className="flex flex-row justify-end gap-2 sm:flex-col">
                 <div className="flex flex-col-reverse gap-1 sm:flex-row">
-                    {Object.keys(colorScale).map((moodStatus: unknown) => (
-                        <div key={moodStatus as string} className={`h-4 w-4 bg-green-400 ${colorScale[moodStatus as MoodStatus]}`}></div>
+                    {(Object.keys(colorScale) as MoodStatus[]).map((moodStatus) => (
+                        <div key={moodStatus}
+                            className={clsx({
+                                'h-4 w-4 rounded cursor-pointer': true,
+                                'hover:outline hover:outline-1 hover:outline-white': true,
+                                'outline outline-1 outline-white': selectedMoodStatus === moodStatus
+                            })}
+                            onClick={() => handleSelectStatus(moodStatus)}
+                        >
+                            <div className={`h-full w-full rounded bg-green-400 ${colorScale[moodStatus]}`}></div>
+                        </div>
                     ))}
                 </div>
                 <div className="flex flex-col justify-between text-xs sm:flex-row-reverse">
