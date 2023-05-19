@@ -45,10 +45,13 @@ export default function MoodTrend({ moods }: Props) {
     const daysToDisplay = getDaysInMonth(today);
     const days = newEmptyArrayOfLength(daysToDisplay).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
 
-    const values = days.map((day) => {
+    const moodsDataset = days.map((day) => {
         const mood = moods.find((m) => isSameDay(day, m.createdAt));
 
-        return moodValues[mood?.status as MoodStatus];
+        return {
+            ...mood,
+            datasetValue: moodValues[mood?.status as MoodStatus]
+        };
     });
 
     const moodIndex = Object.fromEntries(Object.entries(moodValues).map(([key, value]) => [value, key]));
@@ -63,7 +66,8 @@ export default function MoodTrend({ moods }: Props) {
                     },
                     tooltip: {
                         callbacks: {
-                            label: (item) => moodIndex[item.raw as number]
+                            label: (item) => moodIndex[item.raw as number],
+                            footer: (item) => moodsDataset[item[0].dataIndex].comment ?? ''
                         }
                     }
                 },
@@ -84,7 +88,7 @@ export default function MoodTrend({ moods }: Props) {
                 datasets: [
                     {
                         label: 'Your mood',
-                        data: values,
+                        data: moodsDataset.map((md) => md.datasetValue),
                         borderColor: colors.indigo[500],
                         backgroundColor: colors.indigo[300],
                         pointStyle: 'circle',
