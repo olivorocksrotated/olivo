@@ -1,12 +1,12 @@
 'use client';
 
-import { Mood, MoodStatus } from '@prisma/client';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import { MoodStatus } from '@prisma/client';
 import clsx from 'clsx';
 import { getDay, getWeekOfMonth, getWeeksInMonth } from 'date-fns';
 import { Fragment, useState } from 'react';
 
-type MatrixMood = Pick<Mood, 'id' | 'comment' | 'status' | 'createdAt'>;
+import { colorScale, MatrixMood } from './constants';
+import MoodEntry from './mood-entry';
 
 interface Props {
     moods: MatrixMood[];
@@ -27,14 +27,6 @@ const daysOfTheWeek = [
     { name: 'Saturday', abbreviation: 'S', value: 6 }
 ];
 
-const colorScale: { [name in MoodStatus]: string } = {
-    [MoodStatus.Bad]: 'opacity-20',
-    [MoodStatus.Okayish]: 'opacity-40',
-    [MoodStatus.Average]: 'opacity-60',
-    [MoodStatus.Good]: 'opacity-80',
-    [MoodStatus.Excellent]: 'opacity-100'
-};
-
 export default function MoodMatrix({ moods }: Props) {
     const [selectedMoodStatus, setSelectedMoodStatus] = useState(null as unknown as (null | MoodStatus));
 
@@ -45,7 +37,7 @@ export default function MoodMatrix({ moods }: Props) {
         const week = index + 1;
 
         const moodsForThisWeek = daysOfTheWeek.map((day) => {
-            const nullMood = { id: `${week}-${day.value}`, comment: '', status: null as unknown as MoodStatus, createdAt: new Date() };
+            const nullMood = { id: `${week}-${day.value}`, comment: '', status: null, createdAt: new Date() };
             const foundMood = moods.find((mood) => getWeekOfMonth(mood.createdAt) === week && getDay(mood.createdAt) === day.value);
 
             return foundMood || nullMood;
@@ -72,29 +64,13 @@ export default function MoodMatrix({ moods }: Props) {
                     <Fragment key={weekly.week}>
                         <div className="text-sm"># {weekly.week} </div>
                         {weekly.moods.map((mood) => (
-                            <Tooltip.Provider key={mood.id} delayDuration={400} skipDelayDuration={1000}>
-                                <Tooltip.Root>
-                                    <Tooltip.Trigger asChild>
-                                        <div onClick={() => handleSelectStatus(mood.status)}
-                                            className={clsx({
-                                                [colorScale[mood.status] ?? '']: true,
-                                                rounded: true,
-                                                'bg-green-400 cursor-pointer': !!colorScale[mood.status],
-                                                'bg-neutral-700 !opacity-100': !colorScale[mood.status] || selectedMoodStatus && selectedMoodStatus !== mood.status
-                                            })}
-                                        >
-                                        </div>
-                                    </Tooltip.Trigger>
-                                    <Tooltip.Portal>
-                                        <Tooltip.Content sideOffset={5}
-                                            className="max-w-xs select-none rounded bg-slate-600 p-3 text-sm text-white shadow-sm"
-                                        >
-                                            {mood.comment}
-                                            <Tooltip.Arrow className="fill-slate-600" />
-                                        </Tooltip.Content>
-                                    </Tooltip.Portal>
-                                </Tooltip.Root>
-                            </Tooltip.Provider>
+                            <MoodEntry key={mood.id}
+                                mood={{
+                                    ...mood,
+                                    selected: selectedMoodStatus === null ? null : selectedMoodStatus === mood.status
+                                }}
+                                onEntrySelected={(entry) => handleSelectStatus(entry.status)}
+                            />
                         ))}
                     </Fragment>
                 ))}
