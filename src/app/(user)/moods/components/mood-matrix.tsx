@@ -75,8 +75,8 @@ export default function MoodMatrix({ moods }: Props) {
                                 onClick={() => handleSelectStatus(mood.status)}
                                 className={clsx({
                                     [colorScale[mood.status] ?? '']: true,
-                                    'rounded cursor-pointer': true,
-                                    'bg-green-400': !!colorScale[mood.status],
+                                    rounded: true,
+                                    'bg-green-400 cursor-pointer': !!colorScale[mood.status],
                                     'bg-neutral-700 !opacity-100': !colorScale[mood.status] || selectedMoodStatus && selectedMoodStatus !== mood.status
                                 })}
                             >
