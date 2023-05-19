@@ -1,6 +1,7 @@
 'use client';
 
 import { Mood, MoodStatus } from '@prisma/client';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import clsx from 'clsx';
 import { getDay, getWeekOfMonth, getWeeksInMonth } from 'date-fns';
 import { Fragment, useState } from 'react';
@@ -71,16 +72,30 @@ export default function MoodMatrix({ moods }: Props) {
                     <Fragment key={weekly.week}>
                         <div className="text-sm"># {weekly.week} </div>
                         {weekly.moods.map((mood) => (
-                            <div key={mood.id}
-                                onClick={() => handleSelectStatus(mood.status)}
-                                className={clsx({
-                                    [colorScale[mood.status] ?? '']: true,
-                                    rounded: true,
-                                    'bg-green-400 cursor-pointer': !!colorScale[mood.status],
-                                    'bg-neutral-700 !opacity-100': !colorScale[mood.status] || selectedMoodStatus && selectedMoodStatus !== mood.status
-                                })}
-                            >
-                            </div>))}
+                            <Tooltip.Provider key={mood.id} delayDuration={400} skipDelayDuration={1000}>
+                                <Tooltip.Root>
+                                    <Tooltip.Trigger asChild>
+                                        <div onClick={() => handleSelectStatus(mood.status)}
+                                            className={clsx({
+                                                [colorScale[mood.status] ?? '']: true,
+                                                rounded: true,
+                                                'bg-green-400 cursor-pointer': !!colorScale[mood.status],
+                                                'bg-neutral-700 !opacity-100': !colorScale[mood.status] || selectedMoodStatus && selectedMoodStatus !== mood.status
+                                            })}
+                                        >
+                                        </div>
+                                    </Tooltip.Trigger>
+                                    <Tooltip.Portal>
+                                        <Tooltip.Content sideOffset={5}
+                                            className="max-w-xs select-none rounded bg-slate-600 p-3 text-sm text-white shadow-sm"
+                                        >
+                                            {mood.comment}
+                                            <Tooltip.Arrow className="fill-slate-600" />
+                                        </Tooltip.Content>
+                                    </Tooltip.Portal>
+                                </Tooltip.Root>
+                            </Tooltip.Provider>
+                        ))}
                     </Fragment>
                 ))}
             </div>
