@@ -11,11 +11,11 @@ import {
     Title,
     Tooltip
 } from 'chart.js';
-import { getDaysInMonth, isSameDay, sub } from 'date-fns';
+import { getDate, getDaysInMonth } from 'date-fns';
 import { Line } from 'react-chartjs-2';
 import * as colors from 'tailwindcss/colors';
 
-import { formatRelativeDate } from '@/lib/date/format';
+import { newEmptyArrayOfLength } from '@/lib/array/newEmptyArrayOfLength';
 
 ChartJS.register(
     CategoryScale,
@@ -27,8 +27,11 @@ ChartJS.register(
     Legend
 );
 
+type BaseMood = Pick<Mood, 'comment' | 'status' | 'createdAt'>;
+type DatasetMood = (Pick<BaseMood, 'comment' | 'createdAt'> & { status: null | MoodStatus, datasetValue: number });
 interface Props {
-    moods: Pick<Mood, 'id' | 'comment' | 'status' | 'createdAt'>[];
+    thisMonthMoods: BaseMood[];
+    lastMonthMoods: BaseMood[];
 }
 
 export const moodValues: { [name in MoodStatus]: number } = {
@@ -39,15 +42,27 @@ export const moodValues: { [name in MoodStatus]: number } = {
     [MoodStatus.Excellent]: 4
 };
 
-export default function MoodTrend({ moods }: Props) {
+const nullMonthMood = { comment: null, status: null, createdAt: new Date() };
+
+export default function MoodTrend({ thisMonthMoods, lastMonthMoods }: Props) {
     const today = new Date();
     const daysToDisplay = getDaysInMonth(today);
-    const days = new Array(daysToDisplay).fill(0).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
+    const days = newEmptyArrayOfLength(daysToDisplay).map((_, index) => index + 1);
 
-    const values = days.map((day) => {
-        const mood = moods.find((m) => isSameDay(day, m.createdAt));
+    const datasets: {
+        lastMonth: DatasetMood[],
+        thisMonth: DatasetMood[]
+    } = days.reduce((acc, day) => {
+        const lastMonthMood = lastMonthMoods.find((m) => day === getDate(m.createdAt)) ?? nullMonthMood;
+        const thisMonthMood = thisMonthMoods.find((m) => day === getDate(m.createdAt)) ?? nullMonthMood;
 
-        return moodValues[mood?.status as MoodStatus];
+        return {
+            lastMonth: [...acc.lastMonth, { ...lastMonthMood, datasetValue: moodValues[lastMonthMood?.status as MoodStatus] }],
+            thisMonth: [...acc.thisMonth, { ...thisMonthMood, datasetValue: moodValues[thisMonthMood?.status as MoodStatus] }]
+        };
+    }, {
+        lastMonth: [] as DatasetMood[],
+        thisMonth: [] as DatasetMood[]
     });
 
     const moodIndex = Object.fromEntries(Object.entries(moodValues).map(([key, value]) => [value, key]));
@@ -58,7 +73,8 @@ export default function MoodTrend({ moods }: Props) {
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top'
+                        position: 'bottom',
+                        align: 'center'
                     },
                     tooltip: {
                         callbacks: {
@@ -78,17 +94,29 @@ export default function MoodTrend({ moods }: Props) {
                     }
                 }
             }} data={{
-                labels: days.map((day) => formatRelativeDate(day, today)),
+                labels: days.map((day) => day.toString()),
                 yLabels: [MoodStatus.Bad, MoodStatus.Okayish, MoodStatus.Average, MoodStatus.Good, MoodStatus.Excellent],
                 datasets: [
                     {
-                        label: 'Your mood',
-                        data: values,
+                        label: 'This month',
+                        data: datasets.thisMonth.map((md) => md.datasetValue),
+                        borderColor: colors.green[500],
+                        backgroundColor: colors.green[300],
+                        pointStyle: 'circle',
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        borderJoinStyle: 'round'
+                    },
+                    {
+                        label: 'Last month',
+                        data: datasets.lastMonth.map((md) => md.datasetValue),
                         borderColor: colors.indigo[500],
                         backgroundColor: colors.indigo[300],
                         pointStyle: 'circle',
-                        pointRadius: 5,
-                        pointHoverRadius: 10
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        borderJoinStyle: 'round',
+                        borderDash: [2, 2]
                     }
                 ]
             }}

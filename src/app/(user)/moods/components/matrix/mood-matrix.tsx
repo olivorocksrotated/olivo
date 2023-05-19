@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import { getDay, getWeekOfMonth, getWeeksInMonth } from 'date-fns';
 import { Fragment, useState } from 'react';
 
+import { newEmptyArrayOfLength } from '@/lib/array/newEmptyArrayOfLength';
+
 import { colorScale, MatrixMood } from './constants';
 import MoodEntry from './mood-entry';
 
@@ -33,7 +35,7 @@ export default function MoodMatrix({ moods }: Props) {
     const today = new Date();
     const weeksOfThisMonth = getWeeksInMonth(today);
 
-    const weeklyMoods: WeeklyMood[] = new Array(weeksOfThisMonth).fill(0).map((_, index) => {
+    const weeklyMoods: WeeklyMood[] = newEmptyArrayOfLength(weeksOfThisMonth).map((_, index) => {
         const week = index + 1;
 
         const moodsForThisWeek = daysOfTheWeek.map((day) => {
