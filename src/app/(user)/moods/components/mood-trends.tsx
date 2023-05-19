@@ -15,6 +15,7 @@ import { getDaysInMonth, isSameDay, sub } from 'date-fns';
 import { Line } from 'react-chartjs-2';
 import * as colors from 'tailwindcss/colors';
 
+import { newEmptyArrayOfLength } from '@/lib/array/newEmptyArrayOfLength';
 import { formatRelativeDate } from '@/lib/date/format';
 
 ChartJS.register(
@@ -42,7 +43,7 @@ export const moodValues: { [name in MoodStatus]: number } = {
 export default function MoodTrend({ moods }: Props) {
     const today = new Date();
     const daysToDisplay = getDaysInMonth(today);
-    const days = new Array(daysToDisplay).fill(0).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
+    const days = newEmptyArrayOfLength(daysToDisplay).map((_, index) => sub(today, { days: daysToDisplay - 1 - index }));
 
     const values = days.map((day) => {
         const mood = moods.find((m) => isSameDay(day, m.createdAt));
