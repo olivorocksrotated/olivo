@@ -19,7 +19,7 @@ export default function Filters({ onFiltersChanged }: Props) {
     const selectedFilterStyle = 'bg-slate-500';
     const notSelectedFilterStyle = 'bg-slate-600';
     const filterStyle = clsx(
-        'flex w-fit cursor-pointer items-center rounded px-2 py-0.5 transition',
+        'flex w-fit cursor-pointer items-center rounded px-2 py-1 transition',
         'hover:bg-slate-500 hover:shadow'
     );
 
@@ -36,7 +36,6 @@ export default function Filters({ onFiltersChanged }: Props) {
                     [selectedFilterStyle]: !!notDoneFilter
                 })}
             >
-                filter value - {!notDoneFilter ? 'false' : 'true'}
                 <span><NotStartedStatusMarker /></span>
                 <span className="-ml-1 mr-1"><InProgressStatusMarker /></span>
                 <span className="text-xs">Not done</span>
@@ -48,7 +47,7 @@ export default function Filters({ onFiltersChanged }: Props) {
                     [selectedFilterStyle]: !!pastFilter
                 })}
             >
-                <span><PastStatusMarker /></span>
+                <span className="mr-1"><PastStatusMarker /></span>
                 <span className="text-xs">Past</span>
             </div>
         </div>
