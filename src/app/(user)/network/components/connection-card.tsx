@@ -14,7 +14,7 @@ interface Props {
 
 export default function Connection({ connection }: Props) {
     return (
-        <GradientBorder className="flex min-w-[300px] gap-4">
+        <GradientBorder className="flex w-full min-w-[300px] gap-4">
             <div>
                 <Avatar connection={connection} />
             </div>

@@ -17,7 +17,7 @@ function AnimatedCard({ children, key }: { children: React.ReactNode; key: strin
     const transition = { duration: 0.5 };
 
     return (
-        <motion.div className="flex"
+        <motion.div className="flex w-full"
             key={key}
             initial={{ opacity: 0.2 }}
             animate={{ opacity: 1, transition }}
@@ -51,7 +51,7 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
 
     const connectionsList = (
         <AnimatePresence mode="wait">
-            <div className="grid grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {connections.map((connection: Connection) => (
                     <AnimatedCard key={connection.id}>
                         <ConnectionCard connection={connection} />
@@ -68,9 +68,9 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
     );
 
     return (
-        <div>
+        <div className="flex flex-col">
             <div><ConnectButton onConnectionRequested={onConnectionRequested} /></div>
-            {hasNetwork || interaction ? connectionsList : emptyNetworkMessage}
+            <div className="w-full">{hasNetwork || interaction ? connectionsList : emptyNetworkMessage}</div>
         </div>
     );
 }

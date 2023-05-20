@@ -6,10 +6,10 @@ export default function ConnectionLoader() {
             </div>
             <div>
                 <div>
-                    <div className="h-6 w-36 rounded bg-gray-600"></div>
+                    <div className="h-6 w-20 rounded bg-gray-600"></div>
                 </div>
                 <div className="mt-2">
-                    <div className="h-4 w-20 rounded bg-gray-600"></div>
+                    <div className="h-4 w-16 rounded bg-gray-600"></div>
                 </div>
             </div>
         </div>
