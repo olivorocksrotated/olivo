@@ -29,6 +29,9 @@ export async function getNetwork() {
                     image: true
                 }
             }
+        },
+        orderBy: {
+            createdAt: 'asc'
         }
     });
 
