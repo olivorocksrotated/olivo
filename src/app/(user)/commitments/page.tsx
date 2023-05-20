@@ -16,7 +16,8 @@ export default async function Commitments() {
     return (
         <main>
             <PageTitle text="Commitments" />
-            {!hasCommitments ? noCommitments : await CommitmentsSection({ commitments, title: 'Your commitments' })}
+            {/* @ts-expect-error Server Component */}
+            {!hasCommitments ? noCommitments : <CommitmentsSection commitments={commitments} title="Your commitments" />}
         </main>
     );
 }
