@@ -1,7 +1,7 @@
 import { Commitment } from '@prisma/client';
 
 import AddCommitmentButton from './add-commitment-btn';
-import FilteredCommitmentsList from './filtered-commitments-list';
+import FilteredCommitmentsList from './list/filtered-commitments-list';
 
 interface Props {
     title: string;

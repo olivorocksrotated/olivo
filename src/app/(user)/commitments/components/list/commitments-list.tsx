@@ -3,8 +3,8 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Commitment } from '@prisma/client';
 
-import CommitmentCard from './card/commitment-card';
-import { Filters } from './types';
+import CommitmentCard from '../card/commitment-card';
+import { Filters } from '../types';
 
 interface Props {
     commitments: Pick<Commitment, 'id' | 'title' | 'status' | 'doneBy'>[];

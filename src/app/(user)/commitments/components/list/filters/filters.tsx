@@ -3,10 +3,10 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
-import InProgressStatusMarker from '../status-marker/in-progress';
-import NotStartedStatusMarker from '../status-marker/not-started';
-import PastStatusMarker from '../status-marker/past';
-import { Filters as FiltersType } from '../types';
+import InProgressStatusMarker from '../../status-marker/in-progress';
+import NotStartedStatusMarker from '../../status-marker/not-started';
+import PastStatusMarker from '../../status-marker/past';
+import { Filters as FiltersType } from '../../types';
 
 interface Props {
     onFiltersChanged: (filters: FiltersType) => void;

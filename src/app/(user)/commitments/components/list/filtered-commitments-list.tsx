@@ -3,9 +3,9 @@
 import { Commitment } from '@prisma/client';
 import { useCallback, useState } from 'react';
 
+import { Filters as FiltersType } from '../types';
 import CommitmentsList from './commitments-list';
 import Filters from './filters/filters';
-import { Filters as FiltersType } from './types';
 
 interface Props {
     commitments: Pick<Commitment, 'id' | 'doneBy' | 'status' | 'title'>[];
