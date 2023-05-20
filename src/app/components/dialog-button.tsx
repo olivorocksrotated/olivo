@@ -32,19 +32,13 @@ export default function DialogButton({
         onClose();
     };
 
-    const handleOpenChanged = (isOpen: boolean) => {
-        if (!isOpen) {
-            close();
-        }
-    };
-
     const handleOnSubmit = (event: MouseEvent<HTMLButtonElement>) => {
         onSubmit(event);
         close();
     };
 
     return (
-        <Dialog.Root onOpenChange={handleOpenChanged}>
+        <Dialog.Root>
             <Dialog.Trigger asChild>
                 <div onClick={() => setIsDialogOpen(true)}>{openButton}</div>
             </Dialog.Trigger>

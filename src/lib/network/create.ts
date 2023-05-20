@@ -11,12 +11,16 @@ export const createConnectionAction = zact(z.object({
     userEmail: z.string()
 }))(
     async ({ userEmail }) => {
+        const { user } = await getServerSession();
+
+        if (user.email === userEmail) {
+            throw new Error('It is not possible to create a connection with yourself');
+        }
+        const acceptorUser = await prisma.user.findUnique({ where: { email: userEmail } });
+        if (!acceptorUser) {
+            throw new Error('The email does not belong to an existing user');
+        }
         try {
-            const { user } = await getServerSession();
-            const acceptorUser = await prisma.user.findUnique({ where: { email: userEmail } });
-            if (!acceptorUser) {
-                throw new Error('The email does not belong to an existing user');
-            }
             await prisma.networkConnection.create({
                 data: { requesterId: user.id, acceptorId: acceptorUser.id }
             });
