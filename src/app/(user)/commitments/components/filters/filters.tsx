@@ -19,7 +19,7 @@ export default function Filters({ onFiltersChanged }: Props) {
     const selectedFilterStyle = 'bg-slate-500';
     const notSelectedFilterStyle = 'bg-slate-600';
     const filterStyle = clsx(
-        'flex w-fit cursor-pointer items-center rounded px-2 py-1 transition',
+        'flex w-fit cursor-pointer items-center rounded p-[5px] transition',
         'hover:bg-slate-500 hover:shadow'
     );
 

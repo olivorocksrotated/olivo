@@ -4,9 +4,11 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Commitment } from '@prisma/client';
 
 import CommitmentCard from './commitment-card';
+import { Filters } from './types';
 
 interface Props {
     commitments: Pick<Commitment, 'id' | 'title' | 'status' | 'doneBy'>[];
+    filters: Filters
 }
 
 export default function CommitmentsList({ commitments }: Props) {
