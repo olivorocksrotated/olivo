@@ -19,8 +19,10 @@ export default async function Home() {
         <main>
             <PageTitle text={`👋 Hey, ${firstName}`} />
             <div className="mb-10"><MoodSelector todaysMood={todaysMood} /></div>
-            <div className="mb-10">{await NextMeetingCard()}</div>
-            <div>{await CommitmentsSection({ commitments, title: 'Commitments for today' })}</div>
+            {/* @ts-expect-error Server Component */}
+            <div className="mb-10"><NextMeetingCard /></div>
+            {/* @ts-expect-error Server Component */}
+            <div><CommitmentsSection commitments={commitments} title="Commitments for today" /></div>
         </main>
     );
 }

@@ -5,10 +5,10 @@ import * as Popover from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
-import AbandonedStatusMarker from '../status-marker/abandoned';
-import DoneStatusMarker from '../status-marker/done';
-import InProgressStatusMarker from '../status-marker/in-progress';
-import NotStartedStatusMarker from '../status-marker/not-started';
+import AbandonedStatusMarker from '../../status-marker/abandoned';
+import DoneStatusMarker from '../../status-marker/done';
+import InProgressStatusMarker from '../../status-marker/in-progress';
+import NotStartedStatusMarker from '../../status-marker/not-started';
 
 interface Props {
     commitment: Pick<Commitment, 'status'>;
