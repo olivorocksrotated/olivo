@@ -1,4 +1,3 @@
-import PageTitle from '@/app/components/page-title';
 import { getServerSession } from '@/lib/auth/session';
 import { getCommitmentsByUser } from '@/lib/commitments/get';
 
@@ -13,11 +12,6 @@ export default async function Commitments() {
         <div>You do not have any commitments yet</div>
     );
 
-    return (
-        <main>
-            <PageTitle text="Commitments" />
-            {/* @ts-expect-error Server Component */}
-            {!hasCommitments ? noCommitments : <CommitmentsSection commitments={commitments} title="Your commitments" />}
-        </main>
-    );
+    /* @ts-expect-error Server Component */
+    return !hasCommitments ? noCommitments : <CommitmentsSection commitments={commitments} title="Your commitments" />;
 }

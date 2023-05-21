@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { MouseEvent, useState } from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
@@ -54,6 +55,10 @@ export default function AddCommitmentButton() {
                         placeholder="done by"
                         className="h-8 w-full px-2.5"
                     />
+                </div>
+                <div className="mb-4">
+                    <span className="text-slate-300">Find all your commitments</span>{' '}
+                    <Link href="/commitments" className="text-white hover:text-indigo-300">in the &quot;Commitments&quot; section</Link>
                 </div>
             </div>
         </DialogButton>

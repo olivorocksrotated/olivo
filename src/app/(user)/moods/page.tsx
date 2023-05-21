@@ -1,4 +1,3 @@
-import PageTitle from '@/app/components/page-title';
 import { getServerSession } from '@/lib/auth/session';
 import { getMoods } from '@/lib/moods/get';
 
@@ -24,17 +23,12 @@ export default async function Moods() {
         <div>You do not have any moods yet</div>
     );
 
-    return (
-        <main>
-            <PageTitle text="Your mood" />
-            {!hasMoods ? noMoods :
-            <div>
-                <div className="mb-8 text-lg">How you have been feeling this month</div>
-                <div className="flex flex-col-reverse gap-12 sm:flex-row sm:align-top">
-                    <div className="w-fit"><MoodMatrix moods={thisMonthMoods} /></div>
-                    <div className="max-w-3xl grow"><MoodTrend thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} /></div>
-                </div>
-            </div>}
-        </main>
-    );
+    return !hasMoods ? noMoods :
+        <div>
+            <div className="mb-8 text-lg">How you have been feeling this month</div>
+            <div className="flex flex-col-reverse gap-12 sm:flex-row sm:align-top">
+                <div className="w-fit"><MoodMatrix moods={thisMonthMoods} /></div>
+                <div className="max-w-3xl grow"><MoodTrend thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} /></div>
+            </div>
+        </div>;
 }
