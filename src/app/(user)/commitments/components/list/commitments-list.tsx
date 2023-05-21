@@ -22,10 +22,13 @@ export default function CommitmentsList({ commitments, filters }: Props) {
     const [filteredCommitments, setFilteredCommitments] = useState([] as ListCommitment[]);
 
     useEffect(() => {
-        const emptyFilter = () => true;
+        const filterOrNothing = (
+            condition: boolean,
+            filterFunction: (commitment: ListCommitment) => boolean
+        ) => (condition ? filterFunction : () => true);
         const filtersToApply = [
-            filters.past ? isPast(todayAtZeroHourUTC()) : emptyFilter,
-            filters.notDone ? isNotDone : emptyFilter
+            filterOrNothing(filters.past, isPast(todayAtZeroHourUTC())),
+            filterOrNothing(filters.notDone, isNotDone)
         ];
         const isShown = (commitment: ListCommitment) => filtersToApply
             .map((filterFunction) => filterFunction(commitment))
