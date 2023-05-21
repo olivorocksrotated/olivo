@@ -10,7 +10,8 @@ export default defineConfig({
         reporters: ['basic'],
         coverage: {
             reporter: ['text-summary']
-        }
+        },
+        clearMocks: true
     },
     resolve: {
         alias: {
