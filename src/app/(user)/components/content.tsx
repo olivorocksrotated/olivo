@@ -97,9 +97,7 @@ function useRouterEvents(callback: () => void) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    return useCallback(() => {
-        callback();
-    }, [pathname, searchParams, callback]);
+    return useCallback(() => callback(), [pathname, searchParams, callback]);
 }
 
 export default function Content({ children }: { children: React.ReactNode }) {
@@ -156,7 +154,7 @@ export default function Content({ children }: { children: React.ReactNode }) {
                         </ul>
                     </UserMenu>
 
-                    <NavigationLinks ></NavigationLinks>
+                    <NavigationLinks />
                 </div>
             </aside>
 
