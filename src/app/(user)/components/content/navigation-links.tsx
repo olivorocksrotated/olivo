@@ -25,7 +25,7 @@ export default function NavigationLinks() {
 
     return (
         <AnimatePresence mode="wait">
-            <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="mt-4 space-y-2 border-t border-gray-700 pt-4">
+            <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="mt-2 space-y-2 border-t border-gray-700 pt-4">
                 <li onMouseEnter={() => setHovered(1)} className="relative">
                     {selected === null ? <SelectedBackground /> : null}
                     {hovered === 1 ? <HoverMark /> : null}

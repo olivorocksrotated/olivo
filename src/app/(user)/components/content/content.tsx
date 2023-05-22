@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useCallback, useState } from 'react';
-import { FaSignOutAlt, FaWrench } from 'react-icons/fa';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
@@ -63,12 +63,13 @@ export default function Content({ children }: { children: React.ReactNode }) {
                     </div>
 
                     <UserMenu>
-                        <ul className="grid list-none grid-cols-3 gap-2 py-1" role="none">
-                            <li className="cursor-pointer rounded-xl border-2 border-indigo-700 px-3 py-1 text-sm text-white">
-                                <FaSignOutAlt onClick={() => signOut()} className="h-3 w-3" role="menuitem" />
-                            </li>
-                            <li className="cursor-pointer rounded-xl border-2 border-indigo-700 px-3 py-1 text-sm text-white">
-                                <FaWrench onClick={() => signOut()} className="h-3 w-3" role="menuitem" />
+                        <ul className="flex" role="none">
+                            <li onClick={() => signOut()} className={clsx(
+                                'cursor-pointer rounded border border-slate-500 px-3 py-1 text-gray-400 transition',
+                                'hover:bg-slate-700 hover:text-white'
+                            )}
+                            >
+                                <FaSignOutAlt size={12} role="menuitem" />
                             </li>
                         </ul>
                     </UserMenu>
