@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
-import { useDebounce } from '@/lib/hooks/useDebounce';
+import useDebounce from '@/lib/hooks/useDebounce';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
