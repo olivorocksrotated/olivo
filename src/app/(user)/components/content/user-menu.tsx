@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { signOut } from 'next-auth/react';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { IoLogOutOutline } from 'react-icons/io5';
 
 export default function UserMenu() {
     const itemStyle = clsx(
@@ -11,8 +11,8 @@ export default function UserMenu() {
     return (
         <div className="py-2">
             <ul className="flex" role="none">
-                <li onClick={() => signOut()} className={itemStyle}>
-                    <FaSignOutAlt size={12} role="menuitem" />
+                <li onClick={() => signOut()} title="Sign out" className={itemStyle}>
+                    <IoLogOutOutline size={14} role="menuitem" />
                 </li>
             </ul>
         </div>
