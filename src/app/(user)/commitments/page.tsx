@@ -5,7 +5,7 @@ import CommitmentsSection from './components/commitments-section';
 
 export default async function Commitments() {
     const { user } = await getServerSession();
-    const commitments = await getCommitmentsByUser(user.id);
+    const commitments = await getCommitmentsByUser({ userId: user.id });
 
     const hasCommitments = commitments.length !== 0;
     const noCommitments = (

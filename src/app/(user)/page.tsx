@@ -13,7 +13,11 @@ export default async function Home() {
     const firstName = getFirstName(user.name);
 
     const todaysMood = await getTodaysMood(user.id);
-    const commitments = await getCommitmentsByUser(user.id, { today: true });
+    const commitments = await getCommitmentsByUser({
+        userId: user.id,
+        filters: { doneBy: 'today and last 2 days' },
+        order: 'desc'
+    });
 
     return (
         <main>

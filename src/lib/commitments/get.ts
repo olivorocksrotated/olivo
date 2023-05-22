@@ -1,15 +1,21 @@
 import { CommitmentStatus } from '@prisma/client';
+import { sub } from 'date-fns';
 
 import { todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
 interface Filter {
-    today: boolean;
+    doneBy: 'today' | 'today and last 2 days';
 }
 
-export async function getCommitmentsByUser(userId: string, filters: Partial<Filter> = {}) {
+export async function getCommitmentsByUser({ userId, filters = {}, order = 'asc' }: {
+    userId: string,
+    filters?: Partial<Filter>,
+    order?: 'asc' | 'desc'
+}) {
     const filtersBuilder = {
-        ...filters.today ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {}
+        ...filters.doneBy === 'today' ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {},
+        ...filters.doneBy === 'today and last 2 days' ? { doneBy: { gte: sub(todayAtZeroHourUTC(), { days: 2 }), lt: todayAtMidnightUTC() } } : {}
     };
 
     const commitments = await prisma.commitment.findMany({
@@ -28,9 +34,7 @@ export async function getCommitmentsByUser(userId: string, filters: Partial<Filt
             status: true,
             doneBy: true
         },
-        orderBy: {
-            doneBy: 'asc'
-        }
+        orderBy: { doneBy: order }
     });
 
     return commitments;
