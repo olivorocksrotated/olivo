@@ -15,6 +15,7 @@ function useRouterEvents(callback: () => void) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     return useCallback(() => callback(), [pathname, searchParams, callback]);
 }
 
