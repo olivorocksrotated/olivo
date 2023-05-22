@@ -3,9 +3,8 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useCallback, useState } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
@@ -62,17 +61,7 @@ export default function Content({ children }: { children: React.ReactNode }) {
                         </div>
                     </div>
 
-                    <UserMenu>
-                        <ul className="flex" role="none">
-                            <li onClick={() => signOut()} className={clsx(
-                                'cursor-pointer rounded border border-slate-500 px-3 py-1 text-gray-400 transition',
-                                'hover:bg-slate-700 hover:text-white'
-                            )}
-                            >
-                                <FaSignOutAlt size={12} role="menuitem" />
-                            </li>
-                        </ul>
-                    </UserMenu>
+                    <UserMenu />
 
                     <NavigationLinks />
                 </div>
