@@ -12,9 +12,10 @@ interface Props {
     onFiltersChanged: (filters: FiltersType) => void;
 }
 
+const defaultFilters: FiltersType = { notDone: false, past: false };
+
 export default function Filters({ onFiltersChanged }: Props) {
-    const [notDoneFilter, setNotDoneFilter] = useState(false);
-    const [pastFilter, setPastFilter] = useState(false);
+    const [filters, setFilters] = useState(defaultFilters);
 
     const selectedFilterStyle = 'bg-slate-500';
     const notSelectedFilterStyle = 'bg-slate-600';
@@ -23,28 +24,26 @@ export default function Filters({ onFiltersChanged }: Props) {
         'hover:bg-slate-500 hover:shadow'
     );
 
-    useEffect(() => {
-        onFiltersChanged({ notDone: notDoneFilter, past: pastFilter });
-    }, [notDoneFilter, pastFilter, onFiltersChanged]);
+    useEffect(() => onFiltersChanged(filters), [filters, onFiltersChanged]);
 
     return (
         <div className="mb-2 flex gap-2">
-            <div onClick={() => setNotDoneFilter((previous) => !previous)}
+            <div onClick={() => setFilters((previous) => ({ ...previous, notDone: !previous.notDone }))}
                 className={clsx({
                     [filterStyle]: true,
-                    [notSelectedFilterStyle]: !notDoneFilter,
-                    [selectedFilterStyle]: !!notDoneFilter
+                    [notSelectedFilterStyle]: !filters.notDone,
+                    [selectedFilterStyle]: !!filters.notDone
                 })}
             >
                 <span><NotStartedStatusMarker /></span>
                 <span className="-ml-1 mr-1"><InProgressStatusMarker /></span>
                 <span className="text-xs">Not done</span>
             </div>
-            <div onClick={() => setPastFilter((previous) => !previous)}
+            <div onClick={() => setFilters((previous) => ({ ...previous, past: !previous.past }))}
                 className={clsx({
                     [filterStyle]: true,
-                    [notSelectedFilterStyle]: !pastFilter,
-                    [selectedFilterStyle]: !!pastFilter
+                    [notSelectedFilterStyle]: !filters.past,
+                    [selectedFilterStyle]: !!filters.past
                 })}
             >
                 <span className="mr-1"><PastStatusMarker /></span>
