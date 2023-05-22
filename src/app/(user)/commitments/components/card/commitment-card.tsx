@@ -4,9 +4,12 @@ import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client'
 import { KeyboardEvent, useState } from 'react';
 import { useZact } from 'zact/client';
 
+import { isPast } from '@/lib/commitments/filter';
 import { updateCommitmentAction } from '@/lib/commitments/update';
+import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { formatDate, formatRelativeDate } from '@/lib/date/format';
 
+import PastStatusMarker from '../status-marker/past';
 import DeleteButton from './actions/delete-btn';
 import StatusPopover from './actions/status-popover';
 
@@ -19,8 +22,9 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const [commitment, setCommitment] = useState(originalCommitment);
     const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
     const [editDoneBy, setEditDoneBy] = useState({ value: formatDate(commitment.doneBy), isEditing: false });
-    const now = new Date();
 
+    const now = todayAtZeroHourUTC();
+    const isPastCommitment = isPast(now)({ doneBy: new Date(commitment.doneBy) });
     const editStyle = 'hover:cursor-pointer hover:underline hover:decoration-dotted';
 
     const { mutate: update } = useZact(updateCommitmentAction);
@@ -107,7 +111,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="flex items-center gap-3">
+                    {isPastCommitment ? <PastStatusMarker /> : null}
                     <DeleteButton onDelete={() => handleStatusChange(CommitmentStatus.Abandoned)} />
                 </div>
             </div>
