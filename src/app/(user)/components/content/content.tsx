@@ -1,97 +1,16 @@
 'use client';
 
 import clsx from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname, useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useCallback, useState } from 'react';
-import { AiFillHome } from 'react-icons/ai';
-import { BsPeopleFill } from 'react-icons/bs';
-import { FaSignOutAlt, FaTasks, FaWrench } from 'react-icons/fa';
-import { TbMoodCheck } from 'react-icons/tb';
+import { FaSignOutAlt, FaWrench } from 'react-icons/fa';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
-function UserMenu({ children }: { children: React.ReactNode; }) {
-    return (
-        <div className="mx-1 my-4 flex items-center justify-center divide-y divide-gray-600">
-            <div className="rounded-lg bg-indigo-950/90 px-5 py-1">
-                {children}
-            </div>
-        </div>
-    );
-}
-
-function HoverMark() {
-    return (
-        <motion.div layoutId="hovered" className="absolute top-0 h-full w-2">
-            <div className="h-full w-full rounded bg-purple-900" />
-        </motion.div>
-    );
-}
-
-function SelectedBackground() {
-    return (
-        <motion.div layoutId="selected" className="absolute top-0 h-full w-full">
-            <div className="h-full w-full rounded bg-indigo-950" />
-        </motion.div>
-    );
-}
-
-function NavigationLinks() {
-    const selected = useSelectedLayoutSegment();
-    const [hovered, setHovered] = useState<number>();
-
-    const linkClasses = 'relative flex items-center rounded-lg p-2 pl-4 text-sm font-thin text-white focus:font-semibold';
-    const iconClasses = 'mr-3 text-gray-400';
-    const selectedHoverIndex = {
-        home: 1,
-        commitments: 2,
-        network: 3,
-        moods: 4
-    }[selected || 'home'];
-
-    return (
-        <AnimatePresence mode="wait">
-            <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="mt-4 space-y-2 border-t border-gray-700 pt-4">
-                <li onMouseEnter={() => setHovered(1)} className="relative">
-                    {selected === null ? <SelectedBackground /> : null}
-                    {hovered === 1 ? <HoverMark /> : null}
-                    <Link href="/" className={linkClasses}>
-                        <AiFillHome size={18} className={iconClasses} />
-                        <span>Home</span>
-                    </Link>
-                </li>
-                <li onMouseEnter={() => setHovered(2)} className="relative">
-                    {selected === 'commitments' ? <SelectedBackground /> : null}
-                    {hovered === 2 ? <HoverMark /> : null}
-                    <Link href="/commitments" className={linkClasses}>
-                        <FaTasks size={18} className={iconClasses} />
-                        <span>Commitments</span>
-                    </Link>
-                </li>
-                <li onMouseEnter={() => setHovered(3)} className="relative">
-                    {selected === 'network' ? <SelectedBackground /> : null}
-                    {hovered === 3 ? <HoverMark /> : null}
-                    <Link href="/network" className={linkClasses}>
-                        <BsPeopleFill size={18} className={iconClasses} />
-                        <span>Your Network</span>
-                    </Link>
-                </li>
-                <li onMouseEnter={() => setHovered(4)} className="relative">
-                    {selected === 'moods' ? <SelectedBackground /> : null}
-                    {hovered === 4 ? <HoverMark /> : null}
-                    <Link href="/moods" className={linkClasses}>
-                        <TbMoodCheck size={18} className={iconClasses} />
-                        <span>Your Moods</span>
-                    </Link>
-                </li>
-            </ul>
-        </AnimatePresence>
-    );
-}
+import NavigationLinks from './navigation-links';
+import UserMenu from './user-menu';
 
 function useRouterEvents(callback: () => void) {
     const pathname = usePathname();
