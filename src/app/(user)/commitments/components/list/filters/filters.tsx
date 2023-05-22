@@ -1,7 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
+
+import useLocalStorage from '@/lib/hooks/useLocalStorage';
 
 import InProgressStatusMarker from '../../status-marker/in-progress';
 import NotStartedStatusMarker from '../../status-marker/not-started';
@@ -15,13 +18,17 @@ interface Props {
 const defaultFilters: FiltersType = { notDone: false, past: false };
 
 export default function Filters({ onFiltersChanged }: Props) {
-    const [filters, setFilters] = useState(defaultFilters);
+    const currentPath = usePathname();
+    const clearedCurrentPath = currentPath?.replaceAll('/', '');
+    const localStorageKey = `cf-${clearedCurrentPath}`;
+
+    const [filters, setFilters] = useLocalStorage(localStorageKey, defaultFilters);
 
     const selectedFilterStyle = 'bg-slate-500';
     const notSelectedFilterStyle = 'bg-slate-600';
     const filterStyle = clsx(
         'flex w-fit cursor-pointer items-center rounded p-[5px] transition',
-        'hover:bg-slate-500 hover:shadow'
+        'hover:bg-slate-500'
     );
 
     useEffect(() => onFiltersChanged(filters), [filters, onFiltersChanged]);
