@@ -13,12 +13,12 @@ import ConnectionLoader from './connection-loader';
 
 type Connection = { id: string, image: string, name: string };
 
-function AnimatedCard({ children, key }: { children: React.ReactNode; key: string }) {
+function AnimatedCard({ children, id }: { children: React.ReactNode; id: string }) {
     const transition = { duration: 0.5 };
 
     return (
         <motion.div className="flex w-full"
-            key={key}
+            key={id}
             initial={{ opacity: 0.2 }}
             animate={{ opacity: 1, transition }}
             exit={{ opacity: 0, transition }}
@@ -53,13 +53,13 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
         <AnimatePresence mode="wait">
             <div className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {connections.map((connection: Connection) => (
-                    <AnimatedCard key={connection.id}>
+                    <AnimatedCard key={connection.id} id={connection.id}>
                         <ConnectionCard connection={connection} />
                     </AnimatedCard>
                 ))}
-                {isLoading ? <AnimatedCard key="feedbackCard"><ConnectionLoader></ConnectionLoader></AnimatedCard> : null}
+                {isLoading ? <AnimatedCard id="feedbackCard"><ConnectionLoader /></AnimatedCard> : null}
                 {error && interaction ? (
-                    <AnimatedCard key="feedbackCardError">
+                    <AnimatedCard id="feedbackCardError">
                         <ConnectionError onClose={onErrorCardClosed} text={error.message} />
                     </AnimatedCard>
                 ) : null}
