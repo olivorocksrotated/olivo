@@ -12,14 +12,13 @@ import SelectedBackground from './selected-background';
 
 export default function NavigationLinks() {
     const selected = useSelectedLayoutSegment();
-    const [hovered, setHovered] = useState<number>();
-
     const selectedHoverIndex = {
         home: 1,
         commitments: 2,
         network: 3,
         moods: 4
-    }[selected ?? 'home'];
+    }[selected ?? 'home'] as number;
+    const [hovered, setHovered] = useState<number>(selectedHoverIndex);
 
     const listItem = ({ hoverIndex, selectedId, link }: {
         hoverIndex: number,
