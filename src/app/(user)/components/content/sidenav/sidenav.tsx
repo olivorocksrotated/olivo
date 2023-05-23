@@ -39,10 +39,11 @@ export default function Sidenav() {
             </button>
 
             <aside id="sidenav"
-                className={`fixed left-0 top-0 z-40 h-screen w-56 -translate-x-full transition-transform sm:translate-x-0 ${asideMobileStyle}`}
+                className={`fixed -left-8 top-0 z-40 mx-8 w-56 -translate-x-full transition-transform sm:relative sm:left-0 sm:translate-x-0  ${asideMobileStyle}`}
+                style={{ height: 'calc(100vh - 80px)' }}
                 aria-label="Sidenav"
             >
-                <div className="h-full overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
+                <div className="h-full overflow-y-auto rounded-lg px-3 py-4" style={{ background: 'rgb(35, 37, 38)', border: '1px solid hsla(0,0%,100%,.05)' }}>
                     <div className="space-y-2 font-medium">
                         <div className="flex gap-2">
                             <div>
@@ -63,5 +64,6 @@ export default function Sidenav() {
             </aside>
 
             {isMobileOpen ? <div onClick={closeMobileMenu} className="absolute left-0 top-0 h-screen w-screen bg-slate-900 opacity-60"></div> : null}
-        </div>);
+        </div>
+    );
 }
