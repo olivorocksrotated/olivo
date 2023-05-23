@@ -44,7 +44,7 @@ export default function Filters({ onFiltersChanged }: Props) {
             >
                 <span><NotStartedStatusMarker /></span>
                 <span className="-ml-1 mr-1"><InProgressStatusMarker /></span>
-                <span className="text-xs">Not done</span>
+                <span className="text-xs">To-do</span>
             </div>
             <div onClick={() => setFilters((previous) => ({ ...previous, past: !previous.past }))}
                 className={clsx({

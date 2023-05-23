@@ -4,30 +4,24 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
 import NavigationLinks from './navigation-links';
 import UserMenu from './user-menu';
 
-function useRouterEvents(callback: () => void) {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    return useCallback(() => callback(), [pathname, searchParams, callback]);
-}
-
 export default function Content({ children }: { children: React.ReactNode }) {
     const { data: session } = useSession();
-    const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const closeMobileMenu = () => setIsMobileOpen(false);
-    useRouterEvents(closeMobileMenu);
-
     const nameAcronym = getNameAcronym(session?.user.name);
     const firstName = getFirstName(session?.user.name);
+
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
     const asideMobileStyle = clsx({ 'translate-x-0': isMobileOpen });
+    const url = `${usePathname()}${useSearchParams()}`;
+
+    const closeMobileMenu = useCallback(() => setIsMobileOpen(false), []);
+    useEffect(() => closeMobileMenu(), [url, closeMobileMenu]);
 
     return (
         <div>
