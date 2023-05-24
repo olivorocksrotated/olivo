@@ -24,13 +24,13 @@ export default function Sidenav() {
     useEffect(() => closeMobileMenu(), [url, closeMobileMenu]);
 
     return (
-        <>
+        <div>
             <button onClick={() => setIsMobileOpen(true)}
                 data-drawer-target="sidenav"
                 data-drawer-toggle="sidenav"
                 aria-controls="sidenav"
                 type="button"
-                className="my-2 ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 sm:hidden"
+                className="inline-flex items-center rounded-lg p-2 text-sm text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 sm:hidden"
             >
                 <span className="sr-only">Open sidenav</span>
                 <svg className="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@ export default function Sidenav() {
 
             <aside id="sidenav"
                 className={`fixed left-0 top-0 z-40 h-screen w-56 -translate-x-full transition-transform sm:translate-x-0 ${asideMobileStyle}`}
-                aria-label="Sidebar"
+                aria-label="Sidenav"
             >
                 <div className="h-full overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
                     <div className="space-y-2 font-medium">
@@ -63,5 +63,5 @@ export default function Sidenav() {
             </aside>
 
             {isMobileOpen ? <div onClick={closeMobileMenu} className="absolute left-0 top-0 h-screen w-screen bg-slate-900 opacity-60"></div> : null}
-        </>);
+        </div>);
 }
