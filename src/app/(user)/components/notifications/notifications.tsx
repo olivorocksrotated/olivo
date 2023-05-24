@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 
@@ -69,7 +70,18 @@ export default function Notifications() {
                 </div>
             </aside>
 
-            {isOpen ? <div onClick={() => setIsOpen(false)} className="absolute left-0 top-0 h-screen w-screen bg-slate-900 opacity-60"></div> : null}
+            <AnimatePresence>
+                {isOpen ? (
+                    <motion.div key="notifications-backdrop"
+                        onClick={() => setIsOpen(false)}
+                        className="absolute left-0 top-0 h-screen w-screen bg-slate-900"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.6 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                    </motion.div>) : null}
+            </AnimatePresence>
         </div>
     );
 }
