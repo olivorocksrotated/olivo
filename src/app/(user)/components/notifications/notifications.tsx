@@ -11,7 +11,7 @@ function useRequestDesktopPermission() {
 
     useEffect(() => {
         if (permission !== NotificationPermission.Granted) {
-            requestPermission().then();
+            requestPermission();
         }
     }, [permission, requestPermission]);
 }
