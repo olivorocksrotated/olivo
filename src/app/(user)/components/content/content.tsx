@@ -1,4 +1,4 @@
-import Sidenav from './sidenav';
+import Sidenav from './sidenav/sidenav';
 
 export default function Content({ children }: { children: React.ReactNode }) {
     return (
