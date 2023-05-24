@@ -22,7 +22,7 @@
     // React rules
     "react/button-has-type": "error",
     "react/destructuring-assignment": ["error", "always"],
-    "react/hook-use-state": "error",
+    "react/hook-use-state": ["error", { "allowDestructuredState": true }],
     "react/jsx-child-element-spacing": "error",
     "react/jsx-closing-bracket-location": ["error", "line-aligned"],
     "react/jsx-closing-tag-location": "error",
