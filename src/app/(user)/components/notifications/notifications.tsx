@@ -20,11 +20,11 @@ export default function Notifications() {
     useRequestDesktopPermission();
 
     const [isOpen, setIsOpen] = useState(false);
-    const asideStyle = clsx({
-        'fixed right-0 top-0 z-40 h-screen w-56 translate-x-full transition-transform': true,
-        'sm:w-96': true,
-        '-translate-x-0': isOpen
-    });
+    const asideStyle = clsx(
+        'fixed right-0 top-0 z-40 h-screen w-56 translate-x-full transition-transform',
+        'sm:w-96',
+        { '-translate-x-0': isOpen }
+    );
     const buttonStyle = clsx(
         'inline-flex items-center rounded-lg p-2 text-sm text-gray-400',
         'sm:absolute sm:right-0 sm:top-0 sm:mr-2 sm:mt-2',
@@ -55,7 +55,7 @@ export default function Notifications() {
             </button>
 
             <aside id="notifications" className={asideStyle} aria-label="Notifications">
-                <div className="h-full overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
+                <div className="overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
                     <ul role="list" className="divide-y divide-gray-600">
                         {listItem({
                             title: 'Example notification',

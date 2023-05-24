@@ -74,7 +74,7 @@ export default function MoodSelector({ todaysMood }: Props) {
     const parentContainerHeight = { initial: !selectedMood.option?.name ? '150px' : expandedHeight, expanded: expandedHeight };
 
     return (
-        <motion.div className="rounded border border-indigo-700 bg-gray-800 p-4 sm:w-fit"
+        <motion.div className="rounded border bg-gray-800 p-4 sm:w-fit" style={{ borderColor: 'hsla(0,0%,100%,.05)' }}
             initial={{ height: parentContainerHeight.initial }}
             animate={{ height: selectedMood.option?.name ? parentContainerHeight.expanded : parentContainerHeight.initial }}
         >
