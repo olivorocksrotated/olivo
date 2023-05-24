@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -17,7 +18,17 @@ export default function Sidenav() {
     const firstName = getFirstName(session?.user.name);
 
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const asideMobileStyle = clsx({ 'translate-x-0': isMobileOpen });
+    const asideStyle = clsx({
+        'fixed -left-8 top-0 z-40 mx-8 w-56 -translate-x-full transition-transform': true,
+        'sm:relative sm:left-0 sm:translate-x-0': true,
+        'translate-x-0': isMobileOpen
+    });
+    const buttonStyle = clsx(
+        'inline-flex items-center rounded-lg p-2 text-sm text-gray-400',
+        'sm:hidden',
+        'hover:bg-gray-700',
+        'focus:outline-none focus:ring-2 focus:ring-gray-600'
+    );
     const url = `${usePathname()}${useSearchParams()}`;
 
     const closeMobileMenu = useCallback(() => setIsMobileOpen(false), []);
@@ -30,7 +41,7 @@ export default function Sidenav() {
                 data-drawer-toggle="sidenav"
                 aria-controls="sidenav"
                 type="button"
-                className="inline-flex items-center rounded-lg p-2 text-sm text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 sm:hidden"
+                className={buttonStyle}
             >
                 <span className="sr-only">Open sidenav</span>
                 <svg className="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -39,11 +50,11 @@ export default function Sidenav() {
             </button>
 
             <aside id="sidenav"
-                className={`fixed -left-8 top-0 z-40 mx-8 w-56 -translate-x-full transition-transform sm:relative sm:left-0 sm:translate-x-0  ${asideMobileStyle}`}
+                className={asideStyle}
                 style={{ height: 'calc(100vh - 80px)' }}
                 aria-label="Sidenav"
             >
-                <div className="h-full overflow-y-auto rounded-lg px-3 py-4" style={{ background: 'rgb(35, 37, 38)', border: '1px solid hsla(0,0%,100%,.05)' }}>
+                <div className="h-full overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
                     <div className="space-y-2 font-medium">
                         <div className="flex gap-2">
                             <div>
@@ -63,7 +74,17 @@ export default function Sidenav() {
                 </div>
             </aside>
 
-            {isMobileOpen ? <div onClick={closeMobileMenu} className="absolute left-0 top-0 h-screen w-screen bg-slate-900 opacity-60"></div> : null}
-        </div>
-    );
+            <AnimatePresence>
+                {isMobileOpen ? (
+                    <motion.div key="sidenav-backdrop"
+                        onClick={closeMobileMenu}
+                        className="absolute left-0 top-0 h-screen w-screen bg-slate-900"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.6 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                    </motion.div>) : null}
+            </AnimatePresence>
+        </div>);
 }
