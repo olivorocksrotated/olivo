@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react';
 
-import useNotification, { NotificationPermission } from '@/lib/hooks/useNotification';
+import useDesktopNotification, { NotificationPermission } from '@/lib/hooks/useDesktopNotification';
 
-export default function Notifications() {
-    const { permission, requestPermission } = useNotification();
+export default function NotificationsPermission() {
+    const { permission, requestPermission } = useDesktopNotification();
 
     useEffect(() => {
         if (permission !== NotificationPermission.Granted) {

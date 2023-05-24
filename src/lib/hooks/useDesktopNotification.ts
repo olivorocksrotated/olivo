@@ -8,7 +8,7 @@ export enum NotificationPermission {
 
 const isNotificationSupported = () => typeof Notification !== 'undefined' && Notification.permission;
 
-export default function useNotification() {
+export default function useDesktopNotification() {
     const [{ permission, loading }, setState] = useState({
         permission: isNotificationSupported(),
         loading: false
