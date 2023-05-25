@@ -17,7 +17,7 @@ export default function SignIn() {
     const loader = showLoader ? <div><Loader /></div> : undefined;
 
     return (
-        <div className="flex h-screen w-screen flex-col items-center gap-20 py-64">
+        <div className={`flex h-screen w-screen flex-col items-center gap-20 py-64 ${styles.background}`}>
             <div className={`${styles.logo} min-h-[90px] rounded-md bg-gradient-to-r from-transparent via-purple-400 to-transparent px-64 py-5 text-5xl font-bold`}>
                 OLIVO
             </div>

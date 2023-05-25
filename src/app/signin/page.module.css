@@ -39,6 +39,15 @@
   background-clip: content-box;
 }
 
+.background {
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(0, 0, 0)
+  )
+  rgb(0, 0, 0);
+}
+
 @keyframes rotate {
   from {
     transform: rotate(360deg);
