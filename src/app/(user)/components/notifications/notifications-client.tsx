@@ -13,9 +13,9 @@ interface Props {
     commitments: Pick<Commitment, 'doneBy'>[]
 }
 
-export default function NotificationsClient({}: Props) {
+export default function NotificationsClient({ commitments }: Props) {
     useRequestDesktopPermission();
-    useScheduleNotifications();
+    useScheduleNotifications({ commitments });
 
     const [isOpen, setIsOpen] = useState(false);
     const asideStyle = clsx(
@@ -77,7 +77,7 @@ export default function NotificationsClient({}: Props) {
                 {isOpen ? (
                     <motion.div key="notifications-backdrop"
                         onClick={() => setIsOpen(false)}
-                        className="absolute left-0 top-0 h-screen w-screen bg-slate-900"
+                        className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.6 }}
                         exit={{ opacity: 0 }}

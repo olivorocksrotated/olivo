@@ -83,7 +83,7 @@ export default function Sidenav() {
                 {isMobileOpen ? (
                     <motion.div key="sidenav-backdrop"
                         onClick={closeMobileMenu}
-                        className="absolute left-0 top-0 h-screen w-screen bg-slate-900"
+                        className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.6 }}
                         exit={{ opacity: 0 }}
