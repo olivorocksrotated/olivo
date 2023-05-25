@@ -29,7 +29,7 @@ export default function Notifications() {
     );
     const buttonStyle = clsx(
         'inline-flex items-center rounded-lg p-2 text-sm text-gray-400',
-        'sm:absolute sm:right-0 sm:top-0 sm:mr-2 sm:mt-2',
+        'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6',
         'hover:bg-gray-700',
         'focus:outline-none focus:ring-2 focus:ring-gray-600'
     );

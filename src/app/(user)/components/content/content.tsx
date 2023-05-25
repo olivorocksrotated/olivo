@@ -4,7 +4,7 @@ import Sidenav from './sidenav/sidenav';
 export default function Content({ children }: { children: React.ReactNode }) {
     return (
         <div className="sm:flex sm:p-6">
-            <div className="flex items-center justify-between p-3 sm:items-start">
+            <div className="flex items-center justify-between p-3 sm:items-start sm:p-0">
                 <Sidenav />
                 <Notifications />
             </div>
