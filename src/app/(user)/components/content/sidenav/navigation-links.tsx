@@ -32,8 +32,8 @@ export default function NavigationLinks() {
         <li onMouseEnter={() => setHovered(hoverIndex)} className="relative">
             {selected === selectedId ? <SelectedBackground /> : null}
             {hovered === hoverIndex ? <HoverMark /> : null}
-            <Link href={link.path} className="relative z-20 flex items-center p-2 pl-4 text-sm font-thin text-white">
-                <span className="mr-3 text-gray-400">{link.icon}</span>
+            <Link href={link.path} className="relative z-20 flex items-center gap-3 p-2 pl-4 text-sm font-thin text-white">
+                <span className="text-gray-400">{link.icon}</span>
                 <span>{link.title}</span>
             </Link>
         </li>

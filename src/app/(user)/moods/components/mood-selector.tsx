@@ -1,12 +1,14 @@
 'use client';
 
 import { Mood, MoodStatus } from '@prisma/client';
+import * as Popover from '@radix-ui/react-popover';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { TbMoodCheck } from 'react-icons/tb';
 import { useZact } from 'zact/client';
 
-import useDebounce from '@/lib/hooks/useDebounce';
+import Button from '@/app/components/button';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 
@@ -32,8 +34,8 @@ const nullState = { option: nullMoodOption, comment: '' };
 const moodOptions = Object.values(moodMap);
 
 export default function MoodSelector({ todaysMood }: Props) {
+    const [isOpen, setIsOpen] = useState(false);
     const [selectedMood, setSelectedMood] = useState(nullState);
-    const debouncedSelectedMood = useDebounce(selectedMood, 1000);
 
     useEffect(() => setSelectedMood(() => {
         const isMoodCheckAlreadyDoneToday = !!todaysMood;
@@ -47,69 +49,80 @@ export default function MoodSelector({ todaysMood }: Props) {
     const { mutate: createMood, isLoading: isCreatingMood } = useZact(createMoodAction);
     const { mutate: updateMood } = useZact(updateMoodAction);
 
-    const handleMoodClick = async (mood: MoodOption) => {
-        if (isCreatingMood) {
+    const handleMoodSave = async () => {
+        if (!selectedMood.option.name || isCreatingMood) {
             return;
         }
 
-        setSelectedMood((previous) => ({ ...previous, option: mood }));
         const action = !todaysMood?.id ?
-            createMood({ status: mood.name }) :
-            updateMood({ id: todaysMood!.id, status: mood.name });
+            createMood({ status: selectedMood.option.name, comment: selectedMood.comment }) :
+            updateMood({ id: todaysMood!.id, status: selectedMood.option.name, comment: selectedMood.comment });
 
         await action;
+        setIsOpen(false);
     };
 
-    useEffect(() => {
-        async function updateComment() {
-            if (!todaysMood || !debouncedSelectedMood.comment || todaysMood?.comment === debouncedSelectedMood.comment) {
-                return;
-            }
-            await updateMood({ id: todaysMood!.id, comment: debouncedSelectedMood.comment });
-        }
-        updateComment();
-    }, [debouncedSelectedMood, todaysMood, updateMood]);
-
-    const expandedHeight = '290px';
-    const parentContainerHeight = { initial: !selectedMood.option?.name ? '150px' : expandedHeight, expanded: expandedHeight };
-
     return (
-        <motion.div className="rounded border bg-gray-800 p-4 sm:w-fit" style={{ borderColor: 'hsla(0,0%,100%,.05)' }}
-            initial={{ height: parentContainerHeight.initial }}
-            animate={{ height: selectedMood.option?.name ? parentContainerHeight.expanded : parentContainerHeight.initial }}
-        >
-            <div className="mb-4 text-lg text-white">How are you feeling today?</div>
-            <div className="mb-4 flex gap-2">
-                {moodOptions.map((mood) => (
-                    <div key={mood.name}
-                        onClick={() => handleMoodClick(mood)}
-                        className={clsx({
-                            'flex w-20 cursor-pointer flex-col items-center rounded p-2 transition': true,
-                            'bg-slate-700 hover:bg-slate-600': mood.name !== selectedMood.option?.name,
-                            'bg-slate-500 hover:bg-slate-500': mood.name === selectedMood.option?.name
-                        })}
-                    >
-                        <div className="text-2xl">{mood.icon}</div>
-                        <div className="hidden sm:block">{mood.name}</div>
+        <div>
+            <Popover.Root onOpenChange={(open) => setIsOpen(open)} open={isOpen}>
+                <Popover.Trigger>
+                    <div className="flex items-center gap-2 rounded border border-indigo-500 p-2">
+                        <span className="text-gray-400"><TbMoodCheck size={18} /></span>
+                        <span>How are you feeling today?</span>
                     </div>
-                ))}
-            </div>
-            <div className={clsx({
-                'border-t border-gray-700 pt-3': true,
-                hidden: !selectedMood.option?.name,
-                block: selectedMood.option?.name
-            })}
-            >
-                <div className="mb-2">Would you like to share a bit more?</div>
-                <div className="mb-2 w-full">
-                    <textarea autoFocus
-                        value={selectedMood.comment}
-                        onChange={(event) => setSelectedMood((previous) => ({ ...previous, comment: event.target.value }))}
-                        placeholder={`What is making you feel ${selectedMood.option.name.toLowerCase()}?`}
-                        className="h-20 max-h-20 w-full resize-none rounded p-2"
-                    />
-                </div>
-            </div>
-        </motion.div>
+                </Popover.Trigger>
+                <AnimatePresence>
+                    {isOpen ?
+                        <Popover.Portal key="mood-selector" forceMount>
+                            <Popover.Content align="start">
+                                <motion.div className="w-fit rounded-b border border-indigo-500 bg-gray-800 p-4"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                >
+                                    <div className="mb-6">
+                                        <div className="flex gap-2">
+                                            {moodOptions.map((mood) => (
+                                                <div key={mood.name}
+                                                    onClick={() => setSelectedMood((previous) => ({ ...previous, option: mood }))}
+                                                    className={clsx({
+                                                        'flex w-10 cursor-pointer flex-col items-center rounded p-2 transition': true,
+                                                        'sm:w-20': true,
+                                                        'bg-slate-700 hover:bg-slate-600': mood.name !== selectedMood.option?.name,
+                                                        'bg-slate-500 hover:bg-slate-500': mood.name === selectedMood.option?.name
+                                                    })}
+                                                >
+                                                    <div className="text-2xl">{mood.icon}</div>
+                                                    <div className="hidden sm:block">{mood.name}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className={clsx('mb-2', { 'text-gray-500': !selectedMood.option.name })}>
+                                            {selectedMood.option.icon} {`What is making you feel ${selectedMood.option.name.toLowerCase() || '...'}?`}
+                                        </div>
+                                        <div className="mb-2 w-full">
+                                            <textarea autoFocus
+                                                value={selectedMood.comment}
+                                                onChange={(event) => setSelectedMood((previous) => ({ ...previous, comment: event.target.value }))}
+                                                disabled={!selectedMood.option.name}
+                                                placeholder="Optional"
+                                                className="h-20 max-h-20 w-full resize-none rounded p-2"
+                                            />
+                                        </div>
+                                        <div className="text-right">
+                                            <Button glowing={true} onClick={() => handleMoodSave()} disabled={!selectedMood.option.name}>
+                                                Save
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Popover.Content>
+                        </Popover.Portal> :
+                        null}
+                </AnimatePresence>
+            </Popover.Root>
+        </div>
     );
 }

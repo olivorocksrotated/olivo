@@ -11,7 +11,7 @@ export default function Button({ children, ...props }: ButtonProperties) {
     const glowingStyle = glowing ? styles['glow-on-hover'] : '';
     const buttonStyle = clsx(
         'rounded border border-solid border-zinc-500 px-4 py-1 text-white',
-        'disabled:opacity-50',
+        'disabled:cursor-not-allowed disabled:opacity-50',
         'hover:enabled:border-zinc-200',
         glowingStyle
     );

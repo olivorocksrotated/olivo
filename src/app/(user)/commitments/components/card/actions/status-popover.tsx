@@ -2,7 +2,7 @@
 
 import { Commitment, CommitmentStatus } from '@prisma/client';
 import * as Popover from '@radix-ui/react-popover';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 import AbandonedStatusMarker from '../../status-marker/abandoned';
@@ -37,34 +37,37 @@ export default function StatusPopover({ commitment, onStatusChange }: Props) {
                     </div>
                 </button>
             </Popover.Trigger>
-            <Popover.Portal>
-                <Popover.Content align="start">
-                    <motion.div className="w-52 rounded bg-gray-700 p-2 text-sm shadow-sm will-change-transform"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <div onClick={() => handleStatusChange(CommitmentStatus.NotStartedYet)}
-                            className="mb-2 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
-                        >
-                            <NotStartedStatusMarker />
-                            <span>Not started</span>
-                        </div>
-                        <div onClick={() => handleStatusChange(CommitmentStatus.InProgress)}
-                            className="mb-2 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
-                        >
-                            <InProgressStatusMarker /><span>In progress</span>
-                        </div>
-                        <div onClick={() => handleStatusChange(CommitmentStatus.Done)}
-                            className="flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
-                        >
-                            <DoneStatusMarker /><span>Done</span>
-                        </div>
-                    </motion.div>
-                    <Popover.Arrow className="fill-gray-700" />
-                </Popover.Content>
-            </Popover.Portal>
+            <AnimatePresence>
+                {isOpen ?
+                    <Popover.Portal key="c-status" forceMount>
+                        <Popover.Content align="start">
+                            <motion.div className="w-52 rounded bg-gray-700 p-2 text-sm shadow-sm will-change-transform"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <div onClick={() => handleStatusChange(CommitmentStatus.NotStartedYet)}
+                                    className="mb-2 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
+                                >
+                                    <NotStartedStatusMarker />
+                                    <span>Not started</span>
+                                </div>
+                                <div onClick={() => handleStatusChange(CommitmentStatus.InProgress)}
+                                    className="mb-2 flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
+                                >
+                                    <InProgressStatusMarker /><span>In progress</span>
+                                </div>
+                                <div onClick={() => handleStatusChange(CommitmentStatus.Done)}
+                                    className="flex cursor-pointer items-center gap-x-2 rounded px-2 py-1 hover:bg-gray-600"
+                                >
+                                    <DoneStatusMarker /><span>Done</span>
+                                </div>
+                            </motion.div>
+                            <Popover.Arrow className="fill-gray-700" />
+                        </Popover.Content>
+                    </Popover.Portal> : null}
+            </AnimatePresence>
         </Popover.Root>
     );
 }
