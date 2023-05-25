@@ -1,23 +1,17 @@
 import { useCallback, useState } from 'react';
 
-export enum NotificationPermission {
-    Granted = 'granted',
-    Denied = 'denied',
-    Default = 'default'
-}
-
-const isNotificationSupported = () => typeof Notification !== 'undefined' && Notification.permission;
+import { isDesktopNotificationGranted, isDesktopNotificationSupported, requestDesktopNotificationPermission, sendDesktopNotification } from '../notifications/desktop';
 
 export default function useDesktopNotification() {
     const [{ permission, loading }, setState] = useState({
-        permission: isNotificationSupported(),
+        permission: isDesktopNotificationSupported(),
         loading: false
     });
 
     const requestPermission = useCallback(async () => {
-        if (isNotificationSupported() && Notification.permission !== NotificationPermission.Granted) {
+        if (isDesktopNotificationSupported() && !isDesktopNotificationGranted()) {
             setState((previous) => ({ ...previous, loading: true }));
-            const requestedPermissionResult = await Notification.requestPermission();
+            const requestedPermissionResult = await requestDesktopNotificationPermission();
             setState((previous) => ({ ...previous, loading: false, permission: requestedPermissionResult }));
         }
     }, []);
@@ -26,9 +20,7 @@ export default function useDesktopNotification() {
         title: string,
         options?: NotificationOptions
     }) => {
-        if (isNotificationSupported() && permission === NotificationPermission.Granted) {
-            new Notification(title, options);
-        }
+        sendDesktopNotification({ title, options });
     }, [permission]);
 
     return { permission, loading, requestPermission, trigger };
