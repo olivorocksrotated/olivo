@@ -12,15 +12,15 @@ const defaultSelect = {
     createdAt: true
 };
 
-export function getMoods({ userId, filters, order = 'desc' }: {
+export function getMoods({ userId, filters = {}, order = 'desc' }: {
     userId: string,
-    filters?: Filter,
+    filters?: Partial<Filter>,
     order?: 'asc' | 'desc'
 }) {
     const filtersBuilder = {
-        ...filters?.created === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {},
-        ...filters?.created === 'last month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(1), lt: monthsFirstDayAtZeroHourUTC() } } : {},
-        ...filters?.created === 'this month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(), lte: monthsLastDayAtMidnightUTC() } } : {}
+        ...filters.created === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {},
+        ...filters.created === 'last month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(1), lt: monthsFirstDayAtZeroHourUTC() } } : {},
+        ...filters.created === 'this month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(), lte: monthsLastDayAtMidnightUTC() } } : {}
     };
 
     return prisma.mood.findMany({

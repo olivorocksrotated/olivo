@@ -25,7 +25,12 @@ if (isDevEnvironment()) {
             password: { label: 'Password', type: 'password' }
         },
         async authorize() {
-            return { id: '1', name: 'Developer', email: 'dev@olivo.rocks' };
+            return {
+                id: '1',
+                name: 'Developer',
+                email: 'dev@olivo.rocks',
+                image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80'
+            };
         }
     }));
 }

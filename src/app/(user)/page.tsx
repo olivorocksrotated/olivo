@@ -1,5 +1,5 @@
 import { getServerSession } from '@/lib/auth/session';
-import { getCommitmentsByUser } from '@/lib/commitments/get';
+import { getCommitments } from '@/lib/commitments/get';
 import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
 
@@ -13,7 +13,7 @@ export default async function Home() {
     const firstName = getFirstName(user.name);
 
     const todaysMood = await getTodaysMood(user.id);
-    const commitments = await getCommitmentsByUser({
+    const commitments = await getCommitments({
         userId: user.id,
         filters: { doneBy: 'today and last 2 days' },
         order: 'desc'
