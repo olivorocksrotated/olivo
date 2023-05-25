@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 
@@ -21,8 +22,9 @@ export default function Notifications() {
 
     const [isOpen, setIsOpen] = useState(false);
     const asideStyle = clsx(
-        'fixed right-0 top-0 z-40 h-screen w-56 translate-x-full transition-transform',
+        'fixed right-0 top-0 z-40 h-screen w-56 transition-transform',
         'sm:w-96',
+        { 'translate-x-full': !isOpen },
         { '-translate-x-0': isOpen }
     );
     const buttonStyle = clsx(
@@ -55,7 +57,12 @@ export default function Notifications() {
             </button>
 
             <aside id="notifications" className={asideStyle} aria-label="Notifications">
-                <div className="overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
+                <div className="h-full overflow-y-auto px-3 py-4"
+                    style={{
+                        background: 'rgb(35, 37, 38)',
+                        border: '1px solid hsla(0,0%,100%,.05)'
+                    }}
+                >
                     <ul role="list" className="divide-y divide-gray-600">
                         {listItem({
                             title: 'Example notification',
@@ -69,7 +76,18 @@ export default function Notifications() {
                 </div>
             </aside>
 
-            {isOpen ? <div onClick={() => setIsOpen(false)} className="absolute left-0 top-0 h-screen w-screen bg-slate-900 opacity-60"></div> : null}
+            <AnimatePresence>
+                {isOpen ? (
+                    <motion.div key="notifications-backdrop"
+                        onClick={() => setIsOpen(false)}
+                        className="absolute left-0 top-0 h-screen w-screen bg-slate-900"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.6 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                    </motion.div>) : null}
+            </AnimatePresence>
         </div>
     );
 }

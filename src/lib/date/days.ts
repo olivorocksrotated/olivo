@@ -8,6 +8,14 @@ export function todayAtMidnightUTC() {
     return new Date(new Date().setUTCHours(24, 0, 0, 0));
 }
 
+export function todayAtHour(hour: number) {
+    const now = new Date();
+    const moment = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, 0, 0);
+    const timeUntilMoment = moment.getTime() - now.getTime();
+
+    return { moment, timeUntilMoment };
+}
+
 export function yesterdayAtZeroHourUTC() {
     return sub(todayAtZeroHourUTC(), { days: 1 });
 }

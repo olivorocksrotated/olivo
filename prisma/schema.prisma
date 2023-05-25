@@ -43,6 +43,7 @@ model User {
   acceptors     NetworkConnection[] @relation("acceptor")
   commitments   Commitment[]
   moods         Mood[]
+  notifications Notification[]
 }
 
 model NetworkConnection {
@@ -81,6 +82,19 @@ model Mood {
   @@index([ownerId])
 }
 
+model Notification {
+  id        String             @id @default(cuid())
+  title     String
+  payload   Json
+  type      NotificationType
+  status    NotificationStatus @default(Open)
+  createdAt DateTime           @default(now())
+  owner     User               @relation(fields: [ownerId], references: [id])
+  ownerId   String
+
+  @@index([ownerId])
+}
+
 enum CommitmentStatus {
   NotStartedYet
   InProgress
@@ -94,4 +108,13 @@ enum MoodStatus {
   Average
   Good
   Excellent
+}
+
+enum NotificationStatus {
+  Open
+  Read
+}
+
+enum NotificationType {
+  UnfinishedCommitments
 }

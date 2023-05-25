@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
     return (
         <html lang="en">
             <Fonts />
-            <body>
+            <body style={{ background: '#17191a' }}>
                 {children}
                 <AnalyticsWrapper />
             </body>
