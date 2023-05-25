@@ -19,8 +19,8 @@ export default function Sidenav() {
 
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const asideStyle = clsx({
-        'fixed -left-8 top-0 z-40 mx-8 w-56 -translate-x-full transition-transform': true,
-        'sm:relative sm:left-0 sm:translate-x-0': true,
+        'fixed -left-8 top-0 z-40 mx-8 w-56 h-screen -translate-x-full transition-transform': true,
+        'sm:mr-8 sm:ml-0 sm:relative sm:left-0 sm:translate-x-0': true,
         'translate-x-0': isMobileOpen
     });
     const buttonStyle = clsx(
@@ -51,10 +51,15 @@ export default function Sidenav() {
 
             <aside id="sidenav"
                 className={asideStyle}
-                style={{ height: 'calc(100vh - 80px)' }}
+                style={{ ...!isMobileOpen ? { height: 'calc(100vh - 80px)' } : {} }}
                 aria-label="Sidenav"
             >
-                <div className="h-full overflow-y-auto px-3 py-4" style={{ background: 'rgb(22, 24, 29)' }}>
+                <div className="h-full overflow-y-auto rounded-lg px-3 py-4"
+                    style={{
+                        background: 'rgb(35, 37, 38)',
+                        border: '1px solid hsla(0,0%,100%,.05)'
+                    }}
+                >
                     <div className="space-y-2 font-medium">
                         <div className="flex gap-2">
                             <div>
