@@ -14,7 +14,7 @@ const defaultSelect = {
 
 export function getMoods({ userId, filters = {}, order = 'desc' }: {
     userId: string,
-    filters: Partial<Filter>,
+    filters?: Partial<Filter>,
     order?: 'asc' | 'desc'
 }) {
     const filtersBuilder = {

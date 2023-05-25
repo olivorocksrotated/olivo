@@ -8,7 +8,7 @@ interface Filter {
 
 export function getNotifications({ userId, filters = {}, order = 'desc' }: {
     userId: string,
-    filters: Partial<Filter>,
+    filters?: Partial<Filter>,
     order?: 'asc' | 'desc'
 }) {
     const filtersBuilder = {

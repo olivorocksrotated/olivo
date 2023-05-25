@@ -1,6 +1,6 @@
 'use client';
 
-import { Commitment } from '@prisma/client';
+import { Commitment, Notification, Prisma } from '@prisma/client';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
@@ -10,10 +10,11 @@ import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
 import useScheduleNotifications from './hooks/useScheduleNotifications';
 
 interface Props {
-    commitments: Pick<Commitment, 'doneBy'>[]
+    commitments: Pick<Commitment, 'doneBy'>[];
+    notifications: Omit<Notification, 'ownerId'>[]
 }
 
-export default function NotificationsClient({ commitments }: Props) {
+export default function NotificationsClient({ commitments, notifications }: Props) {
     useRequestDesktopPermission();
     useScheduleNotifications({ commitments });
 
@@ -29,15 +30,6 @@ export default function NotificationsClient({ commitments }: Props) {
         'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6',
         'hover:bg-gray-700',
         'focus:outline-none focus:ring-2 focus:ring-gray-600'
-    );
-
-    const listItem = ({ title, body }: { title: string, body: string }) => (
-        <li role="listitem" className="p-3 sm:p-4">
-            <div>
-                <div className="mb-2 font-medium">{title}</div>
-                <div className="text-sm">{body}</div>
-            </div>
-        </li>
     );
 
     return (
@@ -60,16 +52,17 @@ export default function NotificationsClient({ commitments }: Props) {
                         border: '1px solid hsla(0,0%,100%,.05)'
                     }}
                 >
-                    <ul role="list" className="divide-y divide-gray-600">
-                        {listItem({
-                            title: 'Example notification',
-                            body: 'This is the content of it, a bit longer than the other one and blablabla'
-                        })}
-                        {listItem({
-                            title: 'Another notification',
-                            body: 'This is the content of it, a bit longer than the other one and blablabla'
-                        })}
-                    </ul>
+                    {notifications.length > 0 ? (
+                        <ul role="list" className="divide-y divide-gray-600">
+                            {notifications.map((notification) => (
+                                <li key={notification.id} role="listitem" className="p-3 sm:p-4">
+                                    <div>
+                                        <div className="mb-2 font-medium">{notification.title}</div>
+                                        <div className="text-sm">{(notification.payload as Prisma.JsonObject)?.description as string}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>) : <div className="p-2">You do not have any notifications yet</div>}
                 </div>
             </aside>
 
