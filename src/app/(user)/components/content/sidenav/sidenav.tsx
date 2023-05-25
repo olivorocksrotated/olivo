@@ -20,7 +20,7 @@ export default function Sidenav() {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const asideStyle = clsx({
         'fixed -left-8 top-0 z-40 mx-8 w-56 h-screen -translate-x-full transition-transform': true,
-        'sm:mr-8 sm:ml-0 sm:relative sm:left-0 sm:translate-x-0': true,
+        'sm:z-0 sm:mr-8 sm:ml-0 sm:relative sm:left-0 sm:translate-x-0': true,
         'translate-x-0': isMobileOpen
     });
     const buttonStyle = clsx(
