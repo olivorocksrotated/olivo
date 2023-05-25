@@ -1,8 +1,10 @@
-import { Commitment } from '@prisma/client';
+import { Commitment, NotificationType } from '@prisma/client';
 import { useEffect, useState } from 'react';
+import { useZact } from 'zact/client';
 
 import { todayAtHour } from '@/lib/date/days';
 import { sendDesktopNotification } from '@/lib/notifications/desktop';
+import { createNotificationAction } from '@/lib/notifications/persistent/create';
 
 type NotificationCommitment = Pick<Commitment, 'doneBy'>;
 type ScheduledNotifications = {
@@ -11,9 +13,9 @@ type ScheduledNotifications = {
 
 const isInTheFuture = (millisecondsLeft: number) => millisecondsLeft > 0;
 const hasOpenCommitments = (commitments: NotificationCommitment[]) => commitments.length > 0;
-const conditionalSchedule = (condition: boolean) => (callback: Function, milliseconds: number) => {
+const conditionalSchedule = (condition: boolean) => (callback: (id: string) => void, { id, milliseconds }: { id: string, milliseconds: number }) => {
     if (condition) {
-        return setTimeout(() => callback(), milliseconds);
+        return setTimeout(() => callback(id), milliseconds);
     }
 };
 
@@ -22,33 +24,55 @@ export default function useScheduleNotifications({ commitments }: {
 }) {
     const [scheduledNotifications, setScheduledNotifications] = useState({} as ScheduledNotifications);
 
+    const { mutate: createPersistentNotification } = useZact(createNotificationAction);
+
     useEffect(() => {
-        const scheduleAndStore = (callback: Function, { id, milliseconds }: { id: string, milliseconds: number }) => {
+        const scheduleAndStore = (callback: (id: string) => void, { id, milliseconds }: { id: string, milliseconds: number }) => {
             clearTimeout(scheduledNotifications[id]);
-            const timer = conditionalSchedule(isInTheFuture(milliseconds) && hasOpenCommitments(commitments))(() => callback(), milliseconds);
+            const timer = conditionalSchedule(isInTheFuture(milliseconds) && hasOpenCommitments(commitments))(() => callback(id), { id, milliseconds });
             setScheduledNotifications((previous) => ({ ...previous, [id]: timer }));
         };
 
-        scheduleAndStore(() => {
+        scheduleAndStore((id: string) => {
+            const title = '☀️ Good morning!';
+            const description = `You still have ${commitments.length} unfinished commitments`;
             sendDesktopNotification({
-                title: 'Good morning!',
+                title,
                 options: {
-                    body: 'Did you check your open commitments?',
-                    icon: '/favicon.ico'
+                    body: description,
+                    image: '/favicon.ico',
+                    requireInteraction: true,
+                    tag: id
                 }
+            });
+
+            createPersistentNotification({
+                type: NotificationType.UnfinishedCommitments,
+                title,
+                payload: { description }
             });
         }, {
             id: 'start-of-day-commitments',
             milliseconds: todayAtHour(10).timeUntilMoment
         });
 
-        scheduleAndStore(() => {
+        scheduleAndStore((id) => {
+            const title = '🥳 End of the day';
+            const description = `${commitments.length} commitments left today`;
             sendDesktopNotification({
-                title: 'The end of the day is here',
+                title,
                 options: {
-                    body: 'Did you check your open commitments?',
-                    icon: '/favicon.ico'
+                    body: description,
+                    image: '/favicon.ico',
+                    requireInteraction: true,
+                    tag: id
                 }
+            });
+
+            createPersistentNotification({
+                type: NotificationType.UnfinishedCommitments,
+                title,
+                payload: { description }
             });
         }, {
             id: 'end-of-day-commitments',
