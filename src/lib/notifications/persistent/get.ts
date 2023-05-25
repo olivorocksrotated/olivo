@@ -6,13 +6,13 @@ interface Filter {
     status: NotificationStatus;
 }
 
-export function getNotifications({ userId, filters, order = 'desc' }: {
+export function getNotifications({ userId, filters = {}, order = 'desc' }: {
     userId: string,
-    filters?: Filter,
+    filters: Partial<Filter>,
     order?: 'asc' | 'desc'
 }) {
     const filtersBuilder = {
-        ...filters?.status ? { status: filters.status } : {}
+        ...filters.status ? { status: filters.status } : {}
     };
 
     return prisma.notification.findMany({
