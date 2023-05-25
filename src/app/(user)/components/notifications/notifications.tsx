@@ -2,23 +2,15 @@
 
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 
-import useDesktopNotification, { NotificationPermission } from '@/lib/hooks/useDesktopNotification';
-
-function useRequestDesktopPermission() {
-    const { permission, requestPermission } = useDesktopNotification();
-
-    useEffect(() => {
-        if (permission !== NotificationPermission.Granted) {
-            requestPermission();
-        }
-    }, [permission, requestPermission]);
-}
+import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
+import useScheduleNotifications from './hooks/useScheduleNotifications';
 
 export default function Notifications() {
     useRequestDesktopPermission();
+    useScheduleNotifications();
 
     const [isOpen, setIsOpen] = useState(false);
     const asideStyle = clsx(
