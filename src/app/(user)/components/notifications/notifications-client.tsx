@@ -1,10 +1,14 @@
 'use client';
 
-import { Commitment, Notification, Prisma } from '@prisma/client';
+import { Commitment, Notification, NotificationStatus, Prisma } from '@prisma/client';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
+import { useZact } from 'zact/client';
+
+import { formatRelativeDateWithTime } from '@/lib/date/format';
+import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
 import useScheduleNotifications from './hooks/useScheduleNotifications';
@@ -14,11 +18,17 @@ interface Props {
     notifications: Omit<Notification, 'ownerId'>[]
 }
 
+const isNotificationOpen = (notification: Pick<Notification, 'status'>) => notification.status === NotificationStatus.Open;
+
 export default function NotificationsClient({ commitments, notifications }: Props) {
     useRequestDesktopPermission();
     useScheduleNotifications({ commitments });
 
     const [isOpen, setIsOpen] = useState(false);
+
+    const now = new Date();
+    const hasOpenNotifications = notifications.some(isNotificationOpen);
+
     const asideStyle = clsx(
         'fixed right-0 top-0 z-40 h-screen w-56 transition-transform',
         'sm:w-96',
@@ -26,11 +36,20 @@ export default function NotificationsClient({ commitments, notifications }: Prop
         { '-translate-x-0': isOpen }
     );
     const buttonStyle = clsx(
-        'inline-flex items-center rounded-lg p-2 text-sm text-gray-400',
+        'relative inline-flex items-center rounded-lg p-2 text-sm text-gray-400',
         'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6',
         'hover:bg-gray-700',
         'focus:outline-none focus:ring-2 focus:ring-gray-600'
     );
+
+    const { mutate: markAllAsRead } = useZact(markAllNotificationsAsReadAction);
+
+    const handleCloseNotifications = () => {
+        setIsOpen(false);
+        if (hasOpenNotifications) {
+            markAllAsRead(null);
+        }
+    };
 
     return (
         <div>
@@ -42,6 +61,12 @@ export default function NotificationsClient({ commitments, notifications }: Prop
                 className={buttonStyle}
             >
                 <span className="sr-only">Open notifications</span>
+                {hasOpenNotifications ? (
+                    <span className="absolute right-0 top-0 flex h-3 w-3">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500"></span>
+                    </span>
+                ) : null}
                 <IoMdNotifications size={25} />
             </button>
 
@@ -55,9 +80,16 @@ export default function NotificationsClient({ commitments, notifications }: Prop
                     {notifications.length > 0 ? (
                         <ul role="list" className="divide-y divide-gray-600">
                             {notifications.map((notification) => (
-                                <li key={notification.id} role="listitem" className="p-3 sm:p-4">
+                                <li key={notification.id} role="listitem" className={clsx(
+                                    'mb-4 rounded p-3 sm:p-4',
+                                    { 'outline outline-red-200': isNotificationOpen(notification) }
+                                )}
+                                >
+                                    <div className="font-medium">{notification.title}</div>
+                                    <div className="mb-3 text-xs text-gray-400">
+                                        {formatRelativeDateWithTime(notification.createdAt, now)}
+                                    </div>
                                     <div>
-                                        <div className="mb-2 font-medium">{notification.title}</div>
                                         <div className="text-sm">{(notification.payload as Prisma.JsonObject)?.description as string}</div>
                                     </div>
                                 </li>
@@ -69,7 +101,7 @@ export default function NotificationsClient({ commitments, notifications }: Prop
             <AnimatePresence>
                 {isOpen ? (
                     <motion.div key="notifications-backdrop"
-                        onClick={() => setIsOpen(false)}
+                        onClick={handleCloseNotifications}
                         className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.6 }}
