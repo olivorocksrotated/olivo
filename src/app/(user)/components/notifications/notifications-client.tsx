@@ -1,6 +1,6 @@
 'use client';
 
-import { Commitment, NotificationStatus } from '@prisma/client';
+import { NotificationStatus } from '@prisma/client';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
@@ -13,18 +13,18 @@ import { NotificationDataContext } from './contexts/notification-data.context';
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
 import useScheduleNotifications from './hooks/useScheduleNotifications';
 import NotificationEntry from './notification-entry';
-import { NotificationItem } from './types';
+import { NotificationCommitment, NotificationItem } from './types';
 
 interface Props {
-    commitments: Pick<Commitment, 'doneBy'>[];
+    unfinishedCommitmentsForToday: NotificationCommitment[];
     notifications: NotificationItem[]
 }
 
 const isNotificationOpen = (notification: Pick<NotificationItem, 'status'>) => notification.status === NotificationStatus.Open;
 
-export default function NotificationsClient({ commitments, notifications }: Props) {
+export default function NotificationsClient({ unfinishedCommitmentsForToday, notifications }: Props) {
     useRequestDesktopPermission();
-    useScheduleNotifications({ commitments });
+    useScheduleNotifications({ unfinishedCommitmentsForToday });
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -81,7 +81,11 @@ export default function NotificationsClient({ commitments, notifications }: Prop
                     {notifications.length > 0 ? (
                         <ul role="list" className="divide-y divide-gray-600">
                             {notifications.map((notification) => (
-                                <NotificationDataContext.Provider key={notification.id} value={{ notification, commitments }}>
+                                <NotificationDataContext.Provider key={notification.id} value={{
+                                    notification,
+                                    unfinishedCommitmentsForToday
+                                }}
+                                >
                                     <li role="listitem" className={clsx(
                                         'mb-4 rounded p-3 sm:p-4',
                                         { 'outline outline-indigo-500': isNotificationOpen(notification) }

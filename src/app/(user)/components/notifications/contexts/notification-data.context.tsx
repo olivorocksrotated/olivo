@@ -1,11 +1,10 @@
-import { Commitment } from '@prisma/client';
 import { createContext } from 'react';
 
-import { NotificationItem } from '../types';
+import { NotificationCommitment, NotificationItem } from '../types';
 
 interface NotificationData {
     notification: NotificationItem,
-    commitments: Pick<Commitment, 'doneBy'>[]
+    unfinishedCommitmentsForToday: NotificationCommitment[]
 }
 
 export const NotificationDataContext = createContext({} as NotificationData);

@@ -1,4 +1,4 @@
-import { Commitment, NotificationType } from '@prisma/client';
+import { NotificationType } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
@@ -6,7 +6,8 @@ import { todayAtHour } from '@/lib/date/days';
 import { createDesktopNotification } from '@/lib/notifications/desktop';
 import { createNotificationAction } from '@/lib/notifications/persistent/create';
 
-type NotificationCommitment = Pick<Commitment, 'doneBy'>;
+import { NotificationCommitment } from '../types';
+
 type ScheduledNotifications = {
     [id: string]: NodeJS.Timeout | undefined
 }
@@ -19,8 +20,8 @@ const conditionalSchedule = (condition: boolean) => (callback: (id: string) => v
     }
 };
 
-export default function useScheduleNotifications({ commitments }: {
-    commitments: NotificationCommitment[]
+export default function useScheduleNotifications({ unfinishedCommitmentsForToday }: {
+    unfinishedCommitmentsForToday: NotificationCommitment[]
 }) {
     const [scheduledNotifications, setScheduledNotifications] = useState({} as ScheduledNotifications);
 
@@ -29,13 +30,13 @@ export default function useScheduleNotifications({ commitments }: {
     useEffect(() => {
         const scheduleAndStore = (callback: (id: string) => void, { id, milliseconds }: { id: string, milliseconds: number }) => {
             clearTimeout(scheduledNotifications[id]);
-            const timer = conditionalSchedule(isInTheFuture(milliseconds) && hasOpenCommitments(commitments))(() => callback(id), { id, milliseconds });
+            const timer = conditionalSchedule(isInTheFuture(milliseconds) && hasOpenCommitments(unfinishedCommitmentsForToday))(() => callback(id), { id, milliseconds });
             setScheduledNotifications((previous) => ({ ...previous, [id]: timer }));
         };
 
         scheduleAndStore((id: string) => {
             const title = '☀️ Good morning!';
-            const description = `You still have ${commitments.length} unfinished commitments`;
+            const description = `You still have ${unfinishedCommitmentsForToday.length} unfinished commitments`;
             createDesktopNotification({
                 title,
                 options: {
@@ -58,7 +59,7 @@ export default function useScheduleNotifications({ commitments }: {
 
         scheduleAndStore((id) => {
             const title = '🥳 End of the day';
-            const description = `${commitments.length} commitments left today`;
+            const description = `${unfinishedCommitmentsForToday.length} commitments left today`;
             createDesktopNotification({
                 title,
                 options: {
@@ -79,5 +80,5 @@ export default function useScheduleNotifications({ commitments }: {
             milliseconds: todayAtHour(16).timeUntilMoment
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [commitments]);
+    }, [unfinishedCommitmentsForToday]);
 }
