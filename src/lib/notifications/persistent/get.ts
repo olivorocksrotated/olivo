@@ -16,6 +16,7 @@ export function getNotifications({ userId, filters = {}, order = 'desc' }: {
     };
 
     return prisma.notification.findMany({
+        take: 30,
         where: { ownerId: userId, ...filtersBuilder },
         select: {
             id: true,
