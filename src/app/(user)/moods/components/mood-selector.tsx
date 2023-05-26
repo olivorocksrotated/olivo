@@ -11,6 +11,7 @@ import { useZact } from 'zact/client';
 import Button from '@/app/components/button';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
+import { createBasicClientNotification } from '@/lib/notifications/create';
 
 interface Props {
     todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
@@ -59,6 +60,11 @@ export default function MoodSelector({ todaysMood }: Props) {
             updateMood({ id: todaysMood!.id, status: selectedMood.option.name, comment: selectedMood.comment });
 
         await action;
+        createBasicClientNotification({
+            title: 'Mood saved, keep it up!',
+            destination: 'browser',
+            icon: 'success'
+        });
         setIsOpen(false);
     };
 
