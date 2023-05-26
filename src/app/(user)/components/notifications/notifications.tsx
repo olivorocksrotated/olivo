@@ -7,13 +7,14 @@ import NotificationsClient from './notifications-client';
 
 export default async function Notifications() {
     const { user } = await getServerSession();
-    const todoCommitments = await getCommitments({
+    const unfinishedCommitmentsForToday = await getCommitments({
         userId: user.id,
         filters: {
+            doneBy: 'today',
             status: 'to-do'
         }
     });
     const notifications = await getNotifications({ userId: user.id });
 
-    return <NotificationsClient commitments={todoCommitments} notifications={notifications} />;
+    return <NotificationsClient unfinishedCommitmentsForToday={unfinishedCommitmentsForToday} notifications={notifications} />;
 }

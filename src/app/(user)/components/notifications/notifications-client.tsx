@@ -1,32 +1,32 @@
 'use client';
 
-import { Commitment, Notification, NotificationStatus, Prisma } from '@prisma/client';
+import { NotificationStatus } from '@prisma/client';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 import { useZact } from 'zact/client';
 
-import { formatRelativeDateWithTime } from '@/lib/date/format';
 import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
 import useScheduleNotifications from './hooks/useScheduleNotifications';
+import NotificationEntry from './notification-entry';
+import { NotificationCommitment, NotificationItem } from './types';
 
 interface Props {
-    commitments: Pick<Commitment, 'doneBy'>[];
-    notifications: Omit<Notification, 'ownerId'>[]
+    unfinishedCommitmentsForToday: NotificationCommitment[];
+    notifications: NotificationItem[]
 }
 
-const isNotificationOpen = (notification: Pick<Notification, 'status'>) => notification.status === NotificationStatus.Open;
+const isNotificationOpen = (notification: Pick<NotificationItem, 'status'>) => notification.status === NotificationStatus.Open;
 
-export default function NotificationsClient({ commitments, notifications }: Props) {
+export default function NotificationsClient({ unfinishedCommitmentsForToday, notifications }: Props) {
     useRequestDesktopPermission();
-    useScheduleNotifications({ commitments });
+    useScheduleNotifications({ unfinishedCommitmentsForToday });
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const now = new Date();
     const hasOpenNotifications = notifications.some(isNotificationOpen);
 
     const asideStyle = clsx(
@@ -82,19 +82,14 @@ export default function NotificationsClient({ commitments, notifications }: Prop
                             {notifications.map((notification) => (
                                 <li key={notification.id} role="listitem" className={clsx(
                                     'mb-4 rounded p-3 sm:p-4',
-                                    { 'outline outline-red-200': isNotificationOpen(notification) }
+                                    { 'outline outline-indigo-500': isNotificationOpen(notification) }
                                 )}
                                 >
-                                    <div className="font-medium">{notification.title}</div>
-                                    <div className="mb-3 text-xs text-gray-400">
-                                        {formatRelativeDateWithTime(notification.createdAt, now)}
-                                    </div>
-                                    <div>
-                                        <div className="text-sm">{(notification.payload as Prisma.JsonObject)?.description as string}</div>
-                                    </div>
+                                    <NotificationEntry notification={notification} />
                                 </li>
                             ))}
-                        </ul>) : <div className="p-2">You do not have any notifications yet</div>}
+                        </ul>) :
+                        <div className="p-2">You do not have any notifications yet</div>}
                 </div>
             </aside>
 
