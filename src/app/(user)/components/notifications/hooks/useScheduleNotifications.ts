@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
 import { todayAtHour } from '@/lib/date/days';
-import { sendDesktopNotification } from '@/lib/notifications/desktop';
+import { createDesktopNotification } from '@/lib/notifications/desktop';
 import { createNotificationAction } from '@/lib/notifications/persistent/create';
 
 type NotificationCommitment = Pick<Commitment, 'doneBy'>;
@@ -36,7 +36,7 @@ export default function useScheduleNotifications({ commitments }: {
         scheduleAndStore((id: string) => {
             const title = '☀️ Good morning!';
             const description = `You still have ${commitments.length} unfinished commitments`;
-            sendDesktopNotification({
+            createDesktopNotification({
                 title,
                 options: {
                     body: description,
@@ -59,7 +59,7 @@ export default function useScheduleNotifications({ commitments }: {
         scheduleAndStore((id) => {
             const title = '🥳 End of the day';
             const description = `${commitments.length} commitments left today`;
-            sendDesktopNotification({
+            createDesktopNotification({
                 title,
                 options: {
                     body: description,

@@ -20,7 +20,7 @@ export function requestDesktopNotificationPermission() {
     return Notification.requestPermission();
 }
 
-export function sendDesktopNotification({ title, options = {} }: {
+export function createDesktopNotification({ title, options = {} }: {
     title: string,
     options?: NotificationOptions
 }) {
