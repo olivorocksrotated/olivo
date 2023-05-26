@@ -1,11 +1,12 @@
 import { Prisma } from '@prisma/client';
-import { useContext } from 'react';
 
-import { NotificationDataContext } from '../contexts/notification-data.context';
+import { NotificationItem } from '../types';
 
-export default function UnfinishedCommitmentsNotification() {
-    const { notification } = useContext(NotificationDataContext);
+interface Props {
+    notification: NotificationItem;
+}
 
+export default function UnfinishedCommitmentsNotification({ notification }: Props) {
     return (
         <div className="text-sm">{(notification.payload as Prisma.JsonObject)?.description as string}</div>
     );

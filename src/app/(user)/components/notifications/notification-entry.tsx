@@ -1,16 +1,15 @@
-'use client';
-
 import { NotificationType } from '@prisma/client';
-import { useContext } from 'react';
 
 import { formatRelativeDateWithTime } from '@/lib/date/format';
 
-import { NotificationDataContext } from './contexts/notification-data.context';
 import UnfinishedCommitmentsNotification from './templates/unfinished-commitments';
+import { NotificationItem } from './types';
 
-export default function NotificationEntry() {
-    const { notification } = useContext(NotificationDataContext);
+interface Props {
+    notification: NotificationItem;
+}
 
+export default function NotificationEntry({ notification }: Props) {
     const now = new Date();
 
     return (
@@ -20,7 +19,7 @@ export default function NotificationEntry() {
                 {formatRelativeDateWithTime(notification.createdAt, now)}
             </div>
             <div>
-                {notification.type === NotificationType.UnfinishedCommitments ? <UnfinishedCommitmentsNotification /> : null}
+                {notification.type === NotificationType.UnfinishedCommitments ? <UnfinishedCommitmentsNotification notification={notification} /> : null}
             </div>
         </div>
     );

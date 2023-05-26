@@ -9,7 +9,6 @@ import { useZact } from 'zact/client';
 
 import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
-import { NotificationDataContext } from './contexts/notification-data.context';
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
 import useScheduleNotifications from './hooks/useScheduleNotifications';
 import NotificationEntry from './notification-entry';
@@ -81,19 +80,13 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
                     {notifications.length > 0 ? (
                         <ul role="list" className="divide-y divide-gray-600">
                             {notifications.map((notification) => (
-                                <NotificationDataContext.Provider key={notification.id} value={{
-                                    notification,
-                                    unfinishedCommitmentsForToday
-                                }}
+                                <li key={notification.id} role="listitem" className={clsx(
+                                    'mb-4 rounded p-3 sm:p-4',
+                                    { 'outline outline-indigo-500': isNotificationOpen(notification) }
+                                )}
                                 >
-                                    <li role="listitem" className={clsx(
-                                        'mb-4 rounded p-3 sm:p-4',
-                                        { 'outline outline-indigo-500': isNotificationOpen(notification) }
-                                    )}
-                                    >
-                                        <NotificationEntry />
-                                    </li>
-                                </NotificationDataContext.Provider>
+                                    <NotificationEntry notification={notification} />
+                                </li>
                             ))}
                         </ul>) :
                         <div className="p-2">You do not have any notifications yet</div>}
