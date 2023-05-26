@@ -50,7 +50,7 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
             createPersistentNotification({
                 type: NotificationType.UnfinishedCommitments,
                 title,
-                payload: { description }
+                payload: { unfinishedCommitments: unfinishedCommitmentsForToday.length }
             });
         }, {
             id: 'start-of-day-commitments',
@@ -58,8 +58,9 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
         });
 
         scheduleAndStore((id) => {
-            const title = '🥳 End of the day';
-            const description = `${unfinishedCommitmentsForToday.length} commitments left today`;
+            const hasUnfinishedCommitments = unfinishedCommitmentsForToday.length > 0;
+            const title = `${hasUnfinishedCommitments ? '🙋' : '🥳'} End of the day`;
+            const description = `${hasUnfinishedCommitments ? `${unfinishedCommitmentsForToday.length} commitments left today` : 'All done today :)'}`;
             createDesktopNotification({
                 title,
                 options: {
@@ -73,7 +74,7 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
             createPersistentNotification({
                 type: NotificationType.UnfinishedCommitments,
                 title,
-                payload: { description }
+                payload: { unfinishedCommitments: unfinishedCommitmentsForToday.length }
             });
         }, {
             id: 'end-of-day-commitments',

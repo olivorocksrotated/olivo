@@ -1,13 +1,17 @@
-import { Prisma } from '@prisma/client';
+import Link from 'next/link';
 
-import { NotificationItem } from '../types';
+import { UnfinishedCommitmentsNotificationType } from '../types';
 
 interface Props {
-    notification: NotificationItem;
+    notification: UnfinishedCommitmentsNotificationType;
 }
 
 export default function UnfinishedCommitmentsNotification({ notification }: Props) {
     return (
-        <div className="text-sm">{(notification.payload as Prisma.JsonObject)?.description as string}</div>
+        <p>
+            {notification.payload.unfinishedCommitments > 0 ?
+                <span>You still have {notification.payload.unfinishedCommitments} <Link className="text-sky-500" href="/commitments">unfinished commitments</Link> for today</span> :
+                'All done today :)'}
+        </p>
     );
 }
