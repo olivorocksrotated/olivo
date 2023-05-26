@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { isDesktopNotificationGranted, isDesktopNotificationSupported, requestDesktopNotificationPermission, sendDesktopNotification } from '../notifications/desktop';
+import { createDesktopNotification, isDesktopNotificationGranted, isDesktopNotificationSupported, requestDesktopNotificationPermission } from '../notifications/desktop';
 
 export default function useDesktopNotification() {
     const [{ permission, loading }, setState] = useState({
@@ -20,7 +20,7 @@ export default function useDesktopNotification() {
         title: string,
         options?: NotificationOptions
     }) => {
-        sendDesktopNotification({ title, options });
+        createDesktopNotification({ title, options });
     }, [permission]);
 
     return { permission, loading, requestPermission, trigger };

@@ -1,6 +1,8 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { AnalyticsWrapper } from './components/analytics';
+import ToastContainer from './components/toast-container';
 import Fonts from './fonts';
 
 export const metadata = {
@@ -17,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
             <Fonts />
             <body>
                 {children}
+                <ToastContainer />
                 <AnalyticsWrapper />
             </body>
         </html>
