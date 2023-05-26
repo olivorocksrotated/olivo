@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 import { useZact } from 'zact/client';
 
+import { formatRelativeDateWithTime } from '@/lib/date/format';
 import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
@@ -25,6 +26,7 @@ export default function NotificationsClient({ commitments, notifications }: Prop
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const now = new Date();
     const hasOpenNotifications = notifications.some(isNotificationOpen);
 
     const asideStyle = clsx(
@@ -83,8 +85,11 @@ export default function NotificationsClient({ commitments, notifications }: Prop
                                     { 'outline outline-red-200': isNotificationOpen(notification) }
                                 )}
                                 >
+                                    <div className="font-medium">{notification.title}</div>
+                                    <div className="mb-3 text-xs text-gray-400">
+                                        {formatRelativeDateWithTime(notification.createdAt, now)}
+                                    </div>
                                     <div>
-                                        <div className="mb-2 font-medium">{notification.title}</div>
                                         <div className="text-sm">{(notification.payload as Prisma.JsonObject)?.description as string}</div>
                                     </div>
                                 </li>
