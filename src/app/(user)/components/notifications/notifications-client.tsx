@@ -5,6 +5,9 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
+import { useZact } from 'zact/client';
+
+import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
 import useScheduleNotifications from './hooks/useScheduleNotifications';
@@ -36,6 +39,15 @@ export default function NotificationsClient({ commitments, notifications }: Prop
         'hover:bg-gray-700',
         'focus:outline-none focus:ring-2 focus:ring-gray-600'
     );
+
+    const { mutate: markAllAsRead } = useZact(markAllNotificationsAsReadAction);
+
+    const handleCloseNotifications = () => {
+        setIsOpen(false);
+        if (hasOpenNotifications) {
+            markAllAsRead(null);
+        }
+    };
 
     return (
         <div>
@@ -84,7 +96,7 @@ export default function NotificationsClient({ commitments, notifications }: Prop
             <AnimatePresence>
                 {isOpen ? (
                     <motion.div key="notifications-backdrop"
-                        onClick={() => setIsOpen(false)}
+                        onClick={handleCloseNotifications}
                         className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.6 }}
