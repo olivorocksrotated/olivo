@@ -14,8 +14,8 @@ export default async function CommitmentsSection({ title, commitments }: Props) 
     // "set" function of a "useState" hook, makes the whole app to hang.
     // I couldn't find why this happens, I couldn't find memory leaks, nothing.
     // My guess is that there's a problem with Server Side components and Client
-    // Components, and for whatever reason it blows up. That is why all the client
-    // behavior is abstracted under other components.
+    // Components, and for whatever reason it blows up.
+    // The solution was to abstract all client behavior under other client components.
 
     return (
         <div className="max-w-2xl rounded-lg border border-gray-700 bg-gray-800 p-4 shadow sm:p-8">
