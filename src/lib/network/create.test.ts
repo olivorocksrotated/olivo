@@ -43,21 +43,14 @@ describe('lib network', () => {
             });
 
             it('should return an error when the user does not exist', async () => {
-                try {
-                    await createConnectionAction({ userEmail: 'unexisting@olivo.rocks' });
-                } catch (error: any) {
-                    expect(error.message).toBe('The email does not belong to an existing user');
-                }
+                const result = await createConnectionAction({ userEmail: 'unexisting@olivo.rocks' });
+                expect((result as { error: string }).error).toBe('The email does not belong to an existing user');
             });
 
             it('should return an error when the user attempts to create a connection with themselves', async () => {
-                try {
-                    await createConnectionAction({ userEmail: 'dev@olivo.rocks' });
-                } catch (error: any) {
-                    expect(error.message).toBe('It is not possible to create a connection with yourself');
-                }
+                const result = await createConnectionAction({ userEmail: 'dev@olivo.rocks' });
+                expect((result as { error: string }).error).toBe('It is not possible to create a connection with yourself');
             });
         });
     });
 });
-

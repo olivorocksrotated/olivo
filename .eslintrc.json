@@ -67,7 +67,7 @@
     "no-confusing-arrow": ["error", { "allowParens": true }],
     "block-scoped-var": "error",
     "class-methods-use-this": "error",
-    "max-depth": ["error", 2],
+    "max-depth": ["error", 3],
     "curly": "error",
     "eqeqeq": "error",
     "dot-notation": "error",

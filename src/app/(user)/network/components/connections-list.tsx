@@ -29,7 +29,7 @@ function AnimatedCard({ children, id }: { children: React.ReactNode; id: string 
 }
 
 export function ConnectionList({ connections }: { connections: Connection[]}) {
-    const { mutate: createConnection, isLoading, error } = useZact(createConnectionAction);
+    const { mutate: createConnection, isLoading, data } = useZact(createConnectionAction);
     const [interaction, setInteraction] = useState(false);
 
     async function onConnectionRequested(email: string) {
@@ -58,9 +58,9 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
                     </AnimatedCard>
                 ))}
                 {isLoading ? <AnimatedCard id="feedbackCard"><ConnectionLoader /></AnimatedCard> : null}
-                {error && interaction ? (
+                {data?.status === 'error' && interaction ? (
                     <AnimatedCard id="feedbackCardError">
-                        <ConnectionError onClose={onErrorCardClosed} text={error.message} />
+                        <ConnectionError onClose={onErrorCardClosed} text={data.error} />
                     </AnimatedCard>
                 ) : null}
             </div>
