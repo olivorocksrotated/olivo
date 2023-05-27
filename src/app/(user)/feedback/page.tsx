@@ -63,18 +63,18 @@ export default function Feedback() {
                         <h3 className="text-xl font-bold">Praise</h3>
                     </div>
 
-                    <div className="mb-1 mr-1 flex h-[150px] w-[242px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-teal-700 hover:text-slate-100">
+                    <div className="mb-1 mr-1 flex h-[150px] w-[242px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-amber-700 hover:text-slate-100">
                         <div><TbSchoolBell fontSize={32} /></div>
                         <h3 className="text-xl font-bold">Improve</h3>
                     </div>
                 </div>
 
                 {/* Feedback categories selection */}
-                <div className="relative flex flex-wrap gap-4">
+                <div className="relative mb-4 flex flex-wrap gap-4">
                     {
                         categories.map((category) => (
-                            <div key={category.id} className="">
-                                <h3>{category.name}</h3>
+                            <div key={category.id} className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-slate-700 uppercase transition duration-300 ease-in-out hover:scale-110 hover:bg-indigo-700 hover:shadow-md hover:shadow-indigo-600">
+                                <h3 className="pl-3 text-sm font-bold">{category.name}</h3>
                             </div>
                         ))
                     }
