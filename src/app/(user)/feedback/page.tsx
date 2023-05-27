@@ -57,9 +57,18 @@ export default function Feedback() {
                 </div>
 
                 {/* Feedback type selection */}
-                <div className="flex gap-4">
-                    <div>Praise</div>
-                    <div>Improve</div>
+                <div className="relative mb-4 flex justify-between gap-4">
+                    {/* <div className="flex flex-wrap flex-col justify-center gap-y-4 pl-4 rounded-sm w-[242px] h-[150px] bg-slate-800/90 hover:shadow-lg hover:shadow-teal-600 hover:bg-teal-700">
+                        <div><TbRocket fontSize={32} /></div>
+
+                        <h3 className="font-bold text-xl cursor-pointer">Praise</h3>
+                    </div> */}
+
+                    {/* <div className="flex flex-wrap flex-col justify-center gap-y-4 pl-4 rounded-sm w-[242px] h-[150px] bg-slate-800/90 hover:shadow-lg hover:shadow-teal-600 hover:bg-teal-700">
+                        <div><TbSchoolBell fontSize={32} /></div>
+
+                        <h3 className="font-bold text-xl cursor-pointer">Improve</h3>
+                    </div> */}
                 </div>
 
                 {/* Feedback categories selection */}
@@ -77,7 +86,7 @@ export default function Feedback() {
                 </div>
 
                 {/* Feedback tags for selected categories */}
-                <div className="flex flex-col gap-4">
+                {/* <div className="flex flex-col gap-4">
                     <div className="">
                         <div>Communication</div>
                         <div className="flex gap-4">
@@ -95,11 +104,14 @@ export default function Feedback() {
                             <div>Keep doing</div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Feedback note/comment */}
-                <div>
-                    <textarea placeholder="Comment"></textarea>
+
+                <div className="mb-4 h-[150px] w-full rounded-md bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] p-[2px]">
+                    <div className="flex h-full flex-col justify-between rounded-lg bg-gray-600">
+                        <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 outline-none" placeholder="Quick comment"></textarea>
+                    </div>
                 </div>
 
                 <div>
