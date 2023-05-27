@@ -2,8 +2,9 @@ import { NotificationType } from '@prisma/client';
 
 import { formatRelativeDateWithTime } from '@/lib/date/format';
 
+import SignupWelcomeNotification from './templates/signup-welcome';
 import UnfinishedCommitmentsNotification from './templates/unfinished-commitments';
-import { NotificationItem, UnfinishedCommitmentsNotificationType } from './types';
+import { NotificationItem, SignupWelcomeNotificationType, UnfinishedCommitmentsNotificationType } from './types';
 
 interface Props {
     notification: NotificationItem;
@@ -20,6 +21,7 @@ export default function NotificationEntry({ notification }: Props) {
             </div>
             <div className="text-sm font-normal">
                 {notification.type === NotificationType.UnfinishedCommitments ? <UnfinishedCommitmentsNotification notification={notification as UnfinishedCommitmentsNotificationType} /> : null}
+                {notification.type === NotificationType.SignupWelcome ? <SignupWelcomeNotification notification={notification as SignupWelcomeNotificationType} /> : null}
             </div>
         </div>
     );

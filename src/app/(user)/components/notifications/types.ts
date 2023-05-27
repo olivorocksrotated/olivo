@@ -8,3 +8,5 @@ export type UnfinishedCommitmentsNotificationType = NotificationItem & {
         unfinishedCommitments: number
     };
 }
+
+export type SignupWelcomeNotificationType = NotificationItem;
