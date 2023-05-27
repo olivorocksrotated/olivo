@@ -1,6 +1,6 @@
 'use client';
 
-import { TbSearch } from 'react-icons/tb';
+import { TbRocket, TbSchoolBell, TbSearch } from 'react-icons/tb';
 
 import { getFeedbackCategories } from '@/lib/feedback/categories';
 
@@ -58,17 +58,15 @@ export default function Feedback() {
 
                 {/* Feedback type selection */}
                 <div className="relative mb-4 flex justify-between gap-4">
-                    {/* <div className="flex flex-wrap flex-col justify-center gap-y-4 pl-4 rounded-sm w-[242px] h-[150px] bg-slate-800/90 hover:shadow-lg hover:shadow-teal-600 hover:bg-teal-700">
+                    <div className="mb-1 mr-1 flex h-[150px] w-[242px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-teal-700 hover:text-slate-100">
                         <div><TbRocket fontSize={32} /></div>
+                        <h3 className="text-xl font-bold">Praise</h3>
+                    </div>
 
-                        <h3 className="font-bold text-xl cursor-pointer">Praise</h3>
-                    </div> */}
-
-                    {/* <div className="flex flex-wrap flex-col justify-center gap-y-4 pl-4 rounded-sm w-[242px] h-[150px] bg-slate-800/90 hover:shadow-lg hover:shadow-teal-600 hover:bg-teal-700">
+                    <div className="mb-1 mr-1 flex h-[150px] w-[242px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-teal-700 hover:text-slate-100">
                         <div><TbSchoolBell fontSize={32} /></div>
-
-                        <h3 className="font-bold text-xl cursor-pointer">Improve</h3>
-                    </div> */}
+                        <h3 className="text-xl font-bold">Improve</h3>
+                    </div>
                 </div>
 
                 {/* Feedback categories selection */}
