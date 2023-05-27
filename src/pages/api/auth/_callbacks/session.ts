@@ -4,6 +4,10 @@ import { JWT } from 'next-auth/jwt';
 export default async function sessionCallback({ session, token }: { session: Session, token: JWT }) {
     return {
         ...session,
-        user: { ...session?.user, id: token.sub ?? '' }
+        user: {
+            ...session?.user,
+            id: token.sub ?? '',
+            isNewUser: token.isNewUser
+        }
     };
 }

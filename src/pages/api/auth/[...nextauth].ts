@@ -7,6 +7,7 @@ import GithubProvider from 'next-auth/providers/github';
 import { isDevEnvironment } from '@/lib/environment';
 
 import prisma from '../../../lib/prisma';
+import jwt from './_callbacks/jwt';
 import redirect from './_callbacks/redirect';
 import session from './_callbacks/session';
 
@@ -39,10 +40,7 @@ if (isDevEnvironment()) {
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers,
-    callbacks: {
-        redirect,
-        session
-    },
+    callbacks: { redirect, session, jwt },
     session: { strategy: 'jwt' as const },
     pages: {
         signIn: '/signin'
