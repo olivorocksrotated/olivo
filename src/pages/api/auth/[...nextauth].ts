@@ -1,6 +1,5 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import NextAuth, { Session } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import NextAuth from 'next-auth';
 import { Provider } from 'next-auth/providers';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
@@ -8,6 +7,8 @@ import GithubProvider from 'next-auth/providers/github';
 import { isDevEnvironment } from '@/lib/environment';
 
 import prisma from '../../../lib/prisma';
+import redirect from './_callbacks/redirect';
+import session from './_callbacks/session';
 
 const githubProvider = GithubProvider({
     clientId: process.env.GITHUB_ID as string,
@@ -39,15 +40,8 @@ export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers,
     callbacks: {
-        async redirect({ baseUrl }: { baseUrl: string }) {
-            return baseUrl;
-        },
-        async session({ session, token }: { session: Session, token: JWT }) {
-            return {
-                ...session,
-                user: { ...session?.user, id: token.sub ?? '' }
-            };
-        }
+        redirect,
+        session
     },
     session: { strategy: 'jwt' as const },
     pages: {
