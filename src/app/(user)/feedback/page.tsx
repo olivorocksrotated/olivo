@@ -18,7 +18,7 @@ export default function Feedback() {
                 <div className="bg-slate-700 p-3">
                     <div className="flex rounded-t-md border border-slate-700 bg-gray-600/20">
                         <span className="p-3 py-4"><TbSearch size={16} /></span>
-                        <input type="email" name="email" id="email" placeholder="Search Review" className="bg-transparent p-2 focus:outline-none"></input>
+                        <input type="email" name="email" id="email" placeholder="Type the email" className="w-full bg-transparent p-2 focus:outline-none"></input>
                     </div>
                 </div>
 
@@ -70,14 +70,11 @@ export default function Feedback() {
                 </div>
 
                 {/* Feedback categories selection */}
-                <h2 className="font-bold">Feedback Categories</h2>
                 <div className="relative flex flex-wrap gap-4">
                     {
                         categories.map((category) => (
                             <div key={category.id} className="">
-                                <div className="absolute bottom-4 left-3  text-neutral-200">
-                                    <h3>{category.name}</h3>
-                                </div>
+                                <h3>{category.name}</h3>
                             </div>
                         ))
                     }
@@ -106,9 +103,9 @@ export default function Feedback() {
 
                 {/* Feedback note/comment */}
 
-                <div className="mb-4 h-[150px] w-full rounded-md bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] p-[2px]">
-                    <div className="flex h-full flex-col justify-between rounded-lg bg-gray-600">
-                        <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 outline-none" placeholder="Quick comment"></textarea>
+                <div className="mb-4 h-[150px] w-full rounded-md bg-slate-700 from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] p-[2px] hover:bg-gradient-to-r">
+                    <div className="flex h-full flex-col justify-between rounded-lg bg-gray-600/20 p-3 hover:bg-slate-700">
+                        <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
                     </div>
                 </div>
 
