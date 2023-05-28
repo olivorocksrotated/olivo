@@ -4,17 +4,39 @@ import { TbRocket, TbSchoolBell, TbSearch } from 'react-icons/tb';
 
 import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
 
+import CategoryCard from './components/category-card';
+
 export default function Feedback() {
     const categories = getFeedbackCategories();
     const users = [
         { id: '1', name: 'Super Doggo', role: 'Engineering Manager', portait: 'https://placedog.net/500/500' },
         { id: '2', name: 'The Boss', role: 'Engineering Manager', portait: 'https://placedog.net/300/500' }
     ];
+    const stepperTitles = [
+        'whom do you want to feedback?',
+        'something to praise or improve?',
+        'what areas to work on?',
+        'what areas standed-out?',
+        'what to improve?',
+        'what to praise?',
+        'any comments?'
+    ];
     const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
     return (
         <main>
             <section className="max-w-lg">
+                <div className="space-y-2 py-6 text-slate-200">
+                    <h3 className="mb-3 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-4xl font-semibold text-transparent">{stepperTitles[0]}</h3>
+                    <div className="flex gap-3">
+                        <span className="h-5 w-24 rounded-sm bg-teal-500"></span>
+                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
+                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
+                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
+                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
+                    </div>
+                </div>
+
                 {/* User selection */}
                 <div className="bg-slate-800 p-3">
                     <div className="flex border border-slate-700 bg-slate-500/20">
@@ -59,10 +81,12 @@ export default function Feedback() {
 
                 {/* Feedback type selection */}
                 <div className="relative mb-4 flex justify-between gap-4">
-                    <div className="mb-1 mr-1 flex h-[150px] w-[242px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-teal-700 hover:text-slate-100">
+                    <div className="mb-1 mr-1 flex h-[150px] w-[200px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-teal-700 hover:text-slate-100">
                         <div><TbRocket fontSize={32} /></div>
                         <h3 className="text-xl font-bold">Praise</h3>
                     </div>
+
+                    <div className="inline-block h-[150px] min-h-[1em] w-0.5 self-stretch bg-slate-600 opacity-100 dark:opacity-50"></div>
 
                     <div className="mb-1 mr-1 flex h-[150px] w-[242px] cursor-pointer flex-col flex-wrap justify-center gap-y-4 rounded border border-slate-700 px-8 py-3 pl-4 font-bold uppercase text-slate-500 outline-none transition-all duration-150 ease-linear hover:bg-amber-700 hover:text-slate-100">
                         <div><TbSchoolBell fontSize={32} /></div>
@@ -74,55 +98,33 @@ export default function Feedback() {
                 <div className="relative mb-4 flex flex-wrap gap-4">
                     {
                         categories.map((category) => (
-                            <div key={category.id} className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-slate-700 uppercase transition duration-300 ease-in-out hover:scale-110 hover:bg-cyan-800 hover:shadow-md hover:shadow-teal-600">
-                                <h3 className="pl-3 text-sm font-bold">{category.name}</h3>
-                            </div>
+                            <CategoryCard key={category.id} category={category.name} />
                         ))
                     }
                 </div>
 
                 {/* Feedback tags for selected categories */}
-                <div className="flex gap-y-4 py-4">
+                <div className="py-4">
                     <div>
                         <div className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-cyan-800 uppercase shadow-md shadow-teal-600">
                             <h3 className="pl-3 text-sm font-bold">Communication</h3>
                         </div>
                     </div>
 
-                    <div>
+                    <div className="flex w-full flex-wrap gap-x-2 gap-y-1">
                         {feedbackSuggestionTags.map((tag) => (
-                            <div key={tag.id} className="flex w-full flex-wrap items-center justify-center bg-slate-700">
-                                <div className="w-96 bg-gray-600/20 p-5">
-
-                                    <div className="mt-3 flex flex-wrap gap-3">
-                                        <div className="group relative inline-block items-center justify-start overflow-hidden rounded-full bg-slate-300 px-2 py-1 text-base transition-all hover:bg-slate-700">
-                                            <span className="absolute inset-0 rounded-full border-0 border-slate-700 transition-all duration-100 ease-linear group-hover:border-[25px]"></span>
-                                            <span className="relative w-full text-left text-slate-700 transition-colors duration-200 ease-in-out group-hover:text-slate-100">{tag.name}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div key={tag.id} className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-slate-800 px-10 py-4 tracking-tighter text-slate-100">
+                                <span className="absolute h-0 w-0 rounded-full bg-cyan-800 transition-all duration-500 ease-out group-hover:h-auto group-hover:w-auto"></span>
+                                <span className="absolute inset-0 -mt-1 h-full w-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-gray-700 opacity-30"></span>
+                                <span className="relative">{tag.name}</span>
                             </div>
                         ))}
                     </div>
-
-                    {/* <div className="flex items-center justify-center bg-slate-700">
-                        <div className="bg-gray-600/20 w-96 p-5">
-
-                            <div className="mt-3 flex flex-wrap gap-3">
-                                <button className="relative items-center justify-start inline-block px-2 py-1 overflow-hidden text-base transition-all bg-slate-300 rounded-full hover:bg-slate-700 group">
-                                    <span className="absolute inset-0 border-0 group-hover:border-[25px] ease-linear duration-100 transition-all border-slate-700 rounded-full"></span>
-                                    <span className="relative w-full text-left text-slate-700 transition-colors duration-200 ease-in-out group-hover:text-slate-100">Button Text</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
 
                 {/* Feedback note/comment */}
-                <div className="mb-4 h-[150px] w-full rounded-md bg-gray-600/20 from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] p-[2px] hover:bg-gradient-to-r">
-                    <div className="flex h-full flex-col justify-between rounded-lg bg-gray-600/20 p-3 hover:bg-slate-700">
-                        <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
-                    </div>
+                <div className="mb-4 h-[150px] w-full rounded-md bg-slate-800 p-3">
+                    <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
                 </div>
 
                 <div>
