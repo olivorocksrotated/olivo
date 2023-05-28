@@ -2,7 +2,7 @@
 
 import { TbRocket, TbSchoolBell, TbSearch } from 'react-icons/tb';
 
-import { getFeedbackCategories } from '@/lib/feedback/categories';
+import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
 
 export default function Feedback() {
     const categories = getFeedbackCategories();
@@ -10,13 +10,14 @@ export default function Feedback() {
         { id: '1', name: 'Super Doggo', role: 'Engineering Manager', portait: 'https://placedog.net/500/500' },
         { id: '2', name: 'The Boss', role: 'Engineering Manager', portait: 'https://placedog.net/300/500' }
     ];
+    const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
     return (
         <main>
             <section className="max-w-lg">
                 {/* User selection */}
-                <div className="bg-slate-700 p-3">
-                    <div className="flex rounded-t-md border border-slate-700 bg-gray-600/20">
+                <div className="bg-slate-800 p-3">
+                    <div className="flex border border-slate-700 bg-slate-500/20">
                         <span className="p-3 py-4"><TbSearch size={16} /></span>
                         <input type="email" name="email" id="email" placeholder="Type the email" className="w-full bg-transparent p-2 focus:outline-none"></input>
                     </div>
@@ -73,7 +74,7 @@ export default function Feedback() {
                 <div className="relative mb-4 flex flex-wrap gap-4">
                     {
                         categories.map((category) => (
-                            <div key={category.id} className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-slate-700 uppercase transition duration-300 ease-in-out hover:scale-110 hover:bg-indigo-700 hover:shadow-md hover:shadow-indigo-600">
+                            <div key={category.id} className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-slate-700 uppercase transition duration-300 ease-in-out hover:scale-110 hover:bg-cyan-800 hover:shadow-md hover:shadow-teal-600">
                                 <h3 className="pl-3 text-sm font-bold">{category.name}</h3>
                             </div>
                         ))
@@ -81,29 +82,44 @@ export default function Feedback() {
                 </div>
 
                 {/* Feedback tags for selected categories */}
-                {/* <div className="flex flex-col gap-4">
-                    <div className="">
-                        <div>Communication</div>
-                        <div className="flex gap-4">
-                            <div>Needs more</div>
-                            <div>Needs less</div>
-                            <div>Keep doing</div>
+                <div className="flex gap-y-4 py-4">
+                    <div>
+                        <div className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-cyan-800 uppercase shadow-md shadow-teal-600">
+                            <h3 className="pl-3 text-sm font-bold">Communication</h3>
                         </div>
                     </div>
 
-                    <div className="">
-                        <div>Teamwork</div>
-                        <div className="flex gap-4">
-                            <div>Needs more</div>
-                            <div>Needs less</div>
-                            <div>Keep doing</div>
-                        </div>
+                    <div>
+                        {feedbackSuggestionTags.map((tag) => (
+                            <div key={tag.id} className="flex w-full flex-wrap items-center justify-center bg-slate-700">
+                                <div className="w-96 bg-gray-600/20 p-5">
+
+                                    <div className="mt-3 flex flex-wrap gap-3">
+                                        <div className="group relative inline-block items-center justify-start overflow-hidden rounded-full bg-slate-300 px-2 py-1 text-base transition-all hover:bg-slate-700">
+                                            <span className="absolute inset-0 rounded-full border-0 border-slate-700 transition-all duration-100 ease-linear group-hover:border-[25px]"></span>
+                                            <span className="relative w-full text-left text-slate-700 transition-colors duration-200 ease-in-out group-hover:text-slate-100">{tag.name}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </div> */}
+
+                    {/* <div className="flex items-center justify-center bg-slate-700">
+                        <div className="bg-gray-600/20 w-96 p-5">
+
+                            <div className="mt-3 flex flex-wrap gap-3">
+                                <button className="relative items-center justify-start inline-block px-2 py-1 overflow-hidden text-base transition-all bg-slate-300 rounded-full hover:bg-slate-700 group">
+                                    <span className="absolute inset-0 border-0 group-hover:border-[25px] ease-linear duration-100 transition-all border-slate-700 rounded-full"></span>
+                                    <span className="relative w-full text-left text-slate-700 transition-colors duration-200 ease-in-out group-hover:text-slate-100">Button Text</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div> */}
+                </div>
 
                 {/* Feedback note/comment */}
-
-                <div className="mb-4 h-[150px] w-full rounded-md bg-slate-700 from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] p-[2px] hover:bg-gradient-to-r">
+                <div className="mb-4 h-[150px] w-full rounded-md bg-gray-600/20 from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] p-[2px] hover:bg-gradient-to-r">
                     <div className="flex h-full flex-col justify-between rounded-lg bg-gray-600/20 p-3 hover:bg-slate-700">
                         <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
                     </div>

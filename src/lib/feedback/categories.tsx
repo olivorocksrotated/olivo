@@ -13,3 +13,14 @@ export function getFeedbackCategories() {
 
     return categories;
 }
+
+export function getFeedbackSuggestionTags() {
+    const feedbackSuggestionTags = [
+        { id: 1, name: 'Adapt communication style' },
+        { id: 2, name: 'Ask for help' },
+        { id: 3, name: 'Conduct 1-on-1s' },
+        { id: 4, name: 'Articulate something' }
+    ];
+
+    return feedbackSuggestionTags;
+}
