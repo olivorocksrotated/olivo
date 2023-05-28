@@ -51,6 +51,26 @@ describe('lib network', () => {
                 const result = await createConnectionAction({ userEmail: 'dev@olivo.rocks' });
                 expect((result as { error: string }).error).toBe('It is not possible to create a connection with yourself');
             });
+
+            it('should return an error when the user attempts to create a connection that already exists', async () => {
+                const anotherUser = { id: '4', image: null, name: null, email: 'another@olivo.rocks' };
+                await prisma.user.create({ data: anotherUser });
+                await createConnectionAction({ userEmail: anotherUser.email });
+
+                const result = await createConnectionAction({ userEmail: anotherUser.email });
+                expect((result as { error: string }).error).toBe('The user is already in your network');
+            });
+
+            it('should return an error when the user attempts to create a connection that already exists even when it was initiated by another user', async () => {
+                const anotherUser = { id: '4', image: null, name: null, email: 'another@olivo.rocks' };
+                await prisma.user.create({ data: anotherUser });
+                await prisma.networkConnection.create({
+                    data: { requesterId: anotherUser.id, acceptorId: loggedInUserId }
+                });
+
+                const result = await createConnectionAction({ userEmail: anotherUser.email });
+                expect((result as { error: string }).error).toBe('The user is already in your network');
+            });
         });
     });
 });
