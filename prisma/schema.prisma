@@ -117,4 +117,5 @@ enum NotificationStatus {
 
 enum NotificationType {
   UnfinishedCommitments
+  SignupWelcome
 }
