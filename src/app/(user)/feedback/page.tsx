@@ -4,6 +4,7 @@ import { TbSearch } from 'react-icons/tb';
 
 import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
 
+import CategoryBatchSelector from './components/badge-selector';
 import CategoryCard from './components/category-card';
 import FeedbackTypeSelector from './components/feedback-type-selector';
 
@@ -93,22 +94,11 @@ export default function Feedback() {
                 </div>
 
                 {/* Feedback tags for selected categories */}
-                <div className="py-4">
-                    <div>
-                        <div className="flex h-[100px] w-[160px] cursor-pointer flex-col justify-center bg-cyan-800 uppercase shadow-md shadow-teal-600">
-                            <h3 className="pl-3 text-sm font-bold">Communication</h3>
-                        </div>
-                    </div>
 
-                    <div className="flex w-full flex-wrap gap-x-2 gap-y-1">
-                        {feedbackSuggestionTags.map((tag) => (
-                            <div key={tag.id} className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-slate-800 px-10 py-4 tracking-tighter text-slate-100">
-                                <span className="absolute h-0 w-0 rounded-full bg-cyan-800 transition-all duration-500 ease-out group-hover:h-auto group-hover:w-auto"></span>
-                                <span className="absolute inset-0 -mt-1 h-full w-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-gray-700 opacity-30"></span>
-                                <span className="relative">{tag.name}</span>
-                            </div>
-                        ))}
-                    </div>
+                <div className="mb-4 flex flex-wrap gap-4">
+                    {feedbackSuggestionTags.map((tag) => (
+                        <CategoryBatchSelector key={tag.id} tag={tag.name} />
+                    ))}
                 </div>
 
                 {/* Feedback note/comment */}
