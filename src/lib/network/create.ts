@@ -5,7 +5,7 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
-import prisma, { hasUniqueContraintFailed } from '../prisma';
+import prisma from '../prisma';
 
 const unknownServerError = { status: 'error', error: 'Unknown Server Error' };
 
@@ -23,14 +23,25 @@ export const createConnectionAction = zact(z.object({
             if (!acceptorUser) {
                 return { status: 'error', error: 'The email does not belong to an existing user' };
             }
+
+            const existingConnection = await prisma.networkConnection.findMany({
+                where: {
+                    OR: [
+                        { requesterId: user.id, acceptorId: acceptorUser.id },
+                        { requesterId: acceptorUser.id, acceptorId: user.id }
+                    ]
+                }
+            });
+
+            if (existingConnection.length > 0) {
+                return { status: 'error', error: 'The user is already in your network' };
+            }
+
             try {
                 await prisma.networkConnection.create({
                     data: { requesterId: user.id, acceptorId: acceptorUser.id }
                 });
             } catch (error) {
-                if (hasUniqueContraintFailed(error)) {
-                    return { status: 'error', error: 'The user is already in your network' };
-                }
                 console.error('an error ocurred', error);
 
                 return unknownServerError;
