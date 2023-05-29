@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function FeedbackStepper({ step, setepTitle }: Props) {
-    const [activeStep, setActiveStep] = useState(1);
+    const [activeStep, setActiveStep] = useState(step);
 
     const handleClick = (stepNumber: number) => {
         if (stepNumber >= activeStep) {
@@ -22,7 +22,7 @@ export default function FeedbackStepper({ step, setepTitle }: Props) {
             <div className="flex gap-3">
                 {
                     [1, 2, 3, 4, 5].map((stepNumber) => (
-                        <span key={stepNumber} onClick={() => handleClick(stepNumber)} className={`h-5 w-24 cursor-pointer rounded-sm ${activeStep === step ? 'bg-teal-600' : 'bg-slate-500'} `}></span>
+                        <span key={stepNumber} onClick={() => handleClick(stepNumber)} className={`h-5 w-24 cursor-pointer rounded-sm ${activeStep === stepNumber ? 'bg-teal-600' : 'bg-slate-500'} `}></span>
                     ))
                 }
             </div>
