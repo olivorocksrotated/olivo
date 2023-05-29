@@ -12,6 +12,5 @@ export default async function Commitments() {
         <div>You do not have any commitments yet</div>
     );
 
-    /* @ts-expect-error Server Component */
     return !hasCommitments ? noCommitments : <CommitmentsSection commitments={commitments} title="Your commitments" />;
 }

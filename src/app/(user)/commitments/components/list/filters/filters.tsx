@@ -24,11 +24,11 @@ export default function Filters({ onFiltersChanged }: Props) {
 
     const [filters, setFilters] = useLocalStorage(localStorageKey, defaultFilters);
 
-    const selectedFilterStyle = 'bg-slate-500';
-    const notSelectedFilterStyle = 'bg-slate-600';
+    const selectedFilterStyle = 'bg-neutral-500';
+    const notSelectedFilterStyle = 'bg-neutral-600';
     const filterStyle = clsx(
         'flex w-fit cursor-pointer items-center rounded p-[5px] transition',
-        'hover:bg-slate-500'
+        'hover:bg-neutral-500'
     );
 
     useEffect(() => onFiltersChanged(filters), [filters, onFiltersChanged]);
