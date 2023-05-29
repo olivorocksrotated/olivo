@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
                 <ToastContainer />
                 <AnalyticsWrapper />
             </body>
-            <Script src="https://sak.userreport.com/olivorocks/launcher.js" async id="userreport-launcher-script" />
+            <Script src="https://sak.userreport.com/olivorocks/launcher.js" defer id="userreport-launcher-script" />
         </html>
     );
 }
