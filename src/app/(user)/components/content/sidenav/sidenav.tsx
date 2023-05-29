@@ -54,12 +54,7 @@ export default function Sidenav() {
                 style={{ ...!isMobileOpen ? { height: 'calc(100vh - 80px)' } : {} }}
                 aria-label="Sidenav"
             >
-                <div className="h-full overflow-y-auto rounded-lg px-3 py-4"
-                    style={{
-                        background: 'rgb(35, 37, 38)',
-                        border: '1px solid hsla(0,0%,100%,.05)'
-                    }}
-                >
+                <div className="h-full overflow-y-auto rounded-lg border border-neutral-900 bg-neutral-950 px-3 py-4">
                     <div className="space-y-2 font-medium">
                         <div className="flex gap-2">
                             <div>
