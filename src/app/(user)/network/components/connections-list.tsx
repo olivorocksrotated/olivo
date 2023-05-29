@@ -52,7 +52,7 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
 
     const connectionsList = (
         <AnimatePresence mode="wait">
-            <div className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid w-full grid-cols-1 gap-12 py-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {connections.map((connection: Connection) => (
                     <AnimatedCard key={connection.id} id={connection.id}>
                         <ConnectionCard connection={connection} />
