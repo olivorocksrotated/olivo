@@ -5,18 +5,22 @@ export enum NotificationPermission {
 }
 
 export function isDesktopNotificationSupported() {
-    return typeof Notification !== 'undefined' && Notification.permission;
+    return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
 }
 
 export function isDesktopNotificationGranted() {
+    if (!isDesktopNotificationSupported()) {
+        return false;
+    }
+
     return Notification.permission === NotificationPermission.Granted;
 }
 
-export function isAbleToReceiveDesktopNotification() {
-    return isDesktopNotificationSupported() && isDesktopNotificationGranted();
-}
+export async function requestDesktopNotificationPermission() {
+    if (!isDesktopNotificationSupported()) {
+        return NotificationPermission.Denied;
+    }
 
-export function requestDesktopNotificationPermission() {
     return Notification.requestPermission();
 }
 
@@ -24,7 +28,7 @@ export function createDesktopNotification({ title, options = {} }: {
     title: string,
     options?: NotificationOptions
 }) {
-    if (isAbleToReceiveDesktopNotification()) {
+    if (isDesktopNotificationGranted()) {
         new Notification(title, options);
     }
 }
