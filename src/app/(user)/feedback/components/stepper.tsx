@@ -22,7 +22,7 @@ export default function FeedbackStepper({ step, setepTitle }: Props) {
             <div className="flex gap-3">
                 {
                     [1, 2, 3, 4, 5].map((stepNumber) => (
-                        <span key={stepNumber} onClick={() => handleClick(stepNumber)} className={`h-5 w-24 cursor-pointer rounded-sm ${activeStep === stepNumber ? 'bg-teal-600' : 'bg-slate-500'} `}></span>
+                        <span key={stepNumber} onClick={() => handleClick(stepNumber)} className={`h-5 w-24 cursor-pointer rounded-sm ${step === stepNumber ? 'bg-teal-600' : 'bg-slate-500'} `}></span>
                     ))
                 }
             </div>
