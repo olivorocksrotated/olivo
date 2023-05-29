@@ -16,7 +16,8 @@ export default function NavigationLinks() {
         home: 1,
         commitments: 2,
         network: 3,
-        moods: 4
+        moods: 4,
+        feedback: 5
     }[selected ?? 'home'] as number;
     const [hovered, setHovered] = useState<number>(selectedHoverIndex);
 
@@ -75,6 +76,15 @@ export default function NavigationLinks() {
                     link: {
                         path: '/moods',
                         title: 'Your moods',
+                        icon: <TbMoodCheck size={18} />
+                    }
+                })}
+                {listItem({
+                    hoverIndex: 5,
+                    selectedId: 'feedback',
+                    link: {
+                        path: '/feedback',
+                        title: 'Feedback',
                         icon: <TbMoodCheck size={18} />
                     }
                 })}
