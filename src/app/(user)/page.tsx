@@ -22,7 +22,6 @@ export default async function Home() {
         <main>
             <PageTitle text={`👋 Hey, ${firstName}`} />
             <div className="mb-10"><MoodSelector todaysMood={todaysMood} /></div>
-            {/* @ts-expect-error Server Component */}
             <div><CommitmentsSection commitments={commitments} title="Commitments for today" /></div>
         </main>
     );
