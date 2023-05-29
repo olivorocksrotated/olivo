@@ -7,6 +7,7 @@ import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback
 import CategoryBatchSelector from './components/badge-selector';
 import CategoryCard from './components/category-card';
 import FeedbackTypeSelector from './components/feedback-type-selector';
+import FeedbackStepper from './components/stepper';
 
 export default function Feedback() {
     const categories = getFeedbackCategories();
@@ -28,16 +29,7 @@ export default function Feedback() {
     return (
         <main>
             <section className="max-w-lg">
-                <div className="space-y-2 py-6 text-slate-200">
-                    <h3 className="mb-3 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-4xl font-semibold text-transparent">{stepperTitles[0]}</h3>
-                    <div className="flex gap-3">
-                        <span className="h-5 w-24 rounded-sm bg-teal-500"></span>
-                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
-                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
-                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
-                        <span className="h-5 w-24 rounded-sm bg-slate-400"></span>
-                    </div>
-                </div>
+                <FeedbackStepper step={1} setepTitle={stepperTitles[0]} />
 
                 {/* User selection */}
                 <div className="bg-slate-800 p-3">
