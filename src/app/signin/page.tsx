@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { VscGithub } from 'react-icons/vsc';
@@ -10,8 +11,14 @@ import Loader from '../components/loader';
 import LoginButton from './components/login-btn';
 import styles from './page.module.css';
 
+const errors: { [errorId: string]: string } = {
+    OAuthAccountNotLinked: 'Something went wrong. Maybe you already signed in with a different provider?'
+};
+
 export default function SignIn() {
     const [showLoader, setShowLoader] = useState(false);
+    const authCallbackError = useSearchParams()?.get('error');
+
     const handleLoginAttempt = () => {
         setShowLoader(true);
     };
@@ -30,6 +37,7 @@ export default function SignIn() {
                 </LoginButton>
             </div>
             {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : null}
+            {authCallbackError ? <div className="text-red-400">{errors[authCallbackError]}</div> : null}
             {showLoader ? <div><Loader /></div> : null}
         </div>
     );
