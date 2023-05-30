@@ -1,7 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaTasks } from 'react-icons/fa';
@@ -15,7 +15,8 @@ interface NavigationLink {
     id: string
     path: string,
     title: string,
-    icon: React.ReactNode
+    icon: React.ReactNode,
+    hasSeparator?: true
 }
 
 const links: NavigationLink[] = [
@@ -41,7 +42,8 @@ const links: NavigationLink[] = [
         id: 'network',
         path: '/network',
         title: 'Your network',
-        icon: <BsPeopleFill size={18} />
+        icon: <BsPeopleFill size={18} />,
+        hasSeparator: true
     },
     {
         id: 'feedback',
@@ -67,14 +69,18 @@ export default function NavigationLinks() {
         <AnimatePresence mode="wait">
             <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="mt-2 space-y-2 border-t border-gray-700 pt-4">
                 {links.map((currentLink) => (
-                    <li key={currentLink.id} onMouseEnter={() => setHovered(hoverIndexes[currentLink.id])} className="relative">
-                        {isSameIdOrHome(currentLink.id) ? <SelectedBackground /> : null}
-                        {hovered === hoverIndexes[currentLink.id] ? <HoverMark /> : null}
-                        <Link href={currentLink.path} className="relative z-20 flex items-center gap-3 p-2 pl-4 text-sm font-thin text-white">
-                            <span className="text-gray-400">{currentLink.icon}</span>
-                            <span>{currentLink.title}</span>
-                        </Link>
-                    </li>))}
+                    <Fragment key={currentLink.id}>
+                        {currentLink.hasSeparator ? <li className="border-t border-neutral-600"></li> : null}
+                        <li onMouseEnter={() => setHovered(hoverIndexes[currentLink.id])} className="relative">
+                            {isSameIdOrHome(currentLink.id) ? <SelectedBackground /> : null}
+                            {hovered === hoverIndexes[currentLink.id] ? <HoverMark /> : null}
+                            <Link href={currentLink.path} className="relative z-20 flex items-center gap-3 p-2 pl-4 text-sm font-thin text-white">
+                                <span className="text-gray-400">{currentLink.icon}</span>
+                                <span>{currentLink.title}</span>
+                            </Link>
+                        </li>
+                    </Fragment>
+                ))}
             </ul>
         </AnimatePresence>
     );
