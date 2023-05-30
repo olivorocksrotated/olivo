@@ -12,5 +12,5 @@ export default async function Commitments() {
         <div>You do not have any commitments yet</div>
     );
 
-    return !hasCommitments ? noCommitments : <CommitmentsSection commitments={commitments} title="Your commitments" />;
+    return !hasCommitments ? noCommitments : <CommitmentsSection commitments={commitments} title="All your commitments" />;
 }
