@@ -1,11 +1,9 @@
 import { FeedbackEntry, FeedbackType } from './types';
 
-export function getFeedbackEntries({ userId, order = 'asc' }: {
+export function getFeedbackEntries({}: {
     userId: string,
     order?: 'asc' | 'desc'
 }): FeedbackEntry[] {
-    console.log(userId, order);
-
     const feedbackEntries = [{
         id: 1,
         receiverId: 1,

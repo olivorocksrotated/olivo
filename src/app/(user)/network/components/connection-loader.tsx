@@ -2,7 +2,7 @@ export default function ConnectionLoader() {
     return (
         <div className="flex w-full min-w-[300px] animate-pulse gap-4 rounded-md border-4 border-neutral-600 bg-neutral-800 p-5">
             <div>
-                <div className="bg-graneutraly-600 h-20 w-20 rounded-lg"></div>
+                <div className="h-20 w-20 rounded-lg bg-neutral-600"></div>
             </div>
             <div>
                 <div>
