@@ -42,8 +42,6 @@ export const createConnectionAction = zact(z.object({
                     data: { requesterId: user.id, acceptorId: acceptorUser.id }
                 });
             } catch (error) {
-                console.error('an error ocurred', error);
-
                 return unknownServerError;
             }
 
@@ -51,8 +49,6 @@ export const createConnectionAction = zact(z.object({
 
             return { status: 'success' } as const;
         } catch (error) {
-            console.error('an error ocurred', error);
-
             return unknownServerError;
         }
     }

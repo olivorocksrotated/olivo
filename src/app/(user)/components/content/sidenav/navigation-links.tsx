@@ -1,93 +1,86 @@
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaTasks } from 'react-icons/fa';
+import { LuMessagesSquare } from 'react-icons/lu';
 import { TbMoodCheck } from 'react-icons/tb';
 
 import HoverMark from './hover-mark';
 import SelectedBackground from './selected-background';
 
+interface NavigationLink {
+    id: string
+    path: string,
+    title: string,
+    icon: React.ReactNode,
+    hasSeparator?: true
+}
+
+const links: NavigationLink[] = [
+    {
+        id: 'home',
+        path: '/',
+        title: 'Home',
+        icon: <AiFillHome size={18} />
+    },
+    {
+        id: 'commitments',
+        path: '/commitments',
+        title: 'Commitments',
+        icon: <FaTasks size={18} />
+    },
+    {
+        id: 'moods',
+        path: '/moods',
+        title: 'Your moods',
+        icon: <TbMoodCheck size={18} />
+    },
+    {
+        id: 'network',
+        path: '/network',
+        title: 'Your network',
+        icon: <BsPeopleFill size={18} />,
+        hasSeparator: true
+    },
+    {
+        id: 'feedback',
+        path: '/feedback',
+        title: 'Feedback',
+        icon: <LuMessagesSquare size={18} />
+    }
+];
+
 export default function NavigationLinks() {
     const selected = useSelectedLayoutSegment();
-    const selectedHoverIndex = {
-        home: 1,
-        commitments: 2,
-        network: 3,
-        moods: 4,
-        feedback: 5
-    }[selected ?? 'home'] as number;
-    const [hovered, setHovered] = useState<number>(selectedHoverIndex);
+    const hoverIndexes = links.reduce((acc, currentLink, currentIndex) => ({
+        ...acc,
+        [currentLink.id]: currentIndex
+    }), {} as { [linkId: string]: number });
+    const selectedHoverIndex = hoverIndexes[selected ?? links[0].id];
 
-    const listItem = ({ hoverIndex, selectedId, link }: {
-        hoverIndex: number,
-        selectedId: string | null,
-        link: {
-            path: string,
-            title: string,
-            icon: React.ReactNode
-        }
-    }) => (
-        <li onMouseEnter={() => setHovered(hoverIndex)} className="relative">
-            {selected === selectedId ? <SelectedBackground /> : null}
-            {hovered === hoverIndex ? <HoverMark /> : null}
-            <Link href={link.path} className="relative z-20 flex items-center gap-3 p-2 pl-4 text-sm font-thin text-white">
-                <span className="text-gray-400">{link.icon}</span>
-                <span>{link.title}</span>
-            </Link>
-        </li>
-    );
+    const [hovered, setHovered] = useState(selectedHoverIndex);
+
+    const isSameIdOrHome = (currentLinkId: string) => selected === currentLinkId || !selected && hoverIndexes[currentLinkId] === 0;
 
     return (
         <AnimatePresence mode="wait">
             <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="mt-2 space-y-2 border-t border-gray-700 pt-4">
-                {listItem({
-                    hoverIndex: 1,
-                    selectedId: null,
-                    link: {
-                        path: '/',
-                        title: 'Home',
-                        icon: <AiFillHome size={18} />
-                    }
-                })}
-                {listItem({
-                    hoverIndex: 2,
-                    selectedId: 'commitments',
-                    link: {
-                        path: '/commitments',
-                        title: 'Commitments',
-                        icon: <FaTasks size={18} />
-                    }
-                })}
-                {listItem({
-                    hoverIndex: 3,
-                    selectedId: 'network',
-                    link: {
-                        path: '/network',
-                        title: 'Your network',
-                        icon: <BsPeopleFill size={18} />
-                    }
-                })}
-                {listItem({
-                    hoverIndex: 4,
-                    selectedId: 'moods',
-                    link: {
-                        path: '/moods',
-                        title: 'Your moods',
-                        icon: <TbMoodCheck size={18} />
-                    }
-                })}
-                {listItem({
-                    hoverIndex: 5,
-                    selectedId: 'feedback',
-                    link: {
-                        path: '/feedback',
-                        title: 'Feedback',
-                        icon: <TbMoodCheck size={18} />
-                    }
-                })}
+                {links.map((currentLink) => (
+                    <Fragment key={currentLink.id}>
+                        {currentLink.hasSeparator ? <li className="border-t border-neutral-600"></li> : null}
+                        <li onMouseEnter={() => setHovered(hoverIndexes[currentLink.id])} className="relative">
+                            {isSameIdOrHome(currentLink.id) ? <SelectedBackground /> : null}
+                            {hovered === hoverIndexes[currentLink.id] ? <HoverMark /> : null}
+                            <Link href={currentLink.path} className="relative z-20 flex items-center gap-3 p-2 pl-4 text-sm font-thin text-white">
+                                <span className="text-gray-400">{currentLink.icon}</span>
+                                <span>{currentLink.title}</span>
+                            </Link>
+                        </li>
+                    </Fragment>
+                ))}
             </ul>
         </AnimatePresence>
     );
