@@ -24,6 +24,7 @@ export default function SignIn() {
             <div className="flex gap-4">
                 {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : undefined}
                 <LoginButton provider="github" onLoginAttempt={handleLoginAttempt}>Login with Github</LoginButton>
+                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt}>Login with Google</LoginButton>
             </div>
             {loader}
         </div>

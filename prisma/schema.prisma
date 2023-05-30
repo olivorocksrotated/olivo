@@ -65,7 +65,7 @@ model Commitment {
   status    CommitmentStatus @default(NotStartedYet)
   doneBy    DateTime         @default(now())
   createdAt DateTime         @default(now())
-  owner     User             @relation(fields: [ownerId], references: [id])
+  owner     User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
 
   @@index([ownerId])
@@ -76,7 +76,7 @@ model Mood {
   status    MoodStatus
   comment   String?    @db.Text
   createdAt DateTime   @default(now())
-  owner     User       @relation(fields: [ownerId], references: [id])
+  owner     User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
 
   @@index([ownerId])
@@ -89,7 +89,7 @@ model Notification {
   type      NotificationType
   status    NotificationStatus @default(Open)
   createdAt DateTime           @default(now())
-  owner     User               @relation(fields: [ownerId], references: [id])
+  owner     User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
 
   @@index([ownerId])
