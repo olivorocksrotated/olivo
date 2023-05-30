@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { VscGithub } from 'react-icons/vsc';
 
 import { isDevEnvironment } from '@/lib/environment';
 
 import Loader from '../components/loader';
-import LoginButton from './login-btn';
+import LoginButton from './components/login-btn';
 import styles from './page.module.css';
 
 export default function SignIn() {
@@ -22,10 +24,14 @@ export default function SignIn() {
                 OLIVO
             </div>
             <div className="flex gap-4">
-                {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : undefined}
-                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt}>Login with Github</LoginButton>
-                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt}>Login with Google</LoginButton>
+                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt}>
+                    <div className="flex items-center gap-2"><VscGithub size={20} /> Login with Github</div>
+                </LoginButton>
+                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt}>
+                    <div className="flex items-center gap-2"><FcGoogle size={20} /> Login with Google</div>
+                </LoginButton>
             </div>
+            {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : undefined}
             {loader}
         </div>
     );
