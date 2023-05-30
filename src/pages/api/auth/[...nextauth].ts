@@ -3,6 +3,7 @@ import NextAuth from 'next-auth';
 import { Provider } from 'next-auth/providers';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
 
 import { isDevEnvironment } from '@/lib/environment';
 
@@ -17,7 +18,12 @@ const githubProvider = GithubProvider({
     allowDangerousEmailAccountLinking: true
 });
 
-const providers: Provider[] = [githubProvider];
+const googleProvider = GoogleProvider({
+    clientId: process.env.GOOGLE_CLIENT_ID as string,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+});
+
+const providers: Provider[] = [githubProvider, googleProvider];
 
 if (isDevEnvironment()) {
     providers.push(CredentialsProvider({
