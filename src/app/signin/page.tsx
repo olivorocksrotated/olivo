@@ -1,20 +1,27 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { VscGithub } from 'react-icons/vsc';
 
 import { isDevEnvironment } from '@/lib/environment';
 
 import Loader from '../components/loader';
-import LoginButton from './login-btn';
+import LoginButton from './components/login-btn';
 import styles from './page.module.css';
+
+const errors: { [errorId: string]: string } = {
+    OAuthAccountNotLinked: 'Something went wrong. Maybe you already signed in with a different provider?'
+};
 
 export default function SignIn() {
     const [showLoader, setShowLoader] = useState(false);
+    const authCallbackError = useSearchParams()?.get('error');
+
     const handleLoginAttempt = () => {
         setShowLoader(true);
     };
-
-    const loader = showLoader ? <div><Loader /></div> : undefined;
 
     return (
         <div className={`flex h-screen w-screen flex-col items-center gap-20 py-64 ${styles.background}`}>
@@ -22,11 +29,16 @@ export default function SignIn() {
                 OLIVO
             </div>
             <div className="flex gap-4">
-                {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : undefined}
-                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt}>Login with Github</LoginButton>
-                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt}>Login with Google</LoginButton>
+                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt}>
+                    <div className="flex items-center gap-2"><VscGithub size={20} /> Login with Github</div>
+                </LoginButton>
+                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt}>
+                    <div className="flex items-center gap-2"><FcGoogle size={20} /> Login with Google</div>
+                </LoginButton>
             </div>
-            {loader}
+            {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : null}
+            {authCallbackError ? <div className="text-red-400">{errors[authCallbackError]}</div> : null}
+            {showLoader ? <div><Loader /></div> : null}
         </div>
     );
 }
