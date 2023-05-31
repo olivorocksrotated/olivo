@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 
-import Button from '@/app/components/button';
 import { getConnection } from '@/lib/network/connection/get';
 
 import Avatar from '../components/avatar/avatar';
 import { AvatarSize } from '../components/avatar/types';
+import { DisconnectButton } from './components/disconnect-button';
 
 export default async function ConnectionPage({ params }: { params: { id: string } }) {
     const connection = await getConnection(params.id);
@@ -26,7 +26,7 @@ export default async function ConnectionPage({ params }: { params: { id: string 
                 </div>
             </div>
             <div>
-                <Button>Disconnect</Button>
+                <DisconnectButton id={params.id}></DisconnectButton>
             </div>
         </div>
     );
