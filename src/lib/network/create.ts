@@ -5,9 +5,14 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
+import { createServerActionErrorResponse, createServerActionSuccessResponse, unknownServerError } from '../errors/server';
 import prisma from '../prisma';
 
-const unknownServerError = { status: 'error', error: 'Unknown Server Error' };
+const errors: { [errorId: string]: { type: string, message: string } } = {
+    NoConnectionWithYourself: { type: 'NoConnectionWithYourself', message: 'It is not possible to create a connection with yourself' },
+    UserNotFound: { type: 'UserNotFound', message: 'The email does not belong to an existing user' },
+    UserAlreadyConnected: { type: 'UserAlreadyConnected', message: 'The user is already in your network' }
+};
 
 export const createConnectionAction = zact(z.object({
     userEmail: z.string()
@@ -17,11 +22,11 @@ export const createConnectionAction = zact(z.object({
             const { user } = await getServerSession();
 
             if (user.email === userEmail) {
-                return { status: 'error', error: 'It is not possible to create a connection with yourself' };
+                return createServerActionErrorResponse(errors.NoConnectionWithYourself);
             }
             const acceptorUser = await prisma.user.findUnique({ where: { email: userEmail } });
             if (!acceptorUser) {
-                return { status: 'error', error: 'The email does not belong to an existing user' };
+                return createServerActionErrorResponse(errors.UserNotFound);
             }
 
             const existingConnection = await prisma.networkConnection.findMany({
@@ -34,22 +39,18 @@ export const createConnectionAction = zact(z.object({
             });
 
             if (existingConnection.length > 0) {
-                return { status: 'error', error: 'The user is already in your network' };
+                return createServerActionErrorResponse(errors.UserAlreadyConnected);
             }
 
-            try {
-                await prisma.networkConnection.create({
-                    data: { requesterId: user.id, acceptorId: acceptorUser.id }
-                });
-            } catch (error) {
-                return unknownServerError;
-            }
+            await prisma.networkConnection.create({
+                data: { requesterId: user.id, acceptorId: acceptorUser.id }
+            });
 
             revalidatePath('/network');
 
-            return { status: 'success' } as const;
+            return createServerActionSuccessResponse();
         } catch (error) {
-            return unknownServerError;
+            return createServerActionErrorResponse(unknownServerError);
         }
     }
 );

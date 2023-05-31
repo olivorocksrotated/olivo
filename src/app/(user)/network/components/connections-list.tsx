@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useZact } from 'zact/client';
 
+import { getServerActionErrorMessage, isServerActionError } from '@/lib/errors/server';
 import { createConnectionAction } from '@/lib/network/create';
 
 import ConnectButton from './connect-button';
@@ -58,9 +59,9 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
                     </AnimatedCard>
                 ))}
                 {isLoading ? <AnimatedCard id="feedbackCard"><ConnectionLoader /></AnimatedCard> : null}
-                {data?.status === 'error' && interaction ? (
+                {isServerActionError(data) && interaction ? (
                     <AnimatedCard id="feedbackCardError">
-                        <ConnectionError onClose={onErrorCardClosed} text={data.error} />
+                        <ConnectionError onClose={onErrorCardClosed} text={getServerActionErrorMessage(data)} />
                     </AnimatedCard>
                 ) : null}
             </div>
