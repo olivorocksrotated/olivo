@@ -6,13 +6,12 @@ import { useZact } from 'zact/client';
 
 import { getServerActionErrorMessage, isServerActionError } from '@/lib/errors/server';
 import { createConnectionAction } from '@/lib/network/create';
+import { Connection } from '@/lib/network/types';
 
 import ConnectButton from './connect-button';
 import ConnectionCard from './connection-card';
 import ConnectionError from './connection-error';
 import ConnectionLoader from './connection-loader';
-
-type Connection = { id: string, image: string, name: string };
 
 function AnimatedCard({ children, id }: { children: React.ReactNode; id: string }) {
     const transition = { duration: 0.5 };
@@ -52,7 +51,7 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
 
     const connectionsList = (
         <AnimatePresence mode="wait">
-            <div className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid w-full grid-cols-1 gap-12 py-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {connections.map((connection: Connection) => (
                     <AnimatedCard key={connection.id} id={connection.id}>
                         <ConnectionCard connection={connection} />

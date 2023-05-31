@@ -1,9 +1,6 @@
-import { User } from '@prisma/client';
-
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
-
-type UserFields = Pick<User, 'id' | 'image' | 'name'>;
+import { ConnectionUserFields } from './types';
 
 export async function getNetwork() {
     const { user } = await getServerSession();
@@ -15,6 +12,7 @@ export async function getNetwork() {
             ]
         },
         select: {
+            id: true,
             acceptor: {
                 select: {
                     id: true,
@@ -35,9 +33,11 @@ export async function getNetwork() {
         }
     });
 
-    function mapToNetworkConnection(userFields: UserFields) {
-        return { ...userFields, image: userFields.image || '', name: userFields.name || '' };
+    function mapToNetworkConnection({ acceptor, requester, id }: { acceptor: ConnectionUserFields, requester: ConnectionUserFields, id: string }) {
+        const userFields: ConnectionUserFields = acceptor.id === user.id ? requester : acceptor;
+
+        return { id, user: { ...userFields, image: userFields.image || '', name: userFields.name || '' } };
     }
 
-    return relations.map((relation) => mapToNetworkConnection(relation.acceptor.id === user.id ? relation.requester : relation.acceptor));
+    return relations.map(mapToNetworkConnection);
 }

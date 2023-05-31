@@ -27,38 +27,39 @@ describe('lib network', () => {
             });
 
             it('should return the network of the user', async () => {
-                const expectedUsers = [
-                    { id: '2', image: 'image2', name: 'name2' },
-                    { id: '3', image: 'image3', name: 'name3' }
-                ];
-                prisma.user.create({ data: expectedUsers[0] });
-                prisma.user.create({ data: expectedUsers[1] });
-                prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: expectedUsers[0].id } });
-                prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: expectedUsers[1].id } });
+                const user1 = { id: '2', image: 'image2', name: 'name2' };
+                const user2 = { id: '3', image: 'image3', name: 'name3' };
+                await prisma.user.create({ data: user1 });
+                await prisma.user.create({ data: user2 });
+                const connection1 = await prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: user1.id } });
+                const connection2 = await prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: user2.id } });
 
                 const network = await getNetwork();
 
-                expect(network).to.be.deep.equal(expectedUsers);
+                expect(network).to.be.deep.equal([
+                    { id: connection1.id, user: user1 },
+                    { id: connection2.id, user: user2 }
+                ]);
             });
 
             it('should return default values if the user does not have name and image', async () => {
                 const anotherUser = { id: '4', image: null, name: null };
-                prisma.user.create({ data: anotherUser });
-                prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: anotherUser.id } });
+                await prisma.user.create({ data: anotherUser });
+                const connection = await prisma.networkConnection.create({ data: { requesterId: loggedInUserId, acceptorId: anotherUser.id } });
 
                 const network = await getNetwork();
 
-                expect(network).to.deep.contain({ id: '4', image: '', name: '' });
+                expect(network).to.deep.contain({ id: connection.id, user: { id: '4', image: '', name: '' } });
             });
 
             it('should return the other user of the relation', async () => {
                 const anotherUser = { id: '4', image: 'img', name: 'usr' };
-                prisma.user.create({ data: anotherUser });
-                prisma.networkConnection.create({ data: { requesterId: anotherUser.id, acceptorId: loggedInUserId } });
+                await prisma.user.create({ data: anotherUser });
+                const connection = await prisma.networkConnection.create({ data: { requesterId: anotherUser.id, acceptorId: loggedInUserId } });
 
                 const network = await getNetwork();
 
-                expect(network).to.deep.contain(anotherUser);
+                expect(network).to.deep.contain({ id: connection.id, user: anotherUser });
             });
         });
     });
