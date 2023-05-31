@@ -6,13 +6,12 @@ import { useZact } from 'zact/client';
 
 import { getServerActionErrorMessage, isServerActionError } from '@/lib/errors/server';
 import { createConnectionAction } from '@/lib/network/create';
+import { Connection } from '@/lib/network/types';
 
 import ConnectButton from './connect-button';
 import ConnectionCard from './connection-card';
 import ConnectionError from './connection-error';
 import ConnectionLoader from './connection-loader';
-
-type Connection = { id: string, image: string, name: string };
 
 function AnimatedCard({ children, id }: { children: React.ReactNode; id: string }) {
     const transition = { duration: 0.5 };
