@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { Connection } from '@/lib/network/types';
 
-import Avatar from './avatar';
+import Avatar from './avatar/avatar';
 
 type Props = { connection: Connection };
 
