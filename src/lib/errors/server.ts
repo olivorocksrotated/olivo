@@ -27,7 +27,7 @@ export function isServerActionError(data: any): boolean {
 }
 
 export function getServerActionErrorMessage(data: any): string {
-    return data?.status?.message ?? '';
+    return data?.message ?? '';
 }
 
 export const unknownServerError = { type: 'UnknownServerError', message: 'Something unexpected happen. Please try again.' };
