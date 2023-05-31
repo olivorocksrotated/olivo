@@ -51,7 +51,7 @@ export default function DialogButton({
                         >
                             <Dialog.Overlay forceMount className="fixed inset-0 bg-black opacity-60" />
                             <Dialog.Content forceMount
-                                className="fixed left-2/4 top-2/4 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-gray-900 p-6"
+                                className="fixed left-2/4 top-2/4 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-neutral-900 p-6"
                                 onEscapeKeyDown={close}
                             >
                                 <div className="mb-6 flex justify-between">

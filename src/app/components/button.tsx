@@ -10,9 +10,9 @@ export default function Button({ children, ...props }: ButtonProperties) {
     const { glowing, ...nativeProps } = props;
     const glowingStyle = glowing ? styles['glow-on-hover'] : '';
     const buttonStyle = clsx(
-        'rounded border border-solid border-zinc-500 px-4 py-1 text-white',
+        'rounded border border-solid border-neutral-500 px-4 py-1 text-white',
         'disabled:cursor-not-allowed disabled:opacity-50',
-        'hover:enabled:border-zinc-200',
+        'hover:enabled:border-neutral-200',
         glowingStyle
     );
 
