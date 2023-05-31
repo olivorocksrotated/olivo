@@ -26,7 +26,7 @@ export default function Connection({ connection }: Props) {
                     {connection.name || 'No name'}
                 </div>
                 <div className="text-sm font-light text-neutral-400">
-                        Human Being
+                    Human Being
                 </div>
             </div>
         </motion.div>
