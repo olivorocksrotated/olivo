@@ -13,7 +13,7 @@ import LoginButton from './components/login-btn';
 import styles from './page.module.css';
 
 const errors: { [errorId: string]: string } = {
-    OAuthAccountNotLinked: 'Something went wrong. Maybe you already signed in with a different provider?'
+    OAuthAccountNotLinked: 'Maybe you already signed in with a different provider?'
 };
 
 export default function SignIn() {
@@ -31,15 +31,15 @@ export default function SignIn() {
                 OLIVO
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
-                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt}>
-                    <div className="flex items-center gap-2"><VscGithub size={20} /> Login with Github</div>
+                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt} disabled={showLoader}>
+                    <div className="flex items-center gap-2"><VscGithub size={20} /> Sign in with Github</div>
                 </LoginButton>
-                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt}>
-                    <div className="flex items-center gap-2"><FcGoogle size={20} /> Login with Google</div>
+                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt} disabled={showLoader}>
+                    <div className="flex items-center gap-2"><FcGoogle size={20} /> Sign in with Google</div>
                 </LoginButton>
             </div>
-            {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Login in Dev mode</LoginButton> : null}
-            {authCallbackError ? <div className="text-red-400">{errors[authCallbackError]}</div> : null}
+            {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Sign in dev mode</LoginButton> : null}
+            {authCallbackError ? <div className="text-red-400">Something went wrong. {errors[authCallbackError] ?? 'Please try again.'}</div> : null}
             {showLoader ? <div><Loader /></div> : null}
         </div>
     );
