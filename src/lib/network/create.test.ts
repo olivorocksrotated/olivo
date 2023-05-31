@@ -45,12 +45,12 @@ describe('lib network', () => {
 
             it('should return an error when the user does not exist', async () => {
                 const result = await createConnectionAction({ userEmail: 'unexisting@olivo.rocks' });
-                expect((result as ServerActionError).error).toBe('The email does not belong to an existing user');
+                expect((result as ServerActionError).message).toBe('The email does not belong to an existing user');
             });
 
             it('should return an error when the user attempts to create a connection with themselves', async () => {
                 const result = await createConnectionAction({ userEmail: 'dev@olivo.rocks' });
-                expect((result as ServerActionError).error).toBe('It is not possible to create a connection with yourself');
+                expect((result as ServerActionError).message).toBe('It is not possible to create a connection with yourself');
             });
 
             it('should return an error when the user attempts to create a connection that already exists', async () => {
@@ -59,7 +59,7 @@ describe('lib network', () => {
                 await createConnectionAction({ userEmail: anotherUser.email });
 
                 const result = await createConnectionAction({ userEmail: anotherUser.email });
-                expect((result as ServerActionError).error).toBe('The user is already in your network');
+                expect((result as ServerActionError).message).toBe('The user is already in your network');
             });
 
             it('should return an error when the user attempts to create a connection that already exists even when it was initiated by another user', async () => {
@@ -70,7 +70,7 @@ describe('lib network', () => {
                 });
 
                 const result = await createConnectionAction({ userEmail: anotherUser.email });
-                expect((result as ServerActionError).error).toBe('The user is already in your network');
+                expect((result as ServerActionError).message).toBe('The user is already in your network');
             });
         });
     });
