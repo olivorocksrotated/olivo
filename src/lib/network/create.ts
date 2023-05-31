@@ -5,9 +5,14 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
+import { ServerActionError, unknownServerError } from '../errors/server';
 import prisma from '../prisma';
 
-const unknownServerError = { status: 'error', error: 'Unknown Server Error' };
+const errors: { [errorId: string]: ServerActionError } = {
+    NoConnectionWithYourself: { status: 'error', error: 'It is not possible to create a connection with yourself' },
+    UserNotFound: { status: 'error', error: 'The email does not belong to an existing user' },
+    UserAlreadyConnected: { status: 'error', error: 'The user is already in your network' }
+};
 
 export const createConnectionAction = zact(z.object({
     userEmail: z.string()
@@ -17,11 +22,11 @@ export const createConnectionAction = zact(z.object({
             const { user } = await getServerSession();
 
             if (user.email === userEmail) {
-                return { status: 'error', error: 'It is not possible to create a connection with yourself' };
+                return errors.NoConnectionWithYourself;
             }
             const acceptorUser = await prisma.user.findUnique({ where: { email: userEmail } });
             if (!acceptorUser) {
-                return { status: 'error', error: 'The email does not belong to an existing user' };
+                return errors.UserNotFound;
             }
 
             const existingConnection = await prisma.networkConnection.findMany({
@@ -34,7 +39,7 @@ export const createConnectionAction = zact(z.object({
             });
 
             if (existingConnection.length > 0) {
-                return { status: 'error', error: 'The user is already in your network' };
+                return errors.UserAlreadyConnected;
             }
 
             try {
