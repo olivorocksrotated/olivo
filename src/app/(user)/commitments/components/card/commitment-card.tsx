@@ -7,7 +7,7 @@ import { useZact } from 'zact/client';
 import { isPast } from '@/lib/commitments/filter';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
-import { formatDate, formatRelativeDate } from '@/lib/date/format';
+import { dateInputToISOString, formatDate, formatRelativeDate } from '@/lib/date/format';
 
 import PastStatusMarker from '../status-marker/past';
 import DeleteButton from './actions/delete-btn';
@@ -41,7 +41,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
             doneBy: doneBy ?? previous.doneBy
         }));
 
-        await update({ id: commitment.id, status, title, doneBy });
+        await update({ id: commitment.id, status, title, doneBy: dateInputToISOString(doneBy) });
     };
 
     const handleStatusChange = async (status: CommitmentStatus) => {
