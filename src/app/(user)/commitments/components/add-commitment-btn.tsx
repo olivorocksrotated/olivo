@@ -7,7 +7,7 @@ import { useZact } from 'zact/client';
 
 import DialogButton from '@/app/components/dialog-button';
 import { createCommitmentAction } from '@/lib/commitments/create';
-import { formatDate } from '@/lib/date/format';
+import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
 export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
@@ -18,7 +18,7 @@ export default function AddCommitmentButton() {
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (commitment.title && commitment.doneBy) {
-            await createCommitment({ ...commitment, doneBy: new Date(commitment.doneBy).toISOString() });
+            await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy) });
             setCommitment(nullCommitment);
         }
     }
