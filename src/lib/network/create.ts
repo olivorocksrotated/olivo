@@ -5,7 +5,7 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
-import { ServerActionError, unknownServerError } from '../errors/server';
+import { ServerActionError, ServerActionSuccess, unknownServerError } from '../errors/server';
 import prisma from '../prisma';
 
 const errors: { [errorId: string]: ServerActionError } = {
@@ -42,17 +42,13 @@ export const createConnectionAction = zact(z.object({
                 return errors.UserAlreadyConnected;
             }
 
-            try {
-                await prisma.networkConnection.create({
-                    data: { requesterId: user.id, acceptorId: acceptorUser.id }
-                });
-            } catch (error) {
-                return unknownServerError;
-            }
+            await prisma.networkConnection.create({
+                data: { requesterId: user.id, acceptorId: acceptorUser.id }
+            });
 
             revalidatePath('/network');
 
-            return { status: 'success' } as const;
+            return { status: 'success' } as ServerActionSuccess;
         } catch (error) {
             return unknownServerError;
         }
