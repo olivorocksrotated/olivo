@@ -1,6 +1,7 @@
 'use client';
 
 import { Commitment } from '@prisma/client';
+import clsx from 'clsx';
 import { useCallback, useState } from 'react';
 
 import { Filters as FiltersType } from '../types';
@@ -17,16 +18,24 @@ export default function FilteredCommitmentsList({ commitments }: Props) {
         past: false
     } as FiltersType);
 
+    const hasCommitments = commitments.length > 0;
+    const filtersStyle = clsx({
+        'mb-2': hasCommitments,
+        'mb-8': !hasCommitments
+    });
+
     const handleFiltersChanged = useCallback((updatedFilters: FiltersType) => {
         setFilters(updatedFilters);
     }, []);
 
     return (
         <>
-            <Filters onFiltersChanged={handleFiltersChanged} />
-            <div className="flow-root">
-                <CommitmentsList commitments={commitments} filters={filters} />
-            </div>
+            <div className={filtersStyle}><Filters onFiltersChanged={handleFiltersChanged} /></div>
+            {!hasCommitments ?
+                <div className="text-neutral-300">There are no commitments here yet</div> :
+                <div className="flow-root">
+                    <CommitmentsList commitments={commitments} filters={filters} />
+                </div>}
         </>
     );
 }
