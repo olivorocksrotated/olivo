@@ -34,7 +34,7 @@ export default function Filters({ onFiltersChanged }: Props) {
     useEffect(() => onFiltersChanged(filters), [filters, onFiltersChanged]);
 
     return (
-        <div className="mb-2 flex gap-2">
+        <div className="flex gap-2">
             <div onClick={() => setFilters((previous) => ({ ...previous, notDone: !previous.notDone }))}
                 className={clsx({
                     [filterStyle]: true,

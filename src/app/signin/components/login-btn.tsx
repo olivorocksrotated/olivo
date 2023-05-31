@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 
 import Button from '../../components/button';
 
-interface Props {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     provider?: string;
     onLoginAttempt?: (provider: string) => void;
     children: React.ReactNode;
@@ -13,12 +13,13 @@ interface Props {
 export default function LoginButton({
     provider = 'github',
     onLoginAttempt = () => undefined,
-    children
+    children,
+    ...props
 }: Props) {
     const handleClick = () => {
         signIn(provider);
         onLoginAttempt(provider);
     };
 
-    return <Button onClick={handleClick}>{children}</Button>;
+    return <Button onClick={handleClick} {...props}>{children}</Button>;
 }
