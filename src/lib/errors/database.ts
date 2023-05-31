@@ -1,7 +1,11 @@
 import { Prisma } from '@prisma/client';
 
-const UniqueConstraintFailed = 'P2002';
+export const UniqueConstraintFailed = 'P2002';
+
+export function isPrismaError(error: any, errorCode: string) {
+    return error instanceof Prisma.PrismaClientKnownRequestError && error.code === errorCode;
+}
 
 export function isUniqueConstraintFailed(error: any) {
-    return error instanceof Prisma.PrismaClientKnownRequestError && error.code === UniqueConstraintFailed;
+    return isPrismaError(error, UniqueConstraintFailed);
 }
