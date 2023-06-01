@@ -53,6 +53,7 @@ model NetworkConnection {
   acceptor    User     @relation("acceptor", fields: [acceptorId], references: [id])
   acceptorId  String
   createdAt   DateTime @default(now())
+  active      Boolean  @default(true)
 
   @@unique([requesterId, acceptorId])
   @@index([acceptorId])
