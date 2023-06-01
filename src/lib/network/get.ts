@@ -9,7 +9,8 @@ export async function getNetwork() {
             OR: [
                 { requesterId: user.id },
                 { acceptorId: user.id }
-            ]
+            ],
+            active: true
         },
         select: {
             id: true,

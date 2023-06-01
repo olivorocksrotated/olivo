@@ -14,6 +14,7 @@ export async function getConnection(connectionId: string) {
         },
         select: {
             id: true,
+            active: true,
             acceptor: {
                 select: {
                     id: true,
@@ -35,10 +36,12 @@ export async function getConnection(connectionId: string) {
         return null;
     }
 
-    function mapToNetworkConnection({ id, acceptor, requester }: { acceptor: ConnectionUserFields, requester: ConnectionUserFields, id: string }) {
+    function mapToNetworkConnection(
+        { id, active, acceptor, requester }: { acceptor: ConnectionUserFields, requester: ConnectionUserFields, active: boolean; id: string }
+    ) {
         const connectionUser = acceptor.id === user.id ? requester : acceptor;
 
-        return { id, user: { ...connectionUser, image: connectionUser.image || '', name: connectionUser.name || '' } };
+        return { id, active, user: { ...connectionUser, image: connectionUser.image || '', name: connectionUser.name || '' } };
     }
 
     return mapToNetworkConnection(connection);

@@ -4,7 +4,7 @@ import { getConnection } from '@/lib/network/connection/get';
 
 import Avatar from '../components/avatar/avatar';
 import { AvatarSize } from '../components/avatar/types';
-import { DisconnectButton } from './components/disconnect-button';
+import ToggleStateButton from './components/toggle-state-button';
 
 export default async function ConnectionPage({ params }: { params: { id: string } }) {
     const connection = await getConnection(params.id);
@@ -26,7 +26,7 @@ export default async function ConnectionPage({ params }: { params: { id: string 
                 </div>
             </div>
             <div>
-                <DisconnectButton id={params.id}></DisconnectButton>
+                <ToggleStateButton id={params.id} isConnected={connection.active}></ToggleStateButton>
             </div>
         </div>
     );
