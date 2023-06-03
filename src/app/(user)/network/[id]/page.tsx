@@ -14,7 +14,7 @@ export default async function ConnectionPage({ params }: { params: { id: string 
     }
 
     return (
-        <div className="flex h-full justify-between">
+        <div className="flex h-full flex-col gap-4 md:flex-row md:justify-between">
             <div className="flex gap-4">
                 <div>
                     <Avatar size={AvatarSize.Big} user={connection.user} />
