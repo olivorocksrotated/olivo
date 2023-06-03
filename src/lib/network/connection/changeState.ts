@@ -9,7 +9,7 @@ import { createServerActionSuccessResponse } from '@/lib/errors/server';
 import { getServerSession } from '../../auth/session';
 import prisma from '../../prisma';
 
-async function changeConnectionState(connectionId: string, newActiveState: boolean) {
+export async function changeConnectionState(connectionId: string, newActiveState: boolean) {
     const { user } = await getServerSession();
     await prisma.networkConnection.update({
         where: {
