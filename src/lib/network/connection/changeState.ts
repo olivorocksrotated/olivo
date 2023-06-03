@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 import { z } from 'zod';
 
@@ -8,22 +9,25 @@ import { createServerActionSuccessResponse } from '@/lib/errors/server';
 import { getServerSession } from '../../auth/session';
 import prisma from '../../prisma';
 
-async function deleteConnection(connectionId: string) {
+export async function changeConnectionState(connectionId: string, newActiveState: boolean) {
     const { user } = await getServerSession();
-    await prisma.networkConnection.delete({
+    await prisma.networkConnection.update({
         where: {
             OR: [
                 { requesterId: user.id },
                 { acceptorId: user.id }
             ],
             id: connectionId
-        }
+        },
+        data: { active: newActiveState }
     });
 }
 
-export const deleteConnectionAction = zact(z.string())(
-    async (id) => {
-        await deleteConnection(id);
+export const changeConnectionStateAction = zact(z.object({ id: z.string(), newActiveState: z.boolean() }))(
+    async ({ id, newActiveState }) => {
+        await changeConnectionState(id, newActiveState);
+        revalidatePath('/network');
+        revalidatePath('/network/[id]');
 
         return createServerActionSuccessResponse();
     }

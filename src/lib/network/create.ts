@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { getServerSession } from '../auth/session';
 import { createServerActionErrorResponse, createServerActionSuccessResponse, unknownServerError } from '../errors/server';
 import prisma from '../prisma';
+import { changeConnectionState } from './connection/changeState';
 
 const errors: { [errorId: string]: { type: string, message: string } } = {
     NoConnectionWithYourself: { type: 'NoConnectionWithYourself', message: 'It is not possible to create a connection with yourself' },
@@ -29,7 +30,7 @@ export const createConnectionAction = zact(z.object({
                 return createServerActionErrorResponse(errors.UserNotFound);
             }
 
-            const existingConnection = await prisma.networkConnection.findMany({
+            const existingConnection = await prisma.networkConnection.findFirst({
                 where: {
                     OR: [
                         { requesterId: user.id, acceptorId: acceptorUser.id },
@@ -38,13 +39,17 @@ export const createConnectionAction = zact(z.object({
                 }
             });
 
-            if (existingConnection.length > 0) {
+            if (existingConnection && existingConnection.active) {
                 return createServerActionErrorResponse(errors.UserAlreadyConnected);
             }
 
-            await prisma.networkConnection.create({
-                data: { requesterId: user.id, acceptorId: acceptorUser.id }
-            });
+            if (existingConnection && !existingConnection.active) {
+                await changeConnectionState(existingConnection.id, true);
+            } else {
+                await prisma.networkConnection.create({
+                    data: { requesterId: user.id, acceptorId: acceptorUser.id }
+                });
+            }
 
             revalidatePath('/network');
 
