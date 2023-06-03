@@ -22,12 +22,12 @@ export function createServerActionSuccessResponse(): ServerActionSuccess {
     return { status: 'success' };
 }
 
-export function isServerActionError(data: any): boolean {
-    return data?.status === 'error';
+export function isServerActionError(response: ServerActionResponse | null): response is ServerActionError {
+    return response?.status === 'error';
 }
 
-export function getServerActionErrorMessage(data: any): string {
-    return data?.message ?? '';
+export function getServerActionErrorMessage(response: ServerActionError): string {
+    return response?.message ?? '';
 }
 
 export const unknownServerError = { type: 'UnknownServerError', message: 'Something unexpected happen. Please try again.' };
