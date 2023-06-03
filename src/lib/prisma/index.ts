@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { isDevEnvironment } from './environment';
+import { isDevEnvironment } from '../environment';
 
 // Remove warn for Next.js in development: https://www.prisma.io/docs/guides/database/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices
 
