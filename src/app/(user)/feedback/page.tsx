@@ -14,30 +14,17 @@ import UserSelector from './components/user-selector';
 export default function Feedback() {
     const [feedbackStep, setFeedbackStep] = useState(1);
 
-    const previousStep = () => {
-        if (feedbackStep === 0) {
-            return;
-        }
-        setFeedbackStep(feedbackStep - 1);
-    };
-
-    const nextStep = () => {
-        if (feedbackStep === 5) {
-            return;
-        }
-        setFeedbackStep(feedbackStep + 1);
-    };
-
-    const categories = getFeedbackCategories();
-    const stepperTitles = [
+    const feedbackSteps = [
         'whom do you want to feedback?',
         'something to praise or improve?',
-        'what areas to work on?',
-        'what areas standed-out?',
-        'what to improve?',
-        'what to praise?',
+        'what areas do you want to focus on?',
+        'what do you want to share?',
         'any comments?'
     ];
+    const nextStep = () => setFeedbackStep(feedbackStep + 1);
+    const previousStep = () => setFeedbackStep(feedbackStep - 1);
+
+    const categories = getFeedbackCategories();
     const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
     const transition = {
@@ -46,23 +33,23 @@ export default function Feedback() {
 
     return (
         <main>
-            <section className="max-w-lg">
-                <FeedbackStepper step={feedbackStep} setepTitle={stepperTitles[feedbackStep]} />
+            <section className="min-h-[512px] max-w-lg overflow-hidden">
+                <FeedbackStepper step={feedbackStep} stepTitle={feedbackSteps[feedbackStep]} />
 
                 <AnimatePresence mode="wait">
 
                     {feedbackStep === 1 &&
-                            <motion.div key={feedbackStep} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
+                            <motion.div key={feedbackStep ? feedbackStep : ''} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
                                 <UserSelector />
                             </motion.div>}
 
                     {feedbackStep === 2 &&
-                            <motion.div key={feedbackStep} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
+                            <motion.div key={feedbackStep ? feedbackStep : ''} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
                                 <FeedbackTypeSelector />
                             </motion.div>}
 
                     {feedbackStep === 3 &&
-                            <motion.div key={feedbackStep} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
+                            <motion.div key={feedbackStep ? feedbackStep : ''} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
                                 <div className="relative mb-4 flex flex-wrap gap-4">
                                     {
                                         categories.map((category) => (
@@ -73,7 +60,7 @@ export default function Feedback() {
                             </motion.div>}
 
                     {feedbackStep === 4 &&
-                            <motion.div key={feedbackStep} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
+                            <motion.div key={feedbackStep ? feedbackStep : ''} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
                                 <div className="mb-4 flex flex-wrap gap-4">
                                     {feedbackSuggestionTags.map((tag) => (
                                         <CategoryBatchSelector key={tag.id} tag={tag.name} />
@@ -82,7 +69,7 @@ export default function Feedback() {
                             </motion.div>}
 
                     {feedbackStep === 5 &&
-                            <motion.div key={feedbackStep} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
+                            <motion.div key={feedbackStep ? feedbackStep : ''} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0, translateX: '-100%' }} transition={transition}>
                                 <div className="mb-4 h-[150px] w-full rounded-md bg-slate-800 p-3">
                                     <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
                                 </div>
@@ -114,7 +101,6 @@ export default function Feedback() {
                         </div>
                     </div>
                 </div>
-
             </section>
         </main>
     );
