@@ -1,16 +1,8 @@
-import { NotificationType } from '@prisma/client';
 import { Account, Profile, User } from 'next-auth';
 import { AdapterUser } from 'next-auth/adapters';
 import { JWT } from 'next-auth/jwt';
 
-import { createNotification } from '@/lib/notifications/persistent/create';
-
-function handleSignup(user: User | AdapterUser) {
-    createNotification(user.id, {
-        title: '🎉 Welcome to Olivo!',
-        type: NotificationType.SignupWelcome
-    });
-}
+import { inngest } from '@/inngest/client';
 
 export default async function jwtCallback({ token, user, trigger, isNewUser }: {
     token: JWT;
@@ -22,7 +14,10 @@ export default async function jwtCallback({ token, user, trigger, isNewUser }: {
     session?: any;
 }) {
     if (trigger === 'signUp') {
-        handleSignup(user);
+        await inngest.send({
+            name: 'user/created',
+            data: { userId: user.id }
+        });
     }
 
     return { ...token, isNewUser: !!isNewUser };
