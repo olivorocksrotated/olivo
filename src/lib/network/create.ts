@@ -5,8 +5,12 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
-import { createServerActionErrorResponse, createServerActionSuccessResponse, unknownServerError } from '../errors/server';
 import prisma from '../prisma';
+import {
+    createServerActionErrorResponse,
+    createServerActionSuccessResponse,
+    createServerActionUnknownErrorResponse
+} from '../server-actions';
 import { changeConnectionState } from './connection/changeState';
 
 const errors: { [errorId: string]: { type: string, message: string } } = {
@@ -55,7 +59,7 @@ export const createConnectionAction = zact(z.object({
 
             return createServerActionSuccessResponse();
         } catch (error) {
-            return createServerActionErrorResponse(unknownServerError);
+            return createServerActionUnknownErrorResponse();
         }
     }
 );

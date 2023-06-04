@@ -4,9 +4,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useZact } from 'zact/client';
 
-import { getServerActionErrorMessage, isServerActionError } from '@/lib/errors/server';
 import { createConnectionAction } from '@/lib/network/create';
 import { Connection } from '@/lib/network/types';
+import { getServerActionErrorMessage, isServerActionError } from '@/lib/server-actions';
 
 import ConnectButton from './connect-button';
 import ConnectionCard from './connection-card';
