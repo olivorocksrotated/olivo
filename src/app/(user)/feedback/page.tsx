@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
 
-import CategoryBatchSelector from './components/badge-selector';
+import CategoryBadgeSelector from './components/badge-selector';
 import CategoryCard from './components/category-card';
 import FeedbackTypeSelector from './components/feedback-type-selector';
 import FeedbackStepper from './components/stepper';
@@ -13,6 +13,30 @@ import UserSelector from './components/user-selector';
 
 export default function Feedback() {
     const [feedbackStep, setFeedbackStep] = useState(1);
+    const [feedbackNote, setFeedbackNote] = useState({
+        receiver: '',
+        type: '',
+        categories: [],
+        badges: [],
+        comment: ''
+    });
+
+    const nextStep = () => setFeedbackStep(feedbackStep + 1);
+    const previousStep = () => setFeedbackStep(feedbackStep - 1);
+    const handleChange = (feedbackProperty: { target: { name: any; value: any; }; }) => {
+        setFeedbackNote({
+            ...feedbackNote,
+            [feedbackProperty.target.name]: feedbackProperty.target.value
+        });
+    };
+    const handleUserSelected = (user: any) => {
+        setFeedbackNote({
+            ...feedbackNote,
+            comment: user.name
+        });
+    };
+    const categories = getFeedbackCategories();
+    const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
     const feedbackSteps = [
         'whom do you want to feedback?',
@@ -21,12 +45,6 @@ export default function Feedback() {
         'what do you want to share?',
         'any comments?'
     ];
-    const nextStep = () => setFeedbackStep(feedbackStep + 1);
-    const previousStep = () => setFeedbackStep(feedbackStep - 1);
-
-    const categories = getFeedbackCategories();
-    const feedbackSuggestionTags = getFeedbackSuggestionTags();
-
     const animationProps = {
         initial: { x: 10, opacity: 0 },
         animate: { x: 0, opacity: 1 },
@@ -49,7 +67,7 @@ export default function Feedback() {
 
                             {feedbackStep === 1 &&
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <UserSelector />
+                                        <UserSelector onUserSelected={handleUserSelected} />
                                     </motion.div>}
 
                             {feedbackStep === 2 &&
@@ -72,7 +90,7 @@ export default function Feedback() {
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
                                         <div className="mb-4 flex flex-wrap gap-4">
                                             {feedbackSuggestionTags.map((tag) => (
-                                                <CategoryBatchSelector key={tag.id} tag={tag.name} />
+                                                <CategoryBadgeSelector key={tag.id} tag={tag.name} />
                                             ))}
                                         </div>
                                     </motion.div>}
@@ -80,7 +98,7 @@ export default function Feedback() {
                             {feedbackStep === 5 &&
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
                                         <div className="mb-4 h-[150px] w-full rounded-md bg-slate-800 p-3">
-                                            <textarea className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
+                                            <textarea name="comment" onChange={handleChange} className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
                                         </div>
                                     </motion.div>}
 

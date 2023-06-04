@@ -4,7 +4,7 @@ interface Props {
     tag: string;
 }
 
-export default function CategoryBatchSelector({ tag }: Props) {
+export default function CategoryBadgeSelector({ tag }: Props) {
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
