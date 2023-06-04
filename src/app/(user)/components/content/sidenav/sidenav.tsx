@@ -57,9 +57,14 @@ export default function Sidenav() {
                 <div className="h-full overflow-y-auto rounded-lg border border-neutral-900 bg-neutral-950 px-3 py-4">
                     <div className="space-y-2 font-medium">
                         <div className="flex gap-2">
-                            <div>
+                            <div className="relative h-8 min-h-[2rem] w-8 min-w-[2rem]">
                                 <span className="sr-only">Open user menu</span>
-                                <Image className="rounded-full" width={32} height={32} src={session?.user.image ?? ''} alt={nameAcronym} />
+                                <Image className="min-h-[2rem] min-w-[2rem] rounded-full"
+                                    src={session?.user.image ?? ''}
+                                    width={32}
+                                    height={32}
+                                    alt={nameAcronym}
+                                />
                             </div>
                             <div role="none">
                                 <p className="text-sm font-light text-white" role="none">{firstName ?? 'Me'}</p>

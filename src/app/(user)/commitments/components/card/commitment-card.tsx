@@ -7,7 +7,7 @@ import { useZact } from 'zact/client';
 import { isPast } from '@/lib/commitments/filter';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
-import { dateInputToISOString, formatDate, formatRelativeDate } from '@/lib/date/format';
+import { dateInputToISOString, formatDate, getRelativeDateWithoutTime } from '@/lib/date/format';
 
 import PastStatusMarker from '../status-marker/past';
 import DeleteButton from './actions/delete-btn';
@@ -100,7 +100,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         <div>
                             {!editDoneBy.isEditing ?
                                 <span className={editStyle} onClick={() => setEditDoneBy((previous) => ({ ...previous, isEditing: true }))}>
-                                    {formatRelativeDate(new Date(commitment.doneBy), now)}
+                                    {getRelativeDateWithoutTime(new Date(commitment.doneBy), now)}
                                 </span> :
                                 <input type="date"
                                     autoFocus

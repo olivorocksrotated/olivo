@@ -18,7 +18,7 @@ export default function AddCommitmentButton() {
     async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (commitment.title && commitment.doneBy) {
-            await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy) });
+            await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy)! });
             setCommitment(nullCommitment);
         }
     }

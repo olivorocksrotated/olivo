@@ -1,28 +1,38 @@
-import { format as dateFnsFormat, formatRelative } from 'date-fns';
+import { format as dateFnsFormat, formatRelative, isMatch, parse } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 
-export function formatRelativeDateWithTime(theDate: string | Date, relativeTo: Date) {
-    const dateToFormat = typeof theDate === 'string' ? new Date(theDate) : theDate;
+type StringOrDate = string | Date;
+
+const baseDateStringFormat = 'MM/dd/yyyy';
+
+const stringOrDateToDate = (theDate: StringOrDate) => (typeof theDate === 'string' ? new Date(theDate) : theDate);
+const isFullDate = (stringDate: string) => isMatch(stringDate, baseDateStringFormat);
+const capitalizeString = (stringDate: string) => `${stringDate.charAt(0).toUpperCase()}${stringDate.slice(1)}`;
+const invertMonthsAndDays = (theDate: string, relativeTo: Date) => dateFnsFormat(parse(theDate, baseDateStringFormat, relativeTo, { locale: enUS }), 'dd/MM/yyyy');
+
+export function getRelativeDate(theDate: StringOrDate, relativeTo: Date) {
+    const dateToFormat = stringOrDateToDate(theDate);
 
     const initialFormattedDate = formatRelative(dateToFormat, relativeTo, { locale: enUS });
-    const formattedDateCapitalized = `${initialFormattedDate.charAt(0).toUpperCase()}${initialFormattedDate.slice(1)}`;
 
-    return formattedDateCapitalized;
+    return isFullDate(initialFormattedDate) ?
+        invertMonthsAndDays(initialFormattedDate, relativeTo) :
+        capitalizeString(initialFormattedDate);
 }
 
-export function formatRelativeDate(theDate: string | Date, relativeTo: Date) {
-    return formatRelativeDateWithTime(theDate, relativeTo).replace(/ at.*/g, '');
+export function getRelativeDateWithoutTime(theDate: StringOrDate, relativeTo: Date) {
+    return getRelativeDate(theDate, relativeTo).replace(/ at.*/g, '');
 }
 
-export function formatDate(theDate: string | Date, format: string = 'yyyy-MM-dd') {
-    const dateToFormat = typeof theDate === 'string' ? new Date(theDate) : theDate;
+export function formatDate(theDate: StringOrDate, format: string = 'yyyy-MM-dd') {
+    const dateToFormat = stringOrDateToDate(theDate);
 
     return dateFnsFormat(dateToFormat, format, { locale: enUS });
 }
 
 export function dateInputToISOString(dateInput: string | undefined) {
     if (!dateInput) {
-        return '';
+        return;
     }
 
     return new Date(dateInput).toISOString();
