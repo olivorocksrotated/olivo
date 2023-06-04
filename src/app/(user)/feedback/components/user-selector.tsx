@@ -1,7 +1,7 @@
 import { TbSearch } from 'react-icons/tb';
 
 interface Props {
-    onUserSelected: (user: any) => void;
+    onUserSelected: (name: string, value: string) => void;
 }
 
 export default function UserSelector({ onUserSelected }: Props) {
@@ -46,7 +46,7 @@ export default function UserSelector({ onUserSelected }: Props) {
                                     <span className="absolute bottom-0 right-0 h-full w-4 bg-gradient-to-l from-white to-transparent opacity-5"></span>
                                     <span className="absolute inset-0 h-full w-full rounded-md border border-white opacity-10"></span>
                                     <span className="absolute h-0 w-0 rounded-full bg-white opacity-5 transition-all duration-300 ease-out group-hover:h-56 group-hover:w-56"></span>
-                                    <span className="relative" onClick={() => onUserSelected(user)}>Choose</span>
+                                    <span className="relative" onClick={() => onUserSelected('receiver', user.name)}>Choose</span>
                                 </div>
                             </div>
                         </div>

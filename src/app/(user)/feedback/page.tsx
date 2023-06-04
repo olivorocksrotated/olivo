@@ -11,6 +11,14 @@ import FeedbackTypeSelector from './components/feedback-type-selector';
 import FeedbackStepper from './components/stepper';
 import UserSelector from './components/user-selector';
 
+interface FeedbackNote {
+    receiver: string;
+    type: string;
+    categories: string[];
+    badges: string[];
+    comment: string;
+}
+
 export default function Feedback() {
     const [feedbackStep, setFeedbackStep] = useState(1);
     const [feedbackNote, setFeedbackNote] = useState({
@@ -19,22 +27,26 @@ export default function Feedback() {
         categories: [],
         badges: [],
         comment: ''
-    });
+    } as FeedbackNote);
 
     const nextStep = () => setFeedbackStep(feedbackStep + 1);
     const previousStep = () => setFeedbackStep(feedbackStep - 1);
-    const handleChange = (feedbackProperty: { target: { name: any; value: any; }; }) => {
+    const handleChange = (name: string, value: any) => {
         setFeedbackNote({
             ...feedbackNote,
-            [feedbackProperty.target.name]: feedbackProperty.target.value
+            [name]: value
         });
     };
-    const handleUserSelected = (user: any) => {
+    const handleCategoryChange = (value: string) => {
         setFeedbackNote({
             ...feedbackNote,
-            comment: user.name
+            categories: [...feedbackNote.categories, value]
         });
     };
+    const handleCommentUpdated = (element: { target: { name: string; value: any; }; }) => {
+        handleChange(element.target.name, element.target.value);
+    };
+
     const categories = getFeedbackCategories();
     const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
@@ -67,12 +79,12 @@ export default function Feedback() {
 
                             {feedbackStep === 1 &&
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <UserSelector onUserSelected={handleUserSelected} />
+                                        <UserSelector onUserSelected={handleChange} />
                                     </motion.div>}
 
                             {feedbackStep === 2 &&
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <FeedbackTypeSelector />
+                                        <FeedbackTypeSelector onTypeSelected={handleChange} />
                                     </motion.div>}
 
                             {feedbackStep === 3 &&
@@ -80,7 +92,7 @@ export default function Feedback() {
                                         <div className="relative mb-4 flex flex-wrap gap-4">
                                             {
                                                 categories.map((category) => (
-                                                    <CategoryCard key={category.id} category={category.name} />
+                                                    <CategoryCard key={category.id} category={category.name} onCategorylected={handleCategoryChange} />
                                                 ))
                                             }
                                         </div>
@@ -98,7 +110,7 @@ export default function Feedback() {
                             {feedbackStep === 5 &&
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
                                         <div className="mb-4 h-[150px] w-full rounded-md bg-slate-800 p-3">
-                                            <textarea name="comment" onChange={handleChange} className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
+                                            <textarea name="comment" onChange={handleCommentUpdated} className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
                                         </div>
                                     </motion.div>}
 
