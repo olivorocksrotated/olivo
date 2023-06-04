@@ -1,17 +1,15 @@
 import { NotificationType } from '@prisma/client';
-import { z } from 'zod';
 
 import { createNotification } from '@/lib/notifications/persistent/create';
 
 import { inngest } from './client';
-
-const signupWelcomeNotificationPayload = z.object({ userId: z.string() });
+import { userCreatedEvent } from './events';
 
 export const createSignupWelcomeNotification = inngest.createFunction(
     { name: 'Create signup welcome notification' },
-    { event: 'user/created' },
+    { event: userCreatedEvent.name },
     async ({ event }) => {
-        const validatedEventData = signupWelcomeNotificationPayload.parse(event.data);
+        const validatedEventData = userCreatedEvent.validation.parse(event.data);
         createNotification(validatedEventData.userId, {
             title: '🎉 Welcome to Olivo!',
             type: NotificationType.SignupWelcome
