@@ -43,6 +43,12 @@ export default function Feedback() {
             categories: [...feedbackNote.categories, value]
         });
     };
+    const handleBadgeChange = (value: string) => {
+        setFeedbackNote({
+            ...feedbackNote,
+            badges: [...feedbackNote.badges, value]
+        });
+    };
     const handleCommentUpdated = (element: { target: { name: string; value: any; }; }) => {
         handleChange(element.target.name, element.target.value);
     };
@@ -92,7 +98,7 @@ export default function Feedback() {
                                         <div className="relative mb-4 flex flex-wrap gap-4">
                                             {
                                                 categories.map((category) => (
-                                                    <CategoryCard key={category.id} category={category.name} onCategorylected={handleCategoryChange} />
+                                                    <CategoryCard key={category.id} category={category.name} onCategorySelected={handleCategoryChange} />
                                                 ))
                                             }
                                         </div>
@@ -102,7 +108,7 @@ export default function Feedback() {
                                     <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
                                         <div className="mb-4 flex flex-wrap gap-4">
                                             {feedbackSuggestionTags.map((tag) => (
-                                                <CategoryBadgeSelector key={tag.id} tag={tag.name} />
+                                                <CategoryBadgeSelector key={tag.id} tag={tag.name} onBadgeSelected={handleBadgeChange} />
                                             ))}
                                         </div>
                                     </motion.div>}

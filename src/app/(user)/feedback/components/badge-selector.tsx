@@ -2,13 +2,15 @@ import { useState } from 'react';
 
 interface Props {
     tag: string;
+    onBadgeSelected: (value: string) => void;
 }
 
-export default function CategoryBadgeSelector({ tag }: Props) {
+export default function CategoryBadgeSelector({ tag, onBadgeSelected }: Props) {
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
         setIsClicked(!isClicked);
+        onBadgeSelected(tag);
     };
 
     return (

@@ -4,15 +4,15 @@ import { useState } from 'react';
 
 interface Props {
     category: string;
-    onCategorylected: (value: string) => void;
+    onCategorySelected: (value: string) => void;
 }
 
-export default function CategoryCard({ category, onCategorylected }: Props) {
+export default function CategoryCard({ category, onCategorySelected }: Props) {
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
         setIsClicked(!isClicked);
-        onCategorylected(category);
+        onCategorySelected(category);
     };
 
     return (
