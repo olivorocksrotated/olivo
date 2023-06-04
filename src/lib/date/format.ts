@@ -32,7 +32,7 @@ export function formatDate(theDate: StringOrDate, format: string = 'yyyy-MM-dd')
 
 export function dateInputToISOString(dateInput: string | undefined) {
     if (!dateInput) {
-        return '';
+        return;
     }
 
     return new Date(dateInput).toISOString();
