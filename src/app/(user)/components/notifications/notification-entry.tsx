@@ -1,6 +1,6 @@
 import { NotificationType } from '@prisma/client';
 
-import { formatRelativeDateWithTime } from '@/lib/date/format';
+import { getRelativeDate } from '@/lib/date/format';
 
 import SignupWelcomeNotification from './templates/signup-welcome';
 import UnfinishedCommitmentsNotification from './templates/unfinished-commitments';
@@ -17,7 +17,7 @@ export default function NotificationEntry({ notification }: Props) {
         <div>
             <div className="font-medium">{notification.title}</div>
             <div className="mb-3 text-xs text-gray-400">
-                {formatRelativeDateWithTime(notification.createdAt, now)}
+                {getRelativeDate(notification.createdAt, now)}
             </div>
             <div className="text-sm font-normal">
                 {notification.type === NotificationType.UnfinishedCommitments ? <UnfinishedCommitmentsNotification notification={notification as UnfinishedCommitmentsNotificationType} /> : null}
