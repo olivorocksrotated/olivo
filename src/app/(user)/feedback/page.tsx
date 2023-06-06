@@ -82,45 +82,28 @@ export default function Feedback() {
 
                     <div className="w-full overflow-hidden">
                         <AnimatePresence mode="wait">
-
-                            {feedbackStep === 1 &&
-                                    <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <UserSelector onUserSelected={handleChange} />
-                                    </motion.div>}
-
-                            {feedbackStep === 2 &&
-                                    <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <FeedbackTypeSelector onTypeSelected={handleChange} />
-                                    </motion.div>}
-
-                            {feedbackStep === 3 &&
-                                    <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <div className="relative mb-4 flex flex-wrap gap-4">
-                                            {
-                                                categories.map((category) => (
-                                                    <CategoryCard key={category.id} category={category.name} onCategorySelected={handleCategoryChange} />
-                                                ))
-                                            }
-                                        </div>
-                                    </motion.div>}
-
-                            {feedbackStep === 4 &&
-                                    <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <div className="mb-4 flex flex-wrap gap-4">
-                                            {feedbackSuggestionTags.map((tag) => (
-                                                <CategoryBadgeSelector key={tag.id} tag={tag.name} onBadgeSelected={handleBadgeChange} />
-                                            ))}
-                                        </div>
-                                    </motion.div>}
-
-                            {feedbackStep === 5 &&
-                                    <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                        <div className="mb-4 h-[150px] w-full rounded-md bg-slate-800 p-3">
-                                            <textarea name="comment" onChange={handleCommentUpdated} className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
-                                        </div>
-                                    </motion.div>}
-
-
+                            <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
+                                {feedbackStep === 1 && <UserSelector onUserSelected={handleChange} />}
+                                {feedbackStep === 2 && <FeedbackTypeSelector onTypeSelected={handleChange} />}
+                                {feedbackStep === 3 &&
+                                    <div className="relative mb-4 flex flex-wrap gap-4">
+                                        {
+                                            categories.map((category) => (
+                                                <CategoryCard key={category.id} category={category.name} onCategorySelected={handleCategoryChange} />
+                                            ))
+                                        }
+                                    </div>}
+                                {feedbackStep === 4 &&
+                                    <div className="mb-4 flex flex-wrap gap-4">
+                                        {feedbackSuggestionTags.map((tag) => (
+                                            <CategoryBadgeSelector key={tag.id} tag={tag.name} onBadgeSelected={handleBadgeChange} />
+                                        ))}
+                                    </div>}
+                                {feedbackStep === 5 &&
+                                    <div className="mb-4 h-[150px] w-full rounded-md bg-slate-800 p-3">
+                                        <textarea name="comment" onChange={handleCommentUpdated} className="h-full w-full resize-none bg-gray-600/20 p-2 text-slate-100 outline-none" placeholder="Leave a comment"></textarea>
+                                    </div>}
+                            </motion.div>
                         </AnimatePresence>
                     </div>
 
