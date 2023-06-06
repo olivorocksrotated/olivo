@@ -2,8 +2,8 @@ import { Account, Profile, User } from 'next-auth';
 import { AdapterUser } from 'next-auth/adapters';
 import { JWT } from 'next-auth/jwt';
 
+import { userCreatedEvent } from '@/flows/signup/events';
 import { inngest } from '@/lib/inngest/client';
-import { userCreatedEvent } from '@/lib/inngest/events';
 
 export default async function jwtCallback({ token, user, trigger, isNewUser }: {
     token: JWT;
