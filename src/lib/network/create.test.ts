@@ -1,4 +1,4 @@
-import { generatePrismock } from 'prismock';
+import { PrismockClient } from 'prismock';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '../prisma';
@@ -6,7 +6,7 @@ import { ServerActionError } from '../server-actions';
 import { createConnectionAction } from './create';
 
 vi.mock('../prisma', async () => ({
-    default: await generatePrismock()
+    default: new PrismockClient()
 }));
 
 vi.mock('next/cache', async () => ({
