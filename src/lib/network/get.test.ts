@@ -1,11 +1,11 @@
-import { generatePrismock } from 'prismock';
+import { PrismockClient } from 'prismock';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '../prisma';
 import { getNetwork } from './get';
 
 vi.mock('../prisma', async () => ({
-    default: await generatePrismock()
+    default: new PrismockClient()
 }));
 
 vi.mock('../auth/session', async () => ({
