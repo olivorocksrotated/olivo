@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 import { useZact } from 'zact/client';
 
+import useInterval from '@/lib/hooks/useInterval';
+import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
+import { HttpMethod } from '@/lib/http/route';
 import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
@@ -21,11 +24,20 @@ interface Props {
 
 const isNotificationOpen = (notification: Pick<NotificationItem, 'status'>) => notification.status === NotificationStatus.Open;
 
-export default function NotificationsClient({ unfinishedCommitmentsForToday, notifications }: Props) {
+export default function NotificationsClient({ unfinishedCommitmentsForToday, notifications: initialNotifications }: Props) {
     useRequestDesktopPermission();
     useScheduleNotifications({ unfinishedCommitmentsForToday });
 
     const [isOpen, setIsOpen] = useState(false);
+    const [notifications, setNotifications] = useState(initialNotifications);
+
+    useInterval(async () => {
+        const newNotificationsResponse = await fetchFromApi({
+            method: HttpMethod.GET,
+            path: ResourcePath.Notifications
+        });
+        setNotifications(await newNotificationsResponse.json());
+    }, 10000);
 
     const hasOpenNotifications = notifications.some(isNotificationOpen);
 
