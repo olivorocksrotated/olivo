@@ -2,14 +2,15 @@ import { HttpMethod } from './route';
 
 export enum ResourcePath {
     Reports = 'reports',
-    Commitments = 'commitments'
+    Commitments = 'commitments',
+    Notifications = 'notifications'
 }
 
 function getApiUrl(path: ResourcePath, attachToPath: string) {
-    return `/api/internal/${path}${attachToPath}`;
+    return `/api/${path}${attachToPath}`;
 }
 
-export function fetchFromApi({ method, path, attachToPath = '', body = {} }: {
+export function fetchFromApi({ method, path, attachToPath = '', body }: {
     method: HttpMethod,
     path: ResourcePath,
     attachToPath?: string,
@@ -18,6 +19,6 @@ export function fetchFromApi({ method, path, attachToPath = '', body = {} }: {
     return fetch(getApiUrl(path, attachToPath), {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        ...body ? { body: JSON.stringify(body) } : {}
     });
 }
