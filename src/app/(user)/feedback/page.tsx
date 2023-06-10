@@ -29,8 +29,22 @@ export default function Feedback() {
         comment: ''
     } as FeedbackNote);
 
-    const nextStep = () => setFeedbackStep(feedbackStep + 1);
-    const previousStep = () => setFeedbackStep(feedbackStep - 1);
+    const initialStep = 1;
+    const lastStep = 5;
+
+    const nextStep = () => {
+        if (feedbackStep === lastStep) {
+            return;
+        }
+
+        setFeedbackStep(feedbackStep + 1);
+    };
+    const previousStep = () => {
+        if (feedbackStep === initialStep) {
+            return;
+        }
+        setFeedbackStep(feedbackStep - 1);
+    };
     const handleChange = (name: string, value: any) => {
         setFeedbackNote({
             ...feedbackNote,
