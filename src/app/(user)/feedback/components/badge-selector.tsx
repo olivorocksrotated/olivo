@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useState } from 'react';
 
 interface Props {
@@ -13,12 +14,26 @@ export default function CategoryBadgeSelector({ tag, onBadgeSelected }: Props) {
         onBadgeSelected(tag);
     };
 
+    const badgeWrapperStyles = clsx(
+        'flex cursor-pointer items-center space-x-1 rounded-full border border-slate-700 p-2 text-sm',
+        'hover:bg-slate-700',
+        { 'bg-slate-700': isClicked }
+    );
+    const dotStyles = clsx(
+        'h-2 w-2 rounded-full',
+        { 'bg-teal-600': isClicked, 'bg-slate-500': !isClicked }
+    );
+    const badgeTextStyles = clsx({
+        'text-slate-100': isClicked,
+        'text-slate-400': !isClicked
+    });
+
     return (
-        <div className={`flex cursor-pointer items-center space-x-1 rounded-full border border-slate-700 p-2 text-sm hover:bg-slate-700 ${isClicked ? 'bg-slate-700' : ''}`}
+        <div className={badgeWrapperStyles}
             onClick={handleClick}
         >
-            <div className={`h-2 w-2 ${isClicked ? 'bg-teal-600' : 'bg-slate-500'} rounded-full`}></div>
-            <div className={` ${isClicked ? 'text-slate-100' : 'text-slate-400'}`}>{tag}</div>
+            <div className={dotStyles}></div>
+            <div className={badgeTextStyles}>{tag}</div>
         </div>
     );
 }
