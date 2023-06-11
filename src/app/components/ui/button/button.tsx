@@ -11,7 +11,7 @@ const buttonStyles = cva(
         variants: {
             intent: {
                 default: 'transition hover:enabled:border-neutral-200',
-                cta: `${styles.glow} hover:enabled:after:bg-neutral-950`,
+                cta: `${styles.glow} hover:enabled:after:opacity-90`,
                 secondary: 'text-white transition hover:enabled:bg-neutral-950'
             }
         },
