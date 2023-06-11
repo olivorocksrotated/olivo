@@ -1,16 +1,15 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import NextAuth from 'next-auth';
 import { Provider } from 'next-auth/providers';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
+import jwt from '@/lib/auth/callbacks/jwt';
+import redirect from '@/lib/auth/callbacks/redirect';
+import session from '@/lib/auth/callbacks/session';
 import { isDevEnvironment } from '@/lib/environment';
+import prisma from '@/lib/prisma';
 
-import prisma from '../../../lib/prisma';
-import jwt from './_callbacks/jwt';
-import redirect from './_callbacks/redirect';
-import session from './_callbacks/session';
 
 const githubProvider = GithubProvider({
     clientId: process.env.GITHUB_ID as string,
@@ -52,5 +51,3 @@ export const authOptions = {
         signIn: '/signin'
     }
 };
-
-export default NextAuth(authOptions);
