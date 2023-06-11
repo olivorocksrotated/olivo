@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { VscGithub } from 'react-icons/vsc';
@@ -9,7 +10,7 @@ import { isDevEnvironment } from '@/lib/environment';
 
 import packageInfo from '../../../package.json';
 import Loader from '../components/loader';
-import LoginButton from './components/login-btn';
+import Button from '../components/ui/button';
 import styles from './page.module.css';
 
 const errors: { [errorId: string]: string } = {
@@ -21,8 +22,9 @@ export default function SignIn() {
     const [showLoader, setShowLoader] = useState(false);
     const authCallbackError = useSearchParams()?.get('error');
 
-    const handleLoginAttempt = () => {
+    const handleLoginAttempt = (provider: 'github' | 'google' | 'credentials') => {
         setShowLoader(true);
+        signIn(provider);
     };
 
     return (
@@ -32,14 +34,18 @@ export default function SignIn() {
                 OLIVO
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
-                <LoginButton provider="github" onLoginAttempt={handleLoginAttempt} disabled={showLoader}>
-                    <div className="flex items-center gap-2"><VscGithub size={20} /> Sign in with Github</div>
-                </LoginButton>
-                <LoginButton provider="google" onLoginAttempt={handleLoginAttempt} disabled={showLoader}>
-                    <div className="flex items-center gap-2"><FcGoogle size={20} /> Sign in with Google</div>
-                </LoginButton>
+                <Button label="Sign in with Github"
+                    onClick={() => handleLoginAttempt('github')}
+                    disabled={showLoader}
+                    icon={VscGithub}
+                />
+                <Button label="Sign in with Google"
+                    onClick={() => handleLoginAttempt('google')}
+                    disabled={showLoader}
+                    icon={FcGoogle}
+                />
             </div>
-            {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Sign in dev mode</LoginButton> : null}
+            {isDevEnvironment() ? <Button label="Sign in dev mode" onClick={() => handleLoginAttempt('google')} disabled={showLoader} /> : null}
             {authCallbackError ? (
                 <div className="text-center text-red-400">
                     <div>Something went wrong.</div>
