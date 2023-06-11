@@ -19,10 +19,10 @@ export default async function Home() {
     });
 
     return (
-        <main>
+        <section>
             <PageTitle text={`👋 Hey, ${firstName}`} />
             <div className="mb-10"><MoodSelector todaysMood={todaysMood} /></div>
             <div><CommitmentsSection commitments={commitments} title="Commitments for today" /></div>
-        </main>
+        </section>
     );
 }

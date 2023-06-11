@@ -87,8 +87,8 @@ export default function Feedback() {
     };
 
     return (
-        <main>
-            <section className="min-h-[512px] max-w-lg">
+        <div>
+            <div className="min-h-[512px] max-w-lg">
                 <div>
                     <div>
                         <FeedbackStepper step={feedbackStep} stepTitle={feedbackSteps[feedbackStep]} />
@@ -145,7 +145,7 @@ export default function Feedback() {
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
     );
 }
