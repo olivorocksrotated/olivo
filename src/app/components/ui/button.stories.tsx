@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { IoAddOutline } from 'react-icons/io5';
+import { FcGoogle } from 'react-icons/fc';
 
 import Button from './button';
 
@@ -33,6 +33,14 @@ const meta: Meta<typeof Button> = {
         icon: {
             description: 'A react icon component',
             control: false
+        },
+        disabled: {
+            description: 'State',
+            control: 'boolean',
+            table: {
+                type: { summary: 'boolean' },
+                defaultValue: { summary: false }
+            }
         }
     }
 };
@@ -65,6 +73,6 @@ export const Icon: Story = {
     args: {
         intent: 'default',
         label: 'This is a button with icon',
-        icon: IoAddOutline
+        icon: FcGoogle
     }
 };

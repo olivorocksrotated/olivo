@@ -3,15 +3,15 @@
 import { cva, VariantProps } from 'cva';
 import { IconType } from 'react-icons';
 
-// import styles from './button.module.css';
+import styles from './button.module.css';
 
 const buttonStyles = cva(
-    'flex items-center justify-between gap-2 rounded border border-solid px-4 py-1',
+    'flex items-center justify-between gap-2 rounded border border-solid px-4 py-1 disabled:cursor-not-allowed disabled:opacity-50',
     {
         variants: {
             intent: {
-                default: 'border-neutral-500 text-white hover:border-neutral-200 disabled:cursor-not-allowed disabled:opacity-50',
-                cta: '',
+                default: 'border-neutral-500 text-white transition hover:enabled:border-neutral-200',
+                cta: `${styles.glow} hover:enabled:after:bg-neutral-950`,
                 secondary: ''
             }
         },
