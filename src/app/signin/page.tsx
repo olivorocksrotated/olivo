@@ -13,7 +13,8 @@ import LoginButton from './components/login-btn';
 import styles from './page.module.css';
 
 const errors: { [errorId: string]: string } = {
-    OAuthAccountNotLinked: 'Maybe you already signed in with a different provider?'
+    OAuthAccountNotLinked: 'Maybe you already signed in with a different provider?',
+    Callback: 'Maybe you already signed in with a different provider?'
 };
 
 export default function SignIn() {
@@ -39,7 +40,11 @@ export default function SignIn() {
                 </LoginButton>
             </div>
             {isDevEnvironment() ? <LoginButton provider="credentials" onLoginAttempt={handleLoginAttempt}>Sign in dev mode</LoginButton> : null}
-            {authCallbackError ? <div className="text-red-400">Something went wrong. {errors[authCallbackError] ?? 'Please try again.'}</div> : null}
+            {authCallbackError ? (
+                <div className="text-center text-red-400">
+                    <div>Something went wrong.</div>
+                    <div>{errors[authCallbackError] ?? 'Please try again.'}</div>
+                </div>) : null}
             {showLoader ? <div><Loader /></div> : null}
         </div>
     );

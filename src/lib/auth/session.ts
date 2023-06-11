@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { cookies, headers } from 'next/headers';
 import { getServerSession as nextAuthGetServerSession, Session } from 'next-auth';
 
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { authOptions } from '@/pages/api/old_auth/[...nextauth]';
 
 // There is a bug in Next when trying to get the session in server actions
 // https://github.com/nextauthjs/next-auth/issues/7486#issuecomment-1543747325
