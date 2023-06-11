@@ -1,4 +1,4 @@
-import Button from '@/app/components/button';
+import Button from '@/app/components/ui/button';
 
 export default async function Loading() {
     return (
@@ -14,7 +14,7 @@ export default async function Loading() {
                 </div>
             </div>
             <div>
-                <Button>Disconnect</Button>
+                <Button label="Disconnect" />
             </div>
         </div>
     );
