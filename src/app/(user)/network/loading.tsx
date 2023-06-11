@@ -1,4 +1,4 @@
-import Button from '@/app/components/ui/button';
+import Button from '@/app/components/ui/button/button';
 
 import ConnectionLoader from './components/connection-loader';
 

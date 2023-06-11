@@ -10,7 +10,7 @@ import { isDevEnvironment } from '@/lib/environment';
 
 import packageInfo from '../../../package.json';
 import Loader from '../components/loader';
-import Button from '../components/ui/button';
+import Button from '../components/ui/button/button';
 import styles from './page.module.css';
 
 const errors: { [errorId: string]: string } = {

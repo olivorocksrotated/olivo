@@ -7,7 +7,7 @@ import { TbMoodCheck } from 'react-icons/tb';
 import { useZact } from 'zact/client';
 
 import DialogButton from '@/app/components/dialog-button';
-import Button from '@/app/components/ui/button';
+import Button from '@/app/components/ui/button/button';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 import { createBasicClientNotification } from '@/lib/notifications/create';

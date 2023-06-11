@@ -3,7 +3,7 @@
 import { experimental_useOptimistic as useOptimistic } from 'react';
 import { useZact } from 'zact/client';
 
-import Button from '@/app/components/ui/button';
+import Button from '@/app/components/ui/button/button';
 import { changeConnectionStateAction } from '@/lib/network/connection/changeState';
 
 export default function ToggleStateButton({ id, isConnected }: { id: string; isConnected: boolean }) {

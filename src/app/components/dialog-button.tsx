@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { MouseEvent, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
-import Button from './ui/button';
+import Button from './ui/button/button';
 
 type Properties = {
     children: React.ReactNode;
