@@ -22,10 +22,10 @@ const buttonStyles = cva(
     }
 );
 
-type Props = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & VariantProps<typeof buttonStyles> & {
+interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'>, VariantProps<typeof buttonStyles> {
     label: string;
     icon?: IconType
-};
+}
 
 export default function Button(props: Props) {
     const { label, icon: Icon, ...nativeProps } = props;
