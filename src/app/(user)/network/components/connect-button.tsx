@@ -2,8 +2,8 @@
 
 import { MouseEvent, useState } from 'react';
 
-import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
+import Button from '@/app/components/ui/button/button';
 
 export default function ConnectButton({ onConnectionRequested }: { onConnectionRequested: (email: string) => void }) {
     const [email, setEmail] = useState<string>();
@@ -29,7 +29,7 @@ export default function ConnectButton({ onConnectionRequested }: { onConnectionR
                 actionLabel: 'Connect',
                 actionDisabled: !email
             }}
-            openButton={<Button>Connect</Button>}
+            openButton={<Button label="Connect" />}
         >
             <div className="mb-4">
                 <div className="">

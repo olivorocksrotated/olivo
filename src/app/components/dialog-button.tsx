@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { MouseEvent, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
-import Button from './button';
+import Button from './ui/button/button';
 
 type Properties = {
     children: React.ReactNode;
@@ -58,15 +58,18 @@ export default function DialogButton({
                                 <div className="mb-6 flex justify-between">
                                     <Dialog.Title className="font-normal">{dialog.title}</Dialog.Title>
                                     <Dialog.Close asChild onClick={close} aria-label="close">
-                                        <div><Button><IoCloseOutline /></Button></div>
+                                        <div><Button label="" icon={IoCloseOutline} /></div>
                                     </Dialog.Close>
                                 </div>
                                 <form>
                                     <div>{children}</div>
                                     <div className="text-right">
-                                        <Button type="submit" disabled={dialog.actionDisabled ?? false} onClick={handleOnSubmit} glowing={true} aria-label={dialog.title}>
-                                            {dialog.actionLabel}
-                                        </Button>
+                                        <Button label={dialog.actionLabel}
+                                            type="submit"
+                                            aria-label={dialog.title}
+                                            disabled={dialog.actionDisabled ?? false}
+                                            onClick={handleOnSubmit}
+                                        />
                                     </div>
                                 </form>
                             </Dialog.Content>

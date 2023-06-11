@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { TbMoodCheck } from 'react-icons/tb';
 import { useZact } from 'zact/client';
 
-import Button from '@/app/components/button';
 import DialogButton from '@/app/components/dialog-button';
+import Button from '@/app/components/ui/button/button';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 import { createBasicClientNotification } from '@/lib/notifications/create';
@@ -32,17 +32,6 @@ export const moodMap: { [name in MoodStatus]: MoodOption } = {
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
 const moodOptions = Object.values(moodMap);
-
-function CTAButton() {
-    return (
-        <Button glowing={true}>
-            <div className="flex items-center gap-2">
-                <TbMoodCheck size={18} />
-                How are you feeling today?
-            </div>
-        </Button>
-    );
-}
 
 export default function MoodSelector({ todaysMood }: Props) {
     const [selectedMood, setSelectedMood] = useState(nullState);
@@ -84,7 +73,7 @@ export default function MoodSelector({ todaysMood }: Props) {
                     actionLabel: 'Save my mood',
                     actionDisabled: !selectedMood?.option.name
                 }}
-                openButton={<CTAButton></CTAButton>}
+                openButton={<Button label="How are you feeling today?" intent="cta" icon={TbMoodCheck} />}
             >
                 <div className="mb-6">
                     <div className="flex gap-2">
