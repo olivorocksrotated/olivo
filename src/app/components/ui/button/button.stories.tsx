@@ -5,7 +5,6 @@ import Button from './button';
 
 const meta: Meta<typeof Button> = {
     title: 'UI/Button',
-    id: 'alksjdajld',
     component: Button,
     tags: ['autodocs'],
     parameters: {
