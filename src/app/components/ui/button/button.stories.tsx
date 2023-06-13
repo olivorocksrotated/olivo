@@ -23,7 +23,7 @@ const meta: Meta<typeof Button> = {
             options: ['default', 'cta', 'secondary'],
             table: {
                 type: { summary: 'default | cta | secondary' },
-                defaultValue: { summary: 'Hello' }
+                defaultValue: { summary: 'default' }
             }
         },
         label: {

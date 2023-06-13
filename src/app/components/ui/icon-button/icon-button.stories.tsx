@@ -16,6 +16,17 @@ const meta: Meta<typeof IconButton> = {
         }
     },
     argTypes: {
+        intent: {
+            name: 'intent',
+            type: 'string',
+            description: 'The purpose of this button',
+            control: { type: 'radio' },
+            options: ['default', 'cta'],
+            table: {
+                type: { summary: 'default | cta' },
+                defaultValue: { summary: 'default' }
+            }
+        },
         label: {
             description: 'Aria label of the button'
         },
@@ -60,6 +71,14 @@ export const Default: Story = {
     args: {
         label: 'This is a default button',
         icon: IoAddOutline
+    }
+};
+
+export const CTA: Story = {
+    args: {
+        label: 'This is a cta button',
+        icon: IoAddOutline,
+        intent: 'cta'
     }
 };
 

@@ -3,10 +3,16 @@
 import { cva, VariantProps } from 'cva';
 import { IconType } from 'react-icons';
 
+import styles from '../button/button.module.css';
+
 const buttonStyles = cva(
-    'relative text-neutral-300 transition hover:enabled:bg-neutral-700 hover:enabled:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50',
+    'relative text-neutral-300 disabled:cursor-not-allowed disabled:opacity-50',
     {
         variants: {
+            intent: {
+                default: 'transition hover:enabled:bg-neutral-700 hover:enabled:text-neutral-100',
+                cta: `${styles.glow} hover:enabled:after:opacity-90`
+            },
             size: {
                 xs: 'rounded p-0.5',
                 s: 'rounded p-1',
@@ -14,6 +20,7 @@ const buttonStyles = cva(
             }
         },
         defaultVariants: {
+            intent: 'default',
             size: 's'
         }
     }
