@@ -34,6 +34,14 @@ const meta: Meta<typeof IconButton> = {
                 defaultValue: { summary: 's' }
             }
         },
+        ping: {
+            description: 'Call attention of the user',
+            control: 'boolean',
+            table: {
+                type: { summary: 'boolean' },
+                defaultValue: { summary: false }
+            }
+        },
         disabled: {
             description: 'Is this button interactive?',
             control: 'boolean',
@@ -48,9 +56,16 @@ const meta: Meta<typeof IconButton> = {
 export default meta;
 type Story = StoryObj<typeof IconButton>;
 
-export const Small: Story = {
+export const Default: Story = {
     args: {
         label: 'This is a default button',
+        icon: IoAddOutline
+    }
+};
+
+export const Small: Story = {
+    args: {
+        label: 'This is a small button',
         icon: IoAddOutline,
         size: 's'
     }
@@ -58,8 +73,17 @@ export const Small: Story = {
 
 export const Medium: Story = {
     args: {
-        label: 'This is a default button',
+        label: 'This is a medium button',
         icon: IoMdNotifications,
         size: 'md'
+    }
+};
+
+export const Ping: Story = {
+    args: {
+        label: 'This is a ping button',
+        icon: IoMdNotifications,
+        size: 'md',
+        ping: true
     }
 };
