@@ -34,7 +34,7 @@ const meta: Meta<typeof Button> = {
             control: false
         },
         disabled: {
-            description: 'State',
+            description: 'Is this button interactive?',
             control: 'boolean',
             table: {
                 type: { summary: 'boolean' },
