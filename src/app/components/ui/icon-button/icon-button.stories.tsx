@@ -28,9 +28,9 @@ const meta: Meta<typeof IconButton> = {
             type: 'string',
             description: 'The size of this button',
             control: { type: 'radio' },
-            options: ['s', 'md'],
+            options: ['xs', 's', 'md'],
             table: {
-                type: { summary: 's | md' },
+                type: { summary: 'xs | s | md' },
                 defaultValue: { summary: 's' }
             }
         },
@@ -60,6 +60,14 @@ export const Default: Story = {
     args: {
         label: 'This is a default button',
         icon: IoAddOutline
+    }
+};
+
+export const XS: Story = {
+    args: {
+        label: 'This is an xs button',
+        icon: IoAddOutline,
+        size: 'xs'
     }
 };
 

@@ -8,6 +8,7 @@ const buttonStyles = cva(
     {
         variants: {
             size: {
+                xs: 'rounded p-0.5',
                 s: 'rounded p-1',
                 md: 'rounded-lg p-2'
             }
@@ -27,8 +28,8 @@ interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'cla
 export default function IconButton(props: Props) {
     const { label, size, icon: Icon, ping, ...nativeProps } = props;
 
-    const specificIconSize = size === 'md' ? 25 : 20;
-    const specificPingSize = size === 'md' ? 'h-3 w-3' : 'h-2 w-2';
+    const specificIconSize = size === 'md' ? 25 : size === 'xs' ? 15 : 20;
+    const specificPingSize = size === 'md' ? 'h-3 w-3' : size === 'xs' ? 'h-1 w-1' : 'h-2 w-2';
 
     return (
         <button type="button" aria-label={label} {...nativeProps} className={buttonStyles(props)}>
