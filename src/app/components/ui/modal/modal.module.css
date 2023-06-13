@@ -1,0 +1,7 @@
+.modal-content {
+    @apply mb-8;
+}
+
+.modal-actions {
+    @apply flex items-center justify-end gap-4;
+}
