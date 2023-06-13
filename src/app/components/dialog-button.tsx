@@ -6,6 +6,7 @@ import { MouseEvent, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
 import Button from './ui/button/button';
+import IconButton from './ui/icon-button/icon-button';
 
 type Properties = {
     children: React.ReactNode;
@@ -57,8 +58,8 @@ export default function DialogButton({
                             >
                                 <div className="mb-6 flex justify-between">
                                     <Dialog.Title className="font-normal">{dialog.title}</Dialog.Title>
-                                    <Dialog.Close asChild onClick={close} aria-label="close">
-                                        <div><Button label="" icon={IoCloseOutline} /></div>
+                                    <Dialog.Close asChild onClick={close}>
+                                        <div><IconButton icon={IoCloseOutline} label="Close modal" /></div>
                                     </Dialog.Close>
                                 </div>
                                 <form>
