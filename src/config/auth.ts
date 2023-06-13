@@ -10,7 +10,6 @@ import session from '@/lib/auth/callbacks/session';
 import { isDevEnvironment } from '@/lib/environment';
 import prisma from '@/lib/prisma';
 
-
 const githubProvider = GithubProvider({
     clientId: process.env.GITHUB_ID as string,
     clientSecret: process.env.GITHUB_SECRET as string,

@@ -5,7 +5,6 @@ import Button from './button';
 
 const meta: Meta<typeof Button> = {
     title: 'UI/Button',
-    id: 'alksjdajld',
     component: Button,
     tags: ['autodocs'],
     parameters: {
@@ -24,7 +23,7 @@ const meta: Meta<typeof Button> = {
             options: ['default', 'cta', 'secondary'],
             table: {
                 type: { summary: 'default | cta | secondary' },
-                defaultValue: { summary: 'Hello' }
+                defaultValue: { summary: 'default' }
             }
         },
         label: {
@@ -35,7 +34,7 @@ const meta: Meta<typeof Button> = {
             control: false
         },
         disabled: {
-            description: 'State',
+            description: 'Is this button interactive?',
             control: 'boolean',
             table: {
                 type: { summary: 'boolean' },

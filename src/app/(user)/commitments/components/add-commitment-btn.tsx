@@ -6,6 +6,7 @@ import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
 
 import DialogButton from '@/app/components/dialog-button';
+import IconButton from '@/app/components/ui/icon-button/icon-button';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
@@ -31,11 +32,7 @@ export default function AddCommitmentButton() {
                 actionLabel: 'Add',
                 actionDisabled: !commitment.title || !commitment.doneBy
             }}
-            openButton={
-                <button type="button" aria-label="Add commitment" className="rounded p-1 text-slate-400 transition hover:bg-slate-700 hover:text-slate-200">
-                    <IoAddOutline size={20} />
-                </button>
-            }
+            openButton={<IconButton icon={IoAddOutline} label="Add commitment" />}
         >
             <div>
                 <div className="mb-4 flex items-center">

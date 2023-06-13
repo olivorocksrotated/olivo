@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 import { useZact } from 'zact/client';
 
+import IconButton from '@/app/components/ui/icon-button/icon-button';
 import useInterval from '@/lib/hooks/useInterval';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/route';
@@ -48,10 +49,8 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
         { '-translate-x-0': isOpen }
     );
     const buttonStyle = clsx(
-        'relative inline-flex items-center rounded-lg p-2 text-sm text-gray-400',
-        'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6',
-        'hover:bg-gray-700',
-        'focus:outline-none focus:ring-2 focus:ring-gray-600'
+        'inline-flex items-center p-2',
+        'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6 sm:p-0'
     );
 
     const { mutate: markAllAsRead } = useZact(markAllNotificationsAsReadAction);
@@ -65,22 +64,17 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
 
     return (
         <div>
-            <button onClick={() => setIsOpen(true)}
-                data-drawer-target="notifications"
-                data-drawer-toggle="notifications"
-                aria-controls="notifications"
-                type="button"
-                className={buttonStyle}
-            >
-                <span className="sr-only">Open notifications</span>
-                {hasOpenNotifications ? (
-                    <span className="absolute right-0 top-0 flex h-3 w-3">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500"></span>
-                    </span>
-                ) : null}
-                <IoMdNotifications size={25} />
-            </button>
+            <div className={buttonStyle}>
+                <IconButton icon={IoMdNotifications}
+                    onClick={() => setIsOpen(true)}
+                    label="Open notifications"
+                    ping={hasOpenNotifications}
+                    size="md"
+                    data-drawer-target="notifications"
+                    data-drawer-toggle="notifications"
+                    aria-controls="notifications"
+                />
+            </div>
 
             <aside id="notifications" className={asideStyle} aria-label="Notifications">
                 <div className="h-full overflow-y-auto px-3 py-4"
