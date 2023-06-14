@@ -5,36 +5,36 @@ import { MouseEvent, useState } from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
 
-import DialogButton from '@/app/components/dialog-button';
+import Button from '@/app/components/ui/button/button';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
+import Modal, { useCloseModal } from '@/app/components/ui/modal/modal';
+import modalStyles from '@/app/components/ui/modal/modal.module.css';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
 export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
     const [commitment, setCommitment] = useState(nullCommitment);
+    const [isClosed, closeModal] = useCloseModal();
 
     const { mutate: createCommitment } = useZact(createCommitmentAction);
 
-    async function onSubmit(event: MouseEvent<HTMLButtonElement>) {
+    const onSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if (commitment.title && commitment.doneBy) {
             await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy)! });
+            closeModal();
             setCommitment(nullCommitment);
         }
-    }
+    };
 
     return (
-        <DialogButton onSubmit={onSubmit}
+        <Modal title="Add commitment"
+            close={isClosed}
             onClose={() => setCommitment(nullCommitment)}
-            dialog={{
-                title: 'Add commitment',
-                actionLabel: 'Add',
-                actionDisabled: !commitment.title || !commitment.doneBy
-            }}
-            openButton={<IconButton icon={IoAddOutline} label="Add commitment" />}
+            openComponent={<IconButton icon={IoAddOutline} label="Add commitment" />}
         >
-            <div>
+            <div className={modalStyles['modal-content']}>
                 <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
                     <input value={commitment.title}
@@ -58,7 +58,14 @@ export default function AddCommitmentButton() {
                     <Link href="/commitments" className="text-white hover:text-indigo-300">in the &quot;Commitments&quot; section</Link>
                 </div>
             </div>
-        </DialogButton>
+            <div className={modalStyles['modal-actions']}>
+                <Button label="Add commitment"
+                    intent="cta"
+                    disabled={!commitment.title || !commitment.doneBy}
+                    onClick={onSubmit}
+                />
+            </div>
+        </Modal>
     );
 }
 

@@ -2,18 +2,19 @@
 
 import { AiOutlineDelete } from 'react-icons/ai';
 
+import IconButton from '@/app/components/ui/icon-button/icon-button';
+
 interface Props {
     onDelete?: () => void;
 }
 
 export default function DeleteButton({ onDelete = () => undefined }: Props) {
     return (
-        <button type="button"
+        <IconButton icon={AiOutlineDelete}
             onClick={onDelete}
-            className="text-slate-600 transition hover:text-slate-400"
-            title="Delete commitment"
-        >
-            <AiOutlineDelete size={22} />
-        </button>
+            label="Delete commitment"
+            intent="secondary"
+            size="s"
+        />
     );
 }

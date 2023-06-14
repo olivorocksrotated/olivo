@@ -11,7 +11,8 @@ const buttonStyles = cva(
         variants: {
             intent: {
                 default: 'transition hover:enabled:bg-neutral-700 hover:enabled:text-neutral-100',
-                cta: `${styles.glow} hover:enabled:after:opacity-90`
+                cta: `${styles.glow} hover:enabled:after:opacity-90`,
+                secondary: 'text-neutral-500 transition hover:enabled:text-neutral-200'
             },
             size: {
                 xs: 'rounded p-0.5',
@@ -26,6 +27,28 @@ const buttonStyles = cva(
     }
 );
 
+const pingSizeStyles = cva(
+    '',
+    {
+        variants: {
+            size: {
+                xs: 'h-1 w-1',
+                s: 'h-2 w-2',
+                md: 'h-3 w-3'
+            }
+        },
+        defaultVariants: {
+            size: 's'
+        }
+    }
+);
+
+const iconSize = {
+    xs: 15,
+    s: 20,
+    md: 25
+};
+
 interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'>, VariantProps<typeof buttonStyles> {
     label: string,
     icon: IconType,
@@ -35,16 +58,13 @@ interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'cla
 export default function IconButton(props: Props) {
     const { label, size, icon: Icon, ping, ...nativeProps } = props;
 
-    const specificIconSize = size === 'md' ? 25 : size === 'xs' ? 15 : 20;
-    const specificPingSize = size === 'md' ? 'h-3 w-3' : size === 'xs' ? 'h-1 w-1' : 'h-2 w-2';
-
     return (
         <button type="button" aria-label={label} {...nativeProps} className={buttonStyles(props)}>
-            <Icon size={specificIconSize} />
+            <Icon size={iconSize[size ?? 's']} />
             {ping ? (
-                <span className={`absolute right-0 top-0 flex ${specificPingSize}`}>
+                <span className={`absolute right-0 top-0 flex ${pingSizeStyles(props)}`}>
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                    <span className={`relative inline-flex ${specificPingSize} rounded-full bg-red-500`}></span>
+                    <span className={`relative inline-flex ${pingSizeStyles(props)} rounded-full bg-red-500`}></span>
                 </span>
             ) : null}
         </button>
