@@ -17,11 +17,27 @@ const meta: Meta<typeof Modal> = {
         }
     },
     argTypes: {
-        children: {
-            control: false
-        },
         openComponent: {
-            control: false
+            control: false,
+            description: 'The component that will trigger the modal',
+            table: {
+                type: { summary: 'ReactNode' }
+            }
+        },
+        children: {
+            control: false,
+            description: 'The content of the modal',
+            table: {
+                type: { summary: 'ReactNode' }
+            }
+        },
+        close: {
+            control: false,
+            description: 'The trigger for closing the modal. Use the "useCloseModal" hook for this',
+            table: {
+                type: { summary: 'boolean' },
+                defaultValue: { summary: false }
+            }
         }
     }
 };
