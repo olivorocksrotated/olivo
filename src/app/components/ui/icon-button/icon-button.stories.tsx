@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { IoMdNotifications } from 'react-icons/io';
 import { IoAddOutline } from 'react-icons/io5';
 
@@ -79,6 +80,14 @@ export const CTA: Story = {
         label: 'This is a cta button',
         icon: IoAddOutline,
         intent: 'cta'
+    }
+};
+
+export const Secondary: Story = {
+    args: {
+        label: 'This is a secondary button',
+        icon: AiOutlineDelete,
+        intent: 'secondary'
     }
 };
 
