@@ -7,7 +7,7 @@ import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
-import Modal, { setModalClosed } from '@/app/components/ui/modal/modal';
+import Modal, { useCloseModal } from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
@@ -15,7 +15,7 @@ import { dateInputToISOString, formatDate } from '@/lib/date/format';
 export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
     const [commitment, setCommitment] = useState(nullCommitment);
-    const [closeAddModal, setCloseAddModal] = useState(false);
+    const [isClosed, closeModal] = useCloseModal();
 
     const { mutate: createCommitment } = useZact(createCommitmentAction);
 
@@ -23,14 +23,14 @@ export default function AddCommitmentButton() {
         event.preventDefault();
         if (commitment.title && commitment.doneBy) {
             await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy)! });
-            setModalClosed(setCloseAddModal);
+            closeModal();
             setCommitment(nullCommitment);
         }
     };
 
     return (
         <Modal title="Add commitment"
-            close={closeAddModal}
+            close={isClosed}
             onClose={() => setCommitment(nullCommitment)}
             openComponent={<IconButton icon={IoAddOutline} label="Add commitment" />}
         >

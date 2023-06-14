@@ -2,7 +2,7 @@
 
 import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
 import IconButton from '../icon-button/icon-button';
@@ -66,7 +66,13 @@ export default function Modal({
     );
 }
 
-export function setModalClosed(setStateFunction: Dispatch<SetStateAction<boolean>>) {
-    setStateFunction(() => true);
-    setTimeout(() => setStateFunction(() => false), 100);
+export function useCloseModal(): [boolean, () => void] {
+    const [isClosed, setIsClosed] = useState(false);
+
+    const closeModal = () => {
+        setIsClosed(() => true);
+        setTimeout(() => setIsClosed(() => false), 100);
+    };
+
+    return [isClosed, closeModal];
 }
