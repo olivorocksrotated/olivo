@@ -6,8 +6,9 @@ import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
+import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
-import Modal, { useCloseModal } from '@/app/components/ui/modal/modal';
+import Modal from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
@@ -15,7 +16,7 @@ import { dateInputToISOString, formatDate } from '@/lib/date/format';
 export default function AddCommitmentButton() {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
     const [commitment, setCommitment] = useState(nullCommitment);
-    const [isClosed, closeModal] = useCloseModal();
+    const [isClosed, closeModal] = useCloseUiComponent();
 
     const { mutate: createCommitment } = useZact(createCommitmentAction);
 

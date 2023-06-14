@@ -65,14 +65,3 @@ export default function Modal({
         </Dialog.Root>
     );
 }
-
-export function useCloseModal(): [boolean, () => void] {
-    const [isClosed, setIsClosed] = useState(false);
-
-    const closeModal = () => {
-        setIsClosed(() => true);
-        setTimeout(() => setIsClosed(() => false), 100);
-    };
-
-    return [isClosed, closeModal];
-}
