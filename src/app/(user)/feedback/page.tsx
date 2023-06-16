@@ -52,15 +52,23 @@ export default function Feedback() {
         });
     };
     const handleCategoryChange = (value: string) => {
+        const updatedCategories = feedbackNote.categories.includes(value) ?
+            feedbackNote.categories.filter((category) => category !== value) :
+            [...feedbackNote.categories, value];
+
         setFeedbackNote({
             ...feedbackNote,
-            categories: [...feedbackNote.categories, value]
+            categories: updatedCategories
         });
     };
     const handleBadgeChange = (value: string) => {
+        const updatedBadges = feedbackNote.badges.includes(value) ?
+            feedbackNote.badges.filter((badge) => badge !== value) :
+            [...feedbackNote.badges, value];
+
         setFeedbackNote({
             ...feedbackNote,
-            badges: [...feedbackNote.badges, value]
+            badges: updatedBadges
         });
     };
     const handleCommentUpdated = (element: { target: { name: string; value: any; }; }) => {
