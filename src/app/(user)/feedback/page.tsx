@@ -10,6 +10,7 @@ import CategoryCard from './components/category-card';
 import FeedbackTypeSelector from './components/feedback-type-selector';
 import FeedbackStepper from './components/stepper';
 import UserSelector from './components/user-selector';
+import { animationProps, transition } from './styles';
 
 interface FeedbackNote {
     receiver: string;
@@ -85,14 +86,6 @@ export default function Feedback() {
         'what do you want to share?',
         'any comments?'
     ];
-    const animationProps = {
-        initial: { x: 10, opacity: 0 },
-        animate: { x: 0, opacity: 1 },
-        exit: { x: -10, opacity: 0 }
-    };
-    const transition = {
-        duration: 0.2
-    };
 
     return (
         <div>
