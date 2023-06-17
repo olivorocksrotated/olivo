@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
+import { Category, FeedbackEntry, FeedbackSuggestionTag } from '@/lib/feedback/types';
 
 import CategoryBadgeSelector from './components/badge-selector';
 import CategoryCard from './components/category-card';
@@ -12,23 +13,16 @@ import FeedbackStepper from './components/stepper';
 import UserSelector from './components/user-selector';
 import { animationProps, transition } from './styles';
 
-interface FeedbackNote {
-    receiver: string;
-    type: string;
-    categories: string[];
-    badges: string[];
-    comment: string;
-}
-
 export default function Feedback() {
     const [feedbackStep, setFeedbackStep] = useState(1);
     const [feedbackNote, setFeedbackNote] = useState({
-        receiver: '',
-        type: '',
+        giverId: '',
+        receiverId: '',
+        type: null,
         categories: [],
         badges: [],
         comment: ''
-    } as FeedbackNote);
+    } as FeedbackEntry);
 
     const initialStep = 1;
     const lastStep = 5;
@@ -52,7 +46,7 @@ export default function Feedback() {
             [name]: value
         });
     };
-    const handleCategoryChange = (value: string) => {
+    const handleCategoryChange = (value: Category) => {
         const updatedCategories = feedbackNote.categories.includes(value) ?
             feedbackNote.categories.filter((category) => category !== value) :
             [...feedbackNote.categories, value];
@@ -62,7 +56,7 @@ export default function Feedback() {
             categories: updatedCategories
         });
     };
-    const handleBadgeChange = (value: string) => {
+    const handleBadgeChange = (value: FeedbackSuggestionTag) => {
         const updatedBadges = feedbackNote.badges.includes(value) ?
             feedbackNote.badges.filter((badge) => badge !== value) :
             [...feedbackNote.badges, value];
@@ -74,6 +68,10 @@ export default function Feedback() {
     };
     const handleCommentUpdated = (element: { target: { name: string; value: any; }; }) => {
         handleChange(element.target.name, element.target.value);
+    };
+
+    const saveFeedback = () => {
+        console.log(feedbackNote);
     };
 
     const categories = getFeedbackCategories();
@@ -104,14 +102,14 @@ export default function Feedback() {
                                     <div className="relative mb-4 flex flex-wrap gap-4">
                                         {
                                             categories.map((category) => (
-                                                <CategoryCard key={category.id} category={category.name} onCategorySelected={handleCategoryChange} />
+                                                <CategoryCard key={category.id} category={category} onCategorySelected={handleCategoryChange} />
                                             ))
                                         }
                                     </div>}
                                 {feedbackStep === 4 &&
                                     <div className="mb-4 flex flex-wrap gap-4">
                                         {feedbackSuggestionTags.map((tag) => (
-                                            <CategoryBadgeSelector key={tag.id} tag={tag.name} onBadgeSelected={handleBadgeChange} />
+                                            <CategoryBadgeSelector key={tag.id} tag={tag} onBadgeSelected={handleBadgeChange} />
                                         ))}
                                     </div>}
                                 {feedbackStep === 5 &&
@@ -140,7 +138,7 @@ export default function Feedback() {
 
                                 <span className="relative rounded-md bg-gray-900 px-6 py-3 transition-all duration-500 ease-out group-hover:bg-gray-900/0">
                                     {feedbackStep < 5 && <span className="relative text-slate-200">Next step</span>}
-                                    {feedbackStep === 5 && <span className="relative text-slate-200">Save!</span>}
+                                    {feedbackStep === 5 && <span onClick={saveFeedback} className="relative text-slate-200">Save!</span>}
                                 </span>
                             </div>
                         </div>

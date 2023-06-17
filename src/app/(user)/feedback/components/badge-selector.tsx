@@ -1,9 +1,11 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
+import { FeedbackSuggestionTag } from '@/lib/feedback/types';
+
 interface Props {
-    tag: string;
-    onBadgeSelected: (value: string) => void;
+    tag: FeedbackSuggestionTag;
+    onBadgeSelected: (value: FeedbackSuggestionTag) => void;
 }
 
 export default function CategoryBadgeSelector({ tag, onBadgeSelected }: Props) {
@@ -33,7 +35,7 @@ export default function CategoryBadgeSelector({ tag, onBadgeSelected }: Props) {
             onClick={handleClick}
         >
             <div className={dotStyles}></div>
-            <div className={badgeTextStyles}>{tag}</div>
+            <div className={badgeTextStyles}>{tag.name}</div>
         </div>
     );
 }
