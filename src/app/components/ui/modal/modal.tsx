@@ -29,6 +29,7 @@ export default function Modal({
     const closeModal = useCallback(() => {
         setIsDialogOpen(false);
         onClose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
