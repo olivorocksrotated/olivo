@@ -45,7 +45,7 @@ export default function SignIn() {
                     icon={FcGoogle}
                 />
             </div>
-            {isDevEnvironment() ? <Button label="Sign in dev mode" onClick={() => handleLoginAttempt('google')} disabled={showLoader} /> : null}
+            {isDevEnvironment() ? <Button label="Sign in dev mode" onClick={() => handleLoginAttempt('credentials')} disabled={showLoader} /> : null}
             {authCallbackError ? (
                 <div className="text-center text-red-400">
                     <div>Something went wrong.</div>
