@@ -9,8 +9,8 @@ import { VscGithub } from 'react-icons/vsc';
 import { isDevEnvironment } from '@/lib/environment';
 
 import packageInfo from '../../../package.json';
-import Loader from '../components/loader';
 import Button from '../components/ui/button/button';
+import Loader from '../components/ui/loader/loader';
 import styles from './page.module.css';
 
 const errors: { [errorId: string]: string } = {
@@ -51,7 +51,7 @@ export default function SignIn() {
                     <div>Something went wrong.</div>
                     <div>{errors[authCallbackError] ?? 'Please try again.'}</div>
                 </div>) : null}
-            {showLoader ? <div><Loader /></div> : null}
+            {showLoader ? <div><Loader intent="standalone" size="md" /></div> : null}
         </div>
     );
 }
