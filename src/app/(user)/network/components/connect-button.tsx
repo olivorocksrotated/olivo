@@ -3,12 +3,13 @@
 import { MouseEvent, useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';
-import Modal, { useCloseModal } from '@/app/components/ui/modal/modal';
+import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
+import Modal from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
 
 export default function ConnectButton({ onConnectionRequested }: { onConnectionRequested: (email: string) => void }) {
     const [email, setEmail] = useState('');
-    const [isClosed, closeModal] = useCloseModal();
+    const [isClosed, closeModal] = useCloseUiComponent();
 
     function reset() {
         setEmail('');

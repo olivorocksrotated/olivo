@@ -7,7 +7,8 @@ import { TbMoodCheck } from 'react-icons/tb';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
-import Modal, { useCloseModal } from '@/app/components/ui/modal/modal';
+import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
+import Modal from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
@@ -36,7 +37,7 @@ const moodOptions = Object.values(moodMap);
 
 export default function MoodSelector({ todaysMood }: Props) {
     const [selectedMood, setSelectedMood] = useState(nullState);
-    const [isClosed, closeModal] = useCloseModal();
+    const [isClosed, closeModal] = useCloseUiComponent();
 
     useEffect(() => setSelectedMood(() => {
         const isMoodCheckAlreadyDoneToday = !!todaysMood;

@@ -33,7 +33,7 @@ const meta: Meta<typeof Modal> = {
         },
         close: {
             control: false,
-            description: 'The trigger for closing the modal. Use the "useCloseModal" hook for this',
+            description: 'The trigger for closing the modal. Use the "useCloseUiComponent" hook for this',
             table: {
                 type: { summary: 'boolean' },
                 defaultValue: { summary: false }

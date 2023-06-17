@@ -29,6 +29,7 @@ export default function Modal({
     const closeModal = useCallback(() => {
         setIsDialogOpen(false);
         onClose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -64,15 +65,4 @@ export default function Modal({
             </AnimatePresence>
         </Dialog.Root>
     );
-}
-
-export function useCloseModal(): [boolean, () => void] {
-    const [isClosed, setIsClosed] = useState(false);
-
-    const closeModal = () => {
-        setIsClosed(() => true);
-        setTimeout(() => setIsClosed(() => false), 100);
-    };
-
-    return [isClosed, closeModal];
 }
