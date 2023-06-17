@@ -3,7 +3,7 @@ import { getCommitments } from '@/lib/commitments/get';
 import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
 
-import PageTitle from '../components/page-title';
+import PageTitle from '../components/ui/page-title/page-title';
 import CommitmentsSection from './commitments/components/commitments-section';
 import MoodSelector from './moods/components/mood-selector';
 
