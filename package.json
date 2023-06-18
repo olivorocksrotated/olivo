@@ -28,7 +28,7 @@
     "danger:ci": "danger ci",
     "dependencies:check": "ncu",
     "dependencies:update": "ncu -u && npm install && npm test && npm run lint:fix",
-    "storybook:dev": "storybook dev -p 6006",
+    "storybook:dev": "storybook dev --ci -p 6006",
     "storybook:build": "storybook build",
     "prepare": "husky install"
   },

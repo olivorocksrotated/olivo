@@ -2,6 +2,7 @@ import { IoAddOutline } from 'react-icons/io5';
 
 import Button from '../button/button';
 import IconButton from '../icon-button/icon-button';
+import Input from '../input/input';
 
 export default function Alignment() {
     return (
@@ -9,6 +10,7 @@ export default function Alignment() {
             <div className="mb-8">
                 <h1 className="mb-4 text-lg">Default</h1>
                 <div className="flex gap-4">
+                    <Input />
                     <Button label="Button" />
                     <IconButton label="Icon button" icon={IoAddOutline} />
                 </div>
