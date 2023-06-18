@@ -1,10 +1,10 @@
 import { cva, VariantProps } from 'cva';
 
 const inputStyles = cva(
-    'h-[42px] min-h-[42px] rounded bg-neutral-600 px-4 py-1 leading-none outline-none ' +
-    'hover:enabled:outline-1 hover:enabled:outline-neutral-400 ' +
-    'focus:outline-1 focus:outline-neutral-400 ' +
-    'disabled:cursor-not-allowed disabled:opacity-50',
+    `h-[42px] min-h-[42px] rounded bg-neutral-600 px-4 py-3 leading-none outline-none
+    focus:outline-1 focus:outline-neutral-400
+    hover:enabled:outline-1 hover:enabled:outline-neutral-400
+    disabled:cursor-not-allowed disabled:opacity-50`,
     {
         variants: {
             extend: {
