@@ -43,7 +43,7 @@ const meta: Meta<typeof IconButton> = {
             options: ['xs', 's', 'md'],
             table: {
                 type: { summary: 'xs | s | md' },
-                defaultValue: { summary: 's' }
+                defaultValue: { summary: 'md' }
             }
         },
         ping: {

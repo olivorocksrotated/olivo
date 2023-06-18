@@ -30,10 +30,10 @@ const meta: Meta<typeof Loader> = {
             type: 'string',
             description: 'The size of this loader',
             control: { type: 'radio' },
-            options: ['xs', 's', 'md', 'lg'],
+            options: ['xs', 's', 'md'],
             table: {
-                type: { summary: 'xs | s | md | lg' },
-                defaultValue: { summary: 's' }
+                type: { summary: 'xs | s | md' },
+                defaultValue: { summary: 'md' }
             }
         }
     }

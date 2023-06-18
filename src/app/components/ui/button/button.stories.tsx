@@ -34,7 +34,7 @@ const meta: Meta<typeof Button> = {
             options: ['xs', 's', 'md'],
             table: {
                 type: { summary: 'xs | s | md' },
-                defaultValue: { summary: 's' }
+                defaultValue: { summary: 'md' }
             }
         },
         label: {
@@ -76,6 +76,14 @@ export const Secondary: Story = {
     args: {
         intent: 'secondary',
         label: 'This is a secondary button'
+    }
+};
+
+export const Loading: Story = {
+    args: {
+        intent: 'default',
+        label: 'This is a loading button',
+        loading: true
     }
 };
 
