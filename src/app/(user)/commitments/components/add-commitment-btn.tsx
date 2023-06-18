@@ -8,6 +8,7 @@ import { useZact } from 'zact/client';
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
+import Input from '@/app/components/ui/input/input';
 import Modal from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
 import { createCommitmentAction } from '@/lib/commitments/create';
@@ -38,20 +39,18 @@ export default function AddCommitmentButton() {
             <div className={modalStyles['modal-content']}>
                 <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
-                    <input value={commitment.title}
+                    <Input value={commitment.title}
                         autoFocus
                         onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
                         placeholder="e.g. do this task"
-                        className="inline-flex h-8 w-full items-center justify-center rounded px-2.5 leading-none outline-none"
                     />
                 </div>
                 <div className="mb-4 flex items-center">
                     <span className="w-16">by</span>
-                    <input type="date"
+                    <Input type="date"
                         value={commitment.doneBy}
                         onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
                         placeholder="done by"
-                        className="h-8 w-full px-2.5"
                     />
                 </div>
                 <div className="mb-4">
