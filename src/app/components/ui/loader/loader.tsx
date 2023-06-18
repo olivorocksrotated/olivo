@@ -4,7 +4,7 @@ import styles from './loader.module.css';
 
 interface Props {
     intent: 'inner' | 'standalone',
-    size: 'xs' | 's' | 'md' | 'lg'
+    size: 'xs' | 's' | 'md'
 }
 
 const loaderStyles = cva(
@@ -18,23 +18,20 @@ const loaderStyles = cva(
             size: {
                 xs: '',
                 s: '',
-                md: '',
-                lg: ''
+                md: ''
             }
         },
         defaultVariants: {
             intent: 'standalone',
-            size: 's'
+            size: 'md'
         },
         compoundVariants: [
-            { intent: 'inner', size: 'xs', class: 'h-6 w-6 border-r-[1.5px] border-t-[1.5px]' },
-            { intent: 'inner', size: 's', class: 'h-8 w-8 border-r-[2px] border-t-[2px]' },
-            { intent: 'inner', size: 'md', class: 'h-10 w-10 border-r-[2.5px] border-t-[2.5px]' },
-            { intent: 'inner', size: 'lg', class: 'h-12 w-12 border-r-[3px] border-t-[3px]' },
+            { intent: 'inner', size: 'xs', class: 'h-[10px] w-[10px] border-r-[1px] border-t-[1px]' },
+            { intent: 'inner', size: 's', class: 'h-[15px] w-[15px] border-r-[1px] border-t-[1px]' },
+            { intent: 'inner', size: 'md', class: 'h-[20px] w-[20px] border-r-[1.5px] border-t-[1.5px]' },
             { intent: 'standalone', size: 'xs', class: 'h-12 w-12' },
             { intent: 'standalone', size: 's', class: 'h-16 w-16' },
-            { intent: 'standalone', size: 'md', class: 'h-20 w-20' },
-            { intent: 'standalone', size: 'lg', class: 'h-24 w-24' }
+            { intent: 'standalone', size: 'md', class: 'h-20 w-20' }
         ]
     }
 );

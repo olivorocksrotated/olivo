@@ -26,6 +26,17 @@ const meta: Meta<typeof Button> = {
                 defaultValue: { summary: 'default' }
             }
         },
+        size: {
+            name: 'size',
+            type: 'string',
+            description: 'The size of this button',
+            control: { type: 'radio' },
+            options: ['xs', 's', 'md'],
+            table: {
+                type: { summary: 'xs | s | md' },
+                defaultValue: { summary: 'md' }
+            }
+        },
         label: {
             description: 'Content of the button'
         },
@@ -65,6 +76,14 @@ export const Secondary: Story = {
     args: {
         intent: 'secondary',
         label: 'This is a secondary button'
+    }
+};
+
+export const Loading: Story = {
+    args: {
+        intent: 'default',
+        label: 'This is a loading button',
+        loading: true
     }
 };
 
