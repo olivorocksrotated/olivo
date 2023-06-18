@@ -15,14 +15,14 @@ const buttonStyles = cva(
                 secondary: 'text-neutral-500 transition hover:enabled:text-neutral-200'
             },
             size: {
-                xs: 'rounded p-0.5',
-                s: 'rounded p-1',
-                md: 'rounded-lg p-2'
+                xs: 'h-[18px] min-h-[18px] w-[18px] min-w-[18px] rounded p-0.5',
+                s: 'h-[28px] min-h-[28px] w-[28px] min-w-[28px] rounded p-1',
+                md: 'h-[42px] min-h-[42px] w-[42px] min-w-[42px] rounded-lg p-2'
             }
         },
         defaultVariants: {
             intent: 'default',
-            size: 's'
+            size: 'md'
         }
     }
 );
@@ -60,7 +60,7 @@ export default function IconButton(props: Props) {
 
     return (
         <button type="button" aria-label={label} {...nativeProps} className={buttonStyles(props)}>
-            <Icon size={iconSize[size ?? 's']} />
+            <Icon size={iconSize[size ?? 'md']} />
             {ping ? (
                 <span className={`absolute right-0 top-0 flex ${pingSizeStyles(props)}`}>
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>

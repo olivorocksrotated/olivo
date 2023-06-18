@@ -26,6 +26,17 @@ const meta: Meta<typeof Button> = {
                 defaultValue: { summary: 'default' }
             }
         },
+        size: {
+            name: 'size',
+            type: 'string',
+            description: 'The size of this button',
+            control: { type: 'radio' },
+            options: ['xs', 's', 'md'],
+            table: {
+                type: { summary: 'xs | s | md' },
+                defaultValue: { summary: 's' }
+            }
+        },
         label: {
             description: 'Content of the button'
         },

@@ -38,14 +38,16 @@ export default function SignIn() {
                     onClick={() => handleLoginAttempt('github')}
                     disabled={showLoader}
                     icon={VscGithub}
+                    size="md"
                 />
                 <Button label="Sign in with Google"
                     onClick={() => handleLoginAttempt('google')}
                     disabled={showLoader}
                     icon={FcGoogle}
+                    size="md"
                 />
             </div>
-            {isDevEnvironment() ? <Button label="Sign in dev mode" onClick={() => handleLoginAttempt('credentials')} disabled={showLoader} /> : null}
+            {isDevEnvironment() ? <Button label="Sign in dev mode" size="md" onClick={() => handleLoginAttempt('credentials')} disabled={showLoader} /> : null}
             {authCallbackError ? (
                 <div className="text-center text-red-400">
                     <div>Something went wrong.</div>

@@ -53,7 +53,7 @@ export default function Modal({
                                 <div className="mb-2 flex justify-between">
                                     <Dialog.Title className="text-lg font-normal">{title}</Dialog.Title>
                                     <Dialog.Close asChild onClick={closeModal}>
-                                        <div><IconButton icon={IoCloseOutline} label="Close modal" /></div>
+                                        <div><IconButton icon={IoCloseOutline} label="Close modal" size="s" /></div>
                                     </Dialog.Close>
                                 </div>
                                 {description ? <div className="mb-6 text-sm text-neutral-200">{description}</div> : null}

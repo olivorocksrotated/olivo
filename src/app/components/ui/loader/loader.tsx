@@ -24,7 +24,7 @@ const loaderStyles = cva(
         },
         defaultVariants: {
             intent: 'standalone',
-            size: 's'
+            size: 'md'
         },
         compoundVariants: [
             { intent: 'inner', size: 'xs', class: 'h-6 w-6 border-r-[1.5px] border-t-[1.5px]' },

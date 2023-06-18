@@ -33,7 +33,7 @@ export default function AddCommitmentButton() {
         <Modal title="Add commitment"
             close={isClosed}
             onClose={() => setCommitment(nullCommitment)}
-            openComponent={<IconButton icon={IoAddOutline} label="Add commitment" />}
+            openComponent={<IconButton icon={IoAddOutline} label="Add commitment" size="s" />}
         >
             <div className={modalStyles['modal-content']}>
                 <div className="mb-4 flex items-center">
