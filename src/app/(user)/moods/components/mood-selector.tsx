@@ -10,6 +10,7 @@ import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Modal from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
+import Textarea from '@/app/components/ui/textarea/textarea';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 import { createBasicClientNotification } from '@/lib/notifications/create';
@@ -99,12 +100,13 @@ export default function MoodSelector({ todaysMood }: Props) {
                             {selectedMood.option.icon} {`What is making you feel ${selectedMood.option.name.toLowerCase() || '...'}?`}
                         </div>
                         <div className="mb-2 w-full">
-                            <textarea autoFocus
+                            <Textarea autoFocus
                                 value={selectedMood.comment}
                                 onChange={(event) => setSelectedMood((previous) => ({ ...previous, comment: event.target.value }))}
                                 disabled={!selectedMood.option.name}
                                 placeholder="Optional"
-                                className="h-20 max-h-20 w-full resize-none rounded p-2"
+                                resize={false}
+                                h="lg"
                             />
                         </div>
                     </div>
