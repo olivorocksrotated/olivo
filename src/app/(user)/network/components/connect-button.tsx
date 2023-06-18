@@ -4,6 +4,7 @@ import { MouseEvent, useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
+import Input from '@/app/components/ui/input/input';
 import Modal from '@/app/components/ui/modal/modal';
 import modalStyles from '@/app/components/ui/modal/modal.module.css';
 
@@ -31,11 +32,10 @@ export default function ConnectButton({ onConnectionRequested }: { onConnectionR
             openComponent={<Button label="Connect" />}
         >
             <div className={modalStyles['modal-content']}>
-                <input type="email"
+                <Input type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    placeholder="email"
-                    className="inline-flex h-8 w-full items-center justify-center rounded px-2.5 leading-none outline-none"
+                    placeholder="E.g. john@doe.com"
                 />
             </div>
             <div className={modalStyles['modal-actions']}>
