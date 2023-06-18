@@ -32,13 +32,15 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
     const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState(initialNotifications);
 
+    const fiveMinutes = 60 * 1000 * 5;
+
     useInterval(async () => {
         const newNotificationsResponse = await fetchFromApi({
             method: HttpMethod.GET,
             path: ResourcePath.Notifications
         });
         setNotifications(await newNotificationsResponse.json());
-    }, 10000);
+    }, fiveMinutes);
 
     const hasOpenNotifications = notifications.some(isNotificationOpen);
 
