@@ -13,7 +13,7 @@ import FeedbackStepper from './components/stepper';
 import UserSelector from './components/user-selector';
 import { animationProps, transition } from './styles';
 
-export default function Feedback() {
+export default async function Feedback() {
     const [feedbackStep, setFeedbackStep] = useState(1);
     const [feedbackNote, setFeedbackNote] = useState({
         giverId: '',
@@ -26,6 +26,11 @@ export default function Feedback() {
 
     const initialStep = 1;
     const lastStep = 5;
+
+    const connections = [
+        { id: '1', name: 'Super Doggo', role: 'Engineering Manager', portait: 'https://placedog.net/500/500', email: 'super@doggo' },
+        { id: '2', name: 'The Boss', role: 'Engineering Manager', portait: 'https://placedog.net/300/500', email: 'the@boss' }
+    ];
 
     const nextStep = () => {
         if (feedbackStep === lastStep) {
@@ -96,7 +101,7 @@ export default function Feedback() {
                     <div className="w-full overflow-hidden">
                         <AnimatePresence mode="wait">
                             <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
-                                {feedbackStep === 1 && <UserSelector onUserSelected={handleChange} />}
+                                {feedbackStep === 1 && <UserSelector connections={connections} onUserSelected={handleChange} />}
                                 {feedbackStep === 2 && <FeedbackTypeSelector feedbackType={feedbackNote.type} onTypeSelected={handleChange} />}
                                 {feedbackStep === 3 &&
                                     <div className="relative mb-4 flex flex-wrap gap-4">
