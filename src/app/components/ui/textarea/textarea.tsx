@@ -33,5 +33,8 @@ const textareaStyles = cva(
 interface Props extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'className'>, VariantProps<typeof textareaStyles>{}
 
 export default function Textarea(props: Props) {
-    return <textarea {...props} className={textareaStyles(props)} />;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { resize, ...otherProps } = props;
+
+    return <textarea {...otherProps} className={textareaStyles(props)} />;
 }
