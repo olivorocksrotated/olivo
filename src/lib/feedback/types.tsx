@@ -10,13 +10,14 @@ export interface FeedbackSuggestionTag {
 
 export enum FeedbackType {
     Praise = 'praise',
-    Improve = 'improve'
+    Improve = 'improve',
+    None = 'none'
 }
 export interface FeedbackEntry {
     id?: string;
     giverId: string;
     receiverId: string;
-    type: FeedbackType | null;
+    type: FeedbackType;
     categories: Category[];
     badges: FeedbackSuggestionTag[];
     comment: string;

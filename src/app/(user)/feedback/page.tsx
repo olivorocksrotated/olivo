@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
-import { Category, FeedbackEntry, FeedbackSuggestionTag } from '@/lib/feedback/types';
+import { Category, FeedbackEntry, FeedbackSuggestionTag, FeedbackType } from '@/lib/feedback/types';
 
 import CategoryBadgeSelector from './components/badge-selector';
 import CategoryCard from './components/category-card';
@@ -18,7 +18,7 @@ export default function Feedback() {
     const [feedbackNote, setFeedbackNote] = useState({
         giverId: '',
         receiverId: '',
-        type: null,
+        type: FeedbackType.None,
         categories: [],
         badges: [],
         comment: ''
@@ -71,7 +71,7 @@ export default function Feedback() {
     };
 
     const saveFeedback = () => {
-        console.log(feedbackNote);
+        // magic happens here
     };
 
     const categories = getFeedbackCategories();
@@ -97,7 +97,7 @@ export default function Feedback() {
                         <AnimatePresence mode="wait">
                             <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
                                 {feedbackStep === 1 && <UserSelector onUserSelected={handleChange} />}
-                                {feedbackStep === 2 && <FeedbackTypeSelector onTypeSelected={handleChange} />}
+                                {feedbackStep === 2 && <FeedbackTypeSelector feedbackType={feedbackNote.type} onTypeSelected={handleChange} />}
                                 {feedbackStep === 3 &&
                                     <div className="relative mb-4 flex flex-wrap gap-4">
                                         {
@@ -133,11 +133,11 @@ export default function Feedback() {
                             </div>}
 
                         <div className="cursor-pointer">
-                            <div onClick={nextStep} className="group relative inline-flex items-center justify-center overflow-hidden rounded-md p-0.5 font-bold">
+                            <div className="group relative inline-flex items-center justify-center overflow-hidden rounded-md p-0.5 font-bold">
                                 <span className="absolute h-full w-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05]"></span>
 
                                 <span className="relative rounded-md bg-gray-900 px-6 py-3 transition-all duration-500 ease-out group-hover:bg-gray-900/0">
-                                    {feedbackStep < 5 && <span className="relative text-slate-200">Next step</span>}
+                                    {feedbackStep < 5 && <span onClick={nextStep} className="relative text-slate-200">Next step</span>}
                                     {feedbackStep === 5 && <span onClick={saveFeedback} className="relative text-slate-200">Save!</span>}
                                 </span>
                             </div>
