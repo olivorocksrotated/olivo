@@ -36,11 +36,7 @@ export default function AddButton() {
     );
 
     return (
-        <Modal title="Add commitment"
-            close={isClosed}
-            onClose={() => setCommitment(nullCommitment)}
-            openComponent={openComponent}
-        >
+        <Modal title="Add commitment" close={isClosed} openComponent={openComponent}>
             <div className={modalStyles['modal-content']}>
                 <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
