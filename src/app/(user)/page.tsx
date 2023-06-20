@@ -28,13 +28,16 @@ export default async function Home() {
     });
 
     const sortedCommitments = commitments.sort((first, second) => statusWeight[first.status] - statusWeight[second.status]);
+    const notDoneCommitmentsCount = commitments.filter((commitment) => commitment.status === CommitmentStatus.InProgress || commitment.status === CommitmentStatus.NotStartedYet).length;
 
     return (
         <section>
             <PageTitle text={`👋 Hey, ${firstName}`} />
             <div className="mb-10"><MoodSelector todaysMood={todaysMood} /></div>
             <div className="max-w-2xl rounded-lg p-4 pt-6 outline outline-1 outline-neutral-800">
-                <h2 className="mb-8 text-xl leading-none text-white">Commitments for today</h2>
+                <h2 className="mb-8 text-xl leading-none text-white">
+                    {notDoneCommitmentsCount > 0 ? `Commitments for today - ${notDoneCommitmentsCount}` : 'All done for today 🎉'}
+                </h2>
                 <CommitmentsList commitments={sortedCommitments} />
             </div>
         </section>
