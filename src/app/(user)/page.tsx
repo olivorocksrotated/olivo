@@ -4,7 +4,7 @@ import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
 
 import PageTitle from '../components/ui/page-title/page-title';
-import NewCommitmentsList from './commitments/components/list/new-commitments-list';
+import CommitmentsList from './commitments/components/list/commitments-list';
 import MoodSelector from './moods/components/mood-selector';
 
 export default async function Home() {
@@ -24,7 +24,7 @@ export default async function Home() {
             <div className="mb-10"><MoodSelector todaysMood={todaysMood} /></div>
             <div className="max-w-2xl rounded-lg p-4 pt-6 outline outline-1 outline-neutral-800">
                 <h2 className="mb-8 text-xl leading-none text-white">Commitments for today</h2>
-                <NewCommitmentsList commitments={commitments} />
+                <CommitmentsList commitments={commitments} />
             </div>
         </section>
     );

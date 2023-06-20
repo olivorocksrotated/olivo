@@ -17,7 +17,7 @@ interface Props {
     commitment: Commitment;
 }
 
-export default function NewCommitmentCard({ commitment: originalCommitment }: Props) {
+export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
 
     const now = todayAtZeroHourUTC();
