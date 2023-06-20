@@ -9,10 +9,16 @@ interface Filter {
     status: 'to-do'
 }
 
-export async function getCommitments({ userId, filters = {}, order = 'asc' }: {
+type OrderDirection = 'asc' | 'desc';
+interface Order {
+    doneBy: OrderDirection;
+    createdAt: OrderDirection;
+}
+
+export async function getCommitments({ userId, filters = {}, order }: {
     userId: string,
     filters?: Partial<Filter>,
-    order?: 'asc' | 'desc'
+    order?: Partial<Order>
 }) {
     const defaultStatusQuery = {
         OR: [
@@ -44,7 +50,7 @@ export async function getCommitments({ userId, filters = {}, order = 'asc' }: {
             status: true,
             doneBy: true
         },
-        orderBy: { doneBy: order }
+        ...order ? { orderBy: order } : {}
     });
 
     return commitments;
