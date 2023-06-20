@@ -1,17 +1,19 @@
 'use client';
 
-import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
-import { KeyboardEvent, useState } from 'react';
+import { Commitment as CommitmentModel } from '@prisma/client';
+import { MouseEvent, useState } from 'react';
 import { useZact } from 'zact/client';
 
-import { isPast } from '@/lib/commitments/filter';
+import Button from '@/app/components/ui/button/button';
+import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
+import Input from '@/app/components/ui/input/input';
+import Modal from '@/app/components/ui/modal/modal';
+import ModalContent from '@/app/components/ui/modal/modal-content';
+import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import { updateCommitmentAction } from '@/lib/commitments/update';
-import { todayAtZeroHourUTC } from '@/lib/date/days';
-import { dateInputToISOString, formatDate, getRelativeDateWithoutTime } from '@/lib/date/format';
+import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
-import PastStatusMarker from '../status-marker/past';
-import DeleteButton from './actions/delete-btn';
-import StatusPopover from './actions/status-popover';
+import CommitmentEntry from './commitment-entry';
 
 type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'title'> & { doneBy: string };
 interface Props {
@@ -20,102 +22,55 @@ interface Props {
 
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
-    const [editTitle, setEditTitle] = useState({ value: commitment.title, isEditing: false });
-    const [editDoneBy, setEditDoneBy] = useState({ value: formatDate(commitment.doneBy), isEditing: false });
+    const [editCommitment, setEditCommitment] = useState({ ...commitment, doneBy: formatDate(originalCommitment.doneBy) });
+    const [isClosed, closeModal] = useCloseUiComponent();
 
-    const now = todayAtZeroHourUTC();
-    const isPastCommitment = isPast(now)({ doneBy: new Date(commitment.doneBy) });
-    const editStyle = 'hover:cursor-pointer hover:underline hover:decoration-dotted';
+    const { mutate: updateCommitment } = useZact(updateCommitmentAction);
 
-    const { mutate: update } = useZact(updateCommitmentAction);
-
-    const updateCommitment = async ({ status, title, doneBy }: {
-        status?: CommitmentStatus;
-        title?: string;
-        doneBy?: string;
-    }) => {
-        setCommitment((previous) => ({
-            ...previous,
-            title: title ?? previous.title,
-            status: status ?? previous.status,
-            doneBy: doneBy ?? previous.doneBy
-        }));
-
-        await update({ id: commitment.id, status, title, doneBy: dateInputToISOString(doneBy) });
-    };
-
-    const handleStatusChange = async (status: CommitmentStatus) => {
-        await updateCommitment({ status });
-    };
-
-    const handleTitleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key !== 'Enter') {
-            return;
+    const onSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if (editCommitment.title && editCommitment.doneBy) {
+            const updatedCommitment = {
+                ...editCommitment,
+                title: editCommitment.title,
+                doneBy: dateInputToISOString(editCommitment.doneBy)!
+            };
+            setCommitment(updatedCommitment);
+            await updateCommitment(updatedCommitment);
+            closeModal();
         }
-
-        if (commitment.title === editTitle.value) {
-            return setEditTitle((previous) => ({ ...previous, isEditing: false }));
-        }
-
-        const title = editTitle.value;
-        setEditTitle(() => ({ value: title, isEditing: false }));
-        await updateCommitment({ title });
-    };
-
-    const handleDoneByKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key !== 'Enter') {
-            return;
-        }
-
-        const doneBy = editDoneBy.value;
-        setEditDoneBy(() => ({ value: doneBy, isEditing: false }));
-        await updateCommitment({ doneBy });
     };
 
     return (
-        <li className="py-3 sm:py-4">
-            <div className="flex items-center gap-x-4">
-                <div>
-                    <StatusPopover commitment={commitment} onStatusChange={handleStatusChange} />
+        <Modal title="Edit commitment"
+            close={isClosed}
+            openComponent={<CommitmentEntry commitment={commitment} />}
+        >
+            <ModalContent>
+                <div className="mb-4 flex items-center">
+                    <span className="w-16">I will</span>
+                    <Input value={editCommitment.title}
+                        autoFocus
+                        onChange={(event) => setEditCommitment({ ...editCommitment, title: event.target.value })}
+                        placeholder="e.g. do this task"
+                    />
                 </div>
-                <div className="min-w-0 flex-1">
-                    <div className="flex gap-1 font-medium text-white">
-                        <div className="min-w-fit text-gray-400">I will{' '}</div>
-                        <div className="grow truncate">
-                            {!editTitle.isEditing ?
-                                <span className={editStyle} onClick={() => setEditTitle((previous) => ({ ...previous, isEditing: true }))}>
-                                    {commitment.title}
-                                </span> :
-                                <input type="text"
-                                    autoFocus
-                                    className="w-full"
-                                    onKeyDown={handleTitleKeyDown}
-                                    value={editTitle.value}
-                                    onChange={(event) => setEditTitle((previous) => ({ ...previous, value: event.target.value }))}
-                                />}
-                        </div>
-                    </div>
-                    <div className="flex gap-1 text-sm text-gray-400">
-                        <div>By{' '}</div>
-                        <div>
-                            {!editDoneBy.isEditing ?
-                                <span className={editStyle} onClick={() => setEditDoneBy((previous) => ({ ...previous, isEditing: true }))}>
-                                    {getRelativeDateWithoutTime(new Date(commitment.doneBy), now)}
-                                </span> :
-                                <input type="date"
-                                    autoFocus
-                                    onKeyDown={handleDoneByKeyDown}
-                                    value={editDoneBy.value}
-                                    onChange={(event) => setEditDoneBy((previous) => ({ ...previous, value: event.target.value }))}
-                                />}
-                        </div>
-                    </div>
+                <div className="mb-4 flex items-center">
+                    <span className="w-16">by</span>
+                    <Input type="date"
+                        value={editCommitment.doneBy}
+                        onChange={(event) => setEditCommitment({ ...editCommitment, doneBy: event.target.value })}
+                        placeholder="done by"
+                    />
                 </div>
-                <div className="flex items-center gap-3">
-                    {isPastCommitment ? <PastStatusMarker /> : null}
-                    <DeleteButton onDelete={() => handleStatusChange(CommitmentStatus.Abandoned)} />
-                </div>
-            </div>
-        </li>
+            </ModalContent>
+            <ModalFooter>
+                <Button label="Save"
+                    intent="cta"
+                    disabled={!editCommitment.title || !editCommitment.doneBy}
+                    onClick={onSubmit}
+                />
+            </ModalFooter>
+        </Modal>
     );
 }

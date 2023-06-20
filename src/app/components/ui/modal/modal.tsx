@@ -1,6 +1,7 @@
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
+import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -38,6 +39,12 @@ export default function Modal({
         }
     }, [close, closeModal]);
 
+    const titleStyles = clsx(
+        'flex justify-between',
+        { 'mb-2': description },
+        { 'mb-6': !description }
+    );
+
     return (
         <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Dialog.Trigger asChild><div>{openComponent}</div></Dialog.Trigger>
@@ -50,7 +57,7 @@ export default function Modal({
                                 className="fixed left-2/4 top-2/4 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-neutral-900 p-6"
                                 onEscapeKeyDown={closeModal}
                             >
-                                <div className={`${description ? 'mb-2' : 'mb-6'} flex justify-between`}>
+                                <div className={titleStyles}>
                                     <Dialog.Title className="text-lg font-normal">{title}</Dialog.Title>
                                     <Dialog.Close asChild onClick={closeModal}>
                                         <div><IconButton icon={IoCloseOutline} label="Close modal" size="s" /></div>
