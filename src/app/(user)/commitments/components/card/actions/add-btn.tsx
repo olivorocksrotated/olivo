@@ -9,7 +9,8 @@ import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Input from '@/app/components/ui/input/input';
 import Modal from '@/app/components/ui/modal/modal';
-import modalStyles from '@/app/components/ui/modal/modal.module.css';
+import ModalContent from '@/app/components/ui/modal/modal-content';
+import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
@@ -37,7 +38,7 @@ export default function AddButton() {
 
     return (
         <Modal title="Add commitment" close={isClosed} openComponent={openComponent}>
-            <div className={modalStyles['modal-content']}>
+            <ModalContent>
                 <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
                     <Input value={commitment.title}
@@ -58,14 +59,14 @@ export default function AddButton() {
                     <span className="text-slate-300">Find all your commitments</span>{' '}
                     <Link href="/commitments" className="text-white hover:text-indigo-300">in the &quot;Commitments&quot; section</Link>
                 </div>
-            </div>
-            <div className={modalStyles['modal-actions']}>
+            </ModalContent>
+            <ModalFooter>
                 <Button label="Add commitment"
                     intent="cta"
                     disabled={!commitment.title || !commitment.doneBy}
                     onClick={onSubmit}
                 />
-            </div>
+            </ModalFooter>
         </Modal>
     );
 }

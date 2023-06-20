@@ -9,7 +9,8 @@ import { useZact } from 'zact/client';
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Modal from '@/app/components/ui/modal/modal';
-import modalStyles from '@/app/components/ui/modal/modal.module.css';
+import ModalContent from '@/app/components/ui/modal/modal-content';
+import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import Textarea from '@/app/components/ui/textarea/textarea';
 import { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
@@ -76,7 +77,7 @@ export default function MoodSelector({ todaysMood }: Props) {
                 close={isClosed}
                 openComponent={<Button label="How are you feeling today?" intent="cta" icon={TbMoodCheck} />}
             >
-                <div className={modalStyles['modal-content']}>
+                <ModalContent>
                     <div className="mb-6">
                         <div className="flex gap-2">
                             {moodOptions.map((mood) => (
@@ -110,10 +111,10 @@ export default function MoodSelector({ todaysMood }: Props) {
                             />
                         </div>
                     </div>
-                </div>
-                <div className={modalStyles['modal-actions']}>
+                </ModalContent>
+                <ModalFooter>
                     <Button label="Save my mood" intent="cta" disabled={!selectedMood?.option.name} onClick={handleMoodSave} />
-                </div>
+                </ModalFooter>
             </Modal>
         </div>
     );

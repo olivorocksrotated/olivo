@@ -8,7 +8,8 @@ import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Input from '@/app/components/ui/input/input';
 import Modal from '@/app/components/ui/modal/modal';
-import modalStyles from '@/app/components/ui/modal/modal.module.css';
+import ModalContent from '@/app/components/ui/modal/modal-content';
+import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
@@ -45,7 +46,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
             close={isClosed}
             openComponent={<CommitmentEntry commitment={commitment} />}
         >
-            <div className={modalStyles['modal-content']}>
+            <ModalContent>
                 <div className="mb-4 flex items-center">
                     <span className="w-16">I will</span>
                     <Input value={editCommitment.title}
@@ -62,14 +63,14 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         placeholder="done by"
                     />
                 </div>
-            </div>
-            <div className={modalStyles['modal-actions']}>
+            </ModalContent>
+            <ModalFooter>
                 <Button label="Save"
                     intent="cta"
                     disabled={!editCommitment.title || !editCommitment.doneBy}
                     onClick={onSubmit}
                 />
-            </div>
+            </ModalFooter>
         </Modal>
     );
 }

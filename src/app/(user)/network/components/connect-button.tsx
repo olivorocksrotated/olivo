@@ -6,7 +6,8 @@ import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Input from '@/app/components/ui/input/input';
 import Modal from '@/app/components/ui/modal/modal';
-import modalStyles from '@/app/components/ui/modal/modal.module.css';
+import ModalContent from '@/app/components/ui/modal/modal-content';
+import ModalFooter from '@/app/components/ui/modal/modal-footer';
 
 export default function ConnectButton({ onConnectionRequested }: { onConnectionRequested: (email: string) => void }) {
     const [email, setEmail] = useState('');
@@ -31,16 +32,16 @@ export default function ConnectButton({ onConnectionRequested }: { onConnectionR
             close={isClosed}
             openComponent={<Button label="Connect" />}
         >
-            <div className={modalStyles['modal-content']}>
+            <ModalContent>
                 <Input type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="E.g. john@doe.com"
                 />
-            </div>
-            <div className={modalStyles['modal-actions']}>
+            </ModalContent>
+            <ModalFooter>
                 <Button intent="cta" label="Connect" disabled={!email} onClick={onSubmit} />
-            </div>
+            </ModalFooter>
         </Modal>
     );
 }
