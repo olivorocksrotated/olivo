@@ -57,6 +57,7 @@ export default function UserSelector({ connections, onUserSelected }: Props) {
         query: '',
         filteredUsers: [] as Connection[]
     });
+    const [selectedUser, setSelectedUser] = useState(null as Connection | null);
 
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
         const query = event.target.value;
@@ -66,7 +67,9 @@ export default function UserSelector({ connections, onUserSelected }: Props) {
         setSearchQuery({ query, filteredUsers });
     };
     const handleUserSelected = (user: Connection) => {
-        onUserSelected('receiver', user.name);
+        onUserSelected('receiverId', user.id);
+
+        setSelectedUser(user);
         setSearchQuery({ query: '', filteredUsers: [] });
     };
 
@@ -86,13 +89,15 @@ export default function UserSelector({ connections, onUserSelected }: Props) {
                 </div>
             </div>
 
-            {searchQuery.filteredUsers.length > 0 && (
+            {searchQuery.filteredUsers.length > 0 ? (
                 <div className="mb-4 rounded-b-md bg-slate-800 p-3">
                     {searchQuery.filteredUsers.map((user) => (
                         <UserRow key={user.id} user={user} onConnectionSelected={handleUserSelected} />
                     ))}
                 </div>
-            )}
+            ) : selectedUser ? (
+                <UserRow key={selectedUser.id} user={selectedUser} onConnectionSelected={handleUserSelected} />
+            ) : null}
         </section>
     );
 }
