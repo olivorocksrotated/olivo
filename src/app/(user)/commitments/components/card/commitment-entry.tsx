@@ -1,6 +1,6 @@
 'use client';
 
-import { Commitment as CommitmentModel, CommitmentStatus } from '@prisma/client';
+import { CommitmentStatus } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
@@ -9,12 +9,12 @@ import { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { getRelativeDateWithoutTime } from '@/lib/date/format';
 
+import { ClientCommitment } from '../../types';
 import PastStatusMarker from '../status-marker/past';
 import StatusPopover from './actions/status-popover';
 
-type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'title'> & { doneBy: string };
 interface Props {
-    commitment: Commitment;
+    commitment: ClientCommitment;
 }
 
 export default function CommitmentEntry({ commitment: originalCommitment }: Props) {

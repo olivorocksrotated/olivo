@@ -1,6 +1,5 @@
 'use client';
 
-import { Commitment as CommitmentModel } from '@prisma/client';
 import { MouseEvent, useState } from 'react';
 import { useZact } from 'zact/client';
 
@@ -13,11 +12,11 @@ import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 
+import { ClientCommitment } from '../../types';
 import CommitmentEntry from './commitment-entry';
 
-type Commitment = Pick<CommitmentModel, 'id' | 'status' | 'title'> & { doneBy: string };
 interface Props {
-    commitment: Commitment;
+    commitment: ClientCommitment;
 }
 
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {

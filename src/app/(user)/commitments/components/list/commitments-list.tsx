@@ -1,13 +1,13 @@
 'use client';
 
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { Commitment } from '@prisma/client';
 
+import { ServerCommitment } from '../../types';
 import AddButton from '../card/actions/add-btn';
 import CommitmentCard from '../card/commitment-card';
 
 interface Props {
-    commitments: Pick<Commitment, 'id' | 'doneBy' | 'status' | 'title'>[];
+    commitments: ServerCommitment[];
 }
 
 export default function CommitmentsList({ commitments }: Props) {
