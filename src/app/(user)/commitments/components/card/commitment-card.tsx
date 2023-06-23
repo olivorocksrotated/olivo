@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
@@ -11,6 +11,7 @@ import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
+import onEnterPressed from '@/lib/keys/enter';
 
 import { ClientCommitment } from '../../types';
 import CommitmentEntry from './commitment-entry';
@@ -26,18 +27,19 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
 
     const { mutate: updateCommitment } = useZact(updateCommitmentAction);
 
-    const onSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (editCommitment.title && editCommitment.doneBy) {
-            const updatedCommitment = {
-                ...editCommitment,
-                title: editCommitment.title,
-                doneBy: dateInputToISOString(editCommitment.doneBy)!
-            };
-            setCommitment(updatedCommitment);
-            await updateCommitment(updatedCommitment);
-            closeModal();
+    const onSave = async () => {
+        if (!editCommitment.title || !editCommitment.doneBy) {
+            return;
         }
+
+        const updatedCommitment = {
+            ...editCommitment,
+            title: editCommitment.title,
+            doneBy: dateInputToISOString(editCommitment.doneBy)!
+        };
+        setCommitment(updatedCommitment);
+        await updateCommitment(updatedCommitment);
+        closeModal();
     };
 
     return (
@@ -51,6 +53,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                     <Input value={editCommitment.title}
                         autoFocus
                         onChange={(event) => setEditCommitment({ ...editCommitment, title: event.target.value })}
+                        onKeyUp={onEnterPressed(onSave)}
                         placeholder="e.g. do this task"
                     />
                 </div>
@@ -59,6 +62,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                     <Input type="date"
                         value={editCommitment.doneBy}
                         onChange={(event) => setEditCommitment({ ...editCommitment, doneBy: event.target.value })}
+                        onKeyUp={onEnterPressed(onSave)}
                         placeholder="done by"
                     />
                 </div>
@@ -67,7 +71,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 <Button label="Save"
                     intent="cta"
                     disabled={!editCommitment.title || !editCommitment.doneBy}
-                    onClick={onSubmit}
+                    onClick={onSave}
                 />
             </ModalFooter>
         </Modal>
