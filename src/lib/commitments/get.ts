@@ -14,10 +14,11 @@ interface Order {
     createdAt: OrderDirection;
 }
 
-export async function getCommitments({ userId, filters = {}, order }: {
+export async function getCommitments({ userId, filters = {}, order, take }: {
     userId: string,
     filters?: Partial<Filter>,
-    order?: Partial<Order>
+    order?: Partial<Order>,
+    take?: number
 }) {
     const filtersBuilder = {
         ...filters.doneBy === 'today' ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {},
@@ -55,7 +56,8 @@ export async function getCommitments({ userId, filters = {}, order }: {
             status: true,
             doneBy: true
         },
-        ...order ? { orderBy: order } : {}
+        ...order ? { orderBy: order } : {},
+        ...take ? { take } : {}
     });
 
     return commitments;
