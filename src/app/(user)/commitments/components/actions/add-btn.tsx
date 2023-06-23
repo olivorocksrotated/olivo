@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
 
@@ -13,6 +13,7 @@ import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
+import onEnterPressed from '@/lib/keys/enter';
 
 export default function AddButton() {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd') };
@@ -21,13 +22,14 @@ export default function AddButton() {
 
     const { mutate: createCommitment } = useZact(createCommitmentAction);
 
-    const onSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (commitment.title && commitment.doneBy) {
-            await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy)! });
-            closeModal();
-            setCommitment(nullCommitment);
+    const onSave = async () => {
+        if (!commitment.title || !commitment.doneBy) {
+            return;
         }
+
+        await createCommitment({ ...commitment, doneBy: dateInputToISOString(commitment.doneBy)! });
+        closeModal();
+        setCommitment(nullCommitment);
     };
 
     const openComponent = (
@@ -44,6 +46,7 @@ export default function AddButton() {
                     <Input value={commitment.title}
                         autoFocus
                         onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
+                        onKeyUp={onEnterPressed(onSave)}
                         placeholder="e.g. do this task"
                     />
                 </div>
@@ -52,6 +55,7 @@ export default function AddButton() {
                     <Input type="date"
                         value={commitment.doneBy}
                         onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
+                        onKeyUp={onEnterPressed(onSave)}
                         placeholder="done by"
                     />
                 </div>
@@ -64,7 +68,7 @@ export default function AddButton() {
                 <Button label="Add commitment"
                     intent="cta"
                     disabled={!commitment.title || !commitment.doneBy}
-                    onClick={onSubmit}
+                    onClick={onSave}
                 />
             </ModalFooter>
         </Modal>

@@ -6,10 +6,10 @@ import clsx from 'clsx';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Popover from '@/app/components/ui/popover/popover';
 
-import AbandonedStatusMarker from '../../status-marker/abandoned';
-import DoneStatusMarker from '../../status-marker/done';
-import InProgressStatusMarker from '../../status-marker/in-progress';
-import NotStartedStatusMarker from '../../status-marker/not-started';
+import AbandonedStatusMarker from '../status-marker/abandoned';
+import DoneStatusMarker from '../status-marker/done';
+import InProgressStatusMarker from '../status-marker/in-progress';
+import NotStartedStatusMarker from '../status-marker/not-started';
 
 interface Props {
     commitment: Pick<Commitment, 'status'>;
