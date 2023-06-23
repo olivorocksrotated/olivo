@@ -61,13 +61,14 @@ model NetworkConnection {
 }
 
 model Commitment {
-  id        String           @id @default(cuid())
-  title     String
-  status    CommitmentStatus @default(NotStartedYet)
-  doneBy    DateTime         @default(now())
-  createdAt DateTime         @default(now())
-  owner     User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId   String
+  id          String           @id @default(cuid())
+  title       String
+  description String?          @db.Text
+  status      CommitmentStatus @default(NotStartedYet)
+  doneBy      DateTime         @default(now())
+  createdAt   DateTime         @default(now())
+  owner       User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
 
   @@index([ownerId])
 }
