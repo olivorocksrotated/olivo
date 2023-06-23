@@ -51,8 +51,8 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
         { '-translate-x-0': isOpen }
     );
     const buttonStyle = clsx(
-        'inline-flex items-center p-2',
-        'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6 sm:p-0'
+        'inline-flex items-center',
+        'sm:absolute sm:right-0 sm:top-0 sm:mr-6 sm:mt-6'
     );
 
     const { mutate: markAllAsRead } = useZact(markAllNotificationsAsReadAction);

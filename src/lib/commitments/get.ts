@@ -1,12 +1,11 @@
 import { CommitmentStatus } from '@prisma/client';
-import { sub } from 'date-fns';
 
 import { todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
 interface Filter {
-    doneBy: 'today' | 'today and last 2 days';
-    status: 'to-do'
+    doneBy: 'today' | 'next' | 'overdue';
+    status: 'to-do' | 'resolved' | 'not-abandoned'
 }
 
 type OrderDirection = 'asc' | 'desc';
@@ -15,28 +14,35 @@ interface Order {
     createdAt: OrderDirection;
 }
 
-export async function getCommitments({ userId, filters = {}, order }: {
+export async function getCommitments({ userId, filters = {}, order, take }: {
     userId: string,
     filters?: Partial<Filter>,
-    order?: Partial<Order>
+    order?: Partial<Order>,
+    take?: number
 }) {
-    const defaultStatusQuery = {
-        OR: [
-            { status: CommitmentStatus.InProgress },
-            { status: CommitmentStatus.Done },
-            { status: CommitmentStatus.NotStartedYet }
-        ]
-    };
-
     const filtersBuilder = {
         ...filters.doneBy === 'today' ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {},
-        ...filters.doneBy === 'today and last 2 days' ? { doneBy: { gte: sub(todayAtZeroHourUTC(), { days: 2 }), lt: todayAtMidnightUTC() } } : {},
+        ...filters.doneBy === 'next' ? { doneBy: { gt: todayAtZeroHourUTC() } } : {},
+        ...filters.doneBy === 'overdue' ? { doneBy: { lt: todayAtZeroHourUTC() } } : {},
+        ...filters.status === 'not-abandoned' ? {
+            OR: [
+                { status: CommitmentStatus.InProgress },
+                { status: CommitmentStatus.Done },
+                { status: CommitmentStatus.NotStartedYet }
+            ]
+        } : {},
         ...filters.status === 'to-do' ? {
             OR: [
                 { status: CommitmentStatus.InProgress },
                 { status: CommitmentStatus.NotStartedYet }
             ]
-        } : defaultStatusQuery
+        } : {},
+        ...filters.status === 'resolved' ? {
+            OR: [
+                { status: CommitmentStatus.Done },
+                { status: CommitmentStatus.Abandoned }
+            ]
+        } : {}
     };
 
     const commitments = await prisma.commitment.findMany({
@@ -50,7 +56,8 @@ export async function getCommitments({ userId, filters = {}, order }: {
             status: true,
             doneBy: true
         },
-        ...order ? { orderBy: order } : {}
+        ...order ? { orderBy: order } : {},
+        ...take ? { take } : {}
     });
 
     return commitments;
