@@ -3,7 +3,7 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 import { ServerCommitment } from '../../types';
-import AddButton from '../card/actions/add-btn';
+import AddButton from '../actions/add-btn';
 import CommitmentCard from '../card/commitment-card';
 
 interface Props {

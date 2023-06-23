@@ -10,8 +10,8 @@ import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { getRelativeDateWithoutTime } from '@/lib/date/format';
 
 import { ClientCommitment } from '../../types';
+import StatusPopover from '../actions/status-popover';
 import PastStatusMarker from '../status-marker/past';
-import StatusPopover from './actions/status-popover';
 
 interface Props {
     commitment: ClientCommitment;
