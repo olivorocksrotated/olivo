@@ -1,6 +1,7 @@
 'use client';
 
 import * as Tabs from '@radix-ui/react-tabs';
+import clsx from 'clsx';
 
 import { ServerCommitment } from '../../types';
 import CommitmentsList from './commitments-list';
@@ -13,13 +14,21 @@ interface Props {
 }
 
 export default function CommitmentsTabs({ today, next, overdue, resolved }: Props) {
+    const tabStyles = clsx(
+        'p-4',
+        'hover:bg-neutral-700',
+        'focus:bg-neutral-700',
+        'data-[state=active]:bg-neutral-600',
+        'first:rounded-l-lg last:rounded-r-lg'
+    );
+
     return (
         <Tabs.Root defaultValue="today">
-            <Tabs.List aria-label="Manage your commitments">
-                <Tabs.Trigger value="today">Today</Tabs.Trigger>
-                <Tabs.Trigger value="next">Next</Tabs.Trigger>
-                <Tabs.Trigger value="overdue">Overdue</Tabs.Trigger>
-                <Tabs.Trigger value="resolved">Resolved</Tabs.Trigger>
+            <Tabs.List aria-label="Manage your commitments" className="mb-8 w-fit rounded-lg bg-neutral-800">
+                <Tabs.Trigger value="today" className={tabStyles}>Today</Tabs.Trigger>
+                <Tabs.Trigger value="next" className={tabStyles}>Next</Tabs.Trigger>
+                <Tabs.Trigger value="overdue" className={tabStyles}>Overdue</Tabs.Trigger>
+                <Tabs.Trigger value="resolved" className={tabStyles}>Resolved</Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="today">
                 <CommitmentsList commitments={today} />

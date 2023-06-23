@@ -27,7 +27,8 @@ export default async function Commitments() {
     const resolved = await getCommitments({
         userId: user.id,
         filters: { status: 'resolved' },
-        order: { doneBy: 'desc' }
+        order: { doneBy: 'desc' },
+        take: 30
     });
 
     return <CommitmentsTabs today={today} next={next} overdue={overdue} resolved={resolved} />;
