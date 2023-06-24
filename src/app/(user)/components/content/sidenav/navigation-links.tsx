@@ -2,56 +2,12 @@ import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { Fragment, useState } from 'react';
-import { AiFillHome } from 'react-icons/ai';
-import { BsPeopleFill } from 'react-icons/bs';
-import { FaTasks } from 'react-icons/fa';
-import { LuMessagesSquare } from 'react-icons/lu';
-import { TbMoodCheck } from 'react-icons/tb';
+
+import { links } from '@/app/navigation';
 
 import HoverMark from './hover-mark';
 import SelectedBackground from './selected-background';
 
-interface NavigationLink {
-    id: string
-    path: string,
-    title: string,
-    icon: React.ReactNode,
-    hasSeparator?: true
-}
-
-const links: NavigationLink[] = [
-    {
-        id: 'home',
-        path: '/',
-        title: 'Home',
-        icon: <AiFillHome size={18} />
-    },
-    {
-        id: 'commitments',
-        path: '/commitments',
-        title: 'Commitments',
-        icon: <FaTasks size={18} />
-    },
-    {
-        id: 'moods',
-        path: '/moods',
-        title: 'Your moods',
-        icon: <TbMoodCheck size={18} />
-    },
-    {
-        id: 'network',
-        path: '/network',
-        title: 'Your network',
-        icon: <BsPeopleFill size={18} />,
-        hasSeparator: true
-    },
-    {
-        id: 'feedback',
-        path: '/feedback',
-        title: 'Feedback',
-        icon: <LuMessagesSquare size={18} />
-    }
-];
 
 export default function NavigationLinks() {
     const selected = useSelectedLayoutSegment();
