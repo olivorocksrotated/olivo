@@ -63,7 +63,7 @@ model NetworkConnection {
 model Commitment {
   id          String           @id @default(cuid())
   title       String
-  description String?          @db.Text
+  description Json?
   status      CommitmentStatus @default(NotStartedYet)
   doneBy      DateTime         @default(now())
   createdAt   DateTime         @default(now())
