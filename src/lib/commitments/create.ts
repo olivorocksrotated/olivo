@@ -6,10 +6,12 @@ import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
+import { stringToJSON } from '../validators/string-to-json';
 
 export const createCommitmentAction = zact(z.object({
     title: z.string(),
-    doneBy: z.string().datetime()
+    doneBy: z.string().datetime(),
+    description: stringToJSON.optional()
 }))(
     async (commitment) => {
         const { user } = await getServerSession();
