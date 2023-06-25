@@ -13,12 +13,14 @@ export const createCommitmentAction = zact(z.object({
     doneBy: z.string().datetime(),
     description: stringToJSON.optional()
 }))(
-    async (commitment) => {
+    async ({ title, doneBy, description }) => {
         const { user } = await getServerSession();
         const createdCommitment = await prisma.commitment.create({
             data: {
                 ownerId: user.id,
-                ...commitment
+                title,
+                doneBy,
+                ...!description ? {} : { description }
             }
         });
 

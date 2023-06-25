@@ -32,7 +32,7 @@ export default function AddButton() {
         await createCommitment({
             ...commitment,
             doneBy: dateInputToISOString(commitment.doneBy)!,
-            description: undefined
+            description: JSON.stringify(commitment.description)
         });
         closeModal();
         setCommitment(nullCommitment);

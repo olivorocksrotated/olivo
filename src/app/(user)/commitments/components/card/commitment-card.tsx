@@ -9,6 +9,7 @@ import Input from '@/app/components/ui/input/input';
 import Modal from '@/app/components/ui/modal/modal';
 import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
+import RichTextEditor from '@/app/components/ui/rich-text-editor/rich-text-editor';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 import onEnterPressed from '@/lib/keys/enter';
@@ -22,7 +23,11 @@ interface Props {
 
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
-    const [editCommitment, setEditCommitment] = useState({ ...commitment, doneBy: formatDate(originalCommitment.doneBy) });
+    const [editCommitment, setEditCommitment] = useState({
+        ...commitment,
+        doneBy: formatDate(originalCommitment.doneBy),
+        description: JSON.parse(originalCommitment.description) as object
+    });
     const [isClosed, closeModal] = useCloseUiComponent();
 
     const { mutate: updateCommitment } = useZact(updateCommitmentAction);
@@ -35,7 +40,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         const updatedCommitment = {
             ...editCommitment,
             title: editCommitment.title,
-            doneBy: dateInputToISOString(editCommitment.doneBy)!
+            doneBy: dateInputToISOString(editCommitment.doneBy)!,
+            description: JSON.stringify(editCommitment.description)
         };
         setCommitment(updatedCommitment);
         await updateCommitment(updatedCommitment);
@@ -65,6 +71,11 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                         onKeyUp={onEnterPressed(onSave)}
                         placeholder="done by"
                     />
+                </div>
+                <div className="mb-4 w-full border-t border-neutral-600"></div>
+                <div className="mb-4">
+                    <div className="mb-2"><label>Description</label></div>
+                    <RichTextEditor value={editCommitment.description} height="s" onChange={(description) => setEditCommitment({ ...editCommitment, description })} />
                 </div>
             </ModalContent>
             <ModalFooter>

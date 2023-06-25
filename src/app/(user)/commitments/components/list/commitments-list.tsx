@@ -16,7 +16,12 @@ export default function CommitmentsList({ commitments }: Props) {
     return (
         <ul ref={parent} role="list" className="max-w-2xl grow space-y-2">
             <AddButton />
-            {commitments.map((commitment) => <CommitmentCard key={commitment.id} commitment={{ ...commitment, doneBy: commitment.doneBy.toString() }} />)}
+            {commitments.map((commitment) => <CommitmentCard key={commitment.id} commitment={{
+                ...commitment,
+                doneBy: commitment.doneBy.toString(),
+                description: JSON.stringify(commitment.description)
+            }}
+            />)}
         </ul>
     );
 }

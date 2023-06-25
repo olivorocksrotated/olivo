@@ -1,7 +1,7 @@
 'use client';
 
 import Typography from '@tiptap/extension-typography';
-import { EditorContent, JSONContent, useEditor } from '@tiptap/react';
+import { EditorContent, isEmptyObject, JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { cva, VariantProps } from 'cva';
 
@@ -35,12 +35,17 @@ const richTextEditorStyles = cva(
 );
 
 interface Props extends VariantProps<typeof richTextEditorStyles> {
-    content: JSONContent;
+    value: JSONContent;
     autofocus: boolean;
     onChange: (value: JSONContent) => void;
 }
 
-export default function RichTextEditor({ content, autofocus = false, onChange = () => undefined, ...props }: Partial<Props>) {
+export default function RichTextEditor({
+    value,
+    autofocus = false,
+    onChange = () => undefined,
+    ...props
+}: Partial<Props>) {
     const editorInstance = useEditor({
         extensions: [
             Typography,
@@ -56,10 +61,7 @@ export default function RichTextEditor({ content, autofocus = false, onChange = 
             })
         ],
         autofocus,
-        content: {
-            type: 'doc',
-            content: content ? [content] : []
-        },
+        content: !isEmptyObject(value) ? value : undefined,
         onUpdate: ({ editor }) => onChange(editor.getJSON()),
         editorProps: {
             attributes: {
