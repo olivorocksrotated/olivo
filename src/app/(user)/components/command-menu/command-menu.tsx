@@ -8,10 +8,13 @@ import { links, NavigationLink } from '@/app/navigation';
 
 import styles from './command-menu.module.css';
 
-function LinkCommand({ link }: { link: NavigationLink }) {
+function LinkCommand({ link, onSelect }: { link: NavigationLink, onSelect: (value: NavigationLink) => void }) {
     const router = useRouter();
     function navigateTo(path: string) {
-        return () => router.push(path);
+        return () => {
+            router.push(path);
+            onSelect(link);
+        };
     }
 
     return (
@@ -46,7 +49,7 @@ export default function CommandMenu() {
                     <Command.Empty>No results found.</Command.Empty>
 
                     <Command.Group heading="Go to">
-                        {links.map((link) => <LinkCommand key={link.id} link={link}></LinkCommand>)}
+                        {links.map((link) => <LinkCommand onSelect={() => setOpen(false)} key={link.id} link={link}></LinkCommand>)}
                     </Command.Group>
                 </Command.List>
             </Command.Dialog>
