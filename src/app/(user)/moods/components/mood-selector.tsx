@@ -75,6 +75,7 @@ export default function MoodSelector({ todaysMood }: Props) {
         <div>
             <Modal title="How are you feeling today?"
                 close={isClosed}
+                size="s"
                 openComponent={<Button label="How are you feeling today?" intent="cta" icon={TbMoodCheck} />}
             >
                 <ModalContent>
