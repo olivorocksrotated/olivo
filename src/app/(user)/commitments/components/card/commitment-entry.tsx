@@ -25,7 +25,7 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
     }, [originalCommitment]);
 
     const now = todayAtZeroHourUTC();
-    const isPastCommitment = isPast(now)({ doneBy: new Date(commitment.doneBy) });
+    const isPastCommitment = isPast(now)(commitment);
 
     const { mutate: update } = useZact(updateCommitmentAction);
 
@@ -48,7 +48,7 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-400">
-                            By {getRelativeDateWithoutTime(new Date(commitment.doneBy), now)}
+                            By {getRelativeDateWithoutTime(commitment.doneBy, now)}
                         </div>
                         {isPastCommitment ? <div className="flex items-center gap-3"><PastStatusMarker /></div> : null}
                     </div>

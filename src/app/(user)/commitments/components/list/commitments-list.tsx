@@ -2,12 +2,12 @@
 
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
-import { ServerCommitment } from '../../types';
+import { ClientCommitment } from '../../types';
 import AddButton from '../actions/add-btn';
 import CommitmentCard from '../card/commitment-card';
 
 interface Props {
-    commitments: ServerCommitment[];
+    commitments: ClientCommitment[];
 }
 
 export default function CommitmentsList({ commitments }: Props) {
@@ -16,12 +16,7 @@ export default function CommitmentsList({ commitments }: Props) {
     return (
         <ul ref={parent} role="list" className="max-w-2xl grow space-y-2">
             <AddButton />
-            {commitments.map((commitment) => <CommitmentCard key={commitment.id} commitment={{
-                ...commitment,
-                doneBy: commitment.doneBy.toString(),
-                description: JSON.stringify(commitment.description)
-            }}
-            />)}
+            {commitments.map((commitment) => <CommitmentCard key={commitment.id} commitment={commitment} />)}
         </ul>
     );
 }

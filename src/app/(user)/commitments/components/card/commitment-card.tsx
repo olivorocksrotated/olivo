@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
@@ -23,10 +23,14 @@ interface Props {
 
 export default function CommitmentCard({ commitment: originalCommitment }: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
+    useEffect(() => {
+        setCommitment(originalCommitment);
+    }, [originalCommitment]);
+
     const [editCommitment, setEditCommitment] = useState({
         ...commitment,
         doneBy: formatDate(originalCommitment.doneBy),
-        description: JSON.parse(originalCommitment.description) as object
+        description: JSON.parse(originalCommitment.description ?? '{}') as object
     });
     const [isClosed, closeModal] = useCloseUiComponent();
 
@@ -37,14 +41,12 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
             return;
         }
 
-        const updatedCommitment = {
+        await updateCommitment({
             ...editCommitment,
             title: editCommitment.title,
             doneBy: dateInputToISOString(editCommitment.doneBy)!,
             description: JSON.stringify(editCommitment.description)
-        };
-        setCommitment(updatedCommitment);
-        await updateCommitment(updatedCommitment);
+        });
         closeModal();
     };
 

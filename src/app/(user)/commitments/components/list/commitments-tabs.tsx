@@ -3,14 +3,14 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import clsx from 'clsx';
 
-import { ServerCommitment } from '../../types';
+import { ClientCommitment } from '../../types';
 import CommitmentsList from './commitments-list';
 
 interface Props {
-    today: ServerCommitment[];
-    next: ServerCommitment[];
-    overdue: ServerCommitment[];
-    resolved: ServerCommitment[];
+    today: ClientCommitment[];
+    next: ClientCommitment[];
+    overdue: ClientCommitment[];
+    resolved: ClientCommitment[];
 }
 
 export default function CommitmentsTabs({ today, next, overdue, resolved }: Props) {

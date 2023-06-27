@@ -1,7 +1,9 @@
 import { getServerSession } from '@/lib/auth/session';
 import { getCommitments } from '@/lib/commitments/get';
+import { forceCast } from '@/lib/types/type-caster';
 
 import CommitmentsTabs from './components/list/commitments-tabs';
+import { ClientCommitment, ServerCommitment } from './types';
 
 export default async function Commitments() {
     const { user } = await getServerSession();
@@ -31,5 +33,9 @@ export default async function Commitments() {
         take: 30
     });
 
-    return <CommitmentsTabs today={today} next={next} overdue={overdue} resolved={resolved} />;
+    return <CommitmentsTabs today={forceCast<ServerCommitment[], ClientCommitment[]>(today)}
+        next={forceCast<ServerCommitment[], ClientCommitment[]>(next)}
+        overdue={forceCast<ServerCommitment[], ClientCommitment[]>(overdue)}
+        resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}
+    />;
 }

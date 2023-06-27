@@ -4,9 +4,11 @@ import { getServerSession } from '@/lib/auth/session';
 import { getCommitments } from '@/lib/commitments/get';
 import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
+import { forceCast } from '@/lib/types/type-caster';
 
 import PageTitle from '../components/ui/page-title/page-title';
 import CommitmentsList from './commitments/components/list/commitments-list';
+import { ClientCommitment, ServerCommitment } from './commitments/types';
 import MoodSelector from './moods/components/mood-selector';
 
 const statusWeight = {
@@ -41,7 +43,7 @@ export default async function Home() {
                     </h2>
                     <div className="text-neutral-300">{notDoneCommitmentsCount} left</div>
                 </div>
-                <CommitmentsList commitments={sortedCommitments} />
+                <CommitmentsList commitments={forceCast<ServerCommitment[], ClientCommitment[]>(sortedCommitments)} />
             </div>
         </article>
     );
