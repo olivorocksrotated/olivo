@@ -54,6 +54,7 @@ export async function getCommitments({ userId, filters = {}, order, take }: {
             id: true,
             title: true,
             status: true,
+            description: true,
             doneBy: true
         },
         ...order ? { orderBy: order } : {},

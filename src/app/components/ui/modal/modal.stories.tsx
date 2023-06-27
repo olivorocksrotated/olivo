@@ -39,6 +39,17 @@ const meta: Meta<typeof Modal> = {
                 type: { summary: 'boolean' },
                 defaultValue: { summary: false }
             }
+        },
+        size: {
+            name: 'size',
+            type: 'string',
+            description: 'The size of this modal',
+            control: { type: 'radio' },
+            options: ['s', 'md', 'lg'],
+            table: {
+                type: { summary: 's | md | lg' },
+                defaultValue: { summary: 'md' }
+            }
         }
     }
 };

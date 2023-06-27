@@ -2,13 +2,30 @@
 
 import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
+import { cva, VariantProps } from 'cva';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
 import IconButton from '../icon-button/icon-button';
 
-interface Props {
+const modalStyles = cva(
+    'fixed left-2/4 top-2/4 max-h-[85vh] w-full max-w-[90vw] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded bg-neutral-900 p-6',
+    {
+        variants: {
+            size: {
+                s: 'sm:w-[28rem]',
+                md: 'sm:w-5/12',
+                lg: 'sm:w-8/12'
+            }
+        },
+        defaultVariants: {
+            size: 'md'
+        }
+    }
+);
+
+interface Props extends VariantProps<typeof modalStyles> {
     children: React.ReactNode;
     title: string;
     openComponent: React.ReactNode;
@@ -23,7 +40,8 @@ export default function Modal({
     openComponent,
     description,
     close,
-    onClose = () => undefined
+    onClose = () => undefined,
+    size
 }: Props) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -54,7 +72,7 @@ export default function Modal({
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <Dialog.Overlay forceMount className="fixed inset-0 bg-black opacity-60" />
                             <Dialog.Content forceMount
-                                className="fixed left-2/4 top-2/4 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-neutral-900 p-6"
+                                className={modalStyles({ size })}
                                 onEscapeKeyDown={closeModal}
                             >
                                 <div className={titleStyles}>
