@@ -1,10 +1,7 @@
-import { NotificationType } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { useZact } from 'zact/client';
 
 import { todayAtHour } from '@/lib/date/days';
 import { createDesktopNotification } from '@/lib/notifications/desktop';
-import { createNotificationAction } from '@/lib/notifications/persistent/create';
 
 import { NotificationCommitment } from '../types';
 
@@ -25,8 +22,6 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
 }) {
     const [scheduledNotifications, setScheduledNotifications] = useState({} as ScheduledNotifications);
 
-    const { mutate: createPersistentNotification } = useZact(createNotificationAction);
-
     useEffect(() => {
         const scheduleAndStore = (callback: (id: string) => void, { id, milliseconds }: { id: string, milliseconds: number }) => {
             clearTimeout(scheduledNotifications[id]);
@@ -46,12 +41,6 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
                     tag: id
                 }
             });
-
-            createPersistentNotification({
-                type: NotificationType.UnfinishedCommitments,
-                title,
-                payload: { unfinishedCommitments: unfinishedCommitmentsForToday.length }
-            });
         }, {
             id: 'start-of-day-commitments',
             milliseconds: todayAtHour(10).timeUntilMoment
@@ -69,12 +58,6 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
                     requireInteraction: true,
                     tag: id
                 }
-            });
-
-            createPersistentNotification({
-                type: NotificationType.UnfinishedCommitments,
-                title,
-                payload: { unfinishedCommitments: unfinishedCommitmentsForToday.length }
             });
         }, {
             id: 'end-of-day-commitments',
