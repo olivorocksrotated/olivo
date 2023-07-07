@@ -3,17 +3,20 @@ import { useRouter } from 'next/navigation';
 
 import { NavigationLink } from '@/app/navigation';
 
-export default function LinkCommand({ link, onSelect }: { link: NavigationLink, onSelect: (value: NavigationLink) => void }) {
+type LinkCommandProps = {
+    link: NavigationLink,
+    onSelect: (value: NavigationLink) => void
+};
+
+export default function LinkCommand({ link, onSelect }: LinkCommandProps) {
     const router = useRouter();
-    function navigateTo(path: string) {
-        return () => {
-            router.push(path);
-            onSelect(link);
-        };
+    function navigate() {
+        router.push(link.path);
+        onSelect(link);
     }
 
     return (
-        <Command.Item onSelect={navigateTo(link.path)}>
+        <Command.Item onSelect={navigate}>
             <span className="text-neutral-400">{link.icon}</span>
             <span>{link.title}</span>
         </Command.Item>
