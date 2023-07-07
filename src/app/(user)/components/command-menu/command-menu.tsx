@@ -3,31 +3,14 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { AiOutlineEnter, AiOutlineRollback } from 'react-icons/ai';
 
-import { links, NavigationLink } from '@/app/navigation';
+import { links } from '@/app/navigation';
 
 import { Commands } from '../commands';
+import LinkCommand from '../commands/link';
 import styles from './command-menu.module.css';
-
-function LinkCommand({ link, onSelect }: { link: NavigationLink, onSelect: (value: NavigationLink) => void }) {
-    const router = useRouter();
-    function navigateTo(path: string) {
-        return () => {
-            router.push(path);
-            onSelect(link);
-        };
-    }
-
-    return (
-        <Command.Item onSelect={navigateTo(link.path)}>
-            <span className="text-neutral-400">{link.icon}</span>
-            <span>{link.title}</span>
-        </Command.Item>
-    );
-}
 
 function CommandBackButton() {
     return (
