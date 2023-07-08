@@ -1,10 +1,5 @@
-import { ReactNode } from 'react';
-
 import QuickNotesCommand from './quick-notes';
-
-type CommandDescriptor = {
-    [key: string]: { view: ReactNode, title: string, action: { label: string } }
-};
+import { CommandDescriptor } from './types';
 
 export const Commands: CommandDescriptor = {
     'quick-notes': {
