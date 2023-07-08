@@ -1,9 +1,5 @@
-import { KeyboardEvent } from 'react';
+import { onKeyPressed } from './on-key-pressed';
+import { Key } from './types';
 
-export default function onEnterPressed(callback: (event: KeyboardEvent<HTMLInputElement>) => any) {
-    return (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            callback(event);
-        }
-    };
-}
+const onEnterPressed = onKeyPressed.bind(null, Key.Enter, {});
+export default onEnterPressed;
