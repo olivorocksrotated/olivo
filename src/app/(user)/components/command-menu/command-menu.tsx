@@ -48,9 +48,11 @@ function CommandView({ commandId, onEsc }: { commandId: string, onEsc: () => voi
     );
 }
 
+const noCommand = '';
+
 export default function CommandMenu() {
     const [open, setOpen] = useState(false);
-    const [commandSelected, setCommandSelected] = useState<string>();
+    const [selectedCommand, setSelectedCommand] = useState(noCommand);
     const containerElement = useRef(null);
 
     useEffect(() => {
@@ -73,7 +75,15 @@ export default function CommandMenu() {
                         <div className="h-96 rounded-lg border-0 bg-neutral-950">
 
                             <AnimatePresence mode="wait">
-                                {!commandSelected ? (
+                                {selectedCommand !== '' ? (
+                                    <motion.div key="selected-command-view"
+                                        initial={{ opacity: 0.2, scale: 0.99 }}
+                                        exit={{ opacity: 0.2, scale: 0.99 }} animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
+                                        className="h-full"
+                                    >
+                                        <CommandView commandId={selectedCommand} onEsc={() => setSelectedCommand(noCommand)}></CommandView>
+                                    </motion.div>
+                                ) : (
                                     <motion.div exit={{ opacity: 0.2, transition: { duration: 0.4 } }} key="command-list">
                                         <Command>
                                             <Command.Input autoFocus />
@@ -87,7 +97,7 @@ export default function CommandMenu() {
                                                 <Command.Group heading="Commands">
                                                     {
                                                         Object.keys(Commands).map((commandName) => (
-                                                            <Command.Item key={commandName} onSelect={() => setCommandSelected(commandName)}>
+                                                            <Command.Item key={commandName} onSelect={() => setSelectedCommand(commandName)}>
                                                                 <span>{Commands[commandName].title}</span>
                                                             </Command.Item>
                                                         ))
@@ -96,14 +106,7 @@ export default function CommandMenu() {
                                             </Command.List>
                                         </Command>
                                     </motion.div>
-                                ) :
-                                    <motion.div key="selected-command-view"
-                                        initial={{ opacity: 0.2, scale: 0.99 }}
-                                        exit={{ opacity: 0.2, scale: 0.99 }} animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
-                                        className="h-full"
-                                    >
-                                        <CommandView commandId={commandSelected} onEsc={() => setCommandSelected(undefined)}></CommandView>
-                                    </motion.div>}
+                                )}
                             </AnimatePresence>
                         </div>
                     </Dialog.Content>
