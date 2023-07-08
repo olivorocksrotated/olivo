@@ -13,7 +13,7 @@ import FeedbackStepper from './components/stepper';
 import UserSelector from './components/user-selector';
 import { animationProps, transition } from './styles';
 
-export default async function Feedback() {
+export default function Feedback() {
     const [feedbackStep, setFeedbackStep] = useState(1);
     const [feedbackNote, setFeedbackNote] = useState({
         giverId: '',
