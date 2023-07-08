@@ -3,10 +3,12 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
-import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineEnter, AiOutlineRollback } from 'react-icons/ai';
 
 import { links } from '@/app/navigation';
+import { onKeyPressed } from '@/lib/keys/on-key-pressed';
+import { Key } from '@/lib/keys/types';
 
 import { Commands } from '../commands';
 import LinkCommand from '../commands/link';
@@ -23,13 +25,7 @@ function CommandBackButton() {
 }
 
 function CommandView({ commandId, onEsc }: { commandId: string, onEsc: () => void }) {
-    const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-        if (event.key === 'Escape') {
-            onEsc();
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    };
+    const onKeyDown = onKeyPressed(Key.Escape, { considerEventHandled: true }, onEsc);
 
     const command = Commands[commandId];
 
