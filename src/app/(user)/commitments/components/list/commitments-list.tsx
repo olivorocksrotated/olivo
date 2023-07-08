@@ -14,7 +14,7 @@ export default function CommitmentsList({ commitments }: Props) {
     const [parent] = useAutoAnimate();
 
     return (
-        <ul ref={parent} role="list" className="max-w-2xl grow space-y-2">
+        <ul ref={parent} role="list" className="grow space-y-2">
             <AddButton />
             {commitments.map((commitment) => <CommitmentCard key={commitment.id} commitment={commitment} />)}
         </ul>
