@@ -28,7 +28,7 @@ export async function getServerSession(req: NextApiRequest | undefined = undefin
         await nextAuthGetServerSession(req, res, authOptions) :
         await requestAsyncStorageWorkaround();
 
-    if (session?.user?.email) {
+    if (session?.user?.id && session?.user?.email) {
         return session as Session;
     }
 
