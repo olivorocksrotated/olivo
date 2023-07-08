@@ -1,17 +1,25 @@
 export interface Category {
-    id: number;
+    id: string;
+    name: string;
+}
+
+export interface FeedbackSuggestionTag {
+    id: string;
     name: string;
 }
 
 export enum FeedbackType {
     Praise = 'praise',
-    Improve = 'improve'
+    Improve = 'improve',
+    None = 'none'
 }
 export interface FeedbackEntry {
-    id: number;
-    receiverId: number;
+    id?: string;
+    giverId: string;
+    receiverId: string;
     type: FeedbackType;
     categories: Category[];
+    badges: FeedbackSuggestionTag[];
     comment: string;
 }
 

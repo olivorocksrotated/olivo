@@ -3,9 +3,10 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
+import { Category } from '@/lib/feedback/types';
 interface Props {
-    category: string;
-    onCategorySelected: (value: string) => void;
+    category: Category;
+    onCategorySelected: (value: Category) => void;
 }
 
 export default function CategoryCard({ category, onCategorySelected }: Props) {
@@ -46,7 +47,7 @@ export default function CategoryCard({ category, onCategorySelected }: Props) {
                 </svg>
             </div>
 
-            <div className={cardTextStyles}>{category}</div>
+            <div className={cardTextStyles}>{category.name}</div>
         </div>
     );
 }
