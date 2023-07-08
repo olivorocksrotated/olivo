@@ -2,7 +2,6 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:tailwindcss/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:storybook/recommended"
   ],
   "plugins": ["simple-import-sort", "@typescript-eslint", "react"],
