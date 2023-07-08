@@ -10,9 +10,9 @@ import { links } from '@/app/navigation';
 import { onKeyPressed } from '@/lib/keys/on-key-pressed';
 import { Key } from '@/lib/keys/types';
 
-import { Commands } from '../commands/commands';
-import LinkCommand from '../commands/link';
 import styles from './command-menu.module.css';
+import { Commands } from './commands/commands';
+import LinkCommand from './commands/link';
 
 function CommandBackButton() {
     return (
