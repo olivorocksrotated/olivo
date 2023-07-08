@@ -22,6 +22,8 @@ export default function CommitmentsTabs({ today, next, overdue, resolved }: Prop
         'first:rounded-l-lg last:rounded-r-lg'
     );
 
+    const tabContentStyles = 'max-w-2xl';
+
     return (
         <Tabs.Root defaultValue="today">
             <Tabs.List aria-label="Manage your commitments" className="mb-8 w-fit rounded-lg bg-neutral-800">
@@ -30,16 +32,16 @@ export default function CommitmentsTabs({ today, next, overdue, resolved }: Prop
                 <Tabs.Trigger value="overdue" className={tabStyles}>Overdue</Tabs.Trigger>
                 <Tabs.Trigger value="resolved" className={tabStyles}>Resolved</Tabs.Trigger>
             </Tabs.List>
-            <Tabs.Content value="today">
+            <Tabs.Content value="today" className={tabContentStyles}>
                 <CommitmentsList commitments={today} />
             </Tabs.Content>
-            <Tabs.Content value="next">
+            <Tabs.Content value="next" className={tabContentStyles}>
                 <CommitmentsList commitments={next} />
             </Tabs.Content>
-            <Tabs.Content value="overdue">
+            <Tabs.Content value="overdue" className={tabContentStyles}>
                 <CommitmentsList commitments={overdue} />
             </Tabs.Content>
-            <Tabs.Content value="resolved">
+            <Tabs.Content value="resolved" className={tabContentStyles}>
                 <CommitmentsList commitments={resolved} />
             </Tabs.Content>
         </Tabs.Root>
