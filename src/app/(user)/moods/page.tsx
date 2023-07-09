@@ -2,7 +2,7 @@ import { getServerSession } from '@/lib/auth/session';
 import { getMoods } from '@/lib/moods/get';
 
 import MoodBullet from './components/mood-bullet';
-import MoodLine from './components/mood-line';
+import MoodTrends from './components/mood-trends';
 
 export default async function Moods() {
     const { user } = await getServerSession();
@@ -26,6 +26,6 @@ export default async function Moods() {
     return !hasMoods ? noMoods :
         <div className="flex flex-col gap-12 sm:flex-row sm:align-top">
             <MoodBullet moods={thisMonthMoods} />
-            <MoodLine thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} />
+            <MoodTrends thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} />
         </div>;
 }
