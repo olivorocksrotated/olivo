@@ -2,13 +2,14 @@
 
 import { Mood, MoodStatus } from '@prisma/client';
 import { BarList, Bold, Card, Flex, Text, Title } from '@tremor/react';
+import { useMemo } from 'react';
 
 interface Props {
     moods: Pick<Mood, 'id' | 'comment' | 'status' | 'createdAt'>[];
 }
 
 export default function MoodBullet({ moods }: Props) {
-    const moodsByStatus = moods.reduce((acc, mood) => ({
+    const moodsByStatus = useMemo(() => moods.reduce((acc, mood) => ({
         ...acc,
         [mood.status]: { ...acc[mood.status], value: acc[mood.status].value + 1 }
     }), {
@@ -17,7 +18,7 @@ export default function MoodBullet({ moods }: Props) {
         [MoodStatus.Average]: { name: MoodStatus.Average, value: 0 },
         [MoodStatus.Good]: { name: MoodStatus.Good, value: 0 },
         [MoodStatus.Excellent]: { name: MoodStatus.Excellent, value: 0 }
-    });
+    }), [moods]);
 
     return (
         <Card className="max-w-lg">

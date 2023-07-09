@@ -3,6 +3,7 @@
 import { Mood, MoodStatus } from '@prisma/client';
 import { Card, LineChart, Title } from '@tremor/react';
 import { getDate, getDaysInMonth } from 'date-fns';
+import { useMemo } from 'react';
 
 import { newEmptyArrayOfLength } from '@/lib/array/newEmptyArrayOfLength';
 
@@ -31,12 +32,12 @@ const mapValueToLabel = (index: number) => moodIndexes[index];
 
 const nullMonthMood = { comment: null, status: null, createdAt: new Date() };
 
-export default function MoodTrends({ thisMonthMoods, lastMonthMoods }: Props) {
-    const today = new Date();
-    const daysToDisplay = getDaysInMonth(today);
-    const days = newEmptyArrayOfLength(daysToDisplay).map((_, index) => index + 1);
+const today = new Date();
+const daysToDisplay = getDaysInMonth(today);
+const days = newEmptyArrayOfLength(daysToDisplay).map((_, index) => index + 1);
 
-    const charMoods: CharMood[] = days.reduce((acc, day) => {
+export default function MoodTrends({ thisMonthMoods, lastMonthMoods }: Props) {
+    const charMoods: CharMood[] = useMemo(() => days.reduce((acc, day) => {
         const lastMonthMood = lastMonthMoods.find((m) => day === getDate(m.createdAt)) ?? nullMonthMood;
         const thisMonthMood = thisMonthMoods.find((m) => day === getDate(m.createdAt)) ?? nullMonthMood;
 
@@ -44,7 +45,7 @@ export default function MoodTrends({ thisMonthMoods, lastMonthMoods }: Props) {
             ...acc,
             { day, 'This month': moodValues[thisMonthMood?.status as MoodStatus], 'Last month': moodValues[lastMonthMood?.status as MoodStatus] }
         ];
-    }, [] as CharMood[]);
+    }, [] as CharMood[]), [thisMonthMoods, lastMonthMoods]);
 
     return (
         <Card>
