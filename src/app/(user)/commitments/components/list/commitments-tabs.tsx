@@ -15,7 +15,7 @@ interface Props {
 
 export default function CommitmentsTabs({ today, next, overdue, resolved }: Props) {
     const tabStyles = clsx(
-        'p-4',
+        'px-4 py-2',
         'hover:bg-neutral-700',
         'focus:bg-neutral-700',
         'data-[state=active]:bg-neutral-600',
