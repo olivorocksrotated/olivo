@@ -105,11 +105,11 @@ enum CommitmentStatus {
 }
 
 enum MoodStatus {
-  Bad
-  Okayish
-  Average
-  Good
   Excellent
+  Good
+  Average
+  Okayish
+  Bad
 }
 
 enum NotificationStatus {

@@ -20,11 +20,11 @@ export default function MoodSummary({ thisMonthMoods, lastMonthMoods }: Props) {
         ...acc,
         ...mood.comment ? { [mood.status]: [...acc[mood.status], mood] } : {}
     }), {
-        [MoodStatus.Bad]: [] as BaseMood[],
-        [MoodStatus.Okayish]: [] as BaseMood[],
-        [MoodStatus.Average]: [] as BaseMood[],
+        [MoodStatus.Excellent]: [] as BaseMood[],
         [MoodStatus.Good]: [] as BaseMood[],
-        [MoodStatus.Excellent]: [] as BaseMood[]
+        [MoodStatus.Average]: [] as BaseMood[],
+        [MoodStatus.Okayish]: [] as BaseMood[],
+        [MoodStatus.Bad]: [] as BaseMood[]
     }), [thisMonthMoods, lastMonthMoods]);
 
     const [selectedMood, setSelectedMood] = useState(MoodStatus.Excellent as MoodStatus);

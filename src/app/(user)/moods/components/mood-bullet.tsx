@@ -13,11 +13,11 @@ export default function MoodBullet({ moods }: Props) {
         ...acc,
         [mood.status]: { ...acc[mood.status], value: acc[mood.status].value + 1 }
     }), {
-        [MoodStatus.Bad]: { name: MoodStatus.Bad, value: 0 },
-        [MoodStatus.Okayish]: { name: MoodStatus.Okayish, value: 0 },
-        [MoodStatus.Average]: { name: MoodStatus.Average, value: 0 },
+        [MoodStatus.Excellent]: { name: MoodStatus.Excellent, value: 0 },
         [MoodStatus.Good]: { name: MoodStatus.Good, value: 0 },
-        [MoodStatus.Excellent]: { name: MoodStatus.Excellent, value: 0 }
+        [MoodStatus.Average]: { name: MoodStatus.Average, value: 0 },
+        [MoodStatus.Okayish]: { name: MoodStatus.Okayish, value: 0 },
+        [MoodStatus.Bad]: { name: MoodStatus.Bad, value: 0 }
     }), [moods]);
 
     return (
