@@ -32,7 +32,7 @@ export default function MoodSummary({ thisMonthMoods, lastMonthMoods }: Props) {
     return (
         <Card>
             <Title>Your comments through the months</Title>
-            <Subtitle className="mb-4 !text-neutral-300">This summary can help you find patterns and draw conclusions about what is moving your needle and your mood</Subtitle>
+            <Subtitle className="mb-4">This summary can help you find patterns and draw conclusions about what is moving your needle and your mood</Subtitle>
             <div className="mb-4 w-full sm:max-w-[200px]">
                 <Select placeholder="Select a mood" onValueChange={(value) => setSelectedMood(value as MoodStatus)} value={selectedMood}>
                     {allMoodStatus.map((status) => <SelectItem key={status} value={status}>{status}</SelectItem>)}
