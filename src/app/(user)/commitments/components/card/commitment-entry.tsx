@@ -4,7 +4,7 @@ import { CommitmentStatus } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
-import { isPast } from '@/lib/commitments/filter';
+import { isOverdue } from '@/lib/commitments/filter';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { getRelativeDateWithoutTime } from '@/lib/date/format';
@@ -25,7 +25,7 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
     }, [originalCommitment]);
 
     const now = todayAtZeroHourUTC();
-    const isPastCommitment = isPast(now)(commitment);
+    const isPastCommitment = isOverdue(now)(commitment);
 
     const { mutate: update } = useZact(updateCommitmentAction);
 
