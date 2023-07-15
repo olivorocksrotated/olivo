@@ -25,7 +25,7 @@ describe('lib auth', () => {
         describe('getServerSession', () => {
             describe('without req and res', () => {
                 it('should return a session if the session user has a unique identifier', async () => {
-                    const expectedSession = { user: { email: 'uniqueEmail' } };
+                    const expectedSession = { user: { id: 'id', email: 'uniqueEmail' } };
                     nextAuthGetServerSessionMock.mockResolvedValueOnce(expectedSession);
 
                     const session = await getServerSession();
@@ -41,7 +41,7 @@ describe('lib auth', () => {
             });
             describe('with req and res', () => {
                 it('should return a session if the session user has a unique identifier', async () => {
-                    const expectedSession = { user: { email: 'uniqueEmail' } };
+                    const expectedSession = { user: { id: 'id', email: 'uniqueEmail' } };
                     nextAuthGetServerSessionMock.mockResolvedValueOnce(expectedSession);
 
                     const req = {} as any;

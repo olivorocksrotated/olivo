@@ -1,8 +1,9 @@
 import { getServerSession } from '@/lib/auth/session';
 import { getMoods } from '@/lib/moods/get';
 
-import MoodMatrix from './components/matrix/mood-matrix';
-import MoodTrend from './components/mood-trends';
+import MoodBullet from './components/mood-bullet';
+import MoodSummary from './components/mood-summary';
+import MoodTrends from './components/mood-trends';
 
 export default async function Moods() {
     const { user } = await getServerSession();
@@ -24,11 +25,13 @@ export default async function Moods() {
     );
 
     return !hasMoods ? noMoods :
-        <div>
-            <div className="mb-8 text-lg">How you have been feeling this month</div>
-            <div className="flex flex-col-reverse gap-12 sm:flex-row sm:align-top">
-                <div className="w-fit"><MoodMatrix moods={thisMonthMoods} /></div>
-                <div className="max-w-3xl grow"><MoodTrend thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} /></div>
+        <>
+            <div className="mb-8 flex flex-col gap-8 sm:flex-row sm:align-top">
+                <MoodBullet moods={thisMonthMoods} />
+                <MoodTrends thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} />
             </div>
-        </div>;
+            <div>
+                <MoodSummary thisMonthMoods={thisMonthMoods} lastMonthMoods={lastMonthMoods} />
+            </div>
+        </>;
 }
