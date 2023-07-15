@@ -11,7 +11,7 @@ import { getRelativeDateWithoutTime } from '@/lib/date/format';
 
 import { ClientCommitment } from '../../types';
 import StatusPopover from '../actions/status-popover';
-import PastStatusMarker from '../status-marker/past';
+import OverdueStatusMarker from '../status-marker/overdue';
 
 interface Props {
     commitment: ClientCommitment;
@@ -50,7 +50,7 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
                         <div className="text-sm text-gray-400">
                             By {getRelativeDateWithoutTime(commitment.doneBy, now)}
                         </div>
-                        {isPastCommitment ? <div className="flex items-center gap-3"><PastStatusMarker /></div> : null}
+                        {isPastCommitment ? <div className="flex items-center gap-3"><OverdueStatusMarker /></div> : null}
                     </div>
                 </div>
             </div>

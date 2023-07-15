@@ -78,7 +78,8 @@ export default function CommandMenu() {
                                 {selectedCommand !== '' ? (
                                     <motion.div key="selected-command-view"
                                         initial={{ opacity: 0.2, scale: 0.99 }}
-                                        exit={{ opacity: 0.2, scale: 0.99 }} animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
+                                        exit={{ opacity: 0.2, scale: 0.99 }}
+                                        animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
                                         className="h-full"
                                     >
                                         <CommandView commandId={selectedCommand} onEsc={() => setSelectedCommand(noCommand)}></CommandView>
