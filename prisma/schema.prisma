@@ -66,6 +66,7 @@ model Commitment {
   description Json?
   status      CommitmentStatus @default(NotStartedYet)
   doneBy      DateTime         @default(now())
+  doneAt      DateTime?
   createdAt   DateTime         @default(now())
   owner       User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String
