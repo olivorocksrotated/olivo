@@ -32,7 +32,8 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
     const handleStatusChange = async (status: CommitmentStatus) => {
         setCommitment((previous) => ({ ...previous, status }));
 
-        await update({ id: commitment.id, status });
+        const doneAt = status === CommitmentStatus.Done ? new Date().toISOString() : null;
+        await update({ id: commitment.id, status, doneAt });
     };
 
     return (

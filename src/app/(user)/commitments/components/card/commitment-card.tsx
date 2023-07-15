@@ -42,7 +42,7 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         }
 
         await updateCommitment({
-            ...editCommitment,
+            id: editCommitment.id,
             title: editCommitment.title,
             doneBy: dateInputToISOString(editCommitment.doneBy)!,
             description: JSON.stringify(editCommitment.description)

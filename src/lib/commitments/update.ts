@@ -15,9 +15,10 @@ export const updateCommitmentAction = zact(z.object({
     title: z.string().optional(),
     status: z.nativeEnum(CommitmentStatus).optional(),
     doneBy: z.string().datetime().optional(),
+    doneAt: z.string().datetime().nullable().optional(),
     description: stringToJSON.optional()
 }))(
-    async ({ id, title, status, doneBy, description }) => {
+    async ({ id, title, status, doneBy, doneAt, description }) => {
         const { user } = await getServerSession();
         await prisma.commitment.update({
             where: { id, ownerId: user.id },
@@ -25,6 +26,7 @@ export const updateCommitmentAction = zact(z.object({
                 title,
                 status,
                 doneBy,
+                doneAt,
                 ...!description ? {} : { description }
             }
         });
