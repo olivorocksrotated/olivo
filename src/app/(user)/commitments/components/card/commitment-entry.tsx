@@ -4,14 +4,14 @@ import { CommitmentStatus } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
-import { isPast } from '@/lib/commitments/filter';
+import { isOverdue } from '@/lib/commitments/filter';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { getRelativeDateWithoutTime } from '@/lib/date/format';
 
 import { ClientCommitment } from '../../types';
 import StatusPopover from '../actions/status-popover';
-import PastStatusMarker from '../status-marker/past';
+import OverdueStatusMarker from '../status-marker/overdue';
 
 interface Props {
     commitment: ClientCommitment;
@@ -25,14 +25,15 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
     }, [originalCommitment]);
 
     const now = todayAtZeroHourUTC();
-    const isPastCommitment = isPast(now)(commitment);
+    const isPastCommitment = isOverdue(now)(commitment);
 
     const { mutate: update } = useZact(updateCommitmentAction);
 
     const handleStatusChange = async (status: CommitmentStatus) => {
         setCommitment((previous) => ({ ...previous, status }));
 
-        await update({ id: commitment.id, status });
+        const doneAt = status === CommitmentStatus.Done ? new Date().toISOString() : null;
+        await update({ id: commitment.id, status, doneAt });
     };
 
     return (
@@ -50,7 +51,7 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
                         <div className="text-sm text-gray-400">
                             By {getRelativeDateWithoutTime(commitment.doneBy, now)}
                         </div>
-                        {isPastCommitment ? <div className="flex items-center gap-3"><PastStatusMarker /></div> : null}
+                        {isPastCommitment ? <div className="flex items-center gap-3"><OverdueStatusMarker /></div> : null}
                     </div>
                 </div>
             </div>

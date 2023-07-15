@@ -1,10 +1,21 @@
-import { Commitment, CommitmentStatus } from '@prisma/client';
-import { isBefore } from 'date-fns';
+import { Commitment } from '@prisma/client';
+import { isAfter, isBefore, isSameDay } from 'date-fns';
 
-export function isNotDone(commitment: Pick<Commitment, 'status'>) {
-    return commitment.status !== CommitmentStatus.Done && commitment.status !== CommitmentStatus.Abandoned;
-}
+export function isOverdue(referenceDate: Date) {
+    return (commitment: Pick<Commitment, 'doneBy' | 'doneAt'>) => {
+        const hasTimeLeft = isBefore(referenceDate, commitment.doneBy);
+        if (hasTimeLeft) {
+            return false;
+        }
 
-export function isPast(referenceDate: Date) {
-    return (commitment: Pick<Commitment, 'doneBy'>) => isBefore(commitment.doneBy, referenceDate);
+        if (!commitment.doneAt) {
+            return true;
+        }
+
+        if (isSameDay(commitment.doneAt, commitment.doneBy)) {
+            return false;
+        }
+
+        return isAfter(commitment.doneAt, commitment.doneBy);
+    };
 }
