@@ -7,6 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 
 import IconButton from '@/app/components/ui/icon-button/icon-button';
 import ListAddButton from '@/app/components/ui/list-add-button/list-add-button';
+import TextLink from '@/app/components/ui/text-link/text-link';
 
 interface Task {
     id: number;
@@ -36,32 +37,40 @@ export default function EinsenhowerMatrix() {
     };
 
     return (
-        <Grid numItems={1} numItemsSm={2} numItemsLg={2} className="gap-2">
+        <div className="max-w-3xl">
             <Card>
-                <Title>Do</Title>
-                <p className={explanationStyles}>Important + Urgent = Do it now</p>
-                <ul ref={parentDoTasks} role="list">
-                    <li className="mb-2"><ListAddButton label="Add task" size="xs" onClick={() => addEmptyTask(setDoTasks)} /></li>
-                    {doTasks.map((task) => (
-                        <li key={task.id} className="mb-2 flex items-center justify-between gap-2 rounded-lg p-2 text-sm outline outline-neutral-400">
-                            <div>{task.name}</div>
-                            <IconButton label="Delete" icon={FaTrash} size="xs" onClick={() => removeTask(setDoTasks, task)} />
-                        </li>
-                    ))}
-                </ul>
+                <h2 className="text-lg leading-relaxed">Troubles prioritizing your tasks and projects?</h2>
+                <h3 className="mb-4 text-sm leading-relaxed text-neutral-300">
+                    The <TextLink href="https://www.eisenhower.me/eisenhower-matrix/" target="_blank">Einsenhower Matrix</TextLink> can help you organize your thoughts and create commitments you can effectively fulfil
+                </h3>
+                <Grid numItems={1} numItemsSm={2} numItemsLg={2} className="gap-2">
+                    <Card>
+                        <Title>Do</Title>
+                        <p className={explanationStyles}>Important + Urgent = Do it now</p>
+                        <ul ref={parentDoTasks} role="list">
+                            <li className="mb-2"><ListAddButton label="Add task" size="xs" onClick={() => addEmptyTask(setDoTasks)} /></li>
+                            {doTasks.map((task) => (
+                                <li key={task.id} className="mb-2 flex items-center justify-between gap-2 rounded-lg p-2 text-sm outline outline-neutral-400">
+                                    <input type="text" placeholder="Your task to prioritize" className="w-full bg-transparent px-2 py-1" />
+                                    <IconButton label="Delete" icon={FaTrash} size="xs" onClick={() => removeTask(setDoTasks, task)} />
+                                </li>
+                            ))}
+                        </ul>
+                    </Card>
+                    <Card>
+                        <Title>Decide</Title>
+                        <p className={explanationStyles}>Important + Not urgent = Schedule it</p>
+                    </Card>
+                    <Card>
+                        <Title>Delegate</Title>
+                        <p className={explanationStyles}>Not important + Urgent = Who can do it for you?</p>
+                    </Card>
+                    <Card>
+                        <Title>Delete</Title>
+                        <p className={explanationStyles}>Not important + Not urgent = Get rid of it</p>
+                    </Card>
+                </Grid>
             </Card>
-            <Card>
-                <Title>Decide</Title>
-                <p className={explanationStyles}>Important + Not urgent = Schedule it</p>
-            </Card>
-            <Card>
-                <Title>Delegate</Title>
-                <p className={explanationStyles}>Not important + Urgent = Who can do it for you?</p>
-            </Card>
-            <Card>
-                <Title>Delete</Title>
-                <p className={explanationStyles}>Not important + Not urgent = Get rid of it</p>
-            </Card>
-        </Grid>
+        </div>
     );
 }

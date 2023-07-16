@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { getServerSession } from '@/lib/auth/session';
 import { getCommitments } from '@/lib/commitments/get';
 import { forceCast } from '@/lib/types/type-caster';
@@ -45,13 +43,7 @@ export default async function Commitments() {
                     resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}
                 />
             </div>
-            <div className="max-w-3xl">
-                <h2 className="text-lg leading-relaxed">Troubles prioritizing your tasks and projects?</h2>
-                <h3 className="mb-4 text-sm leading-relaxed text-neutral-300">
-                    The <Link href="https://www.eisenhower.me/eisenhower-matrix/" target="_blank" className="text-indigo-400 hover:underline">Einsenhower Matrix</Link> can help you organize your thoughts and create commitments you can effectively fulfil
-                </h3>
-                <EinsenhowerMatrix />
-            </div>
+            <EinsenhowerMatrix />
         </div>
     );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { JSONContent } from '@tiptap/react';
-import Link from 'next/link';
 import { useState } from 'react';
 import { useZact } from 'zact/client';
 
@@ -13,6 +12,7 @@ import Modal from '@/app/components/ui/modal/modal';
 import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import RichTextEditor from '@/app/components/ui/rich-text-editor/rich-text-editor';
+import TextLink from '@/app/components/ui/text-link/text-link';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 import onEnterPressed from '@/lib/keys/enter';
@@ -68,7 +68,7 @@ export default function AddButton() {
                 </div>
                 <div className="mb-4">
                     <span className="text-slate-300">Find all your commitments</span>{' '}
-                    <Link href="/commitments" className="text-white hover:text-indigo-300">in the &quot;Commitments&quot; section</Link>
+                    <TextLink href="/commitments">in the &quot;Commitments&quot; section</TextLink>
                 </div>
             </ModalContent>
             <ModalFooter>
