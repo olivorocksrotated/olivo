@@ -2,7 +2,7 @@ import { getServerSession } from '@/lib/auth/session';
 import { getCommitments } from '@/lib/commitments/get';
 import { forceCast } from '@/lib/types/type-caster';
 
-import EinsenhowerMatrix from './components/eisenhower-matrix';
+import EinsenhowerMatrix from './components/einsenhower-matrix/eisenhower-matrix';
 import CommitmentsTabs from './components/list/commitments-tabs';
 import { ClientCommitment, ServerCommitment } from './types';
 
