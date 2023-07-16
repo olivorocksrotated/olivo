@@ -14,41 +14,41 @@ interface Order {
     createdAt: OrderDirection;
 }
 
+const filtersBuilder = (filters: Partial<Filter>) => ({
+    ...filters.doneBy === 'today' ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {},
+    ...filters.doneBy === 'next' ? { doneBy: { gt: todayAtZeroHourUTC() } } : {},
+    ...filters.doneBy === 'overdue' ? { doneBy: { lt: todayAtZeroHourUTC() } } : {},
+    ...filters.status === 'not-abandoned' ? {
+        OR: [
+            { status: CommitmentStatus.InProgress },
+            { status: CommitmentStatus.Done },
+            { status: CommitmentStatus.NotStartedYet }
+        ]
+    } : {},
+    ...filters.status === 'to-do' ? {
+        OR: [
+            { status: CommitmentStatus.InProgress },
+            { status: CommitmentStatus.NotStartedYet }
+        ]
+    } : {},
+    ...filters.status === 'resolved' ? {
+        OR: [
+            { status: CommitmentStatus.Done },
+            { status: CommitmentStatus.Abandoned }
+        ]
+    } : {}
+});
+
 export async function getCommitments({ userId, filters = {}, order, take }: {
     userId: string,
     filters?: Partial<Filter>,
     order?: Partial<Order>,
     take?: number
 }) {
-    const filtersBuilder = {
-        ...filters.doneBy === 'today' ? { doneBy: { gte: todayAtZeroHourUTC(), lt: todayAtMidnightUTC() } } : {},
-        ...filters.doneBy === 'next' ? { doneBy: { gt: todayAtZeroHourUTC() } } : {},
-        ...filters.doneBy === 'overdue' ? { doneBy: { lt: todayAtZeroHourUTC() } } : {},
-        ...filters.status === 'not-abandoned' ? {
-            OR: [
-                { status: CommitmentStatus.InProgress },
-                { status: CommitmentStatus.Done },
-                { status: CommitmentStatus.NotStartedYet }
-            ]
-        } : {},
-        ...filters.status === 'to-do' ? {
-            OR: [
-                { status: CommitmentStatus.InProgress },
-                { status: CommitmentStatus.NotStartedYet }
-            ]
-        } : {},
-        ...filters.status === 'resolved' ? {
-            OR: [
-                { status: CommitmentStatus.Done },
-                { status: CommitmentStatus.Abandoned }
-            ]
-        } : {}
-    };
-
     const commitments = await prisma.commitment.findMany({
         where: {
             ownerId: userId,
-            ...filtersBuilder
+            ...filtersBuilder(filters)
         },
         select: {
             id: true,
