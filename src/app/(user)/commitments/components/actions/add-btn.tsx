@@ -3,12 +3,12 @@
 import { JSONContent } from '@tiptap/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Input from '@/app/components/ui/input/input';
+import ListAddButton from '@/app/components/ui/list-add-button/list-add-button';
 import Modal from '@/app/components/ui/modal/modal';
 import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
@@ -38,11 +38,7 @@ export default function AddButton() {
         setCommitment(nullCommitment);
     };
 
-    const openComponent = (
-        <li title="Add commitment" className="cursor-pointer rounded-lg border border-dashed border-neutral-500 p-1 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-400">
-            <IoAddOutline size={25} className="mx-auto my-0" />
-        </li>
-    );
+    const openComponent = <ListAddButton label="Add commitment" />;
 
     return (
         <Modal title="Add commitment" close={isClosed} openComponent={openComponent}>

@@ -4,9 +4,9 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Card, Grid, Title } from '@tremor/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { IoAddOutline } from 'react-icons/io5';
 
 import IconButton from '@/app/components/ui/icon-button/icon-button';
+import ListAddButton from '@/app/components/ui/list-add-button/list-add-button';
 
 interface Task {
     id: number;
@@ -41,12 +41,7 @@ export default function EinsenhowerMatrix() {
                 <Title>Do</Title>
                 <p className={explanationStyles}>Important + Urgent = Do it now</p>
                 <ul ref={parentDoTasks} role="list">
-                    <li title="Add task"
-                        className="mb-2 cursor-pointer rounded-lg border border-dashed border-neutral-500 p-1 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-400"
-                        onClick={() => addEmptyTask(setDoTasks)}
-                    >
-                        <IoAddOutline size={15} className="mx-auto my-0" />
-                    </li>
+                    <li className="mb-2"><ListAddButton label="Add task" size="xs" onClick={() => addEmptyTask(setDoTasks)} /></li>
                     {doTasks.map((task) => (
                         <li key={task.id} className="mb-2 flex items-center justify-between gap-2 rounded-lg p-2 text-sm outline outline-neutral-400">
                             <div>{task.name}</div>
