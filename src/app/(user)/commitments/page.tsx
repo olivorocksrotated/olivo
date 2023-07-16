@@ -2,6 +2,7 @@ import { getServerSession } from '@/lib/auth/session';
 import { getCommitments } from '@/lib/commitments/get';
 import { forceCast } from '@/lib/types/type-caster';
 
+import EinsenhowerMatrix from './components/einsenhower-matrix/eisenhower-matrix';
 import CommitmentsTabs from './components/list/commitments-tabs';
 import { ClientCommitment, ServerCommitment } from './types';
 
@@ -33,9 +34,16 @@ export default async function Commitments() {
         take: 30
     });
 
-    return <CommitmentsTabs today={forceCast<ServerCommitment[], ClientCommitment[]>(today)}
-        next={forceCast<ServerCommitment[], ClientCommitment[]>(next)}
-        overdue={forceCast<ServerCommitment[], ClientCommitment[]>(overdue)}
-        resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}
-    />;
+    return (
+        <div className="flex flex-col gap-8 sm:flex-row">
+            <div className="mb-12 grow sm:mb-0 sm:min-w-[600px]">
+                <CommitmentsTabs today={forceCast<ServerCommitment[], ClientCommitment[]>(today)}
+                    next={forceCast<ServerCommitment[], ClientCommitment[]>(next)}
+                    overdue={forceCast<ServerCommitment[], ClientCommitment[]>(overdue)}
+                    resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}
+                />
+            </div>
+            <EinsenhowerMatrix />
+        </div>
+    );
 }

@@ -1,18 +1,18 @@
 'use client';
 
 import { JSONContent } from '@tiptap/react';
-import Link from 'next/link';
 import { useState } from 'react';
-import { IoAddOutline } from 'react-icons/io5';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import Input from '@/app/components/ui/input/input';
+import ListAddButton from '@/app/components/ui/list-add-button/list-add-button';
 import Modal from '@/app/components/ui/modal/modal';
 import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import RichTextEditor from '@/app/components/ui/rich-text-editor/rich-text-editor';
+import TextLink from '@/app/components/ui/text-link/text-link';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 import onEnterPressed from '@/lib/keys/enter';
@@ -38,11 +38,7 @@ export default function AddButton() {
         setCommitment(nullCommitment);
     };
 
-    const openComponent = (
-        <li title="Add commitment" className="cursor-pointer rounded-lg border border-dashed border-neutral-500 p-1 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-400">
-            <IoAddOutline size={25} className="mx-auto my-0" />
-        </li>
-    );
+    const openComponent = <ListAddButton label="Add commitment" />;
 
     return (
         <Modal title="Add commitment" close={isClosed} openComponent={openComponent}>
@@ -72,7 +68,7 @@ export default function AddButton() {
                 </div>
                 <div className="mb-4">
                     <span className="text-slate-300">Find all your commitments</span>{' '}
-                    <Link href="/commitments" className="text-white hover:text-indigo-300">in the &quot;Commitments&quot; section</Link>
+                    <TextLink href="/commitments">in the &quot;Commitments&quot; section</TextLink>
                 </div>
             </ModalContent>
             <ModalFooter>

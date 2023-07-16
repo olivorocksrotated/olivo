@@ -42,6 +42,15 @@ describe('commitments filter', () => {
                 expect(isOverdueWithDate(commitment)).to.be.equal(false);
             });
 
+            it('should return false if the commitment should be done by the reference date', () => {
+                const commitment = {
+                    doneBy: initialDate,
+                    doneAt: null
+                };
+
+                expect(isOverdueWithDate(commitment)).to.be.equal(false);
+            });
+
             it('should return false if the commitment was done before the expected date', () => {
                 const commitment = {
                     doneBy: sub(initialDate, { days: 1 }),
