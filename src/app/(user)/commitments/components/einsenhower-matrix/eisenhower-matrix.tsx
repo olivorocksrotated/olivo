@@ -1,40 +1,13 @@
 'use client';
 
-import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Card, Grid, Title } from '@tremor/react';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { FaTrash } from 'react-icons/fa';
 
-import IconButton from '@/app/components/ui/icon-button/icon-button';
-import ListAddButton from '@/app/components/ui/list-add-button/list-add-button';
 import TextLink from '@/app/components/ui/text-link/text-link';
 
-interface Task {
-    id: number;
-    name: string;
-}
+import TasksList from './tasks-list';
 
 export default function EinsenhowerMatrix() {
-    const [nextId, setNextId] = useState(0);
-    const [doTasks, setDoTasks] = useState([] as Task[]);
-    const [parentDoTasks] = useAutoAnimate();
-
-    const explanationStyles = 'mb-2 text-sm text-neutral-300';
-
-    const createEmptyTask = () => {
-        const emptyTask = { id: nextId, name: 'Type here' };
-        setNextId((previous) => previous + 1);
-
-        return emptyTask;
-    };
-
-    const addEmptyTask = (setTasks: Dispatch<SetStateAction<Task[]>>) => {
-        setTasks((previous) => [createEmptyTask(), ...previous]);
-    };
-
-    const removeTask = (setTasks: Dispatch<SetStateAction<Task[]>>, taskToRemove: Task) => {
-        setTasks((previous) => previous.filter((task) => task.id !== taskToRemove.id));
-    };
+    const explanationStyles = 'mb-2 text-sm text-neutral-300 h-10';
 
     return (
         <div className="max-w-3xl">
@@ -47,27 +20,22 @@ export default function EinsenhowerMatrix() {
                     <Card>
                         <Title>Do</Title>
                         <p className={explanationStyles}>Important + Urgent = Do it now</p>
-                        <ul ref={parentDoTasks} role="list">
-                            <li className="mb-2"><ListAddButton label="Add task" size="xs" onClick={() => addEmptyTask(setDoTasks)} /></li>
-                            {doTasks.map((task) => (
-                                <li key={task.id} className="mb-2 flex items-center justify-between gap-2 rounded-lg p-2 text-sm outline outline-neutral-400">
-                                    <input type="text" placeholder="Your task to prioritize" className="w-full bg-transparent px-2 py-1" />
-                                    <IconButton label="Delete" icon={FaTrash} size="xs" onClick={() => removeTask(setDoTasks, task)} />
-                                </li>
-                            ))}
-                        </ul>
+                        <TasksList />
                     </Card>
                     <Card>
                         <Title>Decide</Title>
                         <p className={explanationStyles}>Important + Not urgent = Schedule it</p>
+                        <TasksList />
                     </Card>
                     <Card>
                         <Title>Delegate</Title>
                         <p className={explanationStyles}>Not important + Urgent = Who can do it for you?</p>
+                        <TasksList />
                     </Card>
                     <Card>
                         <Title>Delete</Title>
                         <p className={explanationStyles}>Not important + Not urgent = Get rid of it</p>
+                        <TasksList />
                     </Card>
                 </Grid>
             </Card>
