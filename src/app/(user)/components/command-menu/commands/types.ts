@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
 
-export type CommandDescriptor = {
-    [key: string]: { view: ReactNode, title: string }
-};
+export type Command = { view: ReactNode, title: string };
+
+export type CommandsList = { [key: string]: Command };

@@ -2,7 +2,7 @@ import { links } from '@/app/navigation';
 
 import LinkCommand from './link';
 import QuickNotesCommand from './quick-notes';
-import { CommandDescriptor } from './types';
+import { CommandsList } from './types';
 
 const linkCommands = links.reduce((linkCommandsList, link) => ({
     ...linkCommandsList,
@@ -12,7 +12,7 @@ const linkCommands = links.reduce((linkCommandsList, link) => ({
     }
 }), {});
 
-export const Commands: CommandDescriptor = {
+export const Commands: CommandsList = {
     ...linkCommands,
     'quick-notes': {
         view: <QuickNotesCommand></QuickNotesCommand>,

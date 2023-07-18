@@ -1,13 +1,6 @@
 import { KeyboardEvent } from 'react';
 
-import { Key, KeyEventHandler } from './types';
-
-type Options = {
-    considerEventHandled?: boolean;
-    meta?: boolean;
-};
-
-type KeyHandler = [Key, Options, KeyEventHandler];
+import { KeyHandler } from './types';
 
 export function onKeyPressed(handlers: KeyHandler[]) {
     return (event: KeyboardEvent) => {

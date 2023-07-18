@@ -2,36 +2,56 @@ import { ReactNode, useContext } from 'react';
 import { AiOutlineEnter, AiOutlineRollback } from 'react-icons/ai';
 
 import { onKeyPressed } from '@/lib/keys/on-key-pressed';
-import { Key } from '@/lib/keys/types';
+import { Key, KeyHandler } from '@/lib/keys/types';
 
 import { CommandMenuContext } from '../context';
+import { CommandsList } from './types';
 
-function CommandBackButton() {
+function KeyButton({ children }: { children: ReactNode }) {
     return (
-        <div className="m-2 flex">
-            <div className="flex items-center gap-2 rounded bg-neutral-700 px-2 py-1 text-[10px] font-semibold">
-                <AiOutlineRollback></AiOutlineRollback><span>ESC</span>
-            </div>
+        <div className="flex items-center gap-2 rounded bg-neutral-700 px-2 py-1 text-[10px] font-semibold">
+            {children}
         </div>
     );
 }
 
-export default function CommandView({ onEsc, title, children, actionLabel, commands }: { commands?: any, actionLabel: string, title: string; onEsc: () => void, children: ReactNode }) {
+function CommandBackButton() {
+    return (
+        <div className="m-2 flex">
+            <KeyButton>
+                <AiOutlineRollback></AiOutlineRollback><span>ESC</span>
+            </KeyButton>
+        </div>
+    );
+}
+
+type CommandViewProps = {
+    commands?: CommandsList,
+    action: {
+        label: string,
+        execute: () => void
+    }
+    title: string;
+    children: ReactNode
+};
+
+export default function CommandView({ title, children, action, commands }: CommandViewProps) {
     const { setCommandList } = useContext(CommandMenuContext) as any;
 
-    function executeAction() {
-        if (commands) {
-            setCommandList(commands);
-        }
+    function showSubCommands() {
+        setCommandList(commands);
     }
 
-    const onKeyDown = onKeyPressed([
-        [Key.Escape, { considerEventHandled: true }, onEsc],
-        [Key.Enter, { considerEventHandled: true, meta: true }, executeAction]
-    ]);
+    const keyEventHandlers: KeyHandler[] = [
+        [Key.Enter, { considerEventHandled: true, meta: true }, action.execute]
+    ];
+
+    if (commands) {
+        keyEventHandlers.push([Key.K, { considerEventHandled: true, meta: true }, showSubCommands]);
+    }
 
     return (
-        <div onKeyDown={onKeyDown} className="flex h-full flex-col justify-between">
+        <div onKeyDown={onKeyPressed(keyEventHandlers)} className="flex h-full flex-col justify-between">
             <div className="flex h-full flex-col">
                 <div className="m-2 flex items-center justify-between">
                     <div className="font-bold">{title}</div>
@@ -42,12 +62,11 @@ export default function CommandView({ onEsc, title, children, actionLabel, comma
                 </div>
             </div>
             <div className="flex items-center justify-end gap-2 border-t border-neutral-700 p-2">
-                <div>{actionLabel}</div>
-                <div className="flex items-center gap-2 rounded bg-neutral-700 p-2 text-sm font-semibold">
-                    ⌘
-                    <AiOutlineEnter></AiOutlineEnter>
-                </div>
+                <div>{action.label}</div>
+                <KeyButton>⌘<AiOutlineEnter></AiOutlineEnter></KeyButton>
+                {commands ? <><div>More options</div><KeyButton>⌘K</KeyButton></> : null}
             </div>
+
         </div>
     );
 }
