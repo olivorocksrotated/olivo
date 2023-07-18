@@ -16,8 +16,7 @@ function CommandBackButton() {
     );
 }
 
-
-export default function CommandView({ onEsc, title, children, actionLabel, commands }: { commands: any, actionLabel: string, title: string; onEsc: () => void, children: ReactNode }) {
+export default function CommandView({ onEsc, title, children, actionLabel, commands }: { commands?: any, actionLabel: string, title: string; onEsc: () => void, children: ReactNode }) {
     const onKeyDown = onKeyPressed(Key.Escape, { considerEventHandled: true }, onEsc);
 
     const { setCommandList } = useContext(CommandMenuContext) as any;
@@ -42,7 +41,7 @@ export default function CommandView({ onEsc, title, children, actionLabel, comma
                 <div onClick={() => executeAction()}
                     className="flex items-center gap-2 rounded bg-neutral-700 p-2 text-sm font-semibold"
                 >
-                        ⌘
+                    ⌘
                     <AiOutlineEnter></AiOutlineEnter>
                 </div>
             </div>
