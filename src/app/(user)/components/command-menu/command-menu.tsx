@@ -4,49 +4,9 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { AiOutlineEnter, AiOutlineRollback } from 'react-icons/ai';
-
-import { links } from '@/app/navigation';
-import { onKeyPressed } from '@/lib/keys/on-key-pressed';
-import { Key } from '@/lib/keys/types';
 
 import styles from './command-menu.module.css';
 import { Commands } from './commands/commands';
-import LinkCommand from './commands/link';
-
-function CommandBackButton() {
-    return (
-        <div className="m-2 flex">
-            <div className="flex items-center gap-2 rounded bg-neutral-700 px-2 py-1 text-[10px] font-semibold">
-                <AiOutlineRollback></AiOutlineRollback><span>ESC</span>
-            </div>
-        </div>
-    );
-}
-
-function CommandView({ commandId, onEsc }: { commandId: string, onEsc: () => void }) {
-    const onKeyDown = onKeyPressed(Key.Escape, { considerEventHandled: true }, onEsc);
-
-    const command = Commands[commandId];
-
-    return (
-        <div onKeyDown={onKeyDown} className="flex h-full flex-col justify-between">
-            <div className="flex h-full flex-col">
-                <div className="m-2 flex items-center justify-between">
-                    <div className="font-bold">{command.title}</div>
-                    <CommandBackButton></CommandBackButton>
-                </div>
-                <div className="grow p-5">
-                    {command.view}
-                </div>
-            </div>
-            <div className="flex items-center justify-end gap-2 border-t border-neutral-700 p-2">
-                <div>{command.action.label}</div>
-                <div className="flex items-center gap-2 rounded bg-neutral-700 p-2 text-sm font-semibold">⌘<AiOutlineEnter></AiOutlineEnter></div>
-            </div>
-        </div>
-    );
-}
 
 const noCommand = '';
 
@@ -82,7 +42,7 @@ export default function CommandMenu() {
                                         animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
                                         className="h-full"
                                     >
-                                        <CommandView commandId={selectedCommand} onEsc={() => setSelectedCommand(noCommand)}></CommandView>
+                                        {Commands[selectedCommand].view}
                                     </motion.div>
                                 ) : (
                                     <motion.div exit={{ opacity: 0.2, transition: { duration: 0.4 } }} key="command-list">
@@ -90,10 +50,6 @@ export default function CommandMenu() {
                                             <Command.Input autoFocus />
                                             <Command.List>
                                                 <Command.Empty>No results found.</Command.Empty>
-
-                                                <Command.Group heading="Go to">
-                                                    {links.map((link) => <LinkCommand onSelect={() => setOpen(false)} key={link.id} link={link}></LinkCommand>)}
-                                                </Command.Group>
 
                                                 <Command.Group heading="Commands">
                                                     {
