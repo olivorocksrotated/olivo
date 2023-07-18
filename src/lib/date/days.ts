@@ -1,4 +1,4 @@
-import { add, lastDayOfMonth, startOfMonth, sub } from 'date-fns';
+import { add, isAfter, isBefore, isSameDay, lastDayOfMonth, startOfMonth, sub } from 'date-fns';
 
 export function todayAtZeroHourUTC() {
     return new Date(new Date().setUTCHours(0, 0, 0, 0));
@@ -50,4 +50,11 @@ export function monthsLastDayAtMidnightUTC(monthsBehind: number = 0) {
     const referrenceDate = monthsBehind === 0 ? todayAtMidnightUTC() : sub(todayAtMidnightUTC(), { months: monthsBehind });
 
     return lastDayOfMonth(referrenceDate);
+}
+
+export function isBetween(date: Date, startDate: Date, endDate: Date) {
+    return (
+        (isAfter(date, startDate) || isSameDay(date, startDate)) &&
+        (isBefore(date, endDate) || isSameDay(date, endDate))
+    );
 }

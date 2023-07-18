@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Grid, Title } from '@tremor/react';
+import { Card, Grid, Subtitle, Title } from '@tremor/react';
 
 import TextLink from '@/app/components/ui/text-link/text-link';
 
@@ -12,10 +12,10 @@ export default function EinsenhowerMatrix() {
     return (
         <div className="max-w-3xl">
             <Card>
-                <h2 className="text-lg leading-relaxed">Troubles prioritizing your tasks and projects?</h2>
-                <h3 className="mb-4 text-sm leading-relaxed text-neutral-300">
+                <Title>Troubles prioritizing your tasks and projects?</Title>
+                <Subtitle className="mb-4">
                     The <TextLink href="https://www.eisenhower.me/eisenhower-matrix/" target="_blank">Einsenhower Matrix</TextLink> can help you organize your thoughts and create commitments you can effectively fulfil
-                </h3>
+                </Subtitle>
                 <Grid numItems={1} numItemsSm={2} numItemsLg={2} className="gap-2">
                     <Card>
                         <Title>Do</Title>
