@@ -7,17 +7,20 @@ import { useEffect, useRef, useState } from 'react';
 
 import styles from './command-menu.module.css';
 import { Commands } from './commands/commands';
-
-const noCommand = '';
+import { CommandDescriptor } from './commands/types';
+import { CommandMenuContext } from './context';
 
 export default function CommandMenu() {
     const [open, setOpen] = useState(false);
-    const [selectedCommand, setSelectedCommand] = useState(noCommand);
+    const [selectedCommand, setSelectedCommand] = useState<any>('');
+    const [commandList, setCommandList] = useState<any>(Commands);
     const containerElement = useRef(null);
 
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'k' && e.metaKey) {
+                setCommandList(Commands);
+                setSelectedCommand('');
                 setOpen((isOpen) => !isOpen);
             }
         };
@@ -27,13 +30,17 @@ export default function CommandMenu() {
         return () => document.removeEventListener('keydown', onKeyDown);
     }, []);
 
+    function onNewCommandSelected(commands: CommandDescriptor) {
+        setSelectedCommand('');
+        setCommandList(commands);
+    }
+
     return (
-        <>
+        <CommandMenuContext.Provider value={{ setCommandList: onNewCommandSelected }}>
             <Dialog.Root open={open}>
                 <Dialog.Portal container={containerElement.current as any}>
                     <Dialog.Content cmdk-dialog="" onEscapeKeyDown={() => setOpen(false)}>
                         <div className="h-96 rounded-lg border-0 bg-neutral-950">
-
                             <AnimatePresence mode="wait">
                                 {selectedCommand !== '' ? (
                                     <motion.div key="selected-command-view"
@@ -42,7 +49,7 @@ export default function CommandMenu() {
                                         animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
                                         className="h-full"
                                     >
-                                        {Commands[selectedCommand].view}
+                                        {commandList[selectedCommand].view}
                                     </motion.div>
                                 ) : (
                                     <motion.div exit={{ opacity: 0.2, transition: { duration: 0.4 } }} key="command-list">
@@ -53,9 +60,9 @@ export default function CommandMenu() {
 
                                                 <Command.Group heading="Commands">
                                                     {
-                                                        Object.keys(Commands).map((commandName) => (
+                                                        Object.keys(commandList).map((commandName) => (
                                                             <Command.Item key={commandName} onSelect={() => setSelectedCommand(commandName)}>
-                                                                <span>{Commands[commandName].title}</span>
+                                                                <span>{commandList[commandName].title}</span>
                                                             </Command.Item>
                                                         ))
                                                     }
@@ -70,6 +77,6 @@ export default function CommandMenu() {
                 </Dialog.Portal>
             </Dialog.Root>
             <div className={styles['command-menu']} ref={containerElement}></div>
-        </>
+        </CommandMenuContext.Provider>
     );
 }
