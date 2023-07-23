@@ -3,6 +3,7 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
+import { MdOutlineRefresh } from 'react-icons/md';
 
 import IconButton from '@/app/components/ui/icon-button/icon-button';
 import Input from '@/app/components/ui/input/input';
@@ -32,7 +33,8 @@ export default function TasksList({ listId }: Props) {
     };
 
     const addEmptyTask = () => {
-        setTasks((previous) => [createEmptyTask(), ...previous]);
+        const emptyTask = createEmptyTask();
+        setTasks((previous) => [emptyTask, ...previous]);
     };
 
     const editTask = (taskId: number, newValue: string) => {
@@ -47,11 +49,18 @@ export default function TasksList({ listId }: Props) {
         setTasks((previous) => previous.filter((task) => task.id !== taskToRemove.id));
     };
 
+    const resetTasks = () => {
+        setTasks([]);
+    };
+
     return (
         <ul ref={parent} role="list">
-            <li className="mb-2"><ListAddButton label="Add task" size="xs" onClick={() => addEmptyTask()} /></li>
+            <li className="mb-3 flex justify-between gap-2">
+                <ListAddButton label="Add task" size="s" onClick={addEmptyTask} />
+                <IconButton label="Reset tasks" size="s" icon={MdOutlineRefresh} onClick={resetTasks} />
+            </li>
             {tasks.map((task) => (
-                <li key={task.id} className="mb-2 flex items-center justify-between gap-2 rounded-lg p-2 text-sm outline outline-neutral-700">
+                <li key={task.id} className="mb-3 flex items-center justify-between gap-2 rounded-lg text-sm outline-neutral-700">
                     <Input type="text"
                         placeholder="Your task to prioritize"
                         value={task.name}

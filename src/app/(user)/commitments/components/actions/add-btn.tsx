@@ -38,7 +38,7 @@ export default function AddButton() {
         setCommitment(nullCommitment);
     };
 
-    const openComponent = <ListAddButton label="Add commitment" />;
+    const openComponent = <ListAddButton label="Add commitment" size="s" />;
 
     return (
         <Modal title="Add commitment" close={isClosed} openComponent={openComponent}>
