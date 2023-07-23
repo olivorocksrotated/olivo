@@ -1,6 +1,23 @@
 'use client';
 
+import { cva, VariantProps } from 'cva';
 import { IoAddOutline } from 'react-icons/io5';
+
+const buttonStyles = cva(
+    'w-full cursor-pointer rounded-lg border border-dashed border-neutral-500 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-400',
+    {
+        variants: {
+            size: {
+                xs: 'h-[18px]',
+                s: 'h-[28px]',
+                md: 'h-[42px]'
+            }
+        },
+        defaultVariants: {
+            size: 'md'
+        }
+    }
+);
 
 const iconSize = {
     xs: 15,
@@ -8,9 +25,8 @@ const iconSize = {
     md: 25
 };
 
-interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
+interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'>, VariantProps<typeof buttonStyles> {
     label: string;
-    size?: 'xs' | 's' | 'md';
 }
 
 export default function ListAddButton(props: Props) {
@@ -21,7 +37,7 @@ export default function ListAddButton(props: Props) {
             aria-label={label}
             title={label}
             {...nativeProps}
-            className="w-full cursor-pointer rounded-lg border border-dashed border-neutral-500 p-1 text-neutral-500 transition hover:border-neutral-400 hover:text-neutral-400"
+            className={buttonStyles(props)}
         >
             <IoAddOutline size={iconSize[size ?? 'md']} className="mx-auto my-0" />
         </button>
