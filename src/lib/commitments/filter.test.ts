@@ -42,9 +42,9 @@ describe('commitments filter', () => {
                 expect(isOverdueWithDate(commitment)).to.be.equal(false);
             });
 
-            it('should return false if the commitment should be done by the reference date', () => {
+            it('should return false if the commitment should be done by the reference date, regardless of the hour', () => {
                 const commitment = {
-                    doneBy: initialDate,
+                    doneBy: sub(initialDate, { hours: 2 }),
                     doneAt: null
                 };
 
