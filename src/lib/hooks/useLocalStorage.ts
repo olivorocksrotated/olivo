@@ -27,7 +27,8 @@ export default function useLocalStorage<T>(key: string, initialValue: T): [T, Di
         };
         setStoredValue(fromLocal);
         setFirstLoadDone(true);
-    }, [initialValue, key]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Whenever the stored value changes, save it in the local storage
     useEffect(() => {

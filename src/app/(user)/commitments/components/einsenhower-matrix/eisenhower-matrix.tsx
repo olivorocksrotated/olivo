@@ -20,22 +20,22 @@ export default function EinsenhowerMatrix() {
                     <Card>
                         <Title>Important + Urgent</Title>
                         <p className={explanationStyles}>Do it now</p>
-                        <TasksList />
+                        <TasksList listId="do" />
                     </Card>
                     <Card>
                         <Title>Important + Not urgent</Title>
                         <p className={explanationStyles}>Schedule it</p>
-                        <TasksList />
+                        <TasksList listId="schedule" />
                     </Card>
                     <Card>
                         <Title>Not important + Urgent</Title>
                         <p className={explanationStyles}>Who can do it for you?</p>
-                        <TasksList />
+                        <TasksList listId="delegate" />
                     </Card>
                     <Card>
                         <Title>Not important + Not urgent</Title>
                         <p className={explanationStyles}>Get rid of it</p>
-                        <TasksList />
+                        <TasksList listId="delete" />
                     </Card>
                 </Grid>
             </Card>
