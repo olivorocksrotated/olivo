@@ -1,9 +1,9 @@
 import { Commitment } from '@prisma/client';
-import { isAfter, isSameDay } from 'date-fns';
+import { isAfter, isBefore, isSameDay } from 'date-fns';
 
 export function isOverdue(referenceDate: Date) {
     return (commitment: Pick<Commitment, 'doneBy' | 'doneAt'>) => {
-        const hasTimeLeft = !isAfter(referenceDate, commitment.doneBy);
+        const hasTimeLeft = isBefore(referenceDate, commitment.doneBy) || isSameDay(referenceDate, commitment.doneBy);
         if (hasTimeLeft) {
             return false;
         }
