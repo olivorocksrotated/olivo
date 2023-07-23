@@ -18,24 +18,24 @@ export default function EinsenhowerMatrix() {
                 </Subtitle>
                 <Grid numItems={1} numItemsSm={2} numItemsLg={2} className="gap-2">
                     <Card>
-                        <Title>Do</Title>
-                        <p className={explanationStyles}>Important + Urgent = Do it now</p>
-                        <TasksList />
+                        <Title>Important + Urgent</Title>
+                        <p className={explanationStyles}>Do it now</p>
+                        <TasksList listId="do" />
                     </Card>
                     <Card>
-                        <Title>Decide</Title>
-                        <p className={explanationStyles}>Important + Not urgent = Schedule it</p>
-                        <TasksList />
+                        <Title>Important + Not urgent</Title>
+                        <p className={explanationStyles}>Schedule it</p>
+                        <TasksList listId="schedule" />
                     </Card>
                     <Card>
-                        <Title>Delegate</Title>
-                        <p className={explanationStyles}>Not important + Urgent = Who can do it for you?</p>
-                        <TasksList />
+                        <Title>Not important + Urgent</Title>
+                        <p className={explanationStyles}>Who can do it for you?</p>
+                        <TasksList listId="delegate" />
                     </Card>
                     <Card>
-                        <Title>Delete</Title>
-                        <p className={explanationStyles}>Not important + Not urgent = Get rid of it</p>
-                        <TasksList />
+                        <Title>Not important + Not urgent</Title>
+                        <p className={explanationStyles}>Get rid of it</p>
+                        <TasksList listId="delete" />
                     </Card>
                 </Grid>
             </Card>

@@ -5,6 +5,7 @@ import { sub } from 'date-fns';
 
 import { isOverdue } from '@/lib/commitments/filter';
 import { isBetween } from '@/lib/date/days';
+import { formatDate } from '@/lib/date/format';
 
 import { ClientCommitment } from '../types';
 
@@ -21,7 +22,9 @@ const weeks = [
     now
 ];
 const getCommitmentWeek = ({ doneBy }: ClientCommitment) => weeks.reduce((weeksAcc, currentWeekDate, currentIndex, originalWeeks) => {
-    if (weeksAcc !== -1 || currentIndex === originalWeeks.length - 1) {
+    const weekFound = weeksAcc !== -1;
+    const isLastWeek = currentIndex === originalWeeks.length - 1;
+    if (weekFound || isLastWeek) {
         return weeksAcc;
     }
 
@@ -30,6 +33,8 @@ const getCommitmentWeek = ({ doneBy }: ClientCommitment) => weeks.reduce((weeksA
 
     return isBetween(doneBy, startDate, endDate) ? currentIndex : weeksAcc;
 }, -1);
+
+const formatWeekLabel = (startDate: Date, endDate: Date) => `${formatDate(startDate, 'dd/MM')}-${formatDate(endDate, 'dd/MM')}`;
 
 export default function CommitmentsFulfilment({ commitments }: Props) {
     const commitmentsSplitByFulfilment = commitments.reduce((commitmentsAcc, commitment) => {
@@ -45,10 +50,10 @@ export default function CommitmentsFulfilment({ commitments }: Props) {
 
         return commitmentsAcc;
     }, [
-        { week: 0, 'On time': 0, Overdue: 0, weekLabel: 'Week 1' },
-        { week: 1, 'On time': 0, Overdue: 0, weekLabel: 'Week 2' },
-        { week: 2, 'On time': 0, Overdue: 0, weekLabel: 'Week 3' },
-        { week: 3, 'On time': 0, Overdue: 0, weekLabel: 'Week 4' }
+        { week: 0, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[0], weeks[1]) },
+        { week: 1, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[1], weeks[2]) },
+        { week: 2, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[2], weeks[3]) },
+        { week: 3, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[3], weeks[4]) }
     ]);
 
     return (
