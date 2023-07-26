@@ -66,7 +66,6 @@ export default function CommandView({ title, children, action, commands }: Comma
                 <KeyButton>⌘<AiOutlineEnter></AiOutlineEnter></KeyButton>
                 {commands ? <><div>More options</div><KeyButton>⌘K</KeyButton></> : null}
             </div>
-
         </div>
     );
 }
