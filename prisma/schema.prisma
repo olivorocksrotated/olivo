@@ -45,6 +45,7 @@ model User {
   moods         Mood[]
   notifications Notification[]
   notes         Note[]
+  aiExecutions  AiExecution[]
 }
 
 model NetworkConnection {
@@ -109,6 +110,16 @@ model Note {
   @@index([ownerId])
 }
 
+model AiExecution {
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  owner       User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  executionId AiExecutionId
+
+  @@index([ownerId])
+}
+
 enum CommitmentStatus {
   NotStartedYet
   InProgress
@@ -132,4 +143,8 @@ enum NotificationStatus {
 enum NotificationType {
   UnfinishedCommitments
   SignupWelcome
+}
+
+enum AiExecutionId {
+  MoodSummary
 }
