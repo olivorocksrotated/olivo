@@ -1,14 +1,16 @@
-import { AiExecutionId } from '@prisma/client';
+import { AiExecutionName } from '@prisma/client';
 import { sub } from 'date-fns';
 
-import { getAiExecution } from '../ai/get';
+import { getAiExecution, getAiResponse } from '../ai/get';
 import { formatDate } from '../date/format';
 import prisma from '../prisma';
 
-export async function summarizeMood(): Promise<string> {
+const moodStatusPrompt = 'Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.';
+
+export async function summarizeMood(userId: string): Promise<string> {
     const now = new Date();
     const twoWeeksAgo = sub(now, { weeks: 2 });
-    const lastExecution = await getAiExecution(AiExecutionId.MoodSummary, twoWeeksAgo);
+    const lastExecution = await getAiExecution({ userId, executionName: AiExecutionName.MoodSummary, createdAfter: twoWeeksAgo });
 
     if (lastExecution) {
         throw new Error('AI executions quota exceeded to summarize moods');
@@ -22,20 +24,18 @@ export async function summarizeMood(): Promise<string> {
 
     const prompt = `
         Tell me in detail how you perceive my mood from the past 2 weeks.
-        Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.
+        ${moodStatusPrompt}
         This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
         ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
     `;
 
-    // TODO: Call OpenAI
-
-    return prompt;
+    return getAiResponse(prompt);
 }
 
-export async function adviseMood(): Promise<string> {
+export async function adviseMood(userId: string): Promise<string> {
     const now = new Date();
     const twoWeeksAgo = sub(now, { weeks: 2 });
-    const lastExecution = await getAiExecution(AiExecutionId.MoodAdvice, twoWeeksAgo);
+    const lastExecution = await getAiExecution({ userId, executionName: AiExecutionName.MoodAdvice, createdAfter: twoWeeksAgo });
 
     if (lastExecution) {
         throw new Error('AI executions quota exceeded to get advice on moods');
@@ -49,12 +49,10 @@ export async function adviseMood(): Promise<string> {
 
     const prompt = `
         Tell me in detail what can I do to improve my mood.
-        Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.
+        ${moodStatusPrompt}
         This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
         ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
     `;
 
-    // TODO: Call OpenAI
-
-    return prompt;
+    return getAiResponse(prompt);
 }

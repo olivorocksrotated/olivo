@@ -1,12 +1,17 @@
-import { AiExecutionId } from '@prisma/client';
+import { AiExecutionName } from '@prisma/client';
 
 import prisma from '../prisma';
 import { aiClient } from './client';
 
-export function getAiExecution(executionId: AiExecutionId, createdAfter: Date) {
+export function getAiExecution({ userId, executionName, createdAfter }: {
+    userId: string,
+    executionName: AiExecutionName,
+    createdAfter: Date
+}) {
     return prisma.aiExecution.findFirst({
         where: {
-            executionId,
+            ownerId: userId,
+            executionName,
             createdAt: { gte: createdAfter }
         }
     });
