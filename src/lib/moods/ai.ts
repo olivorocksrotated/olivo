@@ -31,7 +31,7 @@ export async function summarizeMood(userId: string): Promise<string> {
     });
 
     const prompt = `
-        Tell me in detail how you perceive my mood from the past 2 weeks.
+        Tell me in detail how you perceive my mood from the past 2 weeks. Use empathetic voice and tone.
         ${moodStatusPrompt}
         This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
         ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
@@ -54,7 +54,7 @@ export async function adviseMood(userId: string): Promise<string> {
     });
 
     const prompt = `
-        Tell me in detail what can I do to improve my mood.
+        Tell me in detail what can I do to improve my mood. Use empathetic voice and tone.
         ${moodStatusPrompt}
         This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
         ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
