@@ -7,12 +7,21 @@ import { getMoods } from './get';
 
 const moodStatusPrompt = 'Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.';
 
+export async function canExecuteAi({ userId, executionName, createdAfter }: {
+    userId: string,
+    executionName: AiExecutionName
+    createdAfter: Date
+}): Promise<boolean> {
+    const lastExecution = await getAiExecution({ userId, executionName, createdAfter });
+
+    return !lastExecution;
+}
+
 export async function summarizeMood(userId: string): Promise<string> {
     const now = new Date();
     const twoWeeksAgo = sub(now, { weeks: 2 });
-    const lastExecution = await getAiExecution({ userId, executionName: AiExecutionName.MoodSummary, createdAfter: twoWeeksAgo });
 
-    if (lastExecution) {
+    if (!canExecuteAi({ userId, executionName: AiExecutionName.MoodSummary, createdAfter: twoWeeksAgo })) {
         throw new Error('AI executions quota exceeded to summarize moods');
     }
 
@@ -34,9 +43,8 @@ export async function summarizeMood(userId: string): Promise<string> {
 export async function adviseMood(userId: string): Promise<string> {
     const now = new Date();
     const twoWeeksAgo = sub(now, { weeks: 2 });
-    const lastExecution = await getAiExecution({ userId, executionName: AiExecutionName.MoodAdvice, createdAfter: twoWeeksAgo });
 
-    if (lastExecution) {
+    if (!canExecuteAi({ userId, executionName: AiExecutionName.MoodAdvice, createdAfter: twoWeeksAgo })) {
         throw new Error('AI executions quota exceeded to get advice on moods');
     }
 
