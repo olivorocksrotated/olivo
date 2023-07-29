@@ -115,6 +115,7 @@ model AiExecution {
   owner         User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId       String
   executionName AiExecutionName
+  response      String          @db.Text
 
   @@index([ownerId])
 }
