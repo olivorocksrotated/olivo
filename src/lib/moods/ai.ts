@@ -31,3 +31,30 @@ export async function summarizeMood(): Promise<string> {
 
     return prompt;
 }
+
+export async function adviseMood(): Promise<string> {
+    const now = new Date();
+    const twoWeeksAgo = sub(now, { weeks: 2 });
+    const lastExecution = await getAiExecution(AiExecutionId.MoodAdvice, twoWeeksAgo);
+
+    if (lastExecution) {
+        throw new Error('AI executions quota exceeded to get advice on moods');
+    }
+
+    const moods = await prisma.mood.findMany({
+        where: {
+            createdAt: { gte: twoWeeksAgo, lte: now }
+        }
+    });
+
+    const prompt = `
+        Tell me in detail what can I do to improve my mood.
+        Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.
+        This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
+        ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
+    `;
+
+    // TODO: Call OpenAI
+
+    return prompt;
+}
