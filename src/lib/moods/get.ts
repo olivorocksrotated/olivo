@@ -3,8 +3,14 @@ import { Mood } from '@prisma/client';
 import { lastWeekFromTodayAtZeroHourUTC, monthsFirstDayAtZeroHourUTC, monthsLastDayAtMidnightUTC, todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
+interface BetweenCreatedFilter{
+    value: 'between';
+    startDate: Date;
+    endDate: Date;
+}
+
 interface Filter {
-    created: 'last week' | 'last month' | 'this month';
+    created: 'last week' | 'last month' | 'this month' | BetweenCreatedFilter;
 }
 
 const defaultSelect = {
@@ -15,6 +21,8 @@ const defaultSelect = {
     ownerId: false
 };
 
+const isBetweenCreatedFilter = (createdFilter: any): createdFilter is BetweenCreatedFilter => createdFilter?.value === 'between';
+
 export function getMoods({ userId, filters = {}, order = 'desc', select = defaultSelect }: {
     userId: string,
     filters?: Partial<Filter>,
@@ -24,7 +32,8 @@ export function getMoods({ userId, filters = {}, order = 'desc', select = defaul
     const filtersBuilder = {
         ...filters.created === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {},
         ...filters.created === 'last month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(1), lt: monthsFirstDayAtZeroHourUTC() } } : {},
-        ...filters.created === 'this month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(), lte: monthsLastDayAtMidnightUTC() } } : {}
+        ...filters.created === 'this month' ? { createdAt: { gte: monthsFirstDayAtZeroHourUTC(), lte: monthsLastDayAtMidnightUTC() } } : {},
+        ...isBetweenCreatedFilter(filters.created) ? { createdAt: { gte: filters.created.startDate, lte: filters.created.endDate } } : {}
     };
 
     return prisma.mood.findMany({

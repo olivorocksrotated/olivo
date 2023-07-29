@@ -3,7 +3,7 @@ import { sub } from 'date-fns';
 
 import { getAiExecution, getAiResponse } from '../ai/get';
 import { formatDate } from '../date/format';
-import prisma from '../prisma';
+import { getMoods } from './get';
 
 const moodStatusPrompt = 'Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.';
 
@@ -16,10 +16,9 @@ export async function summarizeMood(userId: string): Promise<string> {
         throw new Error('AI executions quota exceeded to summarize moods');
     }
 
-    const moods = await prisma.mood.findMany({
-        where: {
-            createdAt: { gte: twoWeeksAgo, lte: now }
-        }
+    const moods = await getMoods({
+        userId,
+        filters: { created: { value: 'between', startDate: twoWeeksAgo, endDate: now } }
     });
 
     const prompt = `
@@ -41,10 +40,9 @@ export async function adviseMood(userId: string): Promise<string> {
         throw new Error('AI executions quota exceeded to get advice on moods');
     }
 
-    const moods = await prisma.mood.findMany({
-        where: {
-            createdAt: { gte: twoWeeksAgo, lte: now }
-        }
+    const moods = await getMoods({
+        userId,
+        filters: { created: { value: 'between', startDate: twoWeeksAgo, endDate: now } }
     });
 
     const prompt = `
