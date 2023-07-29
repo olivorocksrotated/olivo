@@ -146,4 +146,5 @@ enum NotificationType {
 
 enum AiExecutionId {
   MoodSummary
+  MoodAdvice
 }
