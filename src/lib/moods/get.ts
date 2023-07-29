@@ -1,3 +1,5 @@
+import { Mood } from '@prisma/client';
+
 import { lastWeekFromTodayAtZeroHourUTC, monthsFirstDayAtZeroHourUTC, monthsLastDayAtMidnightUTC, todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
 import prisma from '../prisma';
 
@@ -9,13 +11,15 @@ const defaultSelect = {
     id: true,
     status: true,
     comment: true,
-    createdAt: true
+    createdAt: true,
+    ownerId: false
 };
 
-export function getMoods({ userId, filters = {}, order = 'desc' }: {
+export function getMoods({ userId, filters = {}, order = 'desc', select = defaultSelect }: {
     userId: string,
     filters?: Partial<Filter>,
-    order?: 'asc' | 'desc'
+    order?: 'asc' | 'desc',
+    select?: { [K in keyof Mood]: boolean };
 }) {
     const filtersBuilder = {
         ...filters.created === 'last week' ? { createdAt: { gte: lastWeekFromTodayAtZeroHourUTC() } } : {},
@@ -25,7 +29,7 @@ export function getMoods({ userId, filters = {}, order = 'desc' }: {
 
     return prisma.mood.findMany({
         where: { ownerId: userId, ...filtersBuilder },
-        select: defaultSelect,
+        select,
         orderBy: { createdAt: order }
     });
 }
