@@ -1,6 +1,7 @@
 import { AiExecutionName } from '@prisma/client';
 import { sub } from 'date-fns';
 
+import { createAiExecution } from '../ai/create';
 import { getAiExecution, getAiResponse } from '../ai/get';
 import { formatDate } from '../date/format';
 import { getMoods } from './get';
@@ -20,8 +21,9 @@ export async function canExecuteAi({ userId, executionName, createdAfter }: {
 export async function summarizeMood(userId: string): Promise<string> {
     const now = new Date();
     const twoWeeksAgo = sub(now, { weeks: 2 });
+    const executionName = AiExecutionName.MoodSummary;
 
-    if (!canExecuteAi({ userId, executionName: AiExecutionName.MoodSummary, createdAfter: twoWeeksAgo })) {
+    if (!canExecuteAi({ userId, executionName, createdAfter: twoWeeksAgo })) {
         throw new Error('AI executions quota exceeded to summarize moods');
     }
 
@@ -37,14 +39,18 @@ export async function summarizeMood(userId: string): Promise<string> {
         ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
     `;
 
-    return getAiResponse(prompt);
+    const response = await getAiResponse(prompt);
+    await createAiExecution({ userId, executionName, response });
+
+    return response;
 }
 
 export async function adviseMood(userId: string): Promise<string> {
     const now = new Date();
     const twoWeeksAgo = sub(now, { weeks: 2 });
+    const executionName = AiExecutionName.MoodAdvice;
 
-    if (!canExecuteAi({ userId, executionName: AiExecutionName.MoodAdvice, createdAfter: twoWeeksAgo })) {
+    if (!canExecuteAi({ userId, executionName, createdAfter: twoWeeksAgo })) {
         throw new Error('AI executions quota exceeded to get advice on moods');
     }
 
@@ -60,5 +66,8 @@ export async function adviseMood(userId: string): Promise<string> {
         ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
     `;
 
-    return getAiResponse(prompt);
+    const response = await getAiResponse(prompt);
+    await createAiExecution({ userId, executionName, response });
+
+    return response;
 }
