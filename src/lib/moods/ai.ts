@@ -1,4 +1,4 @@
-import { AiExecutionName } from '@prisma/client';
+import { AiExecutionName, Mood } from '@prisma/client';
 import { sub } from 'date-fns';
 
 import { createAiExecution } from '../ai/create';
@@ -6,7 +6,19 @@ import { getAiExecution, getAiResponse } from '../ai/get';
 import { formatDate } from '../date/format';
 import { getMoods } from './get';
 
-const moodStatusPrompt = 'Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.';
+function createPrompt({ action, startDate, endDate, moods }: {
+    action: string,
+    startDate: Date,
+    endDate: Date
+    moods: Mood[]
+}): string {
+    return `
+        ${action}
+        'Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.'
+        This is how I felt from the ${formatDate(startDate)} until the ${formatDate(endDate)}:
+        ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
+    `;
+}
 
 export async function canExecuteAi({ userId, executionName, createdAfter }: {
     userId: string,
@@ -32,12 +44,12 @@ export async function summarizeMood(userId: string): Promise<string> {
         filters: { created: { value: 'between', startDate: twoWeeksAgo, endDate: now } }
     });
 
-    const prompt = `
-        Tell me in detail how you perceive my mood from the past 2 weeks. Use empathetic voice and tone.
-        ${moodStatusPrompt}
-        This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
-        ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
-    `;
+    const prompt = createPrompt({
+        action: 'Tell me in detail how you perceive my mood from the past 2 weeks. Use empathetic voice and tone.',
+        startDate: twoWeeksAgo,
+        endDate: now,
+        moods
+    });
 
     const response = await getAiResponse(prompt);
     await createAiExecution({ userId, executionName, response });
@@ -59,12 +71,12 @@ export async function adviseMood(userId: string): Promise<string> {
         filters: { created: { value: 'between', startDate: twoWeeksAgo, endDate: now } }
     });
 
-    const prompt = `
-        Tell me in detail what can I do to improve my mood. Use empathetic voice and tone.
-        ${moodStatusPrompt}
-        This is how I felt from the ${formatDate(twoWeeksAgo)} until the ${formatDate(now)}:
-        ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
-    `;
+    const prompt = createPrompt({
+        action: 'Tell me in detail what can I do to improve my mood. Use empathetic voice and tone.',
+        startDate: twoWeeksAgo,
+        endDate: now,
+        moods
+    });
 
     const response = await getAiResponse(prompt);
     await createAiExecution({ userId, executionName, response });
