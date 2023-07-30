@@ -47,7 +47,7 @@ export async function summarizeMood(userId: string): Promise<string> {
     });
 
     const response = await getAiResponse(prompt);
-    await createAiExecution({ userId, executionName, response });
+    await createAiExecution({ userId, executionName, prompt, response });
 
     return response;
 }
@@ -72,7 +72,7 @@ export async function adviseMood(userId: string): Promise<string> {
     });
 
     const response = await getAiResponse(prompt);
-    await createAiExecution({ userId, executionName, response });
+    await createAiExecution({ userId, executionName, prompt, response });
 
     return response;
 }
