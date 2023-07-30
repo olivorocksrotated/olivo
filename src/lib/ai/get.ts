@@ -30,3 +30,13 @@ export async function getAiResponse(prompt: string): Promise<string> {
         throw new Error(errorMessage);
     }
 }
+
+export async function canExecuteAi({ userId, executionName, createdAfter }: {
+    userId: string,
+    executionName: AiExecutionName
+    createdAfter: Date
+}): Promise<boolean> {
+    const lastExecution = await getAiExecution({ userId, executionName, createdAfter });
+
+    return !lastExecution;
+}
