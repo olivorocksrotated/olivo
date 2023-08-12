@@ -44,6 +44,7 @@ model User {
   commitments   Commitment[]
   moods         Mood[]
   notifications Notification[]
+  notes         Note[]
 }
 
 model NetworkConnection {
@@ -94,6 +95,16 @@ model Notification {
   createdAt DateTime           @default(now())
   owner     User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
+
+  @@index([ownerId])
+}
+
+model Note {
+  id      String @id @default(cuid())
+  text    String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+  tags    String
 
   @@index([ownerId])
 }
