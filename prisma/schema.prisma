@@ -2,8 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["extendedWhereUnique"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -45,6 +44,7 @@ model User {
   moods         Mood[]
   notifications Notification[]
   notes         Note[]
+  aiExecutions  AiExecution[]
 }
 
 model NetworkConnection {
@@ -109,6 +109,18 @@ model Note {
   @@index([ownerId])
 }
 
+model AiExecution {
+  id            String          @id @default(cuid())
+  createdAt     DateTime        @default(now())
+  owner         User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId       String
+  executionName AiExecutionName
+  prompt        String          @db.Text
+  response      String          @db.Text
+
+  @@index([ownerId])
+}
+
 enum CommitmentStatus {
   NotStartedYet
   InProgress
@@ -132,4 +144,9 @@ enum NotificationStatus {
 enum NotificationType {
   UnfinishedCommitments
   SignupWelcome
+}
+
+enum AiExecutionName {
+  MoodSummary
+  MoodAdvice
 }
