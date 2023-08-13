@@ -2,7 +2,7 @@ import { AiExecutionName } from '@prisma/client';
 
 import { getAiExecution } from '@/lib/ai/get';
 import { getServerSession } from '@/lib/auth/session';
-import { getMoodExecutionTimeframe } from '@/lib/moods/ai';
+import { getMoodExecutionTimeframe } from '@/lib/moods/ai-timeframe';
 import { getMoods } from '@/lib/moods/get';
 
 import MoodAi from './components/mood-ai';

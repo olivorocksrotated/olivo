@@ -1,9 +1,14 @@
+'use server';
+
 import { AiExecutionName, Mood } from '@prisma/client';
-import { sub } from 'date-fns';
+import { revalidatePath } from 'next/cache';
+import { zact } from 'zact/server';
 
 import { createAiExecution } from '../ai/create';
-import { canExecuteAi, getAiResponse } from '../ai/get';
+import { getAiResponse } from '../ai/get';
+import { getServerSession } from '../auth/session';
 import { formatDate } from '../date/format';
+import { getMoodExecutionTimeframe } from './ai-timeframe';
 import { getMoods } from './get';
 
 function createPrompt({ action, startDate, endDate, moods }: {
@@ -20,20 +25,9 @@ function createPrompt({ action, startDate, endDate, moods }: {
     `;
 }
 
-export function getMoodExecutionTimeframe() {
-    const now = new Date();
-    const twoWeeksAgo = sub(now, { weeks: 2 });
-
-    return { startDate: twoWeeksAgo, endDate: now };
-}
-
-export async function summarizeMood(userId: string): Promise<string> {
+async function summarizeMood(userId: string): Promise<string> {
     const executionTimeframe = getMoodExecutionTimeframe();
     const executionName = AiExecutionName.MoodSummary;
-
-    if (!canExecuteAi({ userId, executionName, createdAfter: executionTimeframe.startDate })) {
-        throw new Error('AI executions quota exceeded to summarize moods');
-    }
 
     const moods = await getMoods({
         userId,
@@ -52,13 +46,9 @@ export async function summarizeMood(userId: string): Promise<string> {
     return response;
 }
 
-export async function adviseMood(userId: string): Promise<string> {
+async function adviseMood(userId: string): Promise<string> {
     const executionTimeframe = getMoodExecutionTimeframe();
     const executionName = AiExecutionName.MoodAdvice;
-
-    if (!canExecuteAi({ userId, executionName, createdAfter: executionTimeframe.startDate })) {
-        throw new Error('AI executions quota exceeded to get advice on moods');
-    }
 
     const moods = await getMoods({
         userId,
@@ -76,3 +66,15 @@ export async function adviseMood(userId: string): Promise<string> {
 
     return response;
 }
+
+export const summarizeMoodAction = zact()(
+    async () => {
+        const { user } = await getServerSession();
+        const summary = await summarizeMood(user.id);
+        const advise = await adviseMood(user.id);
+
+        revalidatePath('/moods');
+
+        return { summary, advise };
+    }
+);

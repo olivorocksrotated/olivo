@@ -19,24 +19,19 @@ export function getAiExecution({ userId, executionName, createdAfter }: {
 
 export async function getAiResponse(prompt: string): Promise<string> {
     try {
-        const response = await aiClient.createChatCompletion({
+        const res = await aiClient.createChatCompletion({
             model: 'gpt-4',
             messages: [{ role: 'user', content: prompt }]
         });
 
-        return response.data.choices[0].message?.content ?? 'We could not get an answer';
+        const aiResponse = res.data.choices[0].message?.content;
+        if (!aiResponse) {
+            throw new Error('The AI did not produce any answer');
+        }
+
+        return aiResponse;
     } catch (error: any) {
         const errorMessage = error.response ? `${error.response.status - error.response.data}` : error.message;
         throw new Error(errorMessage);
     }
-}
-
-export async function canExecuteAi({ userId, executionName, createdAfter }: {
-    userId: string,
-    executionName: AiExecutionName
-    createdAfter: Date
-}): Promise<boolean> {
-    const lastExecution = await getAiExecution({ userId, executionName, createdAfter });
-
-    return !lastExecution;
 }
