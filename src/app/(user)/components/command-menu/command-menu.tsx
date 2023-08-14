@@ -76,7 +76,7 @@ export default function CommandMenu() {
     }
 
     return (
-        <CommandMenuContext.Provider value={{ setCommandList: onNewCommands }}>
+        <CommandMenuContext.Provider value={{ setCommandList: onNewCommands, exit: () => close() }}>
             <Dialog.Root open={open}>
                 <Dialog.Portal container={containerElement.current as any}>
                     <Dialog.Content cmdk-dialog="">

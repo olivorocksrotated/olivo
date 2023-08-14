@@ -36,14 +36,20 @@ type CommandViewProps = {
 };
 
 export default function CommandView({ title, children, action, commands }: CommandViewProps) {
-    const { setCommandList } = useContext(CommandMenuContext) as any;
+    const { setCommandList, exit } = useContext(CommandMenuContext);
 
     function showSubCommands() {
-        setCommandList(commands);
+        if (commands) {
+            setCommandList(commands);
+        }
     }
 
     const keyEventHandlers: KeyHandler[] = [
-        [Key.Enter, { considerEventHandled: true, meta: true }, action.execute]
+        [Key.Enter, { considerEventHandled: true, meta: true }, async () => {
+            await action.execute();
+            // do some nice loading animation
+            exit();
+        }]
     ];
 
     if (commands) {
