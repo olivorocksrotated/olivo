@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 import { z } from 'zod';
 
@@ -24,6 +25,8 @@ export const createNoteAction = zact(z.object({
     async ({ text, tags }) => {
         try {
             await createNote(text, tags);
+
+            revalidatePath('/pending');
 
             return createServerActionSuccessResponse();
         } catch (error) {
