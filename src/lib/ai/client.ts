@@ -1,3 +1,6 @@
-import OpenAI from 'openai';
+import { Configuration, OpenAIApi } from 'openai-edge';
 
-export const aiClient = new OpenAI();
+const config = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY
+});
+export const openAiClient = new OpenAIApi(config);

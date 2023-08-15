@@ -1,11 +1,10 @@
 'use server';
 
-import { AiExecutionName, Mood } from '@prisma/client';
+import { Mood } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 
-import { createAiExecution } from '../ai/create';
-import { getAiResponse } from '../ai/get';
+import { getStreamedAiResponse } from '../ai/get';
 import { getServerSession } from '../auth/session';
 import { formatDate } from '../date/format';
 import { getMoodExecutionTimeframe } from './ai-timeframe';
@@ -25,9 +24,39 @@ function createPrompt({ action, startDate, endDate, moods }: {
     `;
 }
 
-async function summarizeMood(userId: string): Promise<string> {
+export async function createMoodSummaryPrompt(userId: string): Promise<string> {
     const executionTimeframe = getMoodExecutionTimeframe();
-    const executionName = AiExecutionName.MoodSummary;
+
+    const moods = await getMoods({
+        userId,
+        filters: { created: { value: 'between', ...executionTimeframe } }
+    });
+
+    return createPrompt({
+        action: 'Tell me in detail how you perceive my mood. Use empathetic voice and tone.',
+        moods,
+        ...executionTimeframe
+    });
+}
+
+export async function createMoodAdvicePrompt(userId: string): Promise<string> {
+    const executionTimeframe = getMoodExecutionTimeframe();
+
+    const moods = await getMoods({
+        userId,
+        filters: { created: { value: 'between', ...executionTimeframe } }
+    });
+
+    return createPrompt({
+        action: 'Tell me in detail what can I do to improve my mood. Use empathetic voice and tone.',
+        moods,
+        ...executionTimeframe
+    });
+}
+
+export async function summarizeMood(userId: string) {
+    const executionTimeframe = getMoodExecutionTimeframe();
+    // const executionName = AiExecutionName.MoodSummary;
 
     const moods = await getMoods({
         userId,
@@ -35,20 +64,20 @@ async function summarizeMood(userId: string): Promise<string> {
     });
 
     const prompt = createPrompt({
-        action: 'Tell me in detail how you perceive my mood from the past 2 weeks. Use empathetic voice and tone.',
+        action: 'Tell me in detail how you perceive my mood. Use empathetic voice and tone.',
         moods,
         ...executionTimeframe
     });
 
-    const response = await getAiResponse(prompt);
-    await createAiExecution({ userId, executionName, prompt, response });
+    const response = await getStreamedAiResponse(prompt);
+    // await createAiExecution({ userId, executionName, prompt, response });
 
     return response;
 }
 
-async function adviseMood(userId: string): Promise<string> {
+async function adviseMood(userId: string) {
     const executionTimeframe = getMoodExecutionTimeframe();
-    const executionName = AiExecutionName.MoodAdvice;
+    // const executionName = AiExecutionName.MoodAdvice;
 
     const moods = await getMoods({
         userId,
@@ -61,8 +90,8 @@ async function adviseMood(userId: string): Promise<string> {
         ...executionTimeframe
     });
 
-    const response = await getAiResponse(prompt);
-    await createAiExecution({ userId, executionName, prompt, response });
+    const response = await getStreamedAiResponse(prompt);
+    // await createAiExecution({ userId, executionName, prompt, response });
 
     return response;
 }
