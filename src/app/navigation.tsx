@@ -1,7 +1,7 @@
 import { AiFillHome } from 'react-icons/ai';
-import { BsPeopleFill } from 'react-icons/bs';
+import { BsFillChatLeftHeartFill, BsPeopleFill } from 'react-icons/bs';
 import { FaTasks } from 'react-icons/fa';
-import { LuMessagesSquare } from 'react-icons/lu';
+import { PiChatsCircleDuotone } from 'react-icons/pi';
 import { TbMoodCheck } from 'react-icons/tb';
 
 export type NavigationLink = {
@@ -42,6 +42,12 @@ export const links: NavigationLink[] = [
         id: 'feedback',
         path: '/feedback',
         title: 'Feedback',
-        icon: <LuMessagesSquare size={18} />
+        icon: <BsFillChatLeftHeartFill size={18} />
+    },
+    {
+        id: 'ask',
+        path: '/ask',
+        title: 'Ask Olivo',
+        icon: <PiChatsCircleDuotone size={18} />
     }
 ];
