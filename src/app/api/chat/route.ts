@@ -13,8 +13,12 @@ const executionPrompt: { [key in AiExecutionName]: (userId: string) => Promise<s
 };
 
 const aiSdkBodySchema = z.object({
-    messages: z.tuple([z.object({ content: z.nativeEnum(AiExecutionName) })])
-});
+    messages: z.tuple([z.object({ content: z.nativeEnum(AiExecutionName) })]),
+    execution: z.nativeEnum(AiExecutionName)
+}).refine(
+    ({ messages, execution }) => messages[0].content === execution,
+    { message: 'The execution name must match' }
+);
 
 export async function POST(req: Request) {
     const validation = aiSdkBodySchema.safeParse(await req.json());
@@ -25,11 +29,10 @@ export async function POST(req: Request) {
         );
     }
 
-    const { messages } = validation.data;
-    const { content: name } = messages[0];
+    const { execution } = validation.data;
     const { user } = await getServerSession();
 
-    const prompt = await executionPrompt[name](user.id);
+    const prompt = await executionPrompt[execution](user.id);
     const response = await getStreamedAiResponse(prompt);
     const stream = OpenAIStream(response);
 
