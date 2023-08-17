@@ -5,7 +5,10 @@ import { Fragment } from 'react';
 import { IoChevronDownOutline, IoChevronUpOutline } from 'react-icons/io5';
 
 const triggerStyles = cva(
-    'flex h-[42px] min-h-[42px] items-center justify-between gap-4 truncate rounded border border-solid border-neutral-500 px-4 py-1 text-white transition hover:enabled:border-neutral-200 disabled:cursor-not-allowed disabled:opacity-50',
+    'flex h-[42px] min-h-[42px] items-center justify-between gap-4 rounded border border-solid border-neutral-500 px-4 py-1 text-white transition ' +
+    '[&>span]:truncate ' +
+    'hover:enabled:border-neutral-200 ' +
+    'disabled:cursor-not-allowed disabled:opacity-50',
     {
         variants: {
             w: {
@@ -74,7 +77,7 @@ export default function Select(props: Props) {
         <SelectPrimitive.Root disabled={disabled} onValueChange={onValueChange}>
             <SelectPrimitive.Trigger aria-label={label} className={triggerStyles(props)}>
                 <SelectPrimitive.Value placeholder={placeholder} />
-                <SelectPrimitive.Icon>
+                <SelectPrimitive.Icon className="min-w-fit">
                     <IoChevronDownOutline />
                 </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>

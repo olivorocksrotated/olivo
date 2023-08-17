@@ -53,3 +53,12 @@ export const Default: Story = {
         itemGroups
     }
 };
+
+export const OverflowingPlaceholder: Story = {
+    args: {
+        placeholder: 'Select an item from this very long placeholder that should be truncated',
+        label: 'Item selection',
+        itemGroups,
+        w: 'md'
+    }
+};
