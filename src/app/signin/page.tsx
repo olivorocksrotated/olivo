@@ -8,7 +8,6 @@ import { VscGithub } from 'react-icons/vsc';
 
 import { isDevEnvironment } from '@/lib/environment';
 
-import packageInfo from '../../../package.json';
 import Button from '../components/ui/button/button';
 import Loader from '../components/ui/loader/loader';
 import styles from './page.module.css';
@@ -29,7 +28,6 @@ export default function SignIn() {
 
     return (
         <div className={`flex h-screen w-screen flex-col items-center gap-20 py-64 ${styles.background}`}>
-            <div className="absolute right-4 top-4 text-neutral-300">version {packageInfo.version}</div>
             <div className={`${styles.logo} min-h-[90px] rounded-md bg-gradient-to-r from-transparent via-purple-400 to-transparent px-64 py-5 text-5xl font-bold`}>
                 OLIVO
             </div>
