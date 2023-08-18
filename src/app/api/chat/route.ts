@@ -14,7 +14,7 @@ const executionPrompt: { [key in AiExecutionName]: (userId: string) => Promise<s
 };
 
 const aiSdkBodySchema = z.object({
-    messages: z.tuple([z.object({ content: z.nativeEnum(AiExecutionName) })]),
+    messages: z.array(z.object({ content: z.string() })),
     execution: z.nativeEnum(AiExecutionName)
 }).refine(
     ({ messages, execution }) => messages[0].content === execution,
