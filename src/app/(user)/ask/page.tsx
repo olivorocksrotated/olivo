@@ -35,6 +35,14 @@ export default function Ask() {
         setBody({ execution: value });
     };
 
+    const forceSetInputAfterReset = () => {
+        if (!body.execution) {
+            return;
+        }
+
+        handleSelectOption(body.execution);
+    };
+
     return (
         <div className="flex flex-col justify-between gap-10">
             <form onSubmit={handleSubmit} className="flex gap-8">
@@ -47,9 +55,11 @@ export default function Ask() {
                     />
                 </div>
                 <Button type="submit"
+                    intent="cta"
                     label={!isLoading ? 'Get answer from AI' : 'Generating response...'}
                     loading={isLoading}
-                    disabled={isLoading}
+                    disabled={isLoading || !body.execution}
+                    onClick={forceSetInputAfterReset}
                 />
             </form>
             <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
