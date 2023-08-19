@@ -42,13 +42,10 @@ export async function POST(req: Request) {
     const traceId = `${userId}-${new Date}`;
     const stream = OpenAIStream(response, {
         onStart: async () => {
-            console.debug('/api/chat - Stream started', { userId, prompt, traceId });
-        },
-        onToken: async (token: string) => {
-            console.debug('/api/chat - Token received', { userId, token, traceId });
+            console.debug('/api/chat - Stream started', { userId, traceId });
         },
         onCompletion: async (completion: string) => {
-            console.debug('/api/chat - Stream completed', { userId, completion, traceId });
+            console.debug('/api/chat - Stream completed', { userId, traceId });
             await createAiExecution({
                 userId,
                 executionName: execution,
