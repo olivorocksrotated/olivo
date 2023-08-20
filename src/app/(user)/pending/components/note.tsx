@@ -9,19 +9,26 @@ import { generateHTML } from '@tiptap/react';
 import { motion } from 'framer-motion';
 import { BsCheck } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
+import { useZact } from 'zact/client';
+
+import { archiveNoteAction } from '@/lib/notes/archive';
 
 const extensions = [Document, Paragraph, Text, HardBreak, Heading];
 
-function ActionButton({ children }: { children: React.ReactNode; }) {
+function ActionButton({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
     return (
         <motion.div whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}>
-            <div className="cursor-pointer rounded border border-neutral-500 p-1">{children}</div>
+            <div onClick={onClick} className="cursor-pointer rounded border border-neutral-500 p-1">{children}</div>
         </motion.div>
     );
 }
 
-export default function Note({ text }: { text: string }) {
+export default function Note({ text, id }: { text: string, id: string }) {
     const doc = JSON.parse(text);
+
+    const { mutate: archiveNote } = useZact(archiveNoteAction);
+
+    const remove = () => archiveNote({ id });
 
     return (
         <div className="mt-5 flex justify-between rounded-lg border border-neutral-600 bg-neutral-800 bg-opacity-50 p-2 text-neutral-200">
@@ -32,7 +39,7 @@ export default function Note({ text }: { text: string }) {
             </div>
             <div className="flex items-start gap-3">
                 <ActionButton><BsCheck></BsCheck></ActionButton>
-                <ActionButton><TbTrash></TbTrash></ActionButton>
+                <ActionButton onClick={remove}><TbTrash></TbTrash></ActionButton>
             </div>
         </div>
     );

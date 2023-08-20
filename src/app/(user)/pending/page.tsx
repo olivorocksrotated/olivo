@@ -10,7 +10,7 @@ export default async function Pending() {
             <div className="rounded-lg bg-neutral-900 p-5">
                 <div className="text-xl">Notes</div>
                 <div>
-                    {notes.map((note) => <Note key={note.id} text={note.text}></Note>)}
+                    {notes.map((note) => <Note key={note.id} id={note.id} text={note.text}></Note>)}
                 </div>
             </div>
         </div>
