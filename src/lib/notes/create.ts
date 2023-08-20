@@ -11,11 +11,9 @@ import {
     createServerActionUnknownErrorResponse
 } from '../server-actions';
 
-async function createNote(text: string, tags?: string[]) {
-    const { user } = await getServerSession();
-
+async function createNote(userId: string, text: string, tags?: string[]) {
     await prisma.note.create({
-        data: { ownerId: user.id, text, tags: tags?.join(',') || '' }
+        data: { ownerId: userId, text, tags: tags?.join(',') || '' }
     });
 }
 
@@ -24,7 +22,8 @@ export const createNoteAction = zact(z.object({
 }))(
     async ({ text, tags }) => {
         try {
-            await createNote(text, tags);
+            const { user } = await getServerSession();
+            await createNote(user.id, text, tags);
 
             revalidatePath('/pending');
 
