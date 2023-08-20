@@ -69,8 +69,8 @@ export default function CommandMenu() {
         setCommandList(commands);
     }
 
-    function onSelectCommand(commandName: string) {
-        const command = commandList[commandName];
+    function onSelectCommand(commandGroup: string, commandName: string) {
+        const command = commandList[commandGroup][commandName];
         setHistory([...history, { type: HistoryType.CommandKey, value: command }]);
         setSelectedCommand(command);
     }
@@ -98,15 +98,19 @@ export default function CommandMenu() {
                                             <Command.List>
                                                 <Command.Empty>No results found.</Command.Empty>
 
-                                                <Command.Group heading="Commands">
-                                                    {
-                                                        Object.keys(commandList).map((commandName) => (
-                                                            <Command.Item key={commandName} onSelect={() => onSelectCommand(commandName)}>
-                                                                <span>{commandList[commandName].title}</span>
-                                                            </Command.Item>
-                                                        ))
-                                                    }
-                                                </Command.Group>
+                                                {
+                                                    Object.keys(commandList).map((commandGroup) => (
+                                                        <Command.Group key={commandGroup} heading={commandGroup}>
+                                                            {
+                                                                Object.keys(commandList[commandGroup]).map((commandName) => (
+                                                                    <Command.Item key={commandName} onSelect={() => onSelectCommand(commandGroup, commandName)}>
+                                                                        <span>{commandList[commandGroup][commandName].title}</span>
+                                                                    </Command.Item>
+                                                                ))
+                                                            }
+                                                        </Command.Group>
+                                                    ))
+                                                }
                                             </Command.List>
                                         </Command>
                                     </motion.div>

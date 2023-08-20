@@ -12,10 +12,14 @@ const linkCommands = links.reduce((linkCommandsList, link) => ({
     }
 }), {});
 
-export const Commands: CommandsList = {
-    ...linkCommands,
+const commands = {
     'quick-notes': {
         view: <QuickNotesCommand></QuickNotesCommand>,
         title: 'Quick note'
     }
+};
+
+export const Commands: CommandsList = {
+    Links: linkCommands,
+    Commands: commands
 };

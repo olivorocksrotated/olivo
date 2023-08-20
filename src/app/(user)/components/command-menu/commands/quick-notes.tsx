@@ -51,9 +51,11 @@ function AddTags() {
 }
 
 const subCommands: CommandsList = {
-    'add-tags': {
-        title: 'Add tags',
-        view: <AddTags />
+    Commands: {
+        'add-tags': {
+            title: 'Add tags',
+            view: <AddTags />
+        }
     }
 };
 
