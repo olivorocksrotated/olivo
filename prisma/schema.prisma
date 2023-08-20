@@ -100,11 +100,12 @@ model Notification {
 }
 
 model Note {
-  id      String @id @default(cuid())
+  id      String     @id @default(cuid())
   text    String
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String
   tags    String
+  status  NoteStatus @default(Unresolved)
 
   @@index([ownerId])
 }
@@ -119,6 +120,12 @@ model AiExecution {
   response      String          @db.Text
 
   @@index([ownerId])
+}
+
+enum NoteStatus {
+  Unresolved
+  Resolved
+  Archived
 }
 
 enum CommitmentStatus {
