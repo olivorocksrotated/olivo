@@ -188,7 +188,7 @@
 
 .command-menu [cmdk-list] {
   padding: 0 8px;
-  height: 393px;
+  max-height: 340px;
   overflow: auto;
   overscroll-behavior: contain;
   scroll-padding-block-end: 40px;

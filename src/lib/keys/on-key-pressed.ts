@@ -1,20 +1,18 @@
 import { KeyboardEvent } from 'react';
 
-import { Key } from './types';
+import { KeyHandler } from './types';
 
-type Options = {
-    considerEventHandled?: boolean;
-};
-
-export function onKeyPressed(key: Key, { considerEventHandled }: Options, callback: (event: KeyboardEvent) => void) {
+export function onKeyPressed(handlers: KeyHandler[]) {
     return (event: KeyboardEvent) => {
-        if (event.key === key) {
-            if (considerEventHandled) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
+        for (const [key, { considerEventHandled, meta }, handler] of handlers) {
+            if (event.key === key && (meta ? event.metaKey : true)) {
+                if (considerEventHandled) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
 
-            return callback(event);
+                return handler(event);
+            }
         }
     };
 }

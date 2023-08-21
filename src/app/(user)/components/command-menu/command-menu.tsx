@@ -4,85 +4,92 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { AiOutlineEnter, AiOutlineRollback } from 'react-icons/ai';
-
-import { links } from '@/app/navigation';
-import { onKeyPressed } from '@/lib/keys/on-key-pressed';
-import { Key } from '@/lib/keys/types';
 
 import styles from './command-menu.module.css';
 import { Commands } from './commands/commands';
-import LinkCommand from './commands/link';
+import { Command as CommandConfig, CommandsList } from './commands/types';
+import { CommandMenuContext } from './context';
 
-function CommandBackButton() {
-    return (
-        <div className="m-2 flex">
-            <div className="flex items-center gap-2 rounded bg-neutral-700 px-2 py-1 text-[10px] font-semibold">
-                <AiOutlineRollback></AiOutlineRollback><span>ESC</span>
-            </div>
-        </div>
-    );
+enum HistoryType {
+    CommandKey = 'Command',
+    CommandsListKey = 'CommandsList'
 }
 
-function CommandView({ commandId, onEsc }: { commandId: string, onEsc: () => void }) {
-    const onKeyDown = onKeyPressed(Key.Escape, { considerEventHandled: true }, onEsc);
+type CommandMenuHistory<T extends HistoryType = HistoryType> = {
+    type: T,
+    value: T extends HistoryType.CommandKey ? CommandConfig : CommandsList
+};
 
-    const command = Commands[commandId];
-
-    return (
-        <div onKeyDown={onKeyDown} className="flex h-full flex-col justify-between">
-            <div className="flex h-full flex-col">
-                <div className="m-2 flex items-center justify-between">
-                    <div className="font-bold">{command.title}</div>
-                    <CommandBackButton></CommandBackButton>
-                </div>
-                <div className="grow p-5">
-                    {command.view}
-                </div>
-            </div>
-            <div className="flex items-center justify-end gap-2 border-t border-neutral-700 p-2">
-                <div>{command.action.label}</div>
-                <div className="flex items-center gap-2 rounded bg-neutral-700 p-2 text-sm font-semibold">⌘<AiOutlineEnter></AiOutlineEnter></div>
-            </div>
-        </div>
-    );
-}
-
-const noCommand = '';
+const defaultHistoryState: CommandMenuHistory<HistoryType.CommandsListKey> = { type: HistoryType.CommandsListKey, value: Commands };
 
 export default function CommandMenu() {
     const [open, setOpen] = useState(false);
-    const [selectedCommand, setSelectedCommand] = useState(noCommand);
+    const [selectedCommand, setSelectedCommand] = useState<CommandConfig | null>(null);
+    const [history, setHistory] = useState<CommandMenuHistory[]>([defaultHistoryState]);
+    const [commandList, setCommandList] = useState<CommandsList>(defaultHistoryState.value);
     const containerElement = useRef(null);
+
+    function close() {
+        setCommandList(defaultHistoryState.value);
+        setSelectedCommand(null);
+        setOpen((isOpen) => !isOpen);
+    }
 
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'k' && e.metaKey) {
-                setOpen((isOpen) => !isOpen);
+                return close();
+            }
+
+            if (e.key === 'Escape' && open) {
+                if (history.length > 1) {
+                    history.pop();
+                    const prevState = history[history.length - 1];
+                    if (prevState?.type === HistoryType.CommandKey) {
+                        setSelectedCommand(prevState.value as CommandConfig);
+                    } else if (prevState?.type === HistoryType.CommandsListKey) {
+                        setSelectedCommand(null);
+                        setCommandList(prevState.value as CommandsList);
+                    }
+                    setHistory([...history]);
+                } else {
+                    close();
+                }
             }
         };
 
         document.addEventListener('keydown', onKeyDown);
 
         return () => document.removeEventListener('keydown', onKeyDown);
-    }, []);
+    }, [open, history]);
+
+    function onNewCommands(commands: CommandsList) {
+        setHistory([...history, { type: HistoryType.CommandsListKey, value: commands }]);
+        setSelectedCommand(null);
+        setCommandList(commands);
+    }
+
+    function onSelectCommand(commandGroup: string, commandName: string) {
+        const command = commandList[commandGroup][commandName];
+        setHistory([...history, { type: HistoryType.CommandKey, value: command }]);
+        setSelectedCommand(command);
+    }
 
     return (
-        <>
+        <CommandMenuContext.Provider value={{ setCommandList: onNewCommands, exit: () => close() }}>
             <Dialog.Root open={open}>
                 <Dialog.Portal container={containerElement.current as any}>
-                    <Dialog.Content cmdk-dialog="" onEscapeKeyDown={() => setOpen(false)}>
+                    <Dialog.Content cmdk-dialog="">
                         <div className="h-96 rounded-lg border-0 bg-neutral-950">
-
                             <AnimatePresence mode="wait">
-                                {selectedCommand !== '' ? (
+                                {selectedCommand ? (
                                     <motion.div key="selected-command-view"
                                         initial={{ opacity: 0.2, scale: 0.99 }}
                                         exit={{ opacity: 0.2, scale: 0.99 }}
                                         animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}
                                         className="h-full"
                                     >
-                                        <CommandView commandId={selectedCommand} onEsc={() => setSelectedCommand(noCommand)}></CommandView>
+                                        {selectedCommand.view}
                                     </motion.div>
                                 ) : (
                                     <motion.div exit={{ opacity: 0.2, transition: { duration: 0.4 } }} key="command-list">
@@ -91,19 +98,19 @@ export default function CommandMenu() {
                                             <Command.List>
                                                 <Command.Empty>No results found.</Command.Empty>
 
-                                                <Command.Group heading="Go to">
-                                                    {links.map((link) => <LinkCommand onSelect={() => setOpen(false)} key={link.id} link={link}></LinkCommand>)}
-                                                </Command.Group>
-
-                                                <Command.Group heading="Commands">
-                                                    {
-                                                        Object.keys(Commands).map((commandName) => (
-                                                            <Command.Item key={commandName} onSelect={() => setSelectedCommand(commandName)}>
-                                                                <span>{Commands[commandName].title}</span>
-                                                            </Command.Item>
-                                                        ))
-                                                    }
-                                                </Command.Group>
+                                                {
+                                                    Object.keys(commandList).map((commandGroup) => (
+                                                        <Command.Group key={commandGroup} heading={commandGroup}>
+                                                            {
+                                                                Object.keys(commandList[commandGroup]).map((commandName) => (
+                                                                    <Command.Item key={commandName} onSelect={() => onSelectCommand(commandGroup, commandName)}>
+                                                                        <span>{commandList[commandGroup][commandName].title}</span>
+                                                                    </Command.Item>
+                                                                ))
+                                                            }
+                                                        </Command.Group>
+                                                    ))
+                                                }
                                             </Command.List>
                                         </Command>
                                     </motion.div>
@@ -114,6 +121,6 @@ export default function CommandMenu() {
                 </Dialog.Portal>
             </Dialog.Root>
             <div className={styles['command-menu']} ref={containerElement}></div>
-        </>
+        </CommandMenuContext.Provider>
     );
 }

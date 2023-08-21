@@ -1,6 +1,7 @@
 import { AiFillHome } from 'react-icons/ai';
 import { BsFillChatLeftHeartFill, BsPeopleFill } from 'react-icons/bs';
 import { FaTasks } from 'react-icons/fa';
+import { MdPendingActions } from 'react-icons/md';
 import { PiChatsCircleDuotone } from 'react-icons/pi';
 import { TbMoodCheck } from 'react-icons/tb';
 
@@ -18,6 +19,12 @@ export const links: NavigationLink[] = [
         path: '/',
         title: 'Home',
         icon: <AiFillHome size={18} />
+    },
+    {
+        id: 'pending',
+        path: '/pending',
+        title: 'Pending',
+        icon: <MdPendingActions size={18} />
     },
     {
         id: 'commitments',
