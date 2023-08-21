@@ -33,7 +33,7 @@ export default function Note({ text, id }: { text: string, id: string }) {
     const resolve = () => updateNoteStatus({ id, status: NoteStatus.Resolved });
 
     return (
-        <div className="mt-5 flex justify-between rounded-lg border border-neutral-900 bg-neutral-950 p-2 text-neutral-200">
+        <div className="flex justify-between rounded-lg border border-neutral-900 bg-neutral-950 p-2 text-neutral-200">
             <div className="mb-3"
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: generateHTML(doc, extensions) }}
