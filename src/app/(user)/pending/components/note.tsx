@@ -1,5 +1,6 @@
 'use client';
 
+import { NoteStatus } from '@prisma/client';
 import Document from '@tiptap/extension-document';
 import HardBreak from '@tiptap/extension-hard-break';
 import Heading from '@tiptap/extension-heading';
@@ -11,7 +12,7 @@ import { BsCheck } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
 import { useZact } from 'zact/client';
 
-import { archiveNoteAction } from '@/lib/notes/archive';
+import { updateNoteStatusAction } from '@/lib/notes/updateStatus';
 
 const extensions = [Document, Paragraph, Text, HardBreak, Heading];
 
@@ -26,9 +27,10 @@ function ActionButton({ children, onClick }: { children: React.ReactNode; onClic
 export default function Note({ text, id }: { text: string, id: string }) {
     const doc = JSON.parse(text);
 
-    const { mutate: archiveNote } = useZact(archiveNoteAction);
+    const { mutate: updateNoteStatus } = useZact(updateNoteStatusAction);
 
-    const remove = () => archiveNote({ id });
+    const remove = () => updateNoteStatus({ id, status: NoteStatus.Archived });
+    const resolve = () => updateNoteStatus({ id, status: NoteStatus.Resolved });
 
     return (
         <div className="mt-5 flex justify-between rounded-lg border border-neutral-900 bg-neutral-950 p-2 text-neutral-200">
@@ -38,7 +40,7 @@ export default function Note({ text, id }: { text: string, id: string }) {
             >
             </div>
             <div className="flex items-start gap-3">
-                <ActionButton><BsCheck></BsCheck></ActionButton>
+                <ActionButton onClick={resolve}><BsCheck></BsCheck></ActionButton>
                 <ActionButton onClick={remove}><TbTrash></TbTrash></ActionButton>
             </div>
         </div>

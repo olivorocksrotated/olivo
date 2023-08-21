@@ -12,20 +12,20 @@ import {
     createServerActionUnknownErrorResponse
 } from '../server-actions';
 
-async function archiveNote(id: string, userId: string) {
+async function updateNoteStatus(id: string, userId: string, status: NoteStatus) {
     await prisma.note.update({
         where: { id, ownerId: userId },
-        data: { status: NoteStatus.Archived }
+        data: { status }
     });
 }
 
-export const archiveNoteAction = zact(z.object({
-    id: z.string()
+export const updateNoteStatusAction = zact(z.object({
+    id: z.string(), status: z.nativeEnum(NoteStatus)
 }))(
-    async ({ id }) => {
+    async ({ id, status }) => {
         try {
             const { user } = await getServerSession();
-            await archiveNote(id, user.id);
+            await updateNoteStatus(id, user.id, status);
 
             revalidatePath('/pending');
 
