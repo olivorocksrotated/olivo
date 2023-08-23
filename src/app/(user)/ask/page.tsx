@@ -1,11 +1,14 @@
 'use client';
 
-import { AiExecutionName } from '@prisma/client';
+import { AiExecution, AiExecutionName } from '@prisma/client';
 import { useChat } from 'ai/react';
 import { useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';
 import Select, { ItemGroup } from '@/app/components/ui/select/select';
+import { getRelativeDate } from '@/lib/date/format';
+import { fetchFromApi, getApiUrl, ResourcePath } from '@/lib/http/fetch';
+import { HttpMethod } from '@/lib/http/route';
 
 const itemGroups: ItemGroup[] = [
     {
@@ -28,11 +31,44 @@ export default function Ask() {
         execution: null | AiExecutionName
     }>({ execution: null });
 
-    const { messages, isLoading, setInput, setMessages, handleSubmit } = useChat({ body });
+    const [lastExecutionDate, setLastExecutionDate] = useState<Date | null>(null);
 
-    const handleSelectOption = (value: AiExecutionName) => {
-        setInput(value);
-        setBody({ execution: value });
+    const { messages, isLoading, setInput, setMessages, handleSubmit } = useChat({
+        api: getApiUrl(ResourcePath.Ai, ''),
+        body
+    });
+
+    const setExecutionName = (executionName: AiExecutionName) => {
+        setInput(executionName);
+        setBody({ execution: executionName });
+    };
+
+    const setLastStoredExecution = async (executionName: AiExecutionName) => {
+        const lastExecutionResponse = await fetchFromApi({
+            method: HttpMethod.GET,
+            path: ResourcePath.Ai,
+            attachToPath: `/${executionName}`
+        });
+        const lastExecution: AiExecution = await lastExecutionResponse.json();
+
+        if (!lastExecution) {
+            setMessages([]);
+            setLastExecutionDate(null);
+
+            return;
+        }
+
+        setMessages([{
+            id: lastExecution.id,
+            role: 'assistant',
+            content: lastExecution.response
+        }]);
+        setLastExecutionDate(lastExecution.createdAt);
+    };
+
+    const handleSelectOption = async (executionName: AiExecutionName) => {
+        setExecutionName(executionName);
+        await setLastStoredExecution(executionName);
     };
 
     const forceSetInputAfterReset = () => {
@@ -41,7 +77,12 @@ export default function Ask() {
         }
 
         setMessages([]);
-        handleSelectOption(body.execution);
+        setExecutionName(body.execution);
+    };
+
+    const handleButtonClick = () => {
+        forceSetInputAfterReset();
+        setLastExecutionDate(new Date());
     };
 
     return (
@@ -62,10 +103,13 @@ export default function Ask() {
                         label={!isLoading ? 'Get answer from AI' : 'Generating response...'}
                         loading={isLoading}
                         disabled={isLoading || !body.execution}
-                        onClick={forceSetInputAfterReset}
+                        onClick={handleButtonClick}
                     />
                 </div>
             </form>
+            {lastExecutionDate ? (
+                <p className="mb-2 text-neutral-400">Last execution {getRelativeDate(lastExecutionDate, new Date()).toLowerCase()}</p>
+            ) : null}
             <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
                 {messages.length === 0 && !isLoading ? (
                     <div className="text-neutral-600">Your response will appear here</div>

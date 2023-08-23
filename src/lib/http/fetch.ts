@@ -1,12 +1,11 @@
 import { HttpMethod } from './route';
 
 export enum ResourcePath {
-    Reports = 'reports',
-    Commitments = 'commitments',
+    Ai = 'ai',
     Notifications = 'notifications'
 }
 
-function getApiUrl(path: ResourcePath, attachToPath: string) {
+export function getApiUrl(path: ResourcePath, attachToPath: string): string {
     return `/api/${path}${attachToPath}`;
 }
 
@@ -15,7 +14,7 @@ export function fetchFromApi({ method, path, attachToPath = '', body }: {
     path: ResourcePath,
     attachToPath?: string,
     body?: any
-}) {
+}): Promise<Response> {
     return fetch(getApiUrl(path, attachToPath), {
         method,
         headers: { 'Content-Type': 'application/json' },
