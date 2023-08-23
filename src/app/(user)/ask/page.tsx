@@ -28,7 +28,7 @@ export default function Ask() {
         execution: null | AiExecutionName
     }>({ execution: null });
 
-    const { messages, isLoading, setInput, handleSubmit } = useChat({ body });
+    const { messages, isLoading, setInput, setMessages, handleSubmit } = useChat({ body });
 
     const handleSelectOption = (value: AiExecutionName) => {
         setInput(value);
@@ -40,6 +40,7 @@ export default function Ask() {
             return;
         }
 
+        setMessages([]);
         handleSelectOption(body.execution);
     };
 
@@ -63,9 +64,9 @@ export default function Ask() {
                 />
             </form>
             <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
-                <span className="text-neutral-600">
-                    {messages.length === 0 && !isLoading ? 'Your response will appear here' : ''}
-                </span>
+                {messages.length === 0 && !isLoading ? (
+                    <div className="text-neutral-600">Your response will appear here</div>
+                ) : null}
                 {messages.map((m) => (m.role !== 'user' ? <div key={m.id}>{m.content}</div> : null))}
             </div>
         </div>
