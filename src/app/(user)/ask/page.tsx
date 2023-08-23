@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';
 import Select, { ItemGroup } from '@/app/components/ui/select/select';
+import { ResourcePath } from '@/lib/http/fetch';
 
 const itemGroups: ItemGroup[] = [
     {
@@ -28,7 +29,10 @@ export default function Ask() {
         execution: null | AiExecutionName
     }>({ execution: null });
 
-    const { messages, isLoading, setInput, setMessages, handleSubmit } = useChat({ body });
+    const { messages, isLoading, setInput, setMessages, handleSubmit } = useChat({
+        api: `/api/${ResourcePath.Ai}`,
+        body
+    });
 
     const handleSelectOption = (value: AiExecutionName) => {
         setInput(value);

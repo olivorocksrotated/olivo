@@ -1,8 +1,7 @@
 import { HttpMethod } from './route';
 
 export enum ResourcePath {
-    Reports = 'reports',
-    Commitments = 'commitments',
+    Ai = 'ai',
     Notifications = 'notifications'
 }
 

@@ -6,11 +6,11 @@ import { getServerSession } from '@/lib/auth/session';
 
 export async function GET(
     _: Request,
-    { params }: { params: { execution: AiExecutionName } }
+    { params }: { params: { name: AiExecutionName } }
 ) {
-    const { execution: executionName } = params;
+    const { name } = params;
     const { user } = await getServerSession();
-    const execution = await getLastAiExecution(user.id, executionName);
+    const execution = await getLastAiExecution(user.id, name);
 
     return NextResponse.json(execution);
 }
