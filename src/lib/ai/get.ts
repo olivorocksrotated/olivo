@@ -1,5 +1,6 @@
 import { AiExecutionName } from '@prisma/client';
 
+import { hashString } from '../hash/hash-string';
 import prisma from '../prisma';
 import { openAiClient } from './client';
 
@@ -17,10 +18,12 @@ export function getAiExecution({ userId, executionName, createdAfter }: {
     });
 }
 
-export async function getStreamedAiResponse(prompt: string) {
+export async function getStreamedAiResponse(userId: string, prompt: string) {
     return openAiClient.createChatCompletion({
         model: 'gpt-4',
         messages: [{ role: 'user', content: prompt }],
-        stream: true
+        stream: true,
+        temperature: 1,
+        user: hashString(userId)
     });
 }
