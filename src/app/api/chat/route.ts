@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     const response = await getStreamedAiResponse(userId, prompt);
 
     /* eslint-disable no-console */
-    const traceId = `${userId}-${new Date}`;
+    const traceId = `${userId}-${new Date().toISOString()}`;
     const stream = OpenAIStream(response, {
         onStart: async () => {
             console.debug('/api/chat - Stream started', { userId, traceId });
