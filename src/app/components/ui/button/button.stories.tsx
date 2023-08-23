@@ -37,6 +37,17 @@ const meta: Meta<typeof Button> = {
                 defaultValue: { summary: 'md' }
             }
         },
+        w: {
+            name: 'w',
+            type: 'string',
+            description: 'How much should the button extend in width',
+            control: { type: 'radio' },
+            options: ['auto', 'full'],
+            table: {
+                type: { summary: 'auto | full' },
+                defaultValue: { summary: 'auto' }
+            }
+        },
         label: {
             description: 'Content of the button'
         },
@@ -92,5 +103,13 @@ export const Icon: Story = {
         intent: 'default',
         label: 'This is a button with icon',
         icon: FcGoogle
+    }
+};
+
+export const FullWidth: Story = {
+    args: {
+        intent: 'default',
+        label: 'This is a full width button',
+        w: 'full'
     }
 };

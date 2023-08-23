@@ -19,11 +19,16 @@ const buttonStyles = cva(
                 xs: 'h-[18px] min-h-[18px] px-2 text-xs',
                 s: 'h-[28px] min-h-[28px] px-3 py-1 text-sm',
                 md: 'h-[42px] min-h-[42px] px-4 py-1'
+            },
+            w: {
+                auto: 'w-auto',
+                full: 'w-full'
             }
         },
         defaultVariants: {
             intent: 'default',
-            size: 'md'
+            size: 'md',
+            w: 'auto'
         }
     }
 );
@@ -47,7 +52,7 @@ export default function Button(props: Props) {
         <button type="button" aria-label={label} {...nativeProps} className={buttonStyles(props)}>
             {Icon && !loading ? <Icon size={iconSize[size ?? 'md']} /> : null}
             {loading ? <Loader intent="inner" size={size ?? 'md'} /> : null}
-            <span>{label}</span>
+            <span className="grow">{label}</span>
         </button>
     );
 }
