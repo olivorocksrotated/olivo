@@ -4,17 +4,16 @@ import { hashString } from '../hash/hash-string';
 import prisma from '../prisma';
 import { openAiClient } from './client';
 
-export function getAiExecution({ userId, executionName, createdAfter }: {
-    userId: string,
-    executionName: AiExecutionName,
-    createdAfter: Date
-}) {
+export function getLastAiExecution(userId: string, executionName: AiExecutionName) {
     return prisma.aiExecution.findFirst({
         where: {
             ownerId: userId,
-            executionName,
-            createdAt: { gte: createdAfter }
-        }
+            executionName
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
+        take: 1
     });
 }
 
