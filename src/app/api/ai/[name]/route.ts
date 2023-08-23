@@ -12,5 +12,9 @@ export async function GET(
     const { user } = await getServerSession();
     const execution = await getLastAiExecution(user.id, name);
 
-    return NextResponse.json(execution);
+    return NextResponse.json({
+        id: execution?.id,
+        createdAt: execution?.createdAt,
+        response: execution?.response
+    });
 }

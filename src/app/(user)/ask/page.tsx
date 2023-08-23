@@ -1,12 +1,13 @@
 'use client';
 
-import { AiExecutionName } from '@prisma/client';
+import { AiExecution, AiExecutionName } from '@prisma/client';
 import { useChat } from 'ai/react';
 import { useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';
 import Select, { ItemGroup } from '@/app/components/ui/select/select';
-import { ResourcePath } from '@/lib/http/fetch';
+import { fetchFromApi, getApiUrl, ResourcePath } from '@/lib/http/fetch';
+import { HttpMethod } from '@/lib/http/route';
 
 const itemGroups: ItemGroup[] = [
     {
@@ -30,13 +31,37 @@ export default function Ask() {
     }>({ execution: null });
 
     const { messages, isLoading, setInput, setMessages, handleSubmit } = useChat({
-        api: `/api/${ResourcePath.Ai}`,
+        api: getApiUrl(ResourcePath.Ai, ''),
         body
     });
 
-    const handleSelectOption = (value: AiExecutionName) => {
-        setInput(value);
-        setBody({ execution: value });
+    const setExecutionName = (executionName: AiExecutionName) => {
+        setInput(executionName);
+        setBody({ execution: executionName });
+    };
+
+    const setLastStoredExecution = async (executionName: AiExecutionName) => {
+        const lastExecutionResponse = await fetchFromApi({
+            method: HttpMethod.GET,
+            path: ResourcePath.Ai,
+            attachToPath: `/${executionName}`
+        });
+        const lastExecution: AiExecution = await lastExecutionResponse.json();
+
+        if (!lastExecution) {
+            return;
+        }
+
+        setMessages([{
+            id: lastExecution.id,
+            role: 'assistant',
+            content: lastExecution.response
+        }]);
+    };
+
+    const handleSelectOption = async (executionName: AiExecutionName) => {
+        setExecutionName(executionName);
+        await setLastStoredExecution(executionName);
     };
 
     const forceSetInputAfterReset = () => {
@@ -45,7 +70,7 @@ export default function Ask() {
         }
 
         setMessages([]);
-        handleSelectOption(body.execution);
+        setExecutionName(body.execution);
     };
 
     return (
