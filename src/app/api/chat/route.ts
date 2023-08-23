@@ -16,10 +16,7 @@ const executionPrompt: { [key in AiExecutionName]: (userId: string) => Promise<s
 const aiSdkBodySchema = z.object({
     messages: z.array(z.object({ content: z.string() })),
     execution: z.nativeEnum(AiExecutionName)
-}).refine(
-    ({ messages, execution }) => messages[0].content === execution,
-    { message: 'The execution name must match' }
-);
+});
 
 export async function POST(req: Request) {
     const body = await req.json();
