@@ -12,9 +12,9 @@ export async function GET(
     const { user } = await getServerSession();
     const execution = await getLastAiExecution(user.id, name);
 
-    return NextResponse.json({
+    return NextResponse.json(execution ? {
         id: execution?.id,
         createdAt: execution?.createdAt,
         response: execution?.response
-    });
+    } : null);
 }

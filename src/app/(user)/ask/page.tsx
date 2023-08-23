@@ -52,6 +52,9 @@ export default function Ask() {
         const lastExecution: AiExecution = await lastExecutionResponse.json();
 
         if (!lastExecution) {
+            setMessages([]);
+            setLastExecutionDate(null);
+
             return;
         }
 
