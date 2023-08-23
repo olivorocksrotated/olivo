@@ -45,8 +45,8 @@ export default function Ask() {
     };
 
     return (
-        <div className="flex flex-col justify-between gap-10">
-            <form onSubmit={handleSubmit} className="flex gap-8">
+        <div>
+            <form onSubmit={handleSubmit} className="mb-10 flex flex-wrap gap-4">
                 <div className="w-96">
                     <Select itemGroups={itemGroups}
                         label="What would you like to learn about?"
@@ -55,13 +55,16 @@ export default function Ask() {
                         onValueChange={(value) => handleSelectOption(value as AiExecutionName)}
                     />
                 </div>
-                <Button type="submit"
-                    intent="cta"
-                    label={!isLoading ? 'Get answer from AI' : 'Generating response...'}
-                    loading={isLoading}
-                    disabled={isLoading || !body.execution}
-                    onClick={forceSetInputAfterReset}
-                />
+                <div className="w-full sm:w-64">
+                    <Button type="submit"
+                        intent="cta"
+                        w="full"
+                        label={!isLoading ? 'Get answer from AI' : 'Generating response...'}
+                        loading={isLoading}
+                        disabled={isLoading || !body.execution}
+                        onClick={forceSetInputAfterReset}
+                    />
+                </div>
             </form>
             <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
                 {messages.length === 0 && !isLoading ? (
