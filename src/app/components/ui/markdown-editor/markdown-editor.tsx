@@ -42,12 +42,10 @@ const visualizationStyles = clsx(
     [&_p]:mb-4`
 );
 
-interface Props extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'className'>, VariantProps<typeof editorStyles> {
-    content: string;
-}
+interface Props extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'className'>, VariantProps<typeof editorStyles> {}
 
 export default function MarkdownEditor({
-    content,
+    value,
     disabled,
     onChange = () => undefined,
     ...otherProps
@@ -56,7 +54,7 @@ export default function MarkdownEditor({
 
     const visualization = (
         <div className={visualizationStyles}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{value?.toString() ?? ''}</ReactMarkdown>
         </div>
     );
 
@@ -78,7 +76,7 @@ export default function MarkdownEditor({
                         resize={false}
                         disabled={disabled}
                         onChange={onChange}
-                        value={content}
+                        value={value}
                     /> :
                     visualization}
         </div>

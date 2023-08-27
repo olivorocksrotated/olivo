@@ -115,7 +115,7 @@ export default function Ask() {
             ) : null}
             <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
                 {messages.length === 0 ? <div className="text-neutral-600">Your response will appear here</div> : null}
-                {messages.length !== 0 ? <MarkdownEditor disabled={true} content={aiResponse} /> : null}
+                {messages.length !== 0 ? <MarkdownEditor disabled={true} value={aiResponse} /> : null}
             </div>
         </div>
     );

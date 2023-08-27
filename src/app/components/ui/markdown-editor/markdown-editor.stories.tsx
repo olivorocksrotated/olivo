@@ -67,34 +67,34 @@ A table:
 
 export const Default: Story = {
     args: {
-        content: markdown
+        value: markdown
     }
 };
 
 export const XS: Story = {
     args: {
         w: 'xs',
-        content: markdown
+        value: markdown
     }
 };
 
 export const S: Story = {
     args: {
         w: 's',
-        content: markdown
+        value: markdown
     }
 };
 
 export const Md: Story = {
     args: {
         w: 'md',
-        content: markdown
+        value: markdown
     }
 };
 
 export const Full: Story = {
     args: {
         w: 'full',
-        content: markdown
+        value: markdown
     }
 };
