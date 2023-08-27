@@ -100,12 +100,15 @@ model Notification {
 }
 
 model Note {
-  id      String     @id @default(cuid())
-  text    String
-  owner   User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId String
-  tags    String
-  status  NoteStatus @default(Unresolved)
+  id          String     @id @default(cuid())
+  text        String     @db.LongText
+  owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  tags        String
+  isDailyNote Boolean    @default(false)
+  status      NoteStatus @default(Unresolved)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
 
   @@index([ownerId])
 }
