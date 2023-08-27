@@ -7,7 +7,8 @@ const initialContent = JSON.stringify({
     type: 'doc',
     content: [
         {
-            type: 'paragraph',
+            type: 'heading',
+            attrs: { level: 4 },
             content: [
                 {
                     type: 'text',
