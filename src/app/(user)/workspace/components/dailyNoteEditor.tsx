@@ -62,7 +62,7 @@ const editorOptions = {
     }
 };
 
-function EditorLoader() {
+function SavingIndicator() {
     return (
         <div className="absolute right-2 top-2 z-10 rounded border border-red-400 px-1 text-sm text-red-400">
             <Loader intent="inner" size="xs"></Loader>
@@ -71,7 +71,7 @@ function EditorLoader() {
     );
 }
 
-function SavingIndicator() {
+function EditorLoader() {
     return (
         <div className="flex h-full w-full items-center justify-center bg-neutral-950">
             <Loader intent="standalone" size="s"></Loader>
@@ -96,12 +96,12 @@ export function DailyNoteEditor({ note }: { note: Note }) {
     });
 
     if (!editor) {
-        return <SavingIndicator />;
+        return <EditorLoader />;
     }
 
     return (
         <div className="relative h-full w-full">
-            {isSaving ? <EditorLoader /> : null}
+            {isSaving ? <SavingIndicator /> : null}
             <div className="h-full w-full">
                 <BubbleMenu className="flex flex-col items-start rounded bg-neutral-600" editor={editor} tippyOptions={tippyOptions}>
                     <Options></Options>
