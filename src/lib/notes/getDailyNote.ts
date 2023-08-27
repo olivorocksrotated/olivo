@@ -1,25 +1,39 @@
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
 
-const initialContent = '# Today\'s daily note';
 
-async function createNote(userId: string, text: string, tags?: string[]) {
+const initialContent = JSON.stringify({
+    type: 'doc',
+    content: [
+        {
+            type: 'paragraph',
+            content: [
+                {
+                    type: 'text',
+                    text: `${new Date().toLocaleDateString()} Daily Note`
+                }
+            ]
+        }
+    ]
+});
+
+async function createDailyNote(userId: string, text: string, tags?: string[]) {
     return prisma.note.create({
-        data: { ownerId: userId, text, tags: tags?.join(',') || '' }
+        data: { ownerId: userId, text, tags: tags?.join(',') || '', isDailyNote: true }
     });
 }
 
 export async function getDailyNote() {
     const { user } = await getServerSession();
     const note = await prisma.note.findFirst({
-        where: { ownerId: user.id }
+        where: { ownerId: user.id, isDailyNote: true }
     });
 
     if (note) {
         return note;
     }
 
-    const newNote = await createNote(user.id, initialContent);
+    const newNote = await createDailyNote(user.id, initialContent);
 
     return newNote;
 }
