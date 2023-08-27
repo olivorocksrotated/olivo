@@ -9,6 +9,7 @@ import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import remarkGfm from 'remark-gfm';
 
 import IconButton from '../icon-button/icon-button';
+import Textarea from '../textarea/textarea';
 
 const editorStyles = cva(
     'relative rounded leading-relaxed',
@@ -31,13 +32,6 @@ const editorStyles = cva(
             h: 'full'
         }
     }
-);
-
-const textareaStyles = clsx(
-    'h-full w-full resize-none rounded bg-neutral-600 py-2 pl-4 pr-8 outline-none',
-    'focus:outline-1 focus:outline-neutral-400',
-    'hover:enabled:outline-1 hover:enabled:outline-neutral-400',
-    'disabled:cursor-not-allowed disabled:resize-none disabled:opacity-50'
 );
 
 const visualizationStyles = clsx(
@@ -80,10 +74,9 @@ export default function MarkdownEditor({
             {disabled ?
                 visualization :
                 isEditing ?
-                    <textarea {...otherProps}
+                    <Textarea {...otherProps}
                         disabled={disabled}
                         onChange={onChange}
-                        className={textareaStyles}
                         value={content}
                     /> :
                     visualization}

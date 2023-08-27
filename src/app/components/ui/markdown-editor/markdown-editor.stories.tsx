@@ -43,6 +43,9 @@ const meta: Meta<typeof MarkdownEditor> = {
                 type: { summary: 'boolean' },
                 defaultValue: { summary: false }
             }
+        },
+        onChange: {
+            control: false
         }
     }
 };
