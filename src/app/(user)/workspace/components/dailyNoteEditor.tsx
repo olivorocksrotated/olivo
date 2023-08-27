@@ -64,9 +64,9 @@ const editorOptions = {
 
 function EditorLoader() {
     return (
-        <div className="absolute right-2 top-2 z-10 gap-3 rounded border border-red-400 px-1 text-sm text-red-400">
+        <div className="absolute right-2 top-2 z-10 rounded border border-red-400 px-1 text-sm text-red-400">
             <Loader intent="inner" size="xs"></Loader>
-            <span>Saving...</span>
+            <span className="pl-2">Saving</span>
         </div>
     );
 }
