@@ -11,11 +11,12 @@ import { useZact } from 'zact/client';
 import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
 import { updateNoteAction } from '@/lib/notes/update';
 
+import styles from './daily-note-editor.module.css';
 import Options from './options';
 import suggestion from './suggestions';
 import { Tag } from './tag';
 
-const styles = 'rounded bg-neutral-800 px-2 py-3 leading-relaxed outline-none overflow-y-auto w-full h-full ' +
+const editorStyles = 'rounded bg-neutral-800 px-2 py-3 leading-relaxed outline-none overflow-y-auto w-full h-full ' +
     'disabled:cursor-not-allowed disabled:opacity-50 ';
 
 const mentionStyles = 'text-pink-400 font-bold italic';
@@ -56,7 +57,7 @@ const editorOptions = {
     autofocus: 'end' as const,
     editorProps: {
         attributes: {
-            class: styles
+            class: `${editorStyles} ${styles.ProseMirror}`
         }
     }
 };
