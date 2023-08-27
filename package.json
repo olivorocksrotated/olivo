@@ -23,13 +23,14 @@
     "db:finish-change": "CURRENT_BRANCH=$(eval 'git branch --show-current | cut -f2- -d/'); pscale branch delete olivo ${npm_config_branch:-$CURRENT_BRANCH}",
     "events:dev": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest",
     "vitest": "vitest",
+    "storybook:dev": "storybook dev --ci -p 6006",
+    "storybook:build": "storybook build",
     "cypress:open": "cypress open",
     "cypress:component": "cypress run --component",
     "danger:ci": "danger ci",
     "dependencies:check": "ncu",
     "dependencies:update": "ncu -u && npm install && npm test && npm run lint:fix",
-    "storybook:dev": "storybook dev --ci -p 6006",
-    "storybook:build": "storybook build",
+    "analyze": "cross-env ANALYZE=true next build",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -70,6 +71,7 @@
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.17.1",
+    "@next/bundle-analyzer": "^13.4.19",
     "@storybook/addon-essentials": "^7.3.2",
     "@storybook/addon-interactions": "^7.3.2",
     "@storybook/addon-links": "^7.3.2",
@@ -86,6 +88,7 @@
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/coverage-v8": "^0.34.3",
     "autoprefixer": "^10.4.15",
+    "cross-env": "^7.0.3",
     "cypress": "^12.17.4",
     "danger": "^11.2.8",
     "eslint": "^8.48.0",
