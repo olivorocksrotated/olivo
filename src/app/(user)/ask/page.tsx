@@ -3,9 +3,9 @@
 import { AiExecution, AiExecutionName } from '@prisma/client';
 import { useChat } from 'ai/react';
 import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 import Button from '@/app/components/ui/button/button';
+import MarkdownEditor from '@/app/components/ui/markdown-editor/markdown-editor';
 import Select, { ItemGroup } from '@/app/components/ui/select/select';
 import { getRelativeDate } from '@/lib/date/format';
 import { fetchFromApi, getApiUrl, ResourcePath } from '@/lib/http/fetch';
@@ -39,6 +39,8 @@ export default function Ask() {
         body
     });
 
+    const aiResponse = messages.reduce((content, message) => (message.role !== 'user' ? content + message.content : content), '');
+
     const setExecutionName = (executionName: AiExecutionName) => {
         setInput(executionName);
         setBody({ execution: executionName });
@@ -54,7 +56,7 @@ export default function Ask() {
 
         if (!lastExecution) {
             setMessages([]);
-            setLastExecutionDate(null);
+            setLastExecutionDate(() => null);
 
             return;
         }
@@ -64,7 +66,7 @@ export default function Ask() {
             role: 'assistant',
             content: lastExecution.response
         }]);
-        setLastExecutionDate(lastExecution.createdAt);
+        setLastExecutionDate(() => lastExecution.createdAt);
     };
 
     const handleSelectOption = async (executionName: AiExecutionName) => {
@@ -83,7 +85,7 @@ export default function Ask() {
 
     const handleButtonClick = () => {
         forceSetInputAfterReset();
-        setLastExecutionDate(new Date());
+        setLastExecutionDate(() => new Date());
     };
 
     return (
@@ -112,12 +114,8 @@ export default function Ask() {
                 <p className="mb-2 text-neutral-400">Last execution {getRelativeDate(lastExecutionDate, new Date()).toLowerCase()}</p>
             ) : null}
             <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
-                {messages.length === 0 && !isLoading ? (
-                    <div className="text-neutral-600">Your response will appear here</div>
-                ) : null}
-                <ReactMarkdown>
-                    {messages.reduce((content, message) => (message.role !== 'user' ? content + message.content : content), '')}
-                </ReactMarkdown>
+                {messages.length === 0 ? <div className="text-neutral-600">Your response will appear here</div> : null}
+                {messages.length !== 0 ? <MarkdownEditor disabled={true} content={aiResponse} /> : null}
             </div>
         </div>
     );
