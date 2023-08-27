@@ -20,7 +20,7 @@ function debounce<Callback extends(...args: any) => void>(func: Callback, wait: 
 function useDebouncedCallback<Callback extends(...args: any) => void>(callback: Callback, delay = 1000, deps: any[] = []) {
     const dobouncedFunction = debounce(callback, delay);
     const debouncedCallback = useCallback(dobouncedFunction, [delay, ...deps]);
-    useEffect(() => () => {
+    useEffect(() => {
         debouncedCallback.cancel();
     }, [delay, ...deps]);
 
