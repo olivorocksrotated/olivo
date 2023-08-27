@@ -1,6 +1,6 @@
 'use client';
+
 import { Note } from '@prisma/client';
-import Heading from '@tiptap/extension-heading';
 import Mention from '@tiptap/extension-mention';
 import Typography from '@tiptap/extension-typography';
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react';
@@ -8,6 +8,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useState } from 'react';
 import { useZact } from 'zact/client';
 
+import Loader from '@/app/components/ui/loader/loader';
 import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
 import { updateNoteAction } from '@/lib/notes/update';
 
@@ -30,7 +31,6 @@ const network = ['Rafa', 'Andrey', 'Irem'];
 const editorOptions = {
     extensions: [
         Typography,
-        Heading,
         StarterKit.configure({
             bulletList: {
                 keepMarks: true,
@@ -62,6 +62,23 @@ const editorOptions = {
     }
 };
 
+function EditorLoader() {
+    return (
+        <div className="absolute right-2 top-2 z-10 gap-3 rounded border border-red-400 px-1 text-sm text-red-400">
+            <Loader intent="inner" size="xs"></Loader>
+            <span>Saving...</span>
+        </div>
+    );
+}
+
+function SavingIndicator() {
+    return (
+        <div className="flex h-full w-full items-center justify-center bg-neutral-950">
+            <Loader intent="standalone" size="s"></Loader>
+        </div>
+    );
+}
+
 export function DailyNoteEditor({ note }: { note: Note }) {
     const [isSaving, setIsSaving] = useState(false);
     const { mutate: handleSave } = useZact(updateNoteAction);
@@ -79,12 +96,12 @@ export function DailyNoteEditor({ note }: { note: Note }) {
     });
 
     if (!editor) {
-        return <div>Loading...</div>;
+        return <SavingIndicator />;
     }
 
     return (
         <div className="relative h-full w-full">
-            {isSaving ? <div className="absolute right-0 top-0 z-10 text-sm">Saving...</div> : null}
+            {isSaving ? <EditorLoader /> : null}
             <div className="h-full w-full">
                 <BubbleMenu className="flex flex-col items-start rounded bg-neutral-600" editor={editor} tippyOptions={tippyOptions}>
                     <Options></Options>
