@@ -1,9 +1,15 @@
 'use client';
+import { Note } from '@prisma/client';
 import Heading from '@tiptap/extension-heading';
 import Mention from '@tiptap/extension-mention';
 import Typography from '@tiptap/extension-typography';
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useState } from 'react';
+import { useZact } from 'zact/client';
+
+import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
+import { updateNoteAction } from '@/lib/notes/update';
 
 import Options from './options';
 import suggestion from './suggestions';
@@ -17,8 +23,6 @@ const mentionStyles = 'text-pink-400 font-bold italic';
 const tagStyles = 'text-purple-400 font-bold italic';
 
 const tippyOptions = { duration: 100, placement: 'bottom-end' } as const;
-
-const content = '';
 
 const network = ['Rafa', 'Andrey', 'Irem'];
 
@@ -50,7 +54,6 @@ const editorOptions = {
         })
     ],
     autofocus: true,
-    content,
     editorProps: {
         attributes: {
             class: styles
@@ -58,19 +61,35 @@ const editorOptions = {
     }
 };
 
-export function DailyNotes() {
-    const editor = useEditor(editorOptions);
+export function DailyNoteEditor({ note }: { note: Note }) {
+    const [isSaving, setIsSaving] = useState(false);
+    const { mutate: handleSave } = useZact(updateNoteAction);
+    const debounceSave = useDebouncedCallback(async (text: string, id: string) => {
+        setIsSaving(true);
+        await handleSave({ text, id });
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Temporary hack to show saving message for a bit
+        setIsSaving(false);
+    }, 500, [note.id]);
+
+    const editor = useEditor({
+        ...editorOptions,
+        content: JSON.parse(note.text),
+        onUpdate: ({ editor: editorObject }) => debounceSave(JSON.stringify(editorObject.getJSON()), note.id)
+    });
 
     if (!editor) {
         return <div>Loading...</div>;
     }
 
     return (
-        <>
-            <BubbleMenu className="flex flex-col items-start rounded bg-neutral-600" editor={editor} tippyOptions={tippyOptions}>
-                <Options></Options>
-            </BubbleMenu>
-            <EditorContent content={content} className="h-full w-full" editor={editor} />
-        </>
+        <div className="relative h-full w-full">
+            {isSaving ? <div className="absolute right-0 top-0 z-10 text-sm">Saving...</div> : null}
+            <div className="h-full w-full">
+                <BubbleMenu className="flex flex-col items-start rounded bg-neutral-600" editor={editor} tippyOptions={tippyOptions}>
+                    <Options></Options>
+                </BubbleMenu>
+                <EditorContent className="h-full w-full" editor={editor} />
+            </div>
+        </div>
     );
 }
