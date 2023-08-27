@@ -53,7 +53,7 @@ const editorOptions = {
             suggestion: suggestion([...network, 'ProjectX'])
         })
     ],
-    autofocus: true,
+    autofocus: 'end' as const,
     editorProps: {
         attributes: {
             class: styles
