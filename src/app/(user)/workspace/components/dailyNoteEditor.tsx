@@ -26,7 +26,7 @@ const tagStyles = 'text-purple-400 font-bold italic';
 
 const tippyOptions = { duration: 100, placement: 'bottom-end' } as const;
 
-const network = ['Rafa', 'Andrey', 'Irem'];
+const network = ['Rafa', 'Andrey', 'Irem', 'Ali', 'Lisa', 'Beto', 'Oleh', 'Cozette', 'Oscar', 'Alex'];
 
 const editorOptions = {
     extensions: [
