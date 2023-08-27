@@ -3,6 +3,7 @@
 import { AiExecution, AiExecutionName } from '@prisma/client';
 import { useChat } from 'ai/react';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import Button from '@/app/components/ui/button/button';
 import Select, { ItemGroup } from '@/app/components/ui/select/select';
@@ -114,7 +115,9 @@ export default function Ask() {
                 {messages.length === 0 && !isLoading ? (
                     <div className="text-neutral-600">Your response will appear here</div>
                 ) : null}
-                {messages.map((m) => (m.role !== 'user' ? <div key={m.id}>{m.content}</div> : null))}
+                <ReactMarkdown>
+                    {messages.reduce((content, message) => (message.role !== 'user' ? content + message.content : content), '')}
+                </ReactMarkdown>
             </div>
         </div>
     );
