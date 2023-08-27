@@ -12,7 +12,7 @@ import IconButton from '../icon-button/icon-button';
 import Textarea from '../textarea/textarea';
 
 const editorStyles = cva(
-    'relative rounded leading-relaxed',
+    'relative min-h-[42px]',
     {
         variants: {
             w: {
@@ -22,7 +22,7 @@ const editorStyles = cva(
                 full: 'w-full'
             },
             h: {
-                md: 'h-[42px] min-h-[42px]',
+                md: 'h-[42px]',
                 lg: 'h-52',
                 full: 'h-full min-h-full'
             }
@@ -35,7 +35,7 @@ const editorStyles = cva(
 );
 
 const visualizationStyles = clsx(
-    `max-h-full max-w-full overflow-y-auto bg-neutral-600 py-2 pl-4 pr-8
+    `h-full max-h-full w-full max-w-full overflow-y-auto rounded bg-neutral-900 py-2 pl-4 pr-8
     [&_a]:underline [&_a]:hover:text-indigo-300
     [&_blockquote]:my-2 [&_blockquote]:border-l [&_blockquote]:border-l-neutral-200 [&_blockquote]:px-4 [&_blockquote]:py-2
     [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl
@@ -75,6 +75,7 @@ export default function MarkdownEditor({
                 visualization :
                 isEditing ?
                     <Textarea {...otherProps}
+                        resize={false}
                         disabled={disabled}
                         onChange={onChange}
                         value={content}

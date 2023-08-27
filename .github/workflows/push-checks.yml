@@ -1,4 +1,4 @@
-name: tests
+name: push-checks
 run-name: ${{ github.workflow }} - ${{ github.actor }} - Attempt ${{ github.run_attempt }}
 on: [push]
 jobs:
@@ -26,3 +26,25 @@ jobs:
         run: npm install
       - name: Run integration tests
         run: npm run test:integration
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install node modules
+        run: npm install
+      - name: Lint code
+        run: npm run lint
+  build-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install node modules
+        run: npm install
+      - name: Build storybook
+        run: npm run storybook:build
