@@ -1,3 +1,5 @@
+import { NoteStatus } from '@prisma/client';
+
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
 
@@ -8,7 +10,8 @@ export default async function getNotesWithTag(tags: string[]) {
         where: {
             ownerId: user.id,
             isDailyNote: false,
-            tags: tags.join(',')
+            tags: tags.join(','),
+            status: NoteStatus.Unresolved
         }
     });
 }
