@@ -1,9 +1,7 @@
 'use client';
 
 import { NoteStatus } from '@prisma/client';
-import Mention from '@tiptap/extension-mention';
 import { generateHTML } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { motion } from 'framer-motion';
 import { BsCheck } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
@@ -11,22 +9,7 @@ import { useZact } from 'zact/client';
 
 import { updateNoteStatusAction } from '@/lib/notes/updateStatus';
 
-import { Tag } from '../tag';
-
-const extensions = [
-    StarterKit.configure({
-        bulletList: {
-            keepMarks: true,
-            keepAttributes: false
-        },
-        orderedList: {
-            keepMarks: true,
-            keepAttributes: false
-        }
-    }),
-    Mention,
-    Tag
-];
+import { editorExtensions } from '../editor-extensions';
 
 function ActionButton({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
     return (
@@ -48,7 +31,7 @@ export default function Note({ text, id }: { text: string, id: string }) {
         <div className="flex justify-between rounded-lg border border-neutral-900 bg-neutral-950 p-2 text-neutral-200">
             <div className="mb-3"
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: generateHTML(doc, extensions) }}
+                dangerouslySetInnerHTML={{ __html: generateHTML(doc, editorExtensions([])) }}
             >
             </div>
             <div className="flex items-start gap-3">
