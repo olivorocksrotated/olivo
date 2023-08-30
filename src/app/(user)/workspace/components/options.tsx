@@ -1,10 +1,21 @@
 import { Selection } from '@tiptap/pm/state';
+import { useZact } from 'zact/client';
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { createNoteAction } from '@/lib/notes/create';
+
+import { getTagsFromFragment } from './editor-utils';
+
 export default function Options({ selection }: { selection?: Selection }) {
+    const { mutate: createNote } = useZact(createNoteAction);
+
     const options = [
-        /* eslint-disable no-empty-function */
-        { label: 'Unresolved note', action: () => {} },
+        { label: 'Unresolved note',
+            action: () => {
+                if (selection) {
+                    const tags = getTagsFromFragment(selection.content().content);
+                    createNote({ text: JSON.stringify({ ...selection.content(), type: 'doc' }), tags });
+                }
+            } },
         /* eslint-disable no-empty-function */
         { label: 'Task', action: () => {} },
         /* eslint-disable no-empty-function */
