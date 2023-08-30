@@ -4,9 +4,9 @@ import { PluginKey } from '@tiptap/pm/state';
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion';
 
 export type TagOptions = {
-  HTMLAttributes: Record<string, any>
-  renderLabel: (props: { options: TagOptions; node: ProseMirrorNode }) => string
-  suggestion: Omit<SuggestionOptions, 'editor'>
+    HTMLAttributes: Record<string, any>
+    renderLabel: (props: { options: TagOptions; node: ProseMirrorNode }) => string
+    suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
 export const TagPluginKey = new PluginKey('tag');
@@ -130,7 +130,7 @@ export const Tag = Node.create<TagOptions>({
     addKeyboardShortcuts() {
         return {
             Backspace: () => this.editor.commands.command(({ tr, state }) => {
-                let isMention = false;
+                let isTag = false;
                 const { selection } = state;
                 const { empty, anchor } = selection;
 
@@ -140,14 +140,14 @@ export const Tag = Node.create<TagOptions>({
 
                 state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
                     if (node.type.name === this.name) {
-                        isMention = true;
+                        isTag = true;
                         tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize);
 
                         return false;
                     }
                 });
 
-                return isMention;
+                return isTag;
             })
         };
     },
