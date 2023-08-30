@@ -1,7 +1,7 @@
 import { ReactRenderer } from '@tiptap/react';
 import tippy from 'tippy.js';
 
-import SuggestionItem from './suggestionItem';
+import SuggestionItem from './suggestion-item';
 
 export default (options: string[]) => ({
     items: ({ query }: any) => options

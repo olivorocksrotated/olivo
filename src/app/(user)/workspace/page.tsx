@@ -1,9 +1,9 @@
+import { getDailyNote } from '@/lib/notes/get-daily-note';
 import getNotesWithTag from '@/lib/notes/get-notes-with-tag';
-import { getDailyNote } from '@/lib/notes/getDailyNote';
 import { getTags } from '@/lib/tags/get';
 
 import Context from './components/context/context';
-import { DailyNoteEditor } from './components/dailyNoteEditor';
+import { DailyNoteEditor } from './components/daily-note-editor/daily-note-editor';
 
 export default async function Workspace({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const note = await getDailyNote();

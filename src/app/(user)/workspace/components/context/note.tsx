@@ -7,7 +7,7 @@ import { BsCheck } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
 import { useZact } from 'zact/client';
 
-import { updateNoteStatusAction } from '@/lib/notes/updateStatus';
+import { updateNoteStatusAction } from '@/lib/notes/update-status';
 
 import { editorExtensions } from '../editor-extensions';
 

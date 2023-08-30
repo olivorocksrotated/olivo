@@ -11,9 +11,9 @@ import Loader from '@/app/components/ui/loader/loader';
 import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
 import { updateNoteAction } from '@/lib/notes/update';
 
+import { editorExtensions } from '../editor-extensions';
+import { getTagsFromFragment } from '../editor-utils';
 import styles from './daily-note-editor.module.css';
-import { editorExtensions } from './editor-extensions';
-import { getTagsFromFragment } from './editor-utils';
 import Options from './options';
 
 const editorStyles = 'rounded bg-neutral-800 px-2 py-3 leading-relaxed outline-none overflow-y-auto w-full h-full ' +
