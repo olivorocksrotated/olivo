@@ -19,7 +19,7 @@ export default forwardRef(function SuggestionItem(props: any, ref) {
     }));
 
     return item ? (
-        <button className="rounded border border-red-400 bg-neutral-950 px-1 text-sm"
+        <button className="rounded bg-neutral-950 px-1  text-sm outline-none"
             onClick={() => selectItem()}
             type="button"
         >
