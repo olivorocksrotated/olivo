@@ -1,6 +1,6 @@
 import getNotesWithTag from '@/lib/notes/get-notes-with-tag';
 import { getDailyNote } from '@/lib/notes/getDailyNote';
-import { getTags } from '@/lib/notes/getTags';
+import { getTags } from '@/lib/tags/get';
 
 import Context from './components/context/context';
 import { DailyNoteEditor } from './components/dailyNoteEditor';
