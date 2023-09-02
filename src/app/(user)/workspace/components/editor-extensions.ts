@@ -4,9 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import suggestion from './suggestions';
 import { Tag } from './tag';
 
-const mentionStyles = 'text-pink-400 font-bold italic';
-
-const tagStyles = 'text-purple-400 font-bold italic';
+const styles = 'border rounded border-neutral-600 bold text-neutral-300 p-1';
 
 const network = ['Rafa', 'Andrey', 'Irem', 'Ali', 'Lisa', 'Beto', 'Oleh', 'Cozette', 'Oscar', 'Alex'];
 
@@ -24,13 +22,13 @@ export function editorExtensions(tags: string[]) {
         }),
         Mention.configure({
             HTMLAttributes: {
-                class: mentionStyles
+                class: styles
             },
             suggestion: suggestion(network)
         }),
         Tag.configure({
             HTMLAttributes: {
-                class: tagStyles
+                class: styles
             },
             suggestion: suggestion(tags)
         })
