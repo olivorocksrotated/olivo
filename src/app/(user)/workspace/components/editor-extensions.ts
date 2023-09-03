@@ -8,8 +8,6 @@ import { Tag } from './tag';
 
 const styles = 'border rounded border-neutral-600 bold text-neutral-300 p-1';
 
-const network = ['Rafa', 'Andrey', 'Irem', 'Ali', 'Lisa', 'Beto', 'Oleh', 'Cozette', 'Oscar', 'Alex', 'Syed'];
-
 export function editorExtensions(tags: string[]) {
     return [
         StarterKit.configure({
@@ -26,7 +24,7 @@ export function editorExtensions(tags: string[]) {
             HTMLAttributes: {
                 class: styles
             },
-            suggestion: suggestion(network)
+            suggestion: suggestion(tags)
         }),
         Tag.configure({
             HTMLAttributes: {

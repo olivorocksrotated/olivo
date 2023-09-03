@@ -3,8 +3,9 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { Key } from '@/lib/keys/types';
 
 export default forwardRef(function SuggestionItem(props: any, ref) {
-    const item = props.items[0];
-    const selectItem = () => props.command({ id: item });
+    const id: string | null = props.items[0];
+    const query: string = props.query;
+    const selectItem = () => props.command({ id: id || query });
 
     useImperativeHandle(ref, () => ({
         onKeyDown: ({ event }: any) => {
@@ -18,12 +19,12 @@ export default forwardRef(function SuggestionItem(props: any, ref) {
         }
     }));
 
-    return item ? (
+    return (
         <button className="rounded bg-neutral-950 px-1  text-sm outline-none"
             onClick={() => selectItem()}
             type="button"
         >
-            {item}
+            {id ? <span>{id}</span> : <span>Create: {query}</span>}
         </button>
-    ) : null;
+    );
 });
