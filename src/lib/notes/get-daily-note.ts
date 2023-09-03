@@ -12,7 +12,8 @@ const initialContent = JSON.stringify({
             content: [
                 {
                     type: 'text',
-                    text: `${new Date().toLocaleDateString()} Daily Note`
+                    text: `${new Date().toLocaleDateString()} Daily Note`,
+                    tags: []
                 }
             ]
         }
