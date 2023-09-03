@@ -1,4 +1,6 @@
 import Mention from '@tiptap/extension-mention';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
 import StarterKit from '@tiptap/starter-kit';
 
 import suggestion from './suggestions';
@@ -31,6 +33,14 @@ export function editorExtensions(tags: string[]) {
                 class: styles
             },
             suggestion: suggestion(tags)
+        }),
+        TaskList.configure({
+            HTMLAttributes: {
+                class: 'list-none'
+            }
+        }),
+        TaskItem.configure({
+            nested: true
         })
     ];
 }
