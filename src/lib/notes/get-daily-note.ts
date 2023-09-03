@@ -19,9 +19,9 @@ const initialContent = JSON.stringify({
     ]
 });
 
-async function createDailyNote(userId: string, text: string, tags?: string[]) {
+async function createDailyNote(userId: string, text: string) {
     return prisma.note.create({
-        data: { ownerId: userId, text, tags: tags?.join(',') || '', isDailyNote: true }
+        data: { ownerId: userId, text, isDailyNote: true }
     });
 }
 

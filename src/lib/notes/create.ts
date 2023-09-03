@@ -12,9 +12,27 @@ import {
 } from '../server-actions/response';
 
 async function createNote(userId: string, text: string, tags?: string[]) {
-    await prisma.note.create({
-        data: { ownerId: userId, text, tags: tags?.join(',') || '' }
-    });
+    const data = {
+        ownerId: userId,
+        text
+    };
+    if (tags) {
+        return prisma.note.create({
+            data: {
+                ...data,
+                tags: {
+                    connectOrCreate: tags.map((label) => (
+                        {
+                            create: { label, ownerId: userId },
+                            where: { unique_label_id: { label, ownerId: userId } }
+                        }
+                    ))
+                }
+            }
+        });
+    }
+
+    return prisma.note.create({ data });
 }
 
 export const createNoteAction = zact(z.object({

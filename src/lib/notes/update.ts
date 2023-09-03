@@ -11,10 +11,26 @@ import {
 } from '../server-actions';
 
 async function updateNote(id: string, userId: string, text: string, tags?: string[]) {
-    await prisma.note.update({
-        where: { id, ownerId: userId },
-        data: { text, tags: tags?.join(',') || '' }
-    });
+    const data = { ownerId: userId, text };
+    const where = { id, ownerId: userId };
+    if (tags) {
+        return prisma.note.update({
+            where,
+            data: {
+                ...data,
+                tags: {
+                    connectOrCreate: tags.map((label) => (
+                        {
+                            create: { label, ownerId: userId },
+                            where: { unique_label_id: { label, ownerId: userId } }
+                        }
+                    ))
+                }
+            }
+        });
+    }
+
+    return prisma.note.update({ where, data });
 }
 
 export const updateNoteAction = zact(z.object({

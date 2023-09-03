@@ -1,3 +1,8 @@
+import { getServerSession } from '../auth/session';
+import prisma from '../prisma';
+
 export async function getTags() {
-    return ['Rafa', 'Andrey', 'Irem', 'Ali', 'Lisa', 'Beto', 'Oleh', 'Cozette', 'Oscar', 'Alex'];
+    const { user } = await getServerSession();
+
+    return prisma.tag.findMany({ where: { ownerId: user.id } });
 }

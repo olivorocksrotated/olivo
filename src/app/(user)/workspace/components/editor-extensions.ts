@@ -8,7 +8,7 @@ import { Tag } from './tag';
 
 const styles = 'border rounded border-neutral-600 bold text-neutral-300 p-1';
 
-const network = ['Rafa', 'Andrey', 'Irem', 'Ali', 'Lisa', 'Beto', 'Oleh', 'Cozette', 'Oscar', 'Alex'];
+const network = ['Rafa', 'Andrey', 'Irem', 'Ali', 'Lisa', 'Beto', 'Oleh', 'Cozette', 'Oscar', 'Alex', 'Syed'];
 
 export function editorExtensions(tags: string[]) {
     return [
