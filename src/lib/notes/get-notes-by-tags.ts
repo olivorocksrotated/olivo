@@ -3,12 +3,12 @@ import { NoteStatus } from '@prisma/client';
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
 
-enum TagsSearchOperator {
-    Every = 'every',
-    Some = 'some'
+enum FilterOption {
+    Intersection = 'AND',
+    Union = 'OR'
 }
 
-export default async function getNotesByTags(tags: string[], operator: TagsSearchOperator = TagsSearchOperator.Every) {
+export default async function getNotesByTags(tags: string[], operator: FilterOption = FilterOption.Intersection) {
     const { user } = await getServerSession();
 
     return prisma.note.findMany({
@@ -16,9 +16,7 @@ export default async function getNotesByTags(tags: string[], operator: TagsSearc
             ownerId: user.id,
             isDailyNote: false,
             status: NoteStatus.Unresolved,
-            tags: {
-                [operator]: { label: { in: tags }, ownerId: user.id }
-            }
+            [operator]: tags.map((label) => ({ tags: { some: { label, ownerId: user.id } } }))
         }
     });
 }
