@@ -1,50 +1,54 @@
-name: push-checks
+name: ci
 run-name: ${{ github.workflow }} - ${{ github.actor }} - Attempt ${{ github.run_attempt }}
 on: [push]
 jobs:
   unit-tests:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Install node modules
-        run: npm install
+      - name: Install dependencies
+        run: npm ci
       - name: Generate prisma client
         run: npm run db:apply-change
-      - name: Run unit tests
+      - name: Run
         run: npm run test:unit
   integration-tests:
+    name: Integration tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Install node modules
-        run: npm install
-      - name: Run integration tests
+      - name: Install dependencies
+        run: npm ci
+      - name: Run
         run: npm run test:integration
   lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Install node modules
-        run: npm install
-      - name: Lint code
+      - name: Install dependencies
+        run: npm ci
+      - name: Run
         run: npm run lint
   build-storybook:
+    name: Storybook build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Install node modules
-        run: npm install
-      - name: Build storybook
+      - name: Install dependencies
+        run: npm ci
+      - name: Run
         run: npm run storybook:build
