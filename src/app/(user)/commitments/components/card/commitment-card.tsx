@@ -57,22 +57,26 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
         >
             <ModalContent>
                 <div className="mb-4 flex items-center">
-                    <span className="w-16">I will</span>
-                    <Input value={editCommitment.title}
-                        autoFocus
-                        onChange={(event) => setEditCommitment({ ...editCommitment, title: event.target.value })}
-                        onKeyUp={onEnterPressed(onSave)}
-                        placeholder="e.g. do this task"
-                    />
+                    <label className="w-12">I will</label>
+                    <div className="grow">
+                        <Input value={editCommitment.title}
+                            autoFocus
+                            onChange={(event) => setEditCommitment({ ...editCommitment, title: event.target.value })}
+                            onKeyUp={onEnterPressed(onSave)}
+                            placeholder="e.g. do this task"
+                        />
+                    </div>
                 </div>
                 <div className="mb-4 flex items-center">
-                    <span className="w-16">by</span>
-                    <Input type="date"
-                        value={editCommitment.doneBy}
-                        onChange={(event) => setEditCommitment({ ...editCommitment, doneBy: event.target.value })}
-                        onKeyUp={onEnterPressed(onSave)}
-                        placeholder="done by"
-                    />
+                    <label className="w-12">by</label>
+                    <div className="grow">
+                        <Input type="date"
+                            value={editCommitment.doneBy}
+                            onChange={(event) => setEditCommitment({ ...editCommitment, doneBy: event.target.value })}
+                            onKeyUp={onEnterPressed(onSave)}
+                            placeholder="done by"
+                        />
+                    </div>
                 </div>
                 <div className="mb-4 w-full border-t border-neutral-600"></div>
                 <div className="mb-4">
