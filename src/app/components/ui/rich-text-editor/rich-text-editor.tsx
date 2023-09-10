@@ -5,7 +5,7 @@ import { EditorContent, isEmptyObject, JSONContent, useEditor } from '@tiptap/re
 import StarterKit from '@tiptap/starter-kit';
 import { cva, VariantProps } from 'cva';
 
-import styles from './rich-text-editor.module.css';
+import { editorContentStyles } from './rich-text-editor.styles';
 
 const richTextEditorStyles = cva(
     'rounded bg-neutral-600 px-4 py-3 leading-relaxed outline-none overflow-y-auto ' +
@@ -65,7 +65,7 @@ export default function RichTextEditor({
         onUpdate: ({ editor }) => onChange(editor.getJSON()),
         editorProps: {
             attributes: {
-                class: `${richTextEditorStyles(props)} ${styles.ProseMirror}`
+                class: `${richTextEditorStyles(props)} ${editorContentStyles}`
             }
         }
     });
