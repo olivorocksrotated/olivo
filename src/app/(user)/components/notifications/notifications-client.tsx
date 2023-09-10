@@ -10,7 +10,7 @@ import { useZact } from 'zact/client';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
 import useInterval from '@/lib/hooks/useInterval';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
-import { HttpMethod } from '@/lib/http/route';
+import { HttpMethod } from '@/lib/http/types';
 import { markAllNotificationsAsReadAction } from '@/lib/notifications/persistent/update';
 
 import useRequestDesktopPermission from './hooks/useRequestDesktopPermission';
