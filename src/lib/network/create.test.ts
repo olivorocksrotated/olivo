@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 import { ServerActionError } from '../server-actions';
 import { createConnectionAction } from './create';
 

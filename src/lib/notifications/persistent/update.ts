@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 
 import { getServerSession } from '../../auth/session';
-import prisma from '../../prisma';
+import prisma from '../../prisma/client';
 
 export const markAllNotificationsAsReadAction = zact()(
     async () => {

@@ -1,7 +1,7 @@
 import { AiExecutionName } from '@prisma/client';
 
 import { hashString } from '../hash/hash-string';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 import { openAiClient } from './client';
 
 export function getLastAiExecution(userId: string, executionName: AiExecutionName) {

@@ -8,7 +8,7 @@ import jwt from '@/lib/auth/callbacks/jwt';
 import redirect from '@/lib/auth/callbacks/redirect';
 import session from '@/lib/auth/callbacks/session';
 import { isDevEnvironment } from '@/lib/environment';
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma/client';
 
 const githubProvider = GithubProvider({
     clientId: process.env.GITHUB_ID as string,

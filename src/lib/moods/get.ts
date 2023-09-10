@@ -1,7 +1,7 @@
 import { Mood } from '@prisma/client';
 
 import { lastWeekFromTodayAtZeroHourUTC, monthsFirstDayAtZeroHourUTC, monthsLastDayAtMidnightUTC, todayAtMidnightUTC, todayAtZeroHourUTC } from '../date/days';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 
 interface BetweenCreatedFilter{
     value: 'between';

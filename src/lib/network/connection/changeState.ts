@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { createServerActionSuccessResponse } from '@/lib/server-actions';
 
 import { getServerSession } from '../../auth/session';
-import prisma from '../../prisma';
+import prisma from '../../prisma/client';
 
 export async function changeConnectionState(connectionId: string, newActiveState: boolean) {
     const { user } = await getServerSession();
