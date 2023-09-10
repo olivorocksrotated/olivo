@@ -5,6 +5,14 @@ import { getTags } from '@/lib/tags/get';
 import Context from './components/context/context';
 import { DailyNoteEditor } from './components/daily-note-editor/daily-note-editor';
 
+function Section({ children }: { children: React.ReactNode }) {
+    return (
+        <div className="flex max-h-full flex-col overflow-hidden rounded-lg bg-neutral-900 p-5">
+            {children}
+        </div>
+    );
+}
+
 export default async function Workspace({ searchParams }: { searchParams: { selectedTagsFilter?: string } }) {
     const note = await getDailyNote();
     const tags = await getTags();
@@ -13,16 +21,16 @@ export default async function Workspace({ searchParams }: { searchParams: { sele
     const notes = await getNotesByTags(tagFilter || []);
 
     return (
-        <div className="grid h-full grid-cols-2 gap-4 pr-32">
-            <div className="flex flex-col rounded-lg bg-neutral-900 p-5">
+        <div className="grid h-full max-h-full grid-cols-2 gap-4 pr-32">
+            <Section>
                 <div className="mb-5 text-xl">Daily Notes</div>
                 <DailyNoteEditor note={note} tags={tagLabels}></DailyNoteEditor>
-            </div>
+            </Section>
 
-            <div className="rounded-lg bg-neutral-900 p-5">
+            <Section>
                 <div className="mb-5 text-xl">Context</div>
                 <Context selectedTagsFilter={tagFilter} tags={tagLabels} notes={notes}></Context>
-            </div>
+            </Section>
         </div>
     );
 }

@@ -15,7 +15,7 @@ export default function Context({ tags, notes, selectedTagsFilter }: { tags: str
     const isSelected = (tag: string) => selectedTagsFilter?.includes(tag) || false;
 
     return (
-        <div>
+        <div className="overflow-scroll">
             <div className="my-5 flex flex-wrap gap-4">
                 {tags.map((tag) => (
                     <Link href={{

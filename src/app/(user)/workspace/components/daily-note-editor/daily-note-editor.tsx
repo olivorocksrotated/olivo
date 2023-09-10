@@ -75,7 +75,7 @@ export function DailyNoteEditor({ note, tags }: { note: Note, tags: string[] }) 
     }
 
     return (
-        <div className="relative h-full w-full">
+        <div className="relative h-full w-full overflow-scroll">
             {isSaving ? <SavingIndicator /> : null}
             <div className="h-full w-full">
                 <BubbleMenu className="flex flex-col items-start rounded bg-neutral-600" editor={editor} tippyOptions={tippyOptions}>
