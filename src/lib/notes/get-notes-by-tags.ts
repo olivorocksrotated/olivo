@@ -3,7 +3,7 @@ import { NoteStatus } from '@prisma/client';
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma';
 
-enum FilterOption {
+export enum FilterOption {
     Intersection = 'AND',
     Union = 'OR'
 }

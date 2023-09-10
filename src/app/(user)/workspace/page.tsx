@@ -1,5 +1,5 @@
 import { getDailyNote } from '@/lib/notes/get-daily-note';
-import getNotesByTags from '@/lib/notes/get-notes-by-tags';
+import getNotesByTags, { FilterOption } from '@/lib/notes/get-notes-by-tags';
 import { getTags } from '@/lib/tags/get';
 
 import Context from './components/context/context';
@@ -13,12 +13,12 @@ function Section({ children }: { children: React.ReactNode }) {
     );
 }
 
-export default async function Workspace({ searchParams }: { searchParams: { selectedTagsFilter?: string } }) {
+export default async function Workspace({ searchParams }: { searchParams: { selectedTagsFilter?: string, operator?: FilterOption } }) {
     const note = await getDailyNote();
     const tags = await getTags();
     const tagLabels = tags.map(({ label }) => label);
     const tagFilter = searchParams.selectedTagsFilter ? searchParams.selectedTagsFilter.split(',') : undefined;
-    const notes = await getNotesByTags(tagFilter || []);
+    const notes = await getNotesByTags(tagFilter || [], searchParams.operator);
 
     return (
         <div className="grid h-full max-h-full grid-cols-2 gap-4 pr-32">
@@ -29,7 +29,7 @@ export default async function Workspace({ searchParams }: { searchParams: { sele
 
             <Section>
                 <div className="mb-5 text-xl">Context</div>
-                <Context selectedTagsFilter={tagFilter} tags={tagLabels} notes={notes}></Context>
+                <Context selectedOperator={searchParams.operator} selectedTagsFilter={tagFilter} tags={tagLabels} notes={notes}></Context>
             </Section>
         </div>
     );

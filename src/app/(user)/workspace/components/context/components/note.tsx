@@ -9,7 +9,7 @@ import { useZact } from 'zact/client';
 
 import { updateNoteStatusAction } from '@/lib/notes/update-status';
 
-import { editorExtensions } from '../editor-extensions';
+import { editorExtensions } from '../../editor-extensions';
 
 function ActionButton({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
     return (
