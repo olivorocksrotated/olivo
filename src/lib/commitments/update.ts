@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 import { getServerSession } from '@/lib/auth/session';
 
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 import { stringToJSON } from '../validators/string-to-json';
 
 export const updateCommitmentAction = zact(z.object({

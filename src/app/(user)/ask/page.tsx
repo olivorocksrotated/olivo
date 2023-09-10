@@ -9,7 +9,7 @@ import MarkdownEditor from '@/app/components/ui/markdown-editor/markdown-editor'
 import Select, { ItemGroup } from '@/app/components/ui/select/select';
 import { getRelativeDate } from '@/lib/date/format';
 import { fetchFromApi, getApiUrl, ResourcePath } from '@/lib/http/fetch';
-import { HttpMethod } from '@/lib/http/route';
+import { HttpMethod } from '@/lib/http/types';
 
 const itemGroups: ItemGroup[] = [
     {

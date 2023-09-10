@@ -1,12 +1,7 @@
-import { PrismockClient } from 'prismock';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 import { getNetwork } from './get';
-
-vi.mock('../prisma', async () => ({
-    default: new PrismockClient()
-}));
 
 vi.mock('../auth/session', async () => ({
     getServerSession: vi.fn().mockResolvedValue({ user: { id: '1' } })

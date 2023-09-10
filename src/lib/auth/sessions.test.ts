@@ -1,26 +1,11 @@
 import { getServerSession as nextAuthGetServerSession } from 'next-auth';
-import { afterEach, describe, expect, it, Mock, vi } from 'vitest';
+import { describe, expect, it, Mock } from 'vitest';
 
 import { getServerSession } from './session';
-
-vi.mock('next-auth', async () => ({
-    ...await vi.importActual('next-auth') as any,
-    getServerSession: vi.fn((): null | {} => null)
-}));
-
-vi.mock('next/headers', async () => ({
-    ...await vi.importActual('next/headers') as any,
-    cookies: vi.fn().mockReturnValue({ getAll: () => [] }),
-    headers: vi.fn().mockReturnValue([])
-}));
 
 describe('lib auth', () => {
     describe('session', () => {
         const nextAuthGetServerSessionMock = nextAuthGetServerSession as Mock;
-
-        afterEach(() => {
-            vi.clearAllMocks();
-        });
 
         describe('getServerSession', () => {
             describe('without req and res', () => {
@@ -39,6 +24,7 @@ describe('lib auth', () => {
                     await expect(getServerSession()).rejects.toThrowError(expectedError);
                 });
             });
+
             describe('with req and res', () => {
                 it('should return a session if the session user has a unique identifier', async () => {
                     const expectedSession = { user: { id: 'id', email: 'uniqueEmail' } };

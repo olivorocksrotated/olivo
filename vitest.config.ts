@@ -11,7 +11,13 @@ export default defineConfig({
         coverage: {
             reporter: ['text-summary']
         },
-        clearMocks: true
+        clearMocks: true,
+        setupFiles: [
+            './src/lib/__mocks__/before-clear.ts',
+            './src/lib/__mocks__/next-auth.ts',
+            './src/lib/__mocks__/next-cache.ts',
+            './src/lib/__mocks__/prisma.ts'
+        ]
     },
     resolve: {
         alias: {

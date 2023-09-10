@@ -4,10 +4,10 @@ import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 import { z } from 'zod';
 
-import { createServerActionSuccessResponse } from '@/lib/server-actions';
+import { createServerActionSuccessResponse } from '@/lib/server-actions/response';
 
 import { getServerSession } from '../../auth/session';
-import prisma from '../../prisma';
+import prisma from '../../prisma/client';
 
 export async function changeConnectionState(connectionId: string, newActiveState: boolean) {
     const { user } = await getServerSession();

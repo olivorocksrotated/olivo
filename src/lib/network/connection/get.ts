@@ -1,5 +1,5 @@
 import { getServerSession } from '../../auth/session';
-import prisma from '../../prisma';
+import prisma from '../../prisma/client';
 import { ConnectionUserFields } from '../types';
 
 export async function getConnection(connectionId: string) {

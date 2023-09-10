@@ -5,11 +5,11 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 import {
     createServerActionSuccessResponse,
     createServerActionUnknownErrorResponse
-} from '../server-actions';
+} from '../server-actions/response';
 
 async function createNote(userId: string, text: string, tags?: string[]) {
     await prisma.note.create({

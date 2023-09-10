@@ -6,7 +6,7 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../../auth/session';
-import prisma from '../../prisma';
+import prisma from '../../prisma/client';
 
 export async function createNotification(userId: string, notification: {
     title: string,

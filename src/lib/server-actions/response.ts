@@ -1,15 +1,4 @@
-export interface ServerActionSuccess {
-    status: 'success';
-}
-
-export interface ServerActionError {
-    status: 'error';
-    type: string;
-    message: string;
-}
-
-export type ServerActionResponse = ServerActionSuccess | ServerActionError;
-
+import { ServerActionError, ServerActionSuccess } from './types';
 
 export function createServerActionErrorResponse({ type, message }: {
     type: string,
@@ -29,12 +18,4 @@ export function createServerActionUnknownErrorResponse() {
 
 export function createServerActionSuccessResponse(): ServerActionSuccess {
     return { status: 'success' };
-}
-
-export function isServerActionError(response: ServerActionResponse | null): response is ServerActionError {
-    return response?.status === 'error';
-}
-
-export function getServerActionErrorMessage(response: ServerActionError): string {
-    return response?.message ?? '';
 }

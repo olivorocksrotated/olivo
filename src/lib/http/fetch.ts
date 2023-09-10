@@ -1,4 +1,4 @@
-import { HttpMethod } from './route';
+import { HttpMethod } from './types';
 
 export enum ResourcePath {
     Ai = 'ai',

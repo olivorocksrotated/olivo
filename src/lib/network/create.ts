@@ -5,12 +5,12 @@ import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 import {
     createServerActionErrorResponse,
     createServerActionSuccessResponse,
     createServerActionUnknownErrorResponse
-} from '../server-actions';
+} from '../server-actions/response';
 import { changeConnectionState } from './connection/changeState';
 
 const errors: { [errorId: string]: { type: string, message: string } } = {

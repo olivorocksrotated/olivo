@@ -1,6 +1,6 @@
 import { AiExecutionName } from '@prisma/client';
 
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 
 export function createAiExecution({ userId, executionName, prompt, response }: {
     userId: string,

@@ -1,6 +1,6 @@
 import { NotificationStatus } from '@prisma/client';
 
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma/client';
 
 interface Filter {
     status: NotificationStatus;

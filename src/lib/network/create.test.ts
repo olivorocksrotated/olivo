@@ -1,17 +1,8 @@
-import { PrismockClient } from 'prismock';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import prisma from '../prisma';
-import { ServerActionError } from '../server-actions';
+import prisma from '../prisma/client';
+import { ServerActionError } from '../server-actions/types';
 import { createConnectionAction } from './create';
-
-vi.mock('../prisma', async () => ({
-    default: new PrismockClient()
-}));
-
-vi.mock('next/cache', async () => ({
-    revalidatePath: vi.fn()
-}));
 
 vi.mock('../auth/session', async () => ({
     getServerSession: vi.fn().mockResolvedValue({ user: { id: '1', email: 'dev@olivo.rocks' } })

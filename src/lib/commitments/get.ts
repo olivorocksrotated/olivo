@@ -2,7 +2,7 @@ import { CommitmentStatus } from '@prisma/client';
 import { sub } from 'date-fns';
 
 import { todayAtMidnightUTC, todayAtZeroHourUTC, tomorrowAtZeroHourUTC } from '../date/days';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 
 interface Filter {
     doneBy: 'today' | 'next' | 'overdue' | 'last 4 weeks';
