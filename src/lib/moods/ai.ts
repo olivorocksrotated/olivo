@@ -29,7 +29,7 @@ export async function createMoodSummaryPrompt(userId: string): Promise<string> {
     });
 
     return createPrompt({
-        action: 'Tell me in detail how you perceive my mood. Use empathetic voice and tone.',
+        action: 'Tell me in detail how you perceive my mood. Use empathetic voice and tone. Avoid just summarizing what happened, focus on finding patterns.',
         moods,
         ...executionTimeframe
     });
@@ -44,7 +44,7 @@ export async function createMoodAdvicePrompt(userId: string): Promise<string> {
     });
 
     return createPrompt({
-        action: 'Tell me in detail what can I do to improve my mood. Use empathetic voice and tone.',
+        action: 'Tell me in detail what actions can I take to improve my mood. Use empathetic voice and tone.',
         moods,
         ...executionTimeframe
     });
