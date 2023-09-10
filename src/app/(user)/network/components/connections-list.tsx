@@ -6,7 +6,7 @@ import { useZact } from 'zact/client';
 
 import { createConnectionAction } from '@/lib/network/create';
 import { Connection } from '@/lib/network/types';
-import { getServerActionErrorMessage, isServerActionError } from '@/lib/server-actions';
+import { getServerActionErrorMessage, isServerActionError } from '@/lib/server-actions/errors';
 
 import ConnectButton from './connect-button';
 import ConnectionCard from './connection-card';

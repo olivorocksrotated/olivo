@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '../prisma/client';
-import { ServerActionError } from '../server-actions';
+import { ServerActionError } from '../server-actions/types';
 import { createConnectionAction } from './create';
 
 vi.mock('../auth/session', async () => ({

@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { zact } from 'zact/server';
 import { z } from 'zod';
 
-import { createServerActionSuccessResponse } from '@/lib/server-actions';
+import { createServerActionSuccessResponse } from '@/lib/server-actions/response';
 
 import { getServerSession } from '../../auth/session';
 import prisma from '../../prisma/client';

@@ -10,7 +10,7 @@ import prisma from '../prisma/client';
 import {
     createServerActionSuccessResponse,
     createServerActionUnknownErrorResponse
-} from '../server-actions';
+} from '../server-actions/response';
 
 async function updateNoteStatus(id: string, userId: string, status: NoteStatus) {
     await prisma.note.update({

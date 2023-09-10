@@ -10,7 +10,7 @@ import {
     createServerActionErrorResponse,
     createServerActionSuccessResponse,
     createServerActionUnknownErrorResponse
-} from '../server-actions';
+} from '../server-actions/response';
 import { changeConnectionState } from './connection/changeState';
 
 const errors: { [errorId: string]: { type: string, message: string } } = {
