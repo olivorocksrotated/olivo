@@ -1,8 +1,6 @@
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import Script from 'next/script';
-
 import { AnalyticsWrapper } from './components/analytics';
 import ToastContainer from './components/toast-container';
 import Fonts from './fonts';
@@ -24,7 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
                 <ToastContainer />
                 <AnalyticsWrapper />
             </body>
-            <Script src="https://sak.userreport.com/olivorocks/launcher.js" defer id="userreport-launcher-script" />
         </html>
     );
 }
