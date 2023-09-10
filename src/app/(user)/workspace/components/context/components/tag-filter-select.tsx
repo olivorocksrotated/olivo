@@ -21,7 +21,7 @@ const itemGroups: ItemGroup[] = [
     }
 ];
 
-export function FilterSelect() {
+export function FilterSelect({ defaultValue }: { defaultValue?: FilterOption }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -32,6 +32,7 @@ export function FilterSelect() {
     }
 
     return <Select itemGroups={itemGroups}
+        defaultValue={defaultValue}
         disabled={false}
         label="Filter type"
         placeholder="Filter type"

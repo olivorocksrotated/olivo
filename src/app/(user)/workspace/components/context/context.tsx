@@ -31,7 +31,7 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
     return (
         <div className="overflow-scroll">
             <div className="my-5 flex flex-wrap gap-4">
-                <FilterSelect></FilterSelect>
+                <FilterSelect defaultValue={selectedOperator}></FilterSelect>
                 {tags.map((tag) => (
                     <Link href={{
                         pathname: '/workspace',
