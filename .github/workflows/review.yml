@@ -1,4 +1,4 @@
-name: danger
+name: Review
 run-name: ${{ github.workflow }} - ${{ github.actor }} - Attempt ${{ github.run_attempt }}
 on: [pull_request]
 
