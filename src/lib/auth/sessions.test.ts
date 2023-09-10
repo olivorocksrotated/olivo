@@ -1,20 +1,11 @@
 import { getServerSession as nextAuthGetServerSession } from 'next-auth';
-import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { describe, expect, it, Mock } from 'vitest';
 
 import { getServerSession } from './session';
-
-vi.mock('next-auth', async () => ({
-    ...await vi.importActual('next-auth') as any,
-    getServerSession: vi.fn((): null | {} => null)
-}));
 
 describe('lib auth', () => {
     describe('session', () => {
         const nextAuthGetServerSessionMock = nextAuthGetServerSession as Mock;
-
-        beforeEach(() => {
-            vi.clearAllMocks();
-        });
 
         describe('getServerSession', () => {
             describe('without req and res', () => {
