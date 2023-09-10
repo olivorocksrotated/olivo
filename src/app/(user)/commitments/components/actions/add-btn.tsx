@@ -44,22 +44,26 @@ export default function AddButton() {
         <Modal title="Add commitment" close={isClosed} openComponent={openComponent}>
             <ModalContent>
                 <div className="mb-4 flex items-center">
-                    <label className="w-16">I will</label>
-                    <Input value={commitment.title}
-                        autoFocus
-                        onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
-                        onKeyUp={onEnterPressed(onSave)}
-                        placeholder="e.g. do this task"
-                    />
+                    <label className="w-12">I will</label>
+                    <div className="grow">
+                        <Input value={commitment.title}
+                            autoFocus
+                            onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
+                            onKeyUp={onEnterPressed(onSave)}
+                            placeholder="e.g. do this task"
+                        />
+                    </div>
                 </div>
                 <div className="mb-6 flex items-center">
-                    <label className="w-16">by</label>
-                    <Input type="date"
-                        value={commitment.doneBy}
-                        onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
-                        onKeyUp={onEnterPressed(onSave)}
-                        placeholder="done by"
-                    />
+                    <label className="w-12">by</label>
+                    <div className="grow">
+                        <Input type="date"
+                            value={commitment.doneBy}
+                            onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
+                            onKeyUp={onEnterPressed(onSave)}
+                            placeholder="done by"
+                        />
+                    </div>
                 </div>
                 <div className="mb-4 w-full border-t border-neutral-600"></div>
                 <div className="mb-4">

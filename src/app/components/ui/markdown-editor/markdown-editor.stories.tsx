@@ -74,6 +74,7 @@ export const Default: Story = {
 export const XS: Story = {
     args: {
         w: 'xs',
+        h: 'lg',
         value: markdown
     }
 };
@@ -81,6 +82,7 @@ export const XS: Story = {
 export const S: Story = {
     args: {
         w: 's',
+        h: 'lg',
         value: markdown
     }
 };
@@ -88,6 +90,7 @@ export const S: Story = {
 export const Md: Story = {
     args: {
         w: 'md',
+        h: 'lg',
         value: markdown
     }
 };
@@ -95,6 +98,7 @@ export const Md: Story = {
 export const Full: Story = {
     args: {
         w: 'full',
+        h: 'lg',
         value: markdown
     }
 };
