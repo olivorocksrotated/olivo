@@ -21,12 +21,6 @@ export const links: NavigationLink[] = [
         icon: <AiFillHome size={18} />
     },
     {
-        id: 'workspace',
-        path: '/workspace',
-        title: 'Workspace',
-        icon: <AiFillHome size={18} />
-    },
-    {
         id: 'pending',
         path: '/pending',
         title: 'Pending',

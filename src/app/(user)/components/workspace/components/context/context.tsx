@@ -37,7 +37,7 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
                         pathname: '/workspace',
                         query: buildQuery(tag)
                     }}
-                    className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected(tag) ? ' border-red-400 ' : ''}}`}
+                    className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected(tag) ? ' border-red-400 ' : ''}`}
                     key={tag}
                     >
                         {tag}

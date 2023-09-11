@@ -21,9 +21,9 @@ export default async function Workspace({ searchParams }: { searchParams: { sele
     const notes = await getNotesByTags(tagFilter || [], searchParams.operator);
 
     return (
-        <div className="grid h-full max-h-full grid-cols-2 gap-4 pr-32">
+        <>
             <Section>
-                <div className="mb-5 text-xl">Daily Notes</div>
+                <div className="mb-5 text-xl">Daily Note</div>
                 <DailyNoteEditor note={note} tags={tagLabels}></DailyNoteEditor>
             </Section>
 
@@ -31,6 +31,6 @@ export default async function Workspace({ searchParams }: { searchParams: { sele
                 <div className="mb-5 text-xl">Context</div>
                 <Context selectedOperator={searchParams.operator} selectedTagsFilter={tagFilter} tags={tagLabels} notes={notes}></Context>
             </Section>
-        </div>
+        </>
     );
 }
