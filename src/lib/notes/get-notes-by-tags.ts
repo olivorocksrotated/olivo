@@ -1,7 +1,7 @@
 import { NoteStatus } from '@prisma/client';
 
 import { getServerSession } from '../auth/session';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 
 export enum FilterOption {
     Intersection = 'AND',

@@ -1,7 +1,7 @@
 import { endOfToday, startOfToday } from 'date-fns';
 
 import { getServerSession } from '../auth/session';
-import prisma from '../prisma';
+import prisma from '../prisma/client';
 
 const initialContent = JSON.stringify({
     type: 'doc',
