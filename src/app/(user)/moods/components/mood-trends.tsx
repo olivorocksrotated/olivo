@@ -5,7 +5,7 @@ import { Card, LineChart, Title } from '@tremor/react';
 import { getDate, getDaysInMonth } from 'date-fns';
 import { useMemo } from 'react';
 
-import { newEmptyArrayOfLength } from '@/lib/array/newEmptyArrayOfLength';
+import { newEmptyArrayOfLength } from '@/lib/array/new-empty-array-of-length';
 
 type BaseMood = Pick<Mood, 'comment' | 'status' | 'createdAt'>;
 

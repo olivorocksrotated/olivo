@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { newEmptyArrayOfLength } from './newEmptyArrayOfLength';
+import { newEmptyArrayOfLength } from './new-empty-array-of-length';
 
 describe('array', () => {
     describe('newEmptyArrayOfLength', () => {
