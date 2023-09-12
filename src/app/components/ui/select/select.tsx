@@ -61,6 +61,7 @@ interface Props extends VariantProps<typeof triggerStyles> {
     itemGroups: ItemGroup[];
     label: string;
     placeholder: string;
+    defaultValue?: string;
     onValueChange: (value: string) => void
 }
 
@@ -70,11 +71,12 @@ export default function Select(props: Props) {
         disabled,
         label,
         placeholder,
+        defaultValue,
         onValueChange = () => undefined
     } = props;
 
     return (
-        <SelectPrimitive.Root disabled={disabled} onValueChange={onValueChange}>
+        <SelectPrimitive.Root disabled={disabled} onValueChange={onValueChange} defaultValue={defaultValue}>
             <SelectPrimitive.Trigger aria-label={label} className={triggerStyles(props)}>
                 <SelectPrimitive.Value placeholder={placeholder} />
                 <SelectPrimitive.Icon className="min-w-fit">

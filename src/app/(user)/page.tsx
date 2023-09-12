@@ -1,49 +1,26 @@
-import { CommitmentStatus } from '@prisma/client';
-
 import { getServerSession } from '@/lib/auth/session';
-import { getCommitments } from '@/lib/commitments/get';
 import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
-import { forceCast } from '@/lib/types/type-caster';
+import { FilterOption } from '@/lib/notes/get-notes-by-tags';
 
 import PageTitle from '../components/ui/page-title/page-title';
-import CommitmentsList from './commitments/components/list/commitments-list';
-import { ClientCommitment, ServerCommitment } from './commitments/types';
+import Workspace from './components/workspace/workspace';
 import MoodSelector from './moods/components/mood-selector';
 
-const statusWeight = {
-    [CommitmentStatus.InProgress]: 1,
-    [CommitmentStatus.NotStartedYet]: 2,
-    [CommitmentStatus.Done]: 3,
-    [CommitmentStatus.Abandoned]: 4
-};
-
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: { selectedTagsFilter?: string, operator?: FilterOption } }) {
     const { user } = await getServerSession();
     const firstName = getFirstName(user.name);
 
     const todaysMood = await getTodaysMood(user.id);
-    const commitments = await getCommitments({
-        userId: user.id,
-        filters: { status: 'not-abandoned', doneBy: 'today' },
-        order: { createdAt: 'desc' }
-    });
-
-    const sortedCommitments = commitments.sort((first, second) => statusWeight[first.status] - statusWeight[second.status]);
-    const notDoneCommitmentsCount = commitments.filter((commitment) => commitment.status === CommitmentStatus.InProgress || commitment.status === CommitmentStatus.NotStartedYet).length;
 
     return (
-        <article>
-            <PageTitle text={`👋 Hey, ${firstName}`} />
-            <div className="mb-10"><MoodSelector todaysMood={todaysMood} /></div>
-            <div className="max-w-2xl rounded-lg p-4 pt-6 outline outline-1 outline-neutral-800">
-                <div className="mb-8 flex items-center justify-between text-xl leading-none">
-                    <h2 className="text-white">
-                        {notDoneCommitmentsCount > 0 ? 'Commitments for today' : 'All done for today 🎉'}
-                    </h2>
-                    <div className="text-neutral-300">{notDoneCommitmentsCount} left</div>
-                </div>
-                <CommitmentsList commitments={forceCast<ServerCommitment[], ClientCommitment[]>(sortedCommitments)} />
+        <article className="flex h-full max-h-full flex-col">
+            <div className="flex items-center gap-10 py-4">
+                <PageTitle text={`👋 Hey, ${firstName}`} />
+                <MoodSelector todaysMood={todaysMood} />
+            </div>
+            <div className="grid min-h-0 grid-cols-2 gap-4 pr-16">
+                <Workspace searchParams={searchParams}></Workspace>
             </div>
         </article>
     );
