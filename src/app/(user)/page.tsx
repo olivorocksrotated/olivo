@@ -14,12 +14,12 @@ export default async function Home({ searchParams }: { searchParams: { selectedT
     const todaysMood = await getTodaysMood(user.id);
 
     return (
-        <article className="flex h-full max-h-full flex-col">
+        <article className="flex h-full max-h-full flex-col pr-16">
             <div className="flex items-center gap-10 py-4">
                 <PageTitle text={`👋 Hey, ${firstName}`} />
                 <MoodSelector todaysMood={todaysMood} />
             </div>
-            <div className="grid min-h-0 grid-cols-2 gap-4 pr-16">
+            <div className="grid min-h-0 grow grid-cols-2 gap-4">
                 <Workspace searchParams={searchParams}></Workspace>
             </div>
         </article>
