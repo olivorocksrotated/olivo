@@ -49,7 +49,6 @@ export function DailyNoteEditor({ note, tags }: { note: Note, tags: string[] }) 
         const currentTagsFromText = getTagsFromFragment(node);
         setIsSaving(true);
         await handleSave({ text: JSON.stringify(node), id, tags: currentTagsFromText });
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Temporary hack to show saving message for a bit
         setIsSaving(false);
     }, 500, [note.id]);
 
