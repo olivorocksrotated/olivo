@@ -33,12 +33,9 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
             <div className="my-5 flex flex-wrap gap-4">
                 <FilterSelect defaultValue={selectedOperator}></FilterSelect>
                 {tags.map((tag) => (
-                    <Link href={{
-                        pathname: '/workspace',
-                        query: buildQuery(tag)
-                    }}
-                    className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected(tag) ? ' border-red-400 ' : ''}`}
-                    key={tag}
+                    <Link href={{ query: buildQuery(tag) }}
+                        className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected(tag) ? ' border-red-400 ' : ''}`}
+                        key={tag}
                     >
                         {tag}
                     </Link>
