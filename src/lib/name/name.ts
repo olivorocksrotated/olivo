@@ -5,7 +5,10 @@ export function getNameAcronym(name: string | undefined | null): string {
         return '';
     }
 
-    return name.split(spaceSeparator).reduce((response, word) => response += word.slice(0, 1), '');
+    return name
+        .split(spaceSeparator)
+        .reduce((response, word) => response += word.slice(0, 1), '')
+        .substring(0, 2);
 }
 
 export function getFirstName(name: string | undefined | null): string {

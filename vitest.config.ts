@@ -17,7 +17,8 @@ export default defineConfig({
             './src/lib/__mocks__/next-cache.ts',
             './src/lib/__mocks__/prisma.ts',
             './src/lib/__mocks__/inngest.ts',
-            './src/lib/__mocks__/console.ts'
+            './src/lib/__mocks__/console.ts',
+            './src/lib/__mocks__/fetch.ts'
         ]
     },
     resolve: {

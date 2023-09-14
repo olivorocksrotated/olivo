@@ -17,9 +17,10 @@ function debounce<Callback extends(...args: any) => void>(func: Callback, wait: 
     return executedFunction;
 }
 
+/* eslint-disable react-hooks/exhaustive-deps */
 function useDebouncedCallback<Callback extends(...args: any) => void>(callback: Callback, delay = 1000, deps: any[] = []) {
-    const dobouncedFunction = debounce(callback, delay);
-    const debouncedCallback = useCallback(dobouncedFunction, [delay, ...deps]);
+    const debouncedFunction = debounce(callback, delay);
+    const debouncedCallback = useCallback(debouncedFunction, [delay, ...deps]);
     useEffect(() => {
         debouncedCallback.cancel();
     }, [delay, ...deps]);
