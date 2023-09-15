@@ -8,14 +8,22 @@ import { getTagsFromFragment } from '../editor-utils';
 export default function Options({ selection }: { selection?: Selection }) {
     const { mutate: createNote } = useZact(createNoteAction);
 
+    function createNoteFromSelection(extraTags?: string[]) {
+        if (selection) {
+            const tags = getTagsFromFragment(selection.content().content);
+            createNote({ text: JSON.stringify({ ...selection.content(), type: 'doc' }), tags: [...tags, ...extraTags || []] });
+        }
+    }
+
     const options = [
-        { label: 'Unresolved note',
-            action: () => {
-                if (selection) {
-                    const tags = getTagsFromFragment(selection.content().content);
-                    createNote({ text: JSON.stringify({ ...selection.content(), type: 'doc' }), tags });
-                }
-            } },
+        {
+            label: 'Unresolved note',
+            action: () => createNoteFromSelection()
+        },
+        {
+            label: 'Pin',
+            action: () => createNoteFromSelection(['pinned'])
+        },
         /* eslint-disable no-empty-function */
         { label: 'Task', action: () => {} },
         /* eslint-disable no-empty-function */
