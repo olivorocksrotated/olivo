@@ -8,16 +8,16 @@ const iconsMap = {
     info: 'ℹ️'
 };
 
-export function createBasicClientNotification({ title, description, destination, icon }: {
+export function createBasicClientNotification({ title, description, destination, type = 'info' }: {
     title: string,
     description?: string
     destination: 'browser' | 'desktop'
-    icon?: 'success' | 'error' | 'warning' | 'info'
-}) {
+    type?: 'success' | 'error' | 'warning' | 'info'
+}): void {
     if (destination === 'browser') {
         return createBrowserNotification({
             content: title,
-            options: { icon: icon ? iconsMap[icon] : undefined }
+            options: { icon: iconsMap[type], type }
         });
     }
 
@@ -26,9 +26,9 @@ export function createBasicClientNotification({ title, description, destination,
             title,
             options: {
                 body: description,
-                image: icon ? '/favicon.ico' : undefined,
-                badge: icon ? '/favicon.ico' : undefined,
-                icon: icon ? '/favicon.ico' : undefined
+                image: type ? '/favicon.ico' : undefined,
+                badge: type ? '/favicon.ico' : undefined,
+                icon: type ? '/favicon.ico' : undefined
             }
         });
     }

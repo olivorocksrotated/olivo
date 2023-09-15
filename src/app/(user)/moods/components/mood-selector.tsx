@@ -67,7 +67,7 @@ export default function MoodSelector({ todaysMood }: Props) {
         createBasicClientNotification({
             title: 'Mood saved, keep it up!',
             destination: 'browser',
-            icon: 'success'
+            type: 'success'
         });
     };
 
