@@ -13,7 +13,7 @@ export function createBasicClientNotification({ title, description, destination,
     description?: string
     destination: 'browser' | 'desktop'
     type?: 'success' | 'error' | 'warning' | 'info'
-}) {
+}): void {
     if (destination === 'browser') {
         return createBrowserNotification({
             content: title,

@@ -4,6 +4,6 @@ export function isServerActionError(response: ServerActionResponse | null): resp
     return response?.status === 'error';
 }
 
-export function getServerActionErrorMessage(response: ServerActionError): string {
+export function getServerActionErrorMessage(response: ServerActionError | null): string {
     return response?.message ?? '';
 }
