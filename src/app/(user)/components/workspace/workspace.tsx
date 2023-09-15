@@ -7,7 +7,7 @@ import { DailyNoteEditor } from './components/daily-note-editor/daily-note-edito
 
 function Section({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex max-h-full flex-col overflow-hidden rounded-lg bg-neutral-900 p-5">
+        <div className="flex max-h-full flex-col overflow-hidden rounded-lg bg-neutral-900 p-2">
             {children}
         </div>
     );

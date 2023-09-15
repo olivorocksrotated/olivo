@@ -16,7 +16,7 @@ import { getTagsFromFragment } from '../editor-utils';
 import styles from './daily-note-editor.module.css';
 import Options from './options';
 
-const editorStyles = 'rounded bg-neutral-800 px-2 py-3 leading-relaxed outline-none overflow-y-auto w-full h-full ' +
+const editorStyles = 'rounded border border-neutral-800 px-2 py-3 leading-relaxed outline-none overflow-y-auto w-full h-full ' +
     'disabled:cursor-not-allowed disabled:opacity-50 ';
 
 const tippyOptions = { duration: 100, placement: 'bottom-end' } as const;

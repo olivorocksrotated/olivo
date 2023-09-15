@@ -43,7 +43,9 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
             </div>
 
             {notes.map(({ text, id }) => (
-                <NoteComponent key={id} text={text} id={id} ></NoteComponent>
+                <div key={id} className="my-1">
+                    <NoteComponent text={text} id={id}></NoteComponent>
+                </div>
             ))}
         </div>
     );
