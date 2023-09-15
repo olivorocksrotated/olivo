@@ -1,9 +1,12 @@
 import { Selection } from '@tiptap/pm/state';
+import { AiOutlinePushpin } from 'react-icons/ai';
+import { MdEditNote } from 'react-icons/md';
 import { useZact } from 'zact/client';
 
 import { createNoteAction } from '@/lib/notes/create';
 
 import { getTagsFromFragment } from '../editor-utils';
+
 
 export default function Options({ selection }: { selection?: Selection }) {
     const { mutate: createNote } = useZact(createNoteAction);
@@ -17,34 +20,51 @@ export default function Options({ selection }: { selection?: Selection }) {
 
     const options = [
         {
-            label: 'Unresolved note',
-            action: () => createNoteFromSelection()
+            icon: null,
+            sectionTitle: '',
+            actions: [
+                {
+                    label: 'Pin',
+                    icon: <AiOutlinePushpin className="mr-2" />,
+                    exec: () => createNoteFromSelection(['pinned'])
+                }
+            ]
         },
         {
-            label: 'Pin',
-            action: () => createNoteFromSelection(['pinned'])
-        },
-        /* eslint-disable no-empty-function */
-        { label: 'Task', action: () => {} },
-        /* eslint-disable no-empty-function */
-        { label: 'Commitment', action: () => {} },
-        /* eslint-disable no-empty-function */
-        { label: 'Feedback', action: () => {} }
+            icon: null,
+            sectionTitle: 'Turn into',
+            actions: [
+                {
+                    label: 'Standalone Note',
+                    icon: <MdEditNote className="mr-2" />,
+                    exec: () => createNoteFromSelection()
+                }
+            ]
+        }
     ];
 
     return (
-        <div className="p-2">
-            <div className="text-sm text-neutral-200">Turn into</div>
+        <div className="h-64 w-64 rounded border border-neutral-950 bg-neutral-900 shadow-xl">
             <div className="flex flex-col items-start">
-                {options.map((option) => (
-                    <button onClick={option.action}
-                        className="w-full rounded px-2 py-1 text-left outline-none hover:bg-neutral-500 focus:bg-neutral-500"
-                        type="button"
-                        key={option.label}
-                    >
-                        {option.label}
-                    </button>
-                ))}
+                {
+                    options.map((option, index) => (
+                        <div key={option.sectionTitle} className={`flex w-full flex-col ${index > 0 ? ' my-1 border-t border-neutral-950 ' : ''}`}>
+                            <div className="mx-1 mt-2 text-sm text-neutral-400">{option.sectionTitle}</div>
+                            {option.actions.map((action) => (
+                                <div key={action.label}
+                                    className="mx-1 rounded-sm hover:bg-neutral-700 focus:bg-neutral-700"
+                                >
+                                    <button onClick={action.exec}
+                                        className="mx-2 flex items-center px-2 py-1 outline-none"
+                                        type="button"
+                                    >
+                                        {action.icon} {action.label}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    ))
+                }
             </div>
         </div>
     );
