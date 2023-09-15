@@ -1,5 +1,6 @@
 import { Note } from '@prisma/client';
 import Link from 'next/link';
+import { ParsedUrlQuery } from 'querystring';
 
 import { FilterOption } from '@/lib/notes/get-notes-by-tags';
 
@@ -16,6 +17,19 @@ function buildQueryWithoutTag(tag: string, selectedTagsFilter?: string[]) {
 
 type ContextProps = { tags: string[], notes: Note[], selectedTagsFilter?: string[], selectedOperator?: FilterOption };
 
+const fixedTags = [{ label: 'Pinned', value: 'pinned' }];
+const fixedTagValues = fixedTags.map(({ value }) => value);
+
+function TagLink({ tag, query, isSelected }: { tag: string, query: ParsedUrlQuery, isSelected: boolean }) {
+    return (
+        <Link href={{ query }}
+            className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected ? ' border-red-400 ' : ''}`}
+        >
+            {tag}
+        </Link>
+    );
+}
+
 export default function Context({ tags, notes, selectedTagsFilter, selectedOperator }: ContextProps) {
     const isSelected = (tag: string) => selectedTagsFilter?.includes(tag) || false;
 
@@ -28,18 +42,24 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
         };
     }
 
+    function renderTag({ value, label }: { value: string, label: string }) {
+        return <TagLink key={value} tag={label} query={buildQuery(value)} isSelected={isSelected(value)} />;
+    }
+
+    const dynamicTags = tags.reduce((tagsSofar, tag) => {
+        if (!fixedTagValues.includes(tag)) {
+            return [...tagsSofar, { value: tag, label: tag }];
+        }
+
+        return tagsSofar;
+    }, [] as { value: string, label: string }[]);
+
     return (
         <div className="overflow-scroll">
             <div className="my-5 flex flex-wrap gap-4">
                 <FilterSelect defaultValue={selectedOperator}></FilterSelect>
-                {tags.map((tag) => (
-                    <Link href={{ query: buildQuery(tag) }}
-                        className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected(tag) ? ' border-red-400 ' : ''}`}
-                        key={tag}
-                    >
-                        {tag}
-                    </Link>
-                ))}
+                {fixedTags.map(renderTag)}
+                {dynamicTags.map(renderTag)}
             </div>
 
             {notes.map(({ text, id }) => (
