@@ -35,7 +35,7 @@ export default function Sidenav() {
     useEffect(() => closeMobileMenu(), [url, closeMobileMenu]);
 
     return (
-        <div>
+        <div className="h-full">
             <button onClick={() => setIsMobileOpen(true)}
                 data-drawer-target="sidenav"
                 data-drawer-toggle="sidenav"
@@ -51,7 +51,7 @@ export default function Sidenav() {
 
             <aside id="sidenav"
                 className={asideStyle}
-                style={{ ...!isMobileOpen ? { height: 'calc(100vh - 80px)' } : {} }}
+                style={{ ...!isMobileOpen ? { height: 'calc(100vh - 47px)' } : {} }}
                 aria-label="Sidenav"
             >
                 <div className="h-full overflow-y-auto rounded-lg border border-neutral-900 bg-neutral-950 px-3 py-4">
