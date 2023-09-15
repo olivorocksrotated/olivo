@@ -6,7 +6,6 @@ export default function ToastContainer() {
     return <ToastifyContainer theme="dark"
         toastClassName="border border-gray-700 !bg-gray-800"
         bodyClassName="bg-gray-800"
-        progressClassName="!bg-indigo-500"
         position="top-right"
         transition={Slide}
         autoClose={5000}
