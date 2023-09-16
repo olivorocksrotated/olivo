@@ -1,7 +1,8 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
 import clsx from 'clsx';
 import { cva, VariantProps } from 'cva';
-import { Fragment } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Fragment, useState } from 'react';
 import { IoChevronDownOutline, IoChevronUpOutline } from 'react-icons/io5';
 
 const triggerStyles = cva(
@@ -75,40 +76,56 @@ export default function Select(props: Props) {
         onValueChange = () => undefined
     } = props;
 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     return (
-        <SelectPrimitive.Root disabled={disabled} onValueChange={onValueChange} defaultValue={defaultValue}>
+        <SelectPrimitive.Root disabled={disabled}
+            defaultValue={defaultValue}
+            open={isDropdownOpen}
+            onValueChange={onValueChange}
+            onOpenChange={setIsDropdownOpen}
+        >
             <SelectPrimitive.Trigger aria-label={label} className={triggerStyles(props)}>
                 <SelectPrimitive.Value placeholder={placeholder} />
                 <SelectPrimitive.Icon className="min-w-fit">
                     <IoChevronDownOutline />
                 </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
-
-            <SelectPrimitive.Portal>
-                <SelectPrimitive.Content className={contentStyles(props)}>
-                    <SelectPrimitive.ScrollUpButton className="flex cursor-default items-center justify-center text-neutral-300 shadow-sm">
-                        <IoChevronUpOutline />
-                    </SelectPrimitive.ScrollUpButton>
-                    <SelectPrimitive.Viewport>
-                        {itemGroups.map((group, index) => (
-                            <Fragment key={group.label}>
-                                {index !== 0 ? <SelectPrimitive.Separator className="mx-1 my-2 h-[1px] bg-neutral-600" /> : null}
-                                <SelectPrimitive.Group>
-                                    <SelectPrimitive.Label className="mb-2 px-4 text-xs text-neutral-300">{group.label}</SelectPrimitive.Label>
-                                    {group.items.map((item) => (
-                                        <SelectPrimitive.Item key={item.value} value={item.value} className={itemStyles}>
-                                            <SelectPrimitive.ItemText>{item.label}</SelectPrimitive.ItemText>
-                                        </SelectPrimitive.Item>
+            <AnimatePresence>
+                {isDropdownOpen ?
+                    <SelectPrimitive.Portal>
+                        <SelectPrimitive.Content>
+                            <motion.div className={contentStyles(props)}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <SelectPrimitive.ScrollUpButton className="flex cursor-default items-center justify-center text-neutral-300 shadow-sm">
+                                    <IoChevronUpOutline />
+                                </SelectPrimitive.ScrollUpButton>
+                                <SelectPrimitive.Viewport>
+                                    {itemGroups.map((group, index) => (
+                                        <Fragment key={group.label}>
+                                            {index !== 0 ? <SelectPrimitive.Separator className="mx-1 my-2 h-[1px] bg-neutral-600" /> : null}
+                                            <SelectPrimitive.Group>
+                                                <SelectPrimitive.Label className="mb-2 px-4 text-xs text-neutral-300">{group.label}</SelectPrimitive.Label>
+                                                {group.items.map((item) => (
+                                                    <SelectPrimitive.Item key={item.value} value={item.value} className={itemStyles}>
+                                                        <SelectPrimitive.ItemText>{item.label}</SelectPrimitive.ItemText>
+                                                    </SelectPrimitive.Item>
+                                                ))}
+                                            </SelectPrimitive.Group>
+                                        </Fragment>
                                     ))}
-                                </SelectPrimitive.Group>
-                            </Fragment>
-                        ))}
-                    </SelectPrimitive.Viewport>
-                    <SelectPrimitive.ScrollDownButton className="flex cursor-default items-center justify-center text-neutral-300 shadow-sm">
-                        <IoChevronDownOutline />
-                    </SelectPrimitive.ScrollDownButton>
-                </SelectPrimitive.Content>
-            </SelectPrimitive.Portal>
+                                </SelectPrimitive.Viewport>
+                                <SelectPrimitive.ScrollDownButton className="flex cursor-default items-center justify-center text-neutral-300 shadow-sm">
+                                    <IoChevronDownOutline />
+                                </SelectPrimitive.ScrollDownButton>
+                            </motion.div>
+                        </SelectPrimitive.Content>
+                    </SelectPrimitive.Portal> : null}
+            </AnimatePresence>
         </SelectPrimitive.Root>
     );
 }

@@ -69,7 +69,11 @@ export default function Modal({
             <AnimatePresence>
                 {isDialogOpen ?
                     <Dialog.Portal forceMount key="dialog">
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <motion.div initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                        >
                             <Dialog.Overlay forceMount className="fixed inset-0 bg-black opacity-60" />
                             <Dialog.Content forceMount
                                 className={modalStyles({ size })}
