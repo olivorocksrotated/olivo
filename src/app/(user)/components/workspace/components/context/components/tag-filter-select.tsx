@@ -31,11 +31,15 @@ export function FilterSelect({ defaultValue }: { defaultValue?: FilterOption }) 
         router.push(`${pathname}?${newSerchParams}`);
     }
 
-    return <Select itemGroups={itemGroups}
-        defaultValue={defaultValue}
-        disabled={false}
-        label="Filter type"
-        placeholder="Filter type"
-        onValueChange={(value) => handleSelectOption(value as FilterOption)}
-    />;
+    return (
+        <div>
+            <Select itemGroups={itemGroups}
+                defaultValue={defaultValue}
+                disabled={false}
+                label="Filter type"
+                placeholder="Filter type"
+                onValueChange={(value) => handleSelectOption(value as FilterOption)}
+            />
+        </div>
+    );
 }

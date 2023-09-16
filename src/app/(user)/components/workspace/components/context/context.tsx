@@ -6,6 +6,7 @@ import { FilterOption } from '@/lib/notes/get-notes-by-tags';
 
 import NoteComponent from './components/note';
 import { FilterSelect } from './components/tag-filter-select';
+import TagsSelector from './components/tags-selector';
 
 function buildQueryWithTag(tag: string, selectedTagsFilter?: string[]) {
     return selectedTagsFilter?.length ? { selectedTagsFilter: [...selectedTagsFilter, tag].join(',') } : { selectedTagsFilter: tag };
@@ -47,6 +48,14 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
     }
 
     const dynamicTags = tags.reduce((tagsSofar, tag) => {
+        if (!fixedTagValues.includes(tag) && !isSelected(tag)) {
+            return [...tagsSofar, { value: tag, label: tag }];
+        }
+
+        return tagsSofar;
+    }, [] as { value: string, label: string }[]);
+
+    const selectedDynamicTags = selectedTagsFilter?.reduce((tagsSofar, tag) => {
         if (!fixedTagValues.includes(tag)) {
             return [...tagsSofar, { value: tag, label: tag }];
         }
@@ -56,11 +65,23 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
 
     return (
         <div className="overflow-scroll">
-            <div className="my-5 flex flex-wrap gap-4">
+            <div className="flex items-center">
                 <FilterSelect defaultValue={selectedOperator}></FilterSelect>
-                {fixedTags.map(renderTag)}
-                {dynamicTags.map(renderTag)}
+                <TagsSelector options={dynamicTags}></TagsSelector>
             </div>
+            <div className="my-5 flex flex-wrap gap-4">
+                {fixedTags.map(renderTag)}
+                {selectedDynamicTags?.map(renderTag)}
+            </div>
+
+            {
+                notes.length === 0 ? (
+                    <div className="text-center text-neutral-500">
+                        <div className="font-bold">No notes found.</div>
+                        {selectedOperator === FilterOption.Intersection ? <div> Try removing some tags or using the Union operator </div> : null}
+                    </div>
+                ) : null
+            }
 
             {notes.map(({ text, id }) => (
                 <div key={id} className="my-1">
