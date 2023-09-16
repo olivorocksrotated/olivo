@@ -74,6 +74,15 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
                 {selectedDynamicTags?.map(renderTag)}
             </div>
 
+            {
+                notes.length === 0 ? (
+                    <div className="text-center text-neutral-500">
+                        <div className="font-bold">No notes found.</div>
+                        {selectedOperator === FilterOption.Intersection ? <div> Try removing some tags or using the Union operator </div> : null}
+                    </div>
+                ) : null
+            }
+
             {notes.map(({ text, id }) => (
                 <div key={id} className="my-1">
                     <NoteComponent text={text} id={id}></NoteComponent>
