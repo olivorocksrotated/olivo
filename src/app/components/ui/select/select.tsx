@@ -43,7 +43,7 @@ const contentStyles = cva(
 );
 
 const itemStyles = clsx(
-    'cursor-pointer rounded px-4 py-2',
+    'my-1 cursor-pointer rounded px-4 py-2',
     'data-[disabled]:pointer-events-none data-[disabled]:cursor-default',
     'data-[highlighted]:bg-gray-600 data-[highlighted]:outline-none',
     'data-[state=checked]:bg-indigo-500'
