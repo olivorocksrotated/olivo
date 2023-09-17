@@ -26,7 +26,7 @@ describe('lib ai', () => {
 
             it('should return an error if creating the AI execution fails', async () => {
                 const expectedError = new Error('Ups');
-                prisma.aiExecution.create = vi.fn().mockRejectedValue(expectedError);
+                vi.spyOn(prisma.aiExecution, 'create').mockRejectedValueOnce(expectedError);
 
                 await expect(createAiExecution(execution)).rejects.toThrowError(expectedError);
             });
