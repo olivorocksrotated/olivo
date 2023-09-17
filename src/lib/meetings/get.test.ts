@@ -1,15 +1,16 @@
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { calculateNextMeeting } from './get';
 import { Meeting, MeetingDescription, Rythm } from './types';
 
 describe('calculateNextMeeting', () => {
     const fakeCurrentDate = new Date(2023, 0, 1);
+
     beforeEach(() => {
         vi.useFakeTimers({ now: fakeCurrentDate });
     });
 
-    test('returns the closest next meeting', async () => {
+    it('should return the closest next meeting', async () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
                 startDate: new Date('2023-01-01T23:00:00.000Z'),
@@ -35,7 +36,7 @@ describe('calculateNextMeeting', () => {
         expect(result).toEqual(expectedResult);
     });
 
-    test('returns the closest next meeting also when they are started in the past', async () => {
+    it('should return the closest next meeting also when they are started in the past', async () => {
         const meetingDescriptions: MeetingDescription[] = [
             {
                 startDate: new Date('2022-12-28T11:00:00.000Z'),
@@ -61,7 +62,7 @@ describe('calculateNextMeeting', () => {
         expect(result).toEqual(expectedResult);
     });
 
-    test('returns null when no next meeting is found', async () => {
+    it('should return null when no next meeting is found', async () => {
         const result = calculateNextMeeting([]);
         expect(result).toBeNull();
     });
