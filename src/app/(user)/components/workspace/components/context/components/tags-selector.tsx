@@ -32,7 +32,7 @@ export default function TagsSelector({ options, selectedValues }: { options: { v
     }
 
     return (
-        <div className="p-2">
+        <div>
             <Popover align="center"
                 close={isClosed}
                 openComponent={<Button size="md" label="Select Tags"></Button>}

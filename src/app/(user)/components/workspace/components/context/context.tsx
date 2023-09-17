@@ -62,7 +62,7 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
 
     return (
         <div className="overflow-scroll">
-            <div className="flex items-center">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center">
                 <FilterSelect defaultValue={selectedOperator}></FilterSelect>
                 <TagsSelector options={dynamicTags} selectedValues={selectedTagsFilter ?? []}></TagsSelector>
             </div>
