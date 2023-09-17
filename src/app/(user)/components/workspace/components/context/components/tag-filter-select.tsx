@@ -32,7 +32,7 @@ export function FilterSelect({ defaultValue }: { defaultValue?: FilterOption }) 
     }
 
     return (
-        <div>
+        <div className="w-64">
             <Select itemGroups={itemGroups}
                 defaultValue={defaultValue}
                 disabled={false}

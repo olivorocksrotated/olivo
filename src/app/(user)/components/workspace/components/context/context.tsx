@@ -47,27 +47,24 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
         return <TagLink key={value} tag={label} query={buildQuery(value)} isSelected={isSelected(value)} />;
     }
 
-    const dynamicTags = tags.reduce((tagsSofar, tag) => {
-        if (!fixedTagValues.includes(tag) && !isSelected(tag)) {
-            return [...tagsSofar, { value: tag, label: tag }];
-        }
+    function mapTagsToOptions(tagValues: string[]) {
+        return tagValues.reduce((tagsSofar, tag) => {
+            if (!fixedTagValues.includes(tag)) {
+                return [...tagsSofar, { value: tag, label: tag }];
+            }
 
-        return tagsSofar;
-    }, [] as { value: string, label: string }[]);
+            return tagsSofar;
+        }, [] as { value: string, label: string }[]);
+    }
 
-    const selectedDynamicTags = selectedTagsFilter?.reduce((tagsSofar, tag) => {
-        if (!fixedTagValues.includes(tag)) {
-            return [...tagsSofar, { value: tag, label: tag }];
-        }
-
-        return tagsSofar;
-    }, [] as { value: string, label: string }[]);
+    const dynamicTags = mapTagsToOptions(tags);
+    const selectedDynamicTags = selectedTagsFilter ? mapTagsToOptions(selectedTagsFilter) : null;
 
     return (
         <div className="overflow-scroll">
-            <div className="flex items-center">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center">
                 <FilterSelect defaultValue={selectedOperator}></FilterSelect>
-                <TagsSelector options={dynamicTags}></TagsSelector>
+                <TagsSelector options={dynamicTags} selectedValues={selectedTagsFilter ?? []}></TagsSelector>
             </div>
             <div className="my-5 flex flex-wrap gap-4">
                 {fixedTags.map(renderTag)}

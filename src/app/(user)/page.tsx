@@ -15,11 +15,11 @@ export default async function Home({ searchParams }: { searchParams: { selectedT
 
     return (
         <article className="flex h-full max-h-full flex-col pr-16">
-            <div className="flex items-center gap-10 py-4">
+            <div className="flex flex-col gap-5  py-4 xl:flex-row xl:items-center xl:gap-10">
                 <PageTitle text={`👋 Hey, ${firstName}`} />
                 <MoodSelector todaysMood={todaysMood} />
             </div>
-            <div className="grid min-h-0 grow grid-cols-2 gap-4">
+            <div className="min-h-0 grow">
                 <Workspace searchParams={searchParams}></Workspace>
             </div>
         </article>
