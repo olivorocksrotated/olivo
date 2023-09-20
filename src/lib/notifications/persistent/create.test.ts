@@ -17,13 +17,12 @@ vi.mock('next/cache', () => ({
 
 describe('lib notifications', () => {
     describe('persistent create', () => {
+        const userId = 'userId';
         const notification = {
             title: 'title',
             type: NotificationType.SignupWelcome,
             payload: {}
         };
-
-        const userId = 'userId';
 
         beforeEach(() => {
             prisma.notification.deleteMany({});
