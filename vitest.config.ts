@@ -13,6 +13,7 @@ export default defineConfig({
         },
         clearMocks: true,
         setupFiles: [
+            './src/lib/tests/matchers.ts',
             './src/lib/__mocks__/next-auth.ts',
             './src/lib/__mocks__/next-cache.ts',
             './src/lib/__mocks__/prisma.ts',

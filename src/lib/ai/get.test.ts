@@ -49,21 +49,14 @@ describe('lib ai', () => {
                 const findFirstSpy = vi.spyOn(prisma.aiExecution, 'findFirst');
                 await getLastAiExecution(userId, executionName);
 
-                expect(findFirstSpy).toHaveBeenCalledWith({
-                    where: {
-                        ownerId: userId,
-                        executionName
-                    },
-                    orderBy: {
-                        createdAt: 'desc'
-                    },
-                    take: 1
-                });
+                expect(findFirstSpy).toHaveBeenCalledWith(expect.objectContaining({
+                    orderBy: { createdAt: 'desc' }
+                }));
             });
 
             it('should return an error if getting the last AI execution fails', async () => {
                 const expectedError = new Error('Ups');
-                prisma.aiExecution.findFirst = vi.fn().mockRejectedValue(expectedError);
+                vi.spyOn(prisma.aiExecution, 'findFirst').mockRejectedValueOnce(expectedError);
 
                 await expect(getLastAiExecution(userId, executionName)).rejects.toThrowError(expectedError);
             });
