@@ -1,10 +1,11 @@
-import { NotificationType } from '@prisma/client';
+import { NotificationStatus, NotificationType } from '@prisma/client';
 import { describe, expect, it, vi } from 'vitest';
 
 import prisma from '@/lib/prisma/client';
 
 import { createNotification } from './create';
 import { getNotifications } from './get';
+import { updateNotificationsStatus } from './update';
 
 describe('lib notifications', () => {
     describe('persistent get', () => {
@@ -15,10 +16,13 @@ describe('lib notifications', () => {
                 type: NotificationType.SignupWelcome,
                 payload: {}
             };
+            const anotherNotification = {
+                ...notification,
+                type: NotificationType.UnfinishedCommitments
+            };
 
             it('should return notifications', async () => {
                 const timer = vi.useFakeTimers();
-                const anotherNotification = { ...notification, type: NotificationType.UnfinishedCommitments };
 
                 await createNotification(userId, notification);
                 await timer.advanceTimersByTimeAsync(10000);
@@ -32,7 +36,20 @@ describe('lib notifications', () => {
             });
 
             it('should return notifications filtered by status', async () => {
-                // TODO Add a way to update a notification status without actions
+                const status = NotificationStatus.Read;
+
+                const createdNotification = await createNotification(userId, notification);
+                await createNotification(userId, anotherNotification);
+                await updateNotificationsStatus({
+                    userId,
+                    status,
+                    notificationIds: [createdNotification.id]
+                });
+
+                const readNotifications = await getNotifications({ userId, filters: { status } });
+
+                expect(readNotifications.length).toBe(1);
+                expect(readNotifications).toContainObject({ ...notification, status });
             });
 
             it('should return notifications ordered by ascending created date', async () => {
@@ -45,8 +62,6 @@ describe('lib notifications', () => {
             });
 
             it('should return notifications limited by the take limit', async () => {
-                const anotherNotification = { ...notification, type: NotificationType.UnfinishedCommitments };
-
                 await createNotification(userId, notification);
                 await createNotification(userId, anotherNotification);
 
