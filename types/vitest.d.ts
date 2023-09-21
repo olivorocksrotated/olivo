@@ -5,6 +5,6 @@ interface CustomMatchers<R = unknown> {
 }
 
 declare module 'vitest' {
-    interface Assertion<T = any> extends VitestAssertion, CustomMatchers<T> {}
+    interface Assertion<T = any> extends VitestAssertion<T>, CustomMatchers<T> {}
     interface AsymmetricMatchersContaining extends VitestAsymmetricMatchersContaining, CustomMatchers {}
 }
