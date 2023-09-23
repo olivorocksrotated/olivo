@@ -4,18 +4,24 @@ import { getDailyNoteByDate } from '@/lib/notes/get-daily-note-by-date';
 import ContextPageTitle from '../components/context-page-title';
 import NoteComponent from './components/note';
 
+function NoNoteMessage() {
+    return (
+        <div className="text-center text-neutral-500">
+            <div className="font-bold">No daily note found.</div>
+        </div>
+    );
+}
+
 export default async function YesterdayContext() {
     const { user } = await getServerSession();
     const note = await getDailyNoteByDate(user.id, 'yesterday');
 
-    if (!note) {
-        return <div className="text-center text-gray-400">No note for yesterday</div>;
-    }
-
     return (
-        <div>
+        <div className="overflow-scroll">
             <ContextPageTitle title="Yesterday's Note" />
-            <NoteComponent text={note.text}></NoteComponent>
+            {
+                note ? <NoteComponent text={note.text} /> : <NoNoteMessage />
+            }
         </div>
     );
 }
