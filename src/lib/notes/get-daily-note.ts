@@ -26,11 +26,10 @@ async function createDailyNote(userId: string, text: string) {
     });
 }
 
-export async function getDailyNote() {
-    const { user } = await getServerSession();
-    const note = await prisma.note.findFirst({
+async function getTodaysNote(ownerId: string) {
+    return prisma.note.findFirst({
         where: {
-            ownerId: user.id,
+            ownerId,
             isDailyNote: true,
             createdAt: {
                 gte: startOfToday().toISOString(),
@@ -38,9 +37,14 @@ export async function getDailyNote() {
             }
         }
     });
+}
 
-    if (note) {
-        return note;
+export async function getDailyNote() {
+    const { user } = await getServerSession();
+    const todaysNote = await getTodaysNote(user.id);
+
+    if (todaysNote) {
+        return todaysNote;
     }
 
     const newNote = await createDailyNote(user.id, initialContent);
