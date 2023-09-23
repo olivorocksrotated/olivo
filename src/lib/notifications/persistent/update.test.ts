@@ -1,11 +1,20 @@
 import { NotificationStatus, NotificationType } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '@/lib/prisma/client';
 
 import { createNotification } from './create';
 import { getNotifications } from './get';
-import { updateNotificationsStatus } from './update';
+import { markAllNotificationsAsReadAction, updateNotificationsStatus } from './update';
+
+vi.mock('../../auth/session', async () => ({
+    getServerSession: vi.fn().mockResolvedValue({ user: { id: 'userId' } })
+}));
+
+vi.mock('next/cache', () => ({
+    revalidatePath: vi.fn()
+}));
 
 describe('lib notifications', () => {
     describe('persistent update', () => {
@@ -34,12 +43,6 @@ describe('lib notifications', () => {
                 const anotherUserId = 'anotherUserId';
                 await createNotification(anotherUserId, notification);
                 await createNotification(anotherUserId, anotherNotification);
-
-                const retrievedNotifications = await getNotifications({ userId });
-                expect(retrievedNotifications.length).toBe(2);
-                expect(retrievedNotifications[0].status).toBe(NotificationStatus.Open);
-                expect(retrievedNotifications[1].status).toBe(NotificationStatus.Open);
-
                 await updateNotificationsStatus({ userId, status: readStatus });
                 const updatedRetrievedNotifications = await getNotifications({ userId });
 
@@ -84,6 +87,42 @@ describe('lib notifications', () => {
                 vi.spyOn(prisma.notification, 'updateMany').mockRejectedValueOnce(expectedError);
 
                 await expect(updateNotificationsStatus({ userId, status: readStatus })).rejects.toThrowError(expectedError);
+            });
+        });
+
+        describe('markAllNotificationsAsReadAction', () => {
+            const userId = 'userId';
+            const notification = {
+                title: 'title',
+                type: NotificationType.SignupWelcome,
+                payload: {}
+            };
+            const anotherNotification = {
+                ...notification,
+                type: NotificationType.UnfinishedCommitments
+            };
+
+            it('should update the status of all the notifications of a user', async () => {
+                await createNotification(userId, notification);
+                await createNotification(userId, anotherNotification);
+                await markAllNotificationsAsReadAction(undefined);
+                const updatedRetrievedNotifications = await getNotifications({ userId });
+
+                expect(updatedRetrievedNotifications.length).toBe(2);
+                expect(updatedRetrievedNotifications[0].status).toBe(NotificationStatus.Read);
+                expect(updatedRetrievedNotifications[1].status).toBe(NotificationStatus.Read);
+            });
+
+            it('should revalidate the notifications path after updating notification', async () => {
+                await markAllNotificationsAsReadAction(undefined);
+                expect(revalidatePath).toHaveBeenCalledWith('/notifications');
+            });
+
+            it('should return an error if updating notification fails', async () => {
+                const expectedError = new Error('Ups');
+                vi.spyOn(prisma.notification, 'updateMany').mockRejectedValueOnce(expectedError);
+
+                await expect(markAllNotificationsAsReadAction(undefined)).rejects.toThrowError(expectedError);
             });
         });
     });
