@@ -37,7 +37,7 @@ export default function TagsSelector({ options, selectedValues }: { options: { v
                 close={isClosed}
                 openComponent={<Button size="md" label="Select Tags"></Button>}
             >
-                <div className="max-w-96 flex w-96 flex-wrap gap-2 p-2">
+                <div className="flex w-96 max-w-sm flex-wrap gap-2 p-2">
                     {options.length > 0 ? options.map(({ value, label }) => (
                         <div onClick={() => handleSelectOption(value)}
                             key={value}
