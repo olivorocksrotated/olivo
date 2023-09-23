@@ -17,11 +17,11 @@ export default async function YesterdayContext() {
     const note = await getDailyNoteByDate(user.id, 'yesterday');
 
     return (
-        <div className="overflow-scroll">
+        <>
             <ContextPageTitle title="Yesterday's Note" />
             {
                 note ? <NoteComponent text={note.text} /> : <NoNoteMessage />
             }
-        </div>
+        </>
     );
 }

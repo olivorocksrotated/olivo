@@ -21,7 +21,7 @@ export default async function PinnedContext() {
     const notes = await getNotesByTags(['pinned']);
 
     return (
-        <div className="overflow-scroll">
+        <>
             <ContextPageTitle title="📌 Pinned Context" />
             {
                 notes.length === 0 ? (
@@ -30,6 +30,6 @@ export default async function PinnedContext() {
                     </div>
                 ) : <Notes notes={notes} />
             }
-        </div>
+        </>
     );
 }

@@ -69,7 +69,7 @@ export default async function TagsContext({ searchParams: { selectedTagsFilter, 
     const selectedDynamicTags = tagFilter ? mapTagsToOptions(tagFilter) : null;
 
     return (
-        <div className="overflow-scroll">
+        <>
             <ContextPageTitle title="Tags" />
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
                 <FilterSelect defaultValue={operator}></FilterSelect>
@@ -94,6 +94,6 @@ export default async function TagsContext({ searchParams: { selectedTagsFilter, 
                     <NoteComponent text={text} id={id}></NoteComponent>
                 </div>
             ))}
-        </div>
+        </>
     );
 }

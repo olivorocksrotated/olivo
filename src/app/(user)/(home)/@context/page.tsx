@@ -15,7 +15,7 @@ function Link({ href, children }: { href: string; children: React.ReactNode; }) 
 
 export default function Context() {
     return (
-        <div className="flex h-3/4 flex-col items-center justify-center gap-4">
+        <div className="flex h-full flex-col items-center justify-center gap-4 py-2 xl:h-3/4">
             <Link href="/yesterday">Load Yesterday context</Link>
             <Link href="/dynamic">Load Dynamic context</Link>
             <Link href="/pinned">Load Pinned context</Link>
