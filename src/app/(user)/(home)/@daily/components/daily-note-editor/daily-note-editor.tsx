@@ -11,8 +11,8 @@ import Loader from '@/app/components/ui/loader/loader';
 import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
 import { updateNoteAction } from '@/lib/notes/update';
 
-import { editorExtensions } from '../editor-extensions';
-import { getTagsFromFragment } from '../editor-utils';
+import { editorExtensions } from '../../../components/editor-extensions';
+import { getTagsFromFragment } from '../../../components/editor-utils';
 import styles from './daily-note-editor.module.css';
 import Options from './options';
 

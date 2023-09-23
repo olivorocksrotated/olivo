@@ -5,7 +5,7 @@ import { useZact } from 'zact/client';
 
 import { createNoteAction } from '@/lib/notes/create';
 
-import { getTagsFromFragment } from '../editor-utils';
+import { getTagsFromFragment } from '../../../components/editor-utils';
 
 
 export default function Options({ selection }: { selection?: Selection }) {

@@ -1,9 +1,3 @@
-import { getServerSession } from '@/lib/auth/session';
-import { getDailyNote } from '@/lib/notes/get-daily-note';
-import { getTags } from '@/lib/tags/get';
-
-import { DailyNoteEditor } from './components/daily-note-editor/daily-note-editor';
-
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
         <div className={`flex max-h-full flex-col overflow-hidden rounded-lg bg-neutral-900 p-2 ${className}`}>
@@ -12,12 +6,13 @@ function Section({ children, className }: { children: React.ReactNode, className
     );
 }
 
-export default async function ContextLayout({ children, context }: { children: React.ReactNode, context: React.ReactNode }) {
-    const { user } = await getServerSession();
-    const note = await getDailyNote(user.id);
-    const tags = await getTags();
-    const tagLabels = tags.map(({ label }) => label);
+type LayoutProps = {
+    children: React.ReactNode;
+    context: React.ReactNode;
+    daily: React.ReactNode;
+};
 
+export default async function ContextLayout({ children, context, daily }: LayoutProps) {
     return (
         <article className="flex h-full max-h-full flex-col pr-16">
             {children}
@@ -28,8 +23,7 @@ export default async function ContextLayout({ children, context }: { children: R
                     </Section>
 
                     <Section className="xl:order-first">
-                        <div className="mb-5 text-xl">Daily Note</div>
-                        <DailyNoteEditor note={note} tags={tagLabels}></DailyNoteEditor>
+                        {daily}
                     </Section>
                 </div>
             </div>
