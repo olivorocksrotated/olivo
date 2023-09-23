@@ -1,7 +1,5 @@
-import { endOfToday, startOfToday } from 'date-fns';
-
-import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
+import { getDailyNoteByDate } from './get-daily-note-by-date';
 
 const initialContent = JSON.stringify({
     type: 'doc',
@@ -26,28 +24,8 @@ async function createDailyNote(userId: string, text: string) {
     });
 }
 
-async function getTodaysNote(ownerId: string) {
-    return prisma.note.findFirst({
-        where: {
-            ownerId,
-            isDailyNote: true,
-            createdAt: {
-                gte: startOfToday().toISOString(),
-                lte: endOfToday().toISOString()
-            }
-        }
-    });
-}
+export async function getDailyNote(userId: string) {
+    const todaysNote = await getDailyNoteByDate(userId, 'today');
 
-export async function getDailyNote() {
-    const { user } = await getServerSession();
-    const todaysNote = await getTodaysNote(user.id);
-
-    if (todaysNote) {
-        return todaysNote;
-    }
-
-    const newNote = await createDailyNote(user.id, initialContent);
-
-    return newNote;
+    return todaysNote ? todaysNote : createDailyNote(userId, initialContent);
 }

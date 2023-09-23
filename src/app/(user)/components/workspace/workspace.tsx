@@ -1,3 +1,4 @@
+import { getServerSession } from '@/lib/auth/session';
 import { getDailyNote } from '@/lib/notes/get-daily-note';
 import getNotesByTags, { FilterOption } from '@/lib/notes/get-notes-by-tags';
 import { getTags } from '@/lib/tags/get';
@@ -14,7 +15,8 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default async function Workspace({ searchParams }: { searchParams: { selectedTagsFilter?: string, operator?: FilterOption } }) {
-    const note = await getDailyNote();
+    const { user } = await getServerSession();
+    const note = await getDailyNote(user.id);
     const tags = await getTags();
     const tagLabels = tags.map(({ label }) => label);
     const tagFilter = searchParams.selectedTagsFilter ? searchParams.selectedTagsFilter.split(',') : undefined;
