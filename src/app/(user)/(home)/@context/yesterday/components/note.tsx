@@ -2,7 +2,7 @@
 
 import { generateHTML } from '@tiptap/react';
 
-import { editorExtensions } from '../../../../components/workspace/components/editor-extensions';
+import { editorExtensions } from '../../../components/editor-extensions';
 
 export default function Note({ text }: { text: string }) {
     const doc = JSON.parse(text);

@@ -2,7 +2,7 @@ import { getServerSession } from '@/lib/auth/session';
 import { getDailyNote } from '@/lib/notes/get-daily-note';
 import { getTags } from '@/lib/tags/get';
 
-import { DailyNoteEditor } from '../components/workspace/components/daily-note-editor/daily-note-editor';
+import { DailyNoteEditor } from './components/daily-note-editor/daily-note-editor';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
