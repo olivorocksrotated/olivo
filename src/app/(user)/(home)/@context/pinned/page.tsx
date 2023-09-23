@@ -2,6 +2,7 @@ import { Note } from '@prisma/client';
 
 import getNotesByTags from '@/lib/notes/get-notes-by-tags';
 
+import ContextPageTitle from '../components/context-page-title';
 import NoteComponent from '../dynamic/components/tags-context/note';
 
 function Notes({ notes }: { notes: Note[] }) {
@@ -21,7 +22,7 @@ export default async function PinnedContext() {
 
     return (
         <div className="overflow-scroll">
-            <div className="mb-10 text-xl text-neutral-400">📌 Pinned Context</div>
+            <ContextPageTitle title="📌 Pinned Context" />
             {
                 notes.length === 0 ? (
                     <div className="text-center text-neutral-500">

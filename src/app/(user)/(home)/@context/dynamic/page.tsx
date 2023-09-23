@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import getNotesByTags, { FilterOption } from '@/lib/notes/get-notes-by-tags';
 import { getTags } from '@/lib/tags/get';
 
+import ContextPageTitle from '../components/context-page-title';
 import NoteComponent from './components/tags-context/note';
 import { FilterSelect } from './components/tags-context/tag-filter-select';
 import TagsSelector from './components/tags-context/tags-selector';
@@ -69,6 +70,7 @@ export default async function TagsContext({ searchParams: { selectedTagsFilter, 
 
     return (
         <div className="overflow-scroll">
+            <ContextPageTitle title="Tags" />
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
                 <FilterSelect defaultValue={operator}></FilterSelect>
                 <TagsSelector options={dynamicTags} selectedValues={tagFilter ?? []}></TagsSelector>
