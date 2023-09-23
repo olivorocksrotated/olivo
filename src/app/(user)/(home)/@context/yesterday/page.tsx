@@ -1,7 +1,7 @@
 import { getServerSession } from '@/lib/auth/session';
 import { getDailyNoteByDate } from '@/lib/notes/get-daily-note-by-date';
 
-import NoteComponent from './note';
+import NoteComponent from './components/note';
 
 export default async function YesterdayContext() {
     const { user } = await getServerSession();
