@@ -5,7 +5,7 @@ import MoodBullet from './components/mood-bullet';
 import MoodSummary from './components/mood-summary';
 import MoodTrends from './components/mood-trends';
 
-export default async function Moods() {
+export default async function Reflect() {
     const { user } = await getServerSession();
     const thisMonthMoods = await getMoods({
         userId: user.id,

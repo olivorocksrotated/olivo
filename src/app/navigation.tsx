@@ -33,7 +33,7 @@ export const links: NavigationLink[] = [
     },
     {
         id: 'reflect',
-        path: '/moods',
+        path: '/reflect',
         title: 'Reflect',
         icon: <TbMoodCheck size={18} />
     },
