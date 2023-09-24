@@ -39,7 +39,7 @@ export const links: NavigationLink[] = [
     },
     {
         id: 'understand',
-        path: '/ask',
+        path: '/understand',
         title: 'Understand',
         icon: <HiOutlineLightBulb size={18} />
     },

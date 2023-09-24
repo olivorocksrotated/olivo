@@ -27,7 +27,7 @@ const itemGroups: ItemGroup[] = [
     }
 ];
 
-export default function Ask() {
+export default function Understand() {
     const [body, setBody] = useState<{
         execution: null | AiExecutionName
     }>({ execution: null });
