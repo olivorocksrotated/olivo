@@ -12,7 +12,7 @@ export default async function Home() {
     const todaysMood = await getTodaysMood(user.id);
 
     return (
-        <div className="flex flex-col gap-5  py-4 xl:flex-row xl:items-center xl:gap-10">
+        <div className="flex flex-col gap-5 py-4 xl:flex-row xl:items-center xl:gap-10">
             <PageTitle text={`👋 Hey, ${firstName}`} />
             <MoodSelector todaysMood={todaysMood} />
         </div>
