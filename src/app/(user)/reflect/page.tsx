@@ -1,7 +1,7 @@
 import { getServerSession } from '@/lib/auth/session';
 import { getMoods } from '@/lib/moods/get';
 
-import MoodBullet from './components/mood-bullet';
+import MoodBullet from '../understand/components/moods/mood-bullet';
 import MoodSummary from './components/mood-summary';
 import MoodTrends from './components/mood-trends';
 

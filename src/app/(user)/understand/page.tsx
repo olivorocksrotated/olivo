@@ -1,46 +1,16 @@
-'use client';
+import { getServerSession } from '@/lib/auth/session';
+import { getMoods } from '@/lib/moods/get';
 
-import { AiExecutionName } from '@prisma/client';
-import { useState } from 'react';
+import UnderstandClient from './components/understand-client';
 
-import Select, { ItemGroup } from '@/app/components/ui/select/select';
+export default async function Understand() {
+    const { user } = await getServerSession();
 
-import AiUnderstanding from './components/ai-understanding';
-import Insights from './components/insights';
-import { NullableAiExecutionName } from './types';
+    const thisMonthMoods = await getMoods({
+        userId: user.id,
+        filters: { created: 'this month' },
+        order: 'asc'
+    });
 
-const questions: ItemGroup[] = [
-    {
-        label: 'Mood',
-        items: [
-            {
-                label: 'What can you tell me about my mood?',
-                value: AiExecutionName.MoodSummary
-            },
-            {
-                label: 'What can I do to improve my mood?',
-                value: AiExecutionName.MoodAdvice
-            }
-        ]
-    }
-];
-
-export default function Understand() {
-    const [selectedExecutionName, setSelectedExecutionName] = useState<NullableAiExecutionName>(null);
-
-    return (
-        <div>
-            <div className="w-96">
-                <Select itemGroups={questions}
-                    label="What would you like to understand more about?"
-                    placeholder="Select a question"
-                    onValueChange={(value) => setSelectedExecutionName(value as AiExecutionName)}
-                />
-            </div>
-            <div className="flex gap-4">
-                <AiUnderstanding selectedExecutionName={selectedExecutionName} />
-                <Insights />
-            </div>
-        </div>
-    );
+    return <UnderstandClient thisMonthMoods={thisMonthMoods} />;
 }
