@@ -15,7 +15,7 @@ export type NavigationLink = {
 
 export const links: NavigationLink[] = [
     {
-        id: 'home',
+        id: '(home)',
         path: '/',
         title: 'Home',
         icon: <AiFillHome size={18} />

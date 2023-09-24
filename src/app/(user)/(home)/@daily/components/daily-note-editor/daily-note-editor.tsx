@@ -11,8 +11,8 @@ import Loader from '@/app/components/ui/loader/loader';
 import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
 import { updateNoteAction } from '@/lib/notes/update';
 
-import { editorExtensions } from '../editor-extensions';
-import { getTagsFromFragment } from '../editor-utils';
+import { editorExtensions } from '../../../components/editor-extensions';
+import { getTagsFromFragment } from '../../../components/editor-utils';
 import styles from './daily-note-editor.module.css';
 import Options from './options';
 
@@ -32,7 +32,7 @@ function SavingIndicator() {
 
 function EditorLoader() {
     return (
-        <div className="flex h-full w-full items-center justify-center bg-neutral-950">
+        <div className="flex h-full w-full items-center justify-center bg-neutral-950 py-8">
             <Loader intent="standalone" size="s"></Loader>
         </div>
     );

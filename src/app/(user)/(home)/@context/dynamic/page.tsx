@@ -1,12 +1,13 @@
-import { Note } from '@prisma/client';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 
-import { FilterOption } from '@/lib/notes/get-notes-by-tags';
+import getNotesByTags, { FilterOption } from '@/lib/notes/get-notes-by-tags';
+import { getTags } from '@/lib/tags/get';
 
-import NoteComponent from './components/note';
-import { FilterSelect } from './components/tag-filter-select';
-import TagsSelector from './components/tags-selector';
+import ContextPageTitle from '../components/context-page-title';
+import NoteComponent from './components/tags-context/note';
+import { FilterSelect } from './components/tags-context/tag-filter-select';
+import TagsSelector from './components/tags-context/tags-selector';
 
 function buildQueryWithTag(tag: string, selectedTagsFilter?: string[]) {
     return selectedTagsFilter?.length ? { selectedTagsFilter: [...selectedTagsFilter, tag].join(',') } : { selectedTagsFilter: tag };
@@ -15,8 +16,6 @@ function buildQueryWithTag(tag: string, selectedTagsFilter?: string[]) {
 function buildQueryWithoutTag(tag: string, selectedTagsFilter?: string[]) {
     return selectedTagsFilter?.length ? { selectedTagsFilter: selectedTagsFilter.filter((filteredTag) => tag !== filteredTag).join(',') } : {};
 }
-
-type ContextProps = { tags: string[], notes: Note[], selectedTagsFilter?: string[], selectedOperator?: FilterOption };
 
 const fixedTags = [{ label: 'Pinned', value: 'pinned' }];
 const fixedTagValues = fixedTags.map(({ value }) => value);
@@ -31,15 +30,24 @@ function TagLink({ tag, query, isSelected }: { tag: string, query: ParsedUrlQuer
     );
 }
 
-export default function Context({ tags, notes, selectedTagsFilter, selectedOperator }: ContextProps) {
+type PageProps = {
+    searchParams: { selectedTagsFilter?: string, operator?: FilterOption }
+};
+
+export default async function TagsContext({ searchParams: { selectedTagsFilter, operator } }: PageProps) {
+    const tags = await getTags();
+    const tagLabels = tags.map(({ label }) => label);
+    const tagFilter = selectedTagsFilter ? selectedTagsFilter.split(',') : undefined;
+    const notes = await getNotesByTags(tagFilter || [], operator);
+
     const isSelected = (tag: string) => selectedTagsFilter?.includes(tag) || false;
 
     function buildQuery(tag: string) {
         const queryBuilder = isSelected(tag) ? buildQueryWithoutTag : buildQueryWithTag;
 
         return {
-            ...queryBuilder(tag, selectedTagsFilter),
-            operator: selectedOperator ? selectedOperator : FilterOption.Intersection
+            ...queryBuilder(tag, tagFilter),
+            operator: operator ? operator : FilterOption.Intersection
         };
     }
 
@@ -57,14 +65,15 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
         }, [] as { value: string, label: string }[]);
     }
 
-    const dynamicTags = mapTagsToOptions(tags);
-    const selectedDynamicTags = selectedTagsFilter ? mapTagsToOptions(selectedTagsFilter) : null;
+    const dynamicTags = mapTagsToOptions(tagLabels);
+    const selectedDynamicTags = tagFilter ? mapTagsToOptions(tagFilter) : null;
 
     return (
-        <div className="overflow-scroll">
+        <>
+            <ContextPageTitle title="Tags" />
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
-                <FilterSelect defaultValue={selectedOperator}></FilterSelect>
-                <TagsSelector options={dynamicTags} selectedValues={selectedTagsFilter ?? []}></TagsSelector>
+                <FilterSelect defaultValue={operator}></FilterSelect>
+                <TagsSelector options={dynamicTags} selectedValues={tagFilter ?? []}></TagsSelector>
             </div>
             <div className="my-5 flex flex-wrap gap-4">
                 {fixedTags.map(renderTag)}
@@ -75,7 +84,7 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
                 notes.length === 0 ? (
                     <div className="text-center text-neutral-500">
                         <div className="font-bold">No notes found.</div>
-                        {selectedOperator === FilterOption.Intersection ? <div> Try removing some tags or using the Union operator </div> : null}
+                        {operator === FilterOption.Intersection ? <div> Try removing some tags or using the Union operator </div> : null}
                     </div>
                 ) : null
             }
@@ -85,6 +94,6 @@ export default function Context({ tags, notes, selectedTagsFilter, selectedOpera
                     <NoteComponent text={text} id={id}></NoteComponent>
                 </div>
             ))}
-        </div>
+        </>
     );
 }
