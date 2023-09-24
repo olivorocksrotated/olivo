@@ -52,7 +52,7 @@ export const links: NavigationLink[] = [
     },
     {
         id: 'improve',
-        path: '/feedback',
+        path: '/improve',
         title: 'Improve',
         icon: <PiTrendUpBold size={18} />
     }
