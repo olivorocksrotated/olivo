@@ -4,7 +4,7 @@ import PageTitle from '@/app/components/ui/page-title/page-title';
 export default async function Layout({ children }: { children: React.ReactNode }) {
     return (
         <article>
-            <div className="mb-16"><PageTitle text="Ask Olivo" /></div>
+            <div className="mb-16"><PageTitle text="Understand" /></div>
             {children}
         </article>
     );

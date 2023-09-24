@@ -1,8 +1,7 @@
 import { AiFillHome } from 'react-icons/ai';
-import { BsFillChatLeftHeartFill, BsPeopleFill } from 'react-icons/bs';
-import { FaTasks } from 'react-icons/fa';
-import { MdPendingActions } from 'react-icons/md';
-import { PiChatsCircleDuotone } from 'react-icons/pi';
+import { HiOutlineLightBulb } from 'react-icons/hi2';
+import { MdConnectWithoutContact, MdPendingActions } from 'react-icons/md';
+import { PiCirclesThreePlus, PiTrendUpBold } from 'react-icons/pi';
 import { TbMoodCheck } from 'react-icons/tb';
 
 export type NavigationLink = {
@@ -27,34 +26,34 @@ export const links: NavigationLink[] = [
         icon: <MdPendingActions size={18} />
     },
     {
-        id: 'commitments',
+        id: 'organize',
         path: '/commitments',
-        title: 'Commitments',
-        icon: <FaTasks size={18} />
+        title: 'Organize',
+        icon: <PiCirclesThreePlus size={18} />
     },
     {
-        id: 'moods',
+        id: 'reflect',
         path: '/moods',
-        title: 'Your moods',
+        title: 'Reflect',
         icon: <TbMoodCheck size={18} />
     },
     {
-        id: 'network',
+        id: 'understand',
+        path: '/ask',
+        title: 'Understand',
+        icon: <HiOutlineLightBulb size={18} />
+    },
+    {
+        id: 'connect',
         path: '/network',
-        title: 'Your network',
-        icon: <BsPeopleFill size={18} />,
+        title: 'Connect',
+        icon: <MdConnectWithoutContact size={18} />,
         hasSeparator: true
     },
     {
-        id: 'feedback',
+        id: 'improve',
         path: '/feedback',
-        title: 'Feedback',
-        icon: <BsFillChatLeftHeartFill size={18} />
-    },
-    {
-        id: 'ask',
-        path: '/ask',
-        title: 'Ask Olivo',
-        icon: <PiChatsCircleDuotone size={18} />
+        title: 'Improve',
+        icon: <PiTrendUpBold size={18} />
     }
 ];
