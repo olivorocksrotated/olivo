@@ -2,34 +2,23 @@
 
 import { AiExecution, AiExecutionName } from '@prisma/client';
 import { useChat } from 'ai/react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';
 import MarkdownEditor from '@/app/components/ui/markdown-editor/markdown-editor';
-import Select, { ItemGroup } from '@/app/components/ui/select/select';
 import { getRelativeDate } from '@/lib/date/format';
 import { fetchFromApi, getApiUrl, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/types';
 
-const itemGroups: ItemGroup[] = [
-    {
-        label: 'Mood',
-        items: [
-            {
-                label: 'What can you tell me about my mood?',
-                value: AiExecutionName.MoodSummary
-            },
-            {
-                label: 'What can I do to improve my mood?',
-                value: AiExecutionName.MoodAdvice
-            }
-        ]
-    }
-];
+import { NullableAiExecutionName } from '../types';
 
-export default function AiUnderstanding() {
+interface Props {
+    selectedExecutionName: NullableAiExecutionName;
+}
+
+export default function AiUnderstanding({ selectedExecutionName }: Props) {
     const [body, setBody] = useState<{
-        execution: null | AiExecutionName
+        execution: NullableAiExecutionName
     }>({ execution: null });
 
     const [lastExecutionDate, setLastExecutionDate] = useState<Date | null>(null);
@@ -41,12 +30,12 @@ export default function AiUnderstanding() {
 
     const aiResponse = messages.reduce((content, message) => (message.role !== 'user' ? content + message.content : content), '');
 
-    const setExecutionName = (executionName: AiExecutionName) => {
+    const setExecutionName = useCallback((executionName: AiExecutionName) => {
         setInput(executionName);
         setBody({ execution: executionName });
-    };
+    }, [setInput]);
 
-    const setLastStoredExecution = async (executionName: AiExecutionName) => {
+    const setLastStoredExecution = useCallback(async (executionName: AiExecutionName) => {
         const lastExecutionResponse = await fetchFromApi({
             method: HttpMethod.GET,
             path: ResourcePath.Ai,
@@ -67,12 +56,7 @@ export default function AiUnderstanding() {
             content: lastExecution.response
         }]);
         setLastExecutionDate(() => lastExecution.createdAt);
-    };
-
-    const handleSelectOption = async (executionName: AiExecutionName) => {
-        setExecutionName(executionName);
-        await setLastStoredExecution(executionName);
-    };
+    }, [setMessages]);
 
     const forceSetInputAfterReset = () => {
         if (!body.execution) {
@@ -88,17 +72,20 @@ export default function AiUnderstanding() {
         setLastExecutionDate(() => new Date());
     };
 
+    useEffect(() => {
+        const handleSelectOption = async (executionName: NullableAiExecutionName) => {
+            if (!executionName) {
+                return;
+            }
+            setExecutionName(executionName);
+            await setLastStoredExecution(executionName);
+        };
+        handleSelectOption(selectedExecutionName);
+    }, [selectedExecutionName, setExecutionName, setLastStoredExecution]);
+
     return (
         <div>
             <form onSubmit={handleSubmit} className="mb-10 flex flex-wrap gap-4">
-                <div className="w-96">
-                    <Select itemGroups={itemGroups}
-                        label="What would you like to learn about?"
-                        placeholder="Select a question"
-                        disabled={isLoading}
-                        onValueChange={(value) => handleSelectOption(value as AiExecutionName)}
-                    />
-                </div>
                 <div className="w-full sm:w-64">
                     <Button type="submit"
                         intent="cta"

@@ -58,10 +58,10 @@ export interface ItemGroup {
 }
 
 interface Props extends VariantProps<typeof triggerStyles> {
-    disabled: boolean;
     itemGroups: ItemGroup[];
     label: string;
     placeholder: string;
+    disabled?: boolean;
     defaultValue?: string;
     onValueChange: (value: string) => void
 }

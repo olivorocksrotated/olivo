@@ -1,7 +1,46 @@
+'use client';
+
+import { AiExecutionName } from '@prisma/client';
+import { useState } from 'react';
+
+import Select, { ItemGroup } from '@/app/components/ui/select/select';
+
 import AiUnderstanding from './components/ai-understanding';
+import Insights from './components/insights';
+import { NullableAiExecutionName } from './types';
+
+const questions: ItemGroup[] = [
+    {
+        label: 'Mood',
+        items: [
+            {
+                label: 'What can you tell me about my mood?',
+                value: AiExecutionName.MoodSummary
+            },
+            {
+                label: 'What can I do to improve my mood?',
+                value: AiExecutionName.MoodAdvice
+            }
+        ]
+    }
+];
 
 export default function Understand() {
+    const [selectedExecutionName, setSelectedExecutionName] = useState<NullableAiExecutionName>(null);
+
     return (
-        <AiUnderstanding />
+        <div>
+            <div className="w-96">
+                <Select itemGroups={questions}
+                    label="What would you like to understand more about?"
+                    placeholder="Select a question"
+                    onValueChange={(value) => setSelectedExecutionName(value as AiExecutionName)}
+                />
+            </div>
+            <div className="flex gap-4">
+                <AiUnderstanding selectedExecutionName={selectedExecutionName} />
+                <Insights />
+            </div>
+        </div>
     );
 }
