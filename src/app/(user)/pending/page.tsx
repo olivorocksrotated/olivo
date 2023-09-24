@@ -3,7 +3,7 @@ import { getCommitments } from '@/lib/commitments/get';
 import { getNotes } from '@/lib/notes/get';
 import { forceCast } from '@/lib/types/type-caster';
 
-import { ClientCommitment, ServerCommitment } from '../commitments/types';
+import { ClientCommitment, ServerCommitment } from '../organize/types';
 import Commitments from './components/commitments';
 import Note from './components/note';
 

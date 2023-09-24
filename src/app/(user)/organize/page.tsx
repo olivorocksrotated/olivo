@@ -7,7 +7,7 @@ import EinsenhowerMatrix from './components/einsenhower-matrix/eisenhower-matrix
 import CommitmentsTabs from './components/list/commitments-tabs';
 import { ClientCommitment, ServerCommitment } from './types';
 
-export default async function Commitments() {
+export default async function Organize() {
     const { user } = await getServerSession();
 
     const today = await getCommitments({

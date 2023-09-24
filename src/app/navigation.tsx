@@ -27,7 +27,7 @@ export const links: NavigationLink[] = [
     },
     {
         id: 'organize',
-        path: '/commitments',
+        path: '/organize',
         title: 'Organize',
         icon: <PiCirclesThreePlus size={18} />
     },
