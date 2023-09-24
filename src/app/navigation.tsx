@@ -45,7 +45,7 @@ export const links: NavigationLink[] = [
     },
     {
         id: 'connect',
-        path: '/network',
+        path: '/connect',
         title: 'Connect',
         icon: <MdConnectWithoutContact size={18} />,
         hasSeparator: true
