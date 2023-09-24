@@ -11,7 +11,7 @@ import {
     createServerActionSuccessResponse,
     createServerActionUnknownErrorResponse
 } from '../server-actions/response';
-import { changeConnectionState } from './connection/changeState';
+import { updateConnectionState } from './connection/update';
 
 const errors: { [errorId: string]: { type: string, message: string } } = {
     NoConnectionWithYourself: { type: 'NoConnectionWithYourself', message: 'It is not possible to create a connection with yourself' },
@@ -48,7 +48,7 @@ export const createConnectionAction = zact(z.object({
             }
 
             if (existingConnection && !existingConnection.active) {
-                await changeConnectionState(existingConnection.id, true);
+                await updateConnectionState(existingConnection.id, true);
             } else {
                 await prisma.networkConnection.create({
                     data: { requesterId: user.id, acceptorId: acceptorUser.id }

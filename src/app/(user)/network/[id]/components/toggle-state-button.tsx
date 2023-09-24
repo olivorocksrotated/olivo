@@ -4,10 +4,10 @@ import { experimental_useOptimistic as useOptimistic } from 'react';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
-import { changeConnectionStateAction } from '@/lib/network/connection/changeState';
+import { updateConnectionStateAction } from '@/lib/network/connection/update';
 
 export default function ToggleStateButton({ id, isConnected }: { id: string; isConnected: boolean }) {
-    const { mutate: changeConnectionState } = useZact(changeConnectionStateAction);
+    const { mutate: changeConnectionState } = useZact(updateConnectionStateAction);
     const [optimisticIsConnected, changeIsConnectedOptimistically] = useOptimistic<boolean, boolean>(
         isConnected,
         (state, newState) => newState
