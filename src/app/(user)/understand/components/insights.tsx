@@ -1,11 +1,17 @@
 import { BaseMood } from '../../reflect/types';
 import MoodBullet from './moods/mood-bullet';
+import { InsightTopic } from './types';
 
 interface Props {
-    selectedTopic?: 'moods';
+    selectedTopic: null | InsightTopic;
     thisMonthMoods: BaseMood[];
 }
 
-export default function Insights({ thisMonthMoods }: Props) {
-    return <MoodBullet moods={thisMonthMoods} />;
+export default function Insights({
+    selectedTopic,
+    thisMonthMoods
+}: Props) {
+    return (
+        selectedTopic === InsightTopic.Moods ? <MoodBullet moods={thisMonthMoods} /> : null
+    );
 }
