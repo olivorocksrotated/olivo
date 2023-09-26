@@ -31,7 +31,8 @@ export default function CategoryBadgeSelector({ tag, onBadgeSelected }: Props) {
     });
 
     return (
-        <div className={badgeWrapperStyles}
+        <div
+            className={badgeWrapperStyles}
             onClick={handleClick}
         >
             <div className={dotStyles}></div>

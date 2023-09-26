@@ -50,7 +50,8 @@ export default function MoodTrends({ thisMonthMoods, lastMonthMoods }: Props) {
     return (
         <Card>
             <Title>Your trend compared to last month</Title>
-            <LineChart data={charMoods}
+            <LineChart
+                data={charMoods}
                 index="day"
                 categories={['This month', 'Last month']}
                 colors={['emerald', 'gray']}

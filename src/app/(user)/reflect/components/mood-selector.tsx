@@ -73,7 +73,8 @@ export default function MoodSelector({ todaysMood }: Props) {
 
     return (
         <div>
-            <Modal title="How are you feeling today?"
+            <Modal
+                title="How are you feeling today?"
                 close={isClosed}
                 size="s"
                 openComponent={<Button label="How are you feeling today?" intent="cta" icon={TbMoodCheck} />}
@@ -82,7 +83,8 @@ export default function MoodSelector({ todaysMood }: Props) {
                     <div className="mb-6">
                         <div className="flex gap-2">
                             {moodOptions.map((mood) => (
-                                <div key={mood.name}
+                                <div
+                                    key={mood.name}
                                     onClick={() => setSelectedMood((previous) => ({ ...previous, option: mood }))}
                                     className={clsx({
                                         'flex w-10 cursor-pointer flex-col items-center rounded p-2 transition': true,
@@ -102,7 +104,8 @@ export default function MoodSelector({ todaysMood }: Props) {
                             {selectedMood.option.icon} {`What is making you feel ${selectedMood.option.name.toLowerCase() || '...'}?`}
                         </div>
                         <div className="mb-2 w-full">
-                            <Textarea autoFocus
+                            <Textarea
+                                autoFocus
                                 value={selectedMood.comment}
                                 onChange={(event) => setSelectedMood((previous) => ({ ...previous, comment: event.target.value }))}
                                 disabled={!selectedMood.option.name}

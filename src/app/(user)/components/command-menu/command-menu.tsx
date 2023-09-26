@@ -83,7 +83,8 @@ export default function CommandMenu() {
                         <div className="h-96 rounded-lg border-0 bg-neutral-950">
                             <AnimatePresence mode="wait">
                                 {selectedCommand ? (
-                                    <motion.div key="selected-command-view"
+                                    <motion.div
+                                        key="selected-command-view"
                                         initial={{ opacity: 0.2, scale: 0.99 }}
                                         exit={{ opacity: 0.2, scale: 0.99 }}
                                         animate={{ opacity: 1, scale: 1, transition: { duration: 0.4 } }}

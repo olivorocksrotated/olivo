@@ -33,13 +33,15 @@ export default function TagsSelector({ options, selectedValues }: { options: { v
 
     return (
         <div>
-            <Popover align="center"
+            <Popover
+                align="center"
                 close={isClosed}
                 openComponent={<Button size="md" label="Select Tags"></Button>}
             >
                 <div className="flex w-96 max-w-sm flex-wrap gap-2 p-2">
                     {options.length > 0 ? options.map(({ value, label }) => (
-                        <div onClick={() => handleSelectOption(value)}
+                        <div
+                            onClick={() => handleSelectOption(value)}
                             key={value}
                             className={`cursor-pointer rounded border border-neutral-500 p-1 hover:bg-neutral-500 ${tags.includes(value) ? 'bg-neutral-500' : ''}`}
                         >

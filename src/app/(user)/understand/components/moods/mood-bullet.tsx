@@ -21,7 +21,7 @@ export default function MoodBullet({ moods }: Props) {
     }), [moods]);
 
     return (
-        <Card className="max-h-96 max-w-lg sm:max-h-80">
+        <Card className="max-h-96 sm:max-h-80">
             <Title className="mb-4">Summary of your mood through the month</Title>
             <Flex className="mb-2">
                 <Text>

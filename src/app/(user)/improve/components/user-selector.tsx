@@ -78,7 +78,8 @@ export default function UserSelector({ connections, onUserSelected }: Props) {
             <div className="mb-2 bg-slate-800 p-3">
                 <div className="flex border border-slate-700 bg-slate-500/20">
                     <span className="p-3 py-4"><TbSearch size={16} /></span>
-                    <input id="email"
+                    <input
+                        id="email"
                         type="email"
                         name="email"
                         placeholder="Type the email"

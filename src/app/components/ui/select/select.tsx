@@ -79,7 +79,8 @@ export default function Select(props: Props) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (
-        <SelectPrimitive.Root disabled={disabled}
+        <SelectPrimitive.Root
+            disabled={disabled}
             defaultValue={defaultValue}
             open={isDropdownOpen}
             onValueChange={onValueChange}
@@ -95,7 +96,8 @@ export default function Select(props: Props) {
                 {isDropdownOpen ?
                     <SelectPrimitive.Portal>
                         <SelectPrimitive.Content>
-                            <motion.div className={contentStyles(props)}
+                            <motion.div
+                                className={contentStyles(props)}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}

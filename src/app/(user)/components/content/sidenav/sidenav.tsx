@@ -36,7 +36,8 @@ export default function Sidenav() {
 
     return (
         <div className="h-full">
-            <button onClick={() => setIsMobileOpen(true)}
+            <button
+                onClick={() => setIsMobileOpen(true)}
                 data-drawer-target="sidenav"
                 data-drawer-toggle="sidenav"
                 aria-controls="sidenav"
@@ -49,7 +50,8 @@ export default function Sidenav() {
                 </svg>
             </button>
 
-            <aside id="sidenav"
+            <aside
+                id="sidenav"
                 className={asideStyle}
                 style={{ ...!isMobileOpen ? { height: 'calc(100vh - 47px)' } : {} }}
                 aria-label="Sidenav"
@@ -59,7 +61,8 @@ export default function Sidenav() {
                         <div className="flex gap-2">
                             <div className="relative h-8 min-h-[2rem] w-8 min-w-[2rem]">
                                 <span className="sr-only">Open user menu</span>
-                                <Image className="min-h-[2rem] min-w-[2rem] rounded-full object-cover"
+                                <Image
+                                    className="min-h-[2rem] min-w-[2rem] rounded-full object-cover"
                                     src={session?.user.image ?? ''}
                                     width={32}
                                     height={32}
@@ -81,7 +84,8 @@ export default function Sidenav() {
 
             <AnimatePresence>
                 {isMobileOpen ? (
-                    <motion.div key="sidenav-backdrop"
+                    <motion.div
+                        key="sidenav-backdrop"
                         onClick={closeMobileMenu}
                         className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
                         initial={{ opacity: 0 }}

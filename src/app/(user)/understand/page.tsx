@@ -12,5 +12,14 @@ export default async function Understand() {
         order: 'asc'
     });
 
-    return <UnderstandClient thisMonthMoods={thisMonthMoods} />;
+    const lastMonthMoods = await getMoods({
+        userId: user.id,
+        filters: { created: 'last month' },
+        order: 'asc'
+    });
+
+    return <UnderstandClient
+        thisMonthMoods={thisMonthMoods}
+        lastMonthMoods={lastMonthMoods}
+    />;
 }

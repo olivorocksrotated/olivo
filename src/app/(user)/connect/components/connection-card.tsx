@@ -12,7 +12,8 @@ type Props = { connection: Connection };
 export default function ConnectionCard({ connection }: Props) {
     return (
         <Link href={`/network/${connection.id}`} className="w-full min-w-[300px]">
-            <motion.div whileHover={{ scale: 1.05 }}
+            <motion.div
+                whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 10 }}
                 className="flex  cursor-pointer gap-4 border border-neutral-900 bg-neutral-950 p-5"
             >

@@ -51,10 +51,12 @@ export default function Options({ selection }: { selection?: Selection }) {
                         <div key={option.sectionTitle} className={`flex w-full flex-col ${index > 0 ? ' my-1 border-t border-neutral-950 ' : ''}`}>
                             <div className="mx-1 mt-2 text-sm text-neutral-400">{option.sectionTitle}</div>
                             {option.actions.map((action) => (
-                                <div key={action.label}
+                                <div
+                                    key={action.label}
                                     className="mx-1 rounded-sm hover:bg-neutral-700 focus:bg-neutral-700"
                                 >
-                                    <button onClick={action.exec}
+                                    <button
+                                        onClick={action.exec}
                                         className="mx-2 flex items-center px-2 py-1 outline-none"
                                         type="button"
                                     >

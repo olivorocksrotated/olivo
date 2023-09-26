@@ -84,10 +84,11 @@ export default function AiUnderstanding({ selectedExecutionName }: Props) {
     }, [selectedExecutionName, setExecutionName, setLastStoredExecution]);
 
     return (
-        <div>
+        <div className="rounded border border-neutral-600 p-4">
             <form onSubmit={handleSubmit} className="mb-10 flex flex-wrap gap-4">
                 <div className="w-full sm:w-64">
-                    <Button type="submit"
+                    <Button
+                        type="submit"
                         intent="cta"
                         w="full"
                         label={!isLoading ? 'Get answer from AI' : 'Generating response...'}
@@ -100,7 +101,7 @@ export default function AiUnderstanding({ selectedExecutionName }: Props) {
             {lastExecutionDate ? (
                 <p className="mb-2 text-neutral-400">Last execution {getRelativeDate(lastExecutionDate, new Date()).toLowerCase()}</p>
             ) : null}
-            <div className="max-h-96 overflow-y-auto rounded border border-neutral-600 p-4 leading-loose">
+            <div className="max-h-96 overflow-y-auto leading-loose">
                 {messages.length === 0 ? <div className="text-neutral-600">Your response will appear here</div> : null}
                 {messages.length !== 0 ? <MarkdownEditor disabled={true} value={aiResponse} /> : null}
             </div>

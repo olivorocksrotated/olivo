@@ -51,7 +51,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     };
 
     return (
-        <Modal title="Edit commitment"
+        <Modal
+            title="Edit commitment"
             close={isClosed}
             openComponent={<CommitmentEntry commitment={commitment} />}
         >
@@ -59,7 +60,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 <div className="mb-4 flex items-center">
                     <label className="w-12">I will</label>
                     <div className="grow">
-                        <Input value={editCommitment.title}
+                        <Input
+                            value={editCommitment.title}
                             autoFocus
                             onChange={(event) => setEditCommitment({ ...editCommitment, title: event.target.value })}
                             onKeyUp={onEnterPressed(onSave)}
@@ -70,7 +72,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 <div className="mb-4 flex items-center">
                     <label className="w-12">by</label>
                     <div className="grow">
-                        <Input type="date"
+                        <Input
+                            type="date"
                             value={editCommitment.doneBy}
                             onChange={(event) => setEditCommitment({ ...editCommitment, doneBy: event.target.value })}
                             onKeyUp={onEnterPressed(onSave)}
@@ -85,7 +88,8 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 </div>
             </ModalContent>
             <ModalFooter>
-                <Button label="Save"
+                <Button
+                    label="Save"
                     intent="cta"
                     disabled={!editCommitment.title || !editCommitment.doneBy}
                     onClick={onSave}

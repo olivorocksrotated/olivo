@@ -61,7 +61,8 @@ export default function TasksList({ listId }: Props) {
             </li>
             {tasks.map((task) => (
                 <li key={task.id} className="mb-3 flex items-center justify-between gap-2 rounded-lg text-sm outline-neutral-700">
-                    <Input type="text"
+                    <Input
+                        type="text"
                         placeholder="Your task to prioritize"
                         value={task.name}
                         onChange={(event) => editTask(task.id, event.target.value)}

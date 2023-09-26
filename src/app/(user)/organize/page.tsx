@@ -44,7 +44,8 @@ export default async function Organize() {
     return (
         <div className="flex flex-col gap-8 sm:flex-row">
             <div className="grow sm:mb-0 sm:min-w-[500px]">
-                <CommitmentsTabs today={forceCast<ServerCommitment[], ClientCommitment[]>(today)}
+                <CommitmentsTabs
+                    today={forceCast<ServerCommitment[], ClientCommitment[]>(today)}
                     next={forceCast<ServerCommitment[], ClientCommitment[]>(next)}
                     overdue={forceCast<ServerCommitment[], ClientCommitment[]>(overdue)}
                     resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}

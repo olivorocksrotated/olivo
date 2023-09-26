@@ -60,7 +60,8 @@ export default function CommitmentsFulfilment({ commitments }: Props) {
         <Card>
             <Title>Commitments you were able to fulfil on time</Title>
             <Subtitle>Last 4 weeks</Subtitle>
-            <BarChart className="mt-6"
+            <BarChart
+                className="mt-6"
                 data={commitmentsSplitByFulfilment}
                 index="weekLabel"
                 stack={true}

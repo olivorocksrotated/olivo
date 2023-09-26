@@ -67,7 +67,8 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
     return (
         <div>
             <div className={buttonStyle}>
-                <IconButton icon={IoMdNotifications}
+                <IconButton
+                    icon={IoMdNotifications}
                     onClick={() => setIsOpen(true)}
                     label="Open notifications"
                     ping={hasOpenNotifications}
@@ -79,7 +80,8 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
             </div>
 
             <aside id="notifications" className={asideStyle} aria-label="Notifications">
-                <div className="h-full overflow-y-auto px-3 py-4"
+                <div
+                    className="h-full overflow-y-auto px-3 py-4"
                     style={{
                         background: 'rgb(35, 37, 38)',
                         border: '1px solid hsla(0,0%,100%,.05)'
@@ -88,10 +90,11 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
                     {notifications.length > 0 ? (
                         <ul role="list" className="divide-y divide-gray-600">
                             {notifications.map((notification) => (
-                                <li key={notification.id} role="listitem" className={clsx(
-                                    'mb-4 rounded p-3 sm:p-4',
-                                    { 'outline outline-indigo-500': isNotificationOpen(notification) }
-                                )}
+                                <li
+                                    key={notification.id} role="listitem" className={clsx(
+                                        'mb-4 rounded p-3 sm:p-4',
+                                        { 'outline outline-indigo-500': isNotificationOpen(notification) }
+                                    )}
                                 >
                                     <NotificationEntry notification={notification} />
                                 </li>
@@ -103,7 +106,8 @@ export default function NotificationsClient({ unfinishedCommitmentsForToday, not
 
             <AnimatePresence>
                 {isOpen ? (
-                    <motion.div key="notifications-backdrop"
+                    <motion.div
+                        key="notifications-backdrop"
                         onClick={handleCloseNotifications}
                         className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
                         initial={{ opacity: 0 }}

@@ -17,7 +17,8 @@ function AnimatedCard({ children, id }: { children: React.ReactNode; id: string 
     const transition = { duration: 0.5 };
 
     return (
-        <motion.div className="flex w-full"
+        <motion.div
+            className="flex w-full"
             key={id}
             initial={{ opacity: 0.2 }}
             animate={{ opacity: 1, transition }}

@@ -32,13 +32,15 @@ export default function SignIn() {
                 OLIVO
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
-                <Button label="Sign in with Github"
+                <Button
+                    label="Sign in with Github"
                     onClick={() => handleLoginAttempt('github')}
                     disabled={showLoader}
                     icon={VscGithub}
                     size="md"
                 />
-                <Button label="Sign in with Google"
+                <Button
+                    label="Sign in with Google"
                     onClick={() => handleLoginAttempt('google')}
                     disabled={showLoader}
                     icon={FcGoogle}

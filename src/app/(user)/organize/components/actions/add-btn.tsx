@@ -46,7 +46,8 @@ export default function AddButton() {
                 <div className="mb-4 flex items-center">
                     <label className="w-12">I will</label>
                     <div className="grow">
-                        <Input value={commitment.title}
+                        <Input
+                            value={commitment.title}
                             autoFocus
                             onChange={(event) => setCommitment({ ...commitment, title: event.target.value })}
                             onKeyUp={onEnterPressed(onSave)}
@@ -57,7 +58,8 @@ export default function AddButton() {
                 <div className="mb-6 flex items-center">
                     <label className="w-12">by</label>
                     <div className="grow">
-                        <Input type="date"
+                        <Input
+                            type="date"
                             value={commitment.doneBy}
                             onChange={(event) => setCommitment({ ...commitment, doneBy: event.target.value })}
                             onKeyUp={onEnterPressed(onSave)}
@@ -76,7 +78,8 @@ export default function AddButton() {
                 </div>
             </ModalContent>
             <ModalFooter>
-                <Button label="Add commitment"
+                <Button
+                    label="Add commitment"
                     intent="cta"
                     disabled={!commitment.title || !commitment.doneBy}
                     onClick={onSave}

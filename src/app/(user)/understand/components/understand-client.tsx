@@ -13,6 +13,7 @@ import { aiExecutionNameToTopic } from './constants';
 
 interface Props {
     thisMonthMoods: BaseMood[];
+    lastMonthMoods: BaseMood[];
 }
 
 const questions: ItemGroup[] = [
@@ -20,7 +21,7 @@ const questions: ItemGroup[] = [
         label: 'Mood',
         items: [
             {
-                label: 'What can you tell me about my mood?',
+                label: 'How is my mood fluctuating?',
                 value: AiExecutionName.MoodSummary
             },
             {
@@ -31,7 +32,10 @@ const questions: ItemGroup[] = [
     }
 ];
 
-export default function UnderstandClient({ thisMonthMoods }: Props) {
+export default function UnderstandClient({
+    thisMonthMoods,
+    lastMonthMoods
+}: Props) {
     const [selectedExecutionName, setSelectedExecutionName] = useState<NullableAiExecutionName>(null);
     const selectedTopic = selectedExecutionName ? aiExecutionNameToTopic[selectedExecutionName] : null;
 
@@ -39,15 +43,24 @@ export default function UnderstandClient({ thisMonthMoods }: Props) {
         <div>
             <div className="mb-8 w-96">
                 <h3 className="mb-2">Select a question you would like to answer</h3>
-                <Select itemGroups={questions}
+                <Select
+                    itemGroups={questions}
                     label="What would you like to understand more about?"
                     placeholder="Select a question"
                     onValueChange={(value) => setSelectedExecutionName(value as AiExecutionName)}
                 />
             </div>
-            <div className="flex flex-wrap gap-4">
-                <div className="max-w-2xl"><AiUnderstanding selectedExecutionName={selectedExecutionName} /></div>
-                <Insights selectedTopic={selectedTopic} thisMonthMoods={thisMonthMoods} />
+            <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
+                <div className="max-w-2xl grow">
+                    <AiUnderstanding selectedExecutionName={selectedExecutionName} />
+                </div>
+                <div className="max-w-full grow sm:max-w-2xl">
+                    <Insights
+                        selectedTopic={selectedTopic}
+                        thisMonthMoods={thisMonthMoods}
+                        lastMonthMoods={lastMonthMoods}
+                    />
+                </div>
             </div>
         </div>
     );

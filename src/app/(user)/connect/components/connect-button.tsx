@@ -27,13 +27,15 @@ export default function ConnectButton({ onConnectionRequested }: { onConnectionR
     }
 
     return (
-        <Modal title="Connect"
+        <Modal
+            title="Connect"
             description="Add the email of the user you would like to connect with"
             close={isClosed}
             openComponent={<Button label="Connect" />}
         >
             <ModalContent>
-                <Input type="email"
+                <Input
+                    type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="E.g. john@doe.com"

@@ -38,7 +38,8 @@ export default function CategoryCard({ category, onCategorySelected }: Props) {
     return (
         <div className={cardOuterWrapperStyles} onClick={handleClick}>
             <div className={cardInnerWrapperStyles}>
-                <svg className={cardDotStyles}
+                <svg
+                    className={cardDotStyles}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
