@@ -33,7 +33,8 @@ export default function ListAddButton(props: Props) {
     const { label, size, ...nativeProps } = props;
 
     return (
-        <button type="button"
+        <button
+            type="button"
             aria-label={label}
             title={label}
             {...nativeProps}

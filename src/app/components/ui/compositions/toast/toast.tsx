@@ -10,7 +10,8 @@ export default function Toast() {
         <>
             <ToastContainer />
             <div className="flex gap-5">
-                <Button label="Open success toast"
+                <Button
+                    label="Open success toast"
                     onClick={() => createBasicClientNotification({
                         title: 'Success',
                         destination: 'browser',
@@ -18,7 +19,8 @@ export default function Toast() {
                     })}
                 />
 
-                <Button label="Open info toast"
+                <Button
+                    label="Open info toast"
                     onClick={() => createBasicClientNotification({
                         title: 'Info',
                         destination: 'browser',
@@ -26,7 +28,8 @@ export default function Toast() {
                     })}
                 />
 
-                <Button label="Open warning toast"
+                <Button
+                    label="Open warning toast"
                     onClick={() => createBasicClientNotification({
                         title: 'Warning',
                         destination: 'browser',
@@ -34,7 +37,8 @@ export default function Toast() {
                     })}
                 />
 
-                <Button label="Open error toast"
+                <Button
+                    label="Open error toast"
                     onClick={() => createBasicClientNotification({
                         title: 'Error',
                         destination: 'browser',

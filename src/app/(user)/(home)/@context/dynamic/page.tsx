@@ -22,7 +22,8 @@ const fixedTagValues = fixedTags.map(({ value }) => value);
 
 function TagLink({ tag, query, isSelected }: { tag: string, query: ParsedUrlQuery, isSelected: boolean }) {
     return (
-        <Link href={{ query }}
+        <Link
+            href={{ query }}
             className={`cursor-pointer rounded border border-neutral-800 bg-neutral-950 px-2 ${isSelected ? ' border-red-400 ' : ''}`}
         >
             {tag}

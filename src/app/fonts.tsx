@@ -14,16 +14,17 @@ export const inter = Inter({
 // https://makerkit.dev/snippets/next13-rsc-fonts
 export default function Fonts() {
     useServerInsertedHTML(() => (
-        // eslint-disable-next-line react/no-danger
-        <style dangerouslySetInnerHTML={{
-            __html: `
+        <style
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+                __html: `
             :root {
               --font-inter: '-apple-system', 'BlinkMacSystemFont',
                 ${inter.style.fontFamily}, 'system-ui', 'Segoe UI', 'Roboto',
                 'Ubuntu', 'sans-serif';
             }
           `
-        }}
+            }}
         />
     ));
 

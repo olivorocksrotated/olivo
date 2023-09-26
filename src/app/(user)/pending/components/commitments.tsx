@@ -1,5 +1,5 @@
-import CommitmentCard from '../../commitments/components/card/commitment-card';
-import { ClientCommitment } from '../../commitments/types';
+import CommitmentCard from '../../organize/components/card/commitment-card';
+import { ClientCommitment } from '../../organize/types';
 
 export default function Commitments({ commitments }: { commitments: ClientCommitment[]; }) {
     return (

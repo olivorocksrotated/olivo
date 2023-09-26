@@ -3,7 +3,7 @@ import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
 
 import PageTitle from '../../components/ui/page-title/page-title';
-import MoodSelector from './../moods/components/mood-selector';
+import MoodSelector from '../reflect/components/mood-selector';
 
 export default async function Home() {
     const { user } = await getServerSession();

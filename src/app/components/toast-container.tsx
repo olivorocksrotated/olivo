@@ -3,7 +3,8 @@
 import { Slide, ToastContainer as ToastifyContainer } from 'react-toastify';
 
 export default function ToastContainer() {
-    return <ToastifyContainer theme="dark"
+    return <ToastifyContainer
+        theme="dark"
         toastClassName="border border-gray-700 !bg-gray-800"
         bodyClassName="bg-gray-800"
         position="top-right"

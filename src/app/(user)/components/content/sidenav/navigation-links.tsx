@@ -8,7 +8,6 @@ import { links } from '@/app/navigation';
 import HoverMark from './hover-mark';
 import SelectedBackground from './selected-background';
 
-
 export default function NavigationLinks() {
     const selected = useSelectedLayoutSegment();
     const hoverIndexes = links.reduce((acc, currentLink, currentIndex) => ({

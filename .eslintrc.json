@@ -34,7 +34,7 @@
     "react/jsx-curly-newline": ["error", { "multiline": "consistent", "singleline": "consistent" }],
     "react/jsx-curly-spacing": ["error", { "when": "never", "children": true }],
     "react/jsx-equals-spacing": ["error", "never"],
-    "react/jsx-first-prop-new-line": ["error", "never"],
+    "react/jsx-first-prop-new-line": ["error", "multiline"],
     "react/jsx-key": ["error"],
     "react/jsx-no-duplicate-props": ["error", { "ignoreCase": true }],
     "react/jsx-no-comment-textnodes": "error",

@@ -40,7 +40,8 @@ export default function Popover({
                 {isPopoverOpen ?
                     <RadixPopover.Portal key="popover" forceMount>
                         <RadixPopover.Content align={align}>
-                            <motion.div className="rounded bg-neutral-700 p-2 text-sm shadow-sm"
+                            <motion.div
+                                className="rounded bg-neutral-700 p-2 text-sm shadow-sm"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}

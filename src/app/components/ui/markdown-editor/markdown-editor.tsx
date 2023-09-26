@@ -56,7 +56,8 @@ export default function MarkdownEditor({
         <div className={editorStyles(otherProps)}>
             <div className="absolute right-5 top-1">
                 {!disabled ? (
-                    <IconButton icon={isEditing ? IoMdEye : IoCodeSlashOutline}
+                    <IconButton
+                        icon={isEditing ? IoMdEye : IoCodeSlashOutline}
                         size="s"
                         label={isEditing ? 'Result' : 'Edit'}
                         onClick={() => setIsEditing((prev) => !prev)}
@@ -66,7 +67,8 @@ export default function MarkdownEditor({
             {disabled ?
                 visualization :
                 isEditing ?
-                    <Textarea {...otherProps}
+                    <Textarea
+                        {...otherProps}
                         resize={false}
                         disabled={disabled}
                         onChange={onChange}
