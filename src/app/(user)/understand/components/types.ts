@@ -1,3 +1,4 @@
 export enum InsightTopic {
-    Moods = 'moods'
+    Moods = 'moods',
+    Commitments = 'commitments'
 }

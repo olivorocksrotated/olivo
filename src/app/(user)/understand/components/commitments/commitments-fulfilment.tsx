@@ -7,7 +7,7 @@ import { isOverdue } from '@/lib/commitments/filter';
 import { isBetween } from '@/lib/date/days';
 import { formatDate } from '@/lib/date/format';
 
-import { ClientCommitment } from '../types';
+import { ClientCommitment } from '../../../organize/types';
 
 interface Props {
     commitments: ClientCommitment[];

@@ -3,38 +3,25 @@
 import { AiExecutionName } from '@prisma/client';
 import { useState } from 'react';
 
-import Select, { ItemGroup } from '@/app/components/ui/select/select';
+import Select from '@/app/components/ui/select/select';
 
+import { ClientCommitment } from '../../organize/types';
 import { BaseMood } from '../../reflect/types';
 import AiUnderstanding from '../components/ai-understanding';
 import Insights from '../components/insights';
 import { NullableAiExecutionName } from '../types';
-import { aiExecutionNameToTopic } from './constants';
+import { aiExecutionNameToTopic, questions } from './constants';
 
 interface Props {
     thisMonthMoods: BaseMood[];
     lastMonthMoods: BaseMood[];
+    last4WeeksCommitments: ClientCommitment[];
 }
-
-const questions: ItemGroup[] = [
-    {
-        label: 'Mood',
-        items: [
-            {
-                label: 'How is my mood fluctuating?',
-                value: AiExecutionName.MoodSummary
-            },
-            {
-                label: 'What can I do to improve my mood?',
-                value: AiExecutionName.MoodAdvice
-            }
-        ]
-    }
-];
 
 export default function UnderstandClient({
     thisMonthMoods,
-    lastMonthMoods
+    lastMonthMoods,
+    last4WeeksCommitments
 }: Props) {
     const [selectedExecutionName, setSelectedExecutionName] = useState<NullableAiExecutionName>(null);
     const selectedTopic = selectedExecutionName ? aiExecutionNameToTopic[selectedExecutionName] : null;
@@ -59,6 +46,7 @@ export default function UnderstandClient({
                         selectedTopic={selectedTopic}
                         thisMonthMoods={thisMonthMoods}
                         lastMonthMoods={lastMonthMoods}
+                        last4WeeksCommitments={last4WeeksCommitments}
                     />
                 </div>
             </div>

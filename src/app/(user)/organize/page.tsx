@@ -2,7 +2,6 @@ import { getServerSession } from '@/lib/auth/session';
 import { getCommitments } from '@/lib/commitments/get';
 import { forceCast } from '@/lib/types/type-caster';
 
-import CommitmentsFulfilment from './components/commitments-fulfilment';
 import EinsenhowerMatrix from './components/einsenhower-matrix/eisenhower-matrix';
 import CommitmentsTabs from './components/list/commitments-tabs';
 import { ClientCommitment, ServerCommitment } from './types';
@@ -35,12 +34,6 @@ export default async function Organize() {
         take: 30
     });
 
-    const last4Weeks = await getCommitments({
-        userId: user.id,
-        filters: { doneBy: 'last 4 weeks' },
-        order: { doneBy: 'asc' }
-    });
-
     return (
         <div className="flex flex-col gap-8 sm:flex-row">
             <div className="grow sm:mb-0 sm:min-w-[500px]">
@@ -52,9 +45,6 @@ export default async function Organize() {
                 />
             </div>
             <div className="max-w-3xl">
-                <div className="mb-8">
-                    <CommitmentsFulfilment commitments={forceCast<ServerCommitment[], ClientCommitment[]>(last4Weeks)} />
-                </div>
                 <EinsenhowerMatrix />
             </div>
         </div>
