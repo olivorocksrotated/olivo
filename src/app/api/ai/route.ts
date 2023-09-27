@@ -10,7 +10,8 @@ import { createMoodAdvicePrompt, createMoodSummaryPrompt } from '@/lib/moods/ai'
 
 const executionPrompt: { [key in AiExecutionName]: (userId: string) => Promise<string> } = {
     [AiExecutionName.MoodSummary]: createMoodSummaryPrompt,
-    [AiExecutionName.MoodAdvice]: createMoodAdvicePrompt
+    [AiExecutionName.MoodAdvice]: createMoodAdvicePrompt,
+    [AiExecutionName.Overcommitment]: async () => 'Hello'
 };
 
 const aiSdkBodySchema = z.object({
@@ -28,11 +29,11 @@ export async function POST(req: Request) {
         );
     }
 
-    const { execution } = validation.data;
+    const { execution: executionName } = validation.data;
     const { user } = await getServerSession();
     const userId = user.id;
 
-    const prompt = await executionPrompt[execution](userId);
+    const prompt = await executionPrompt[executionName](userId);
     const response = await getStreamedAiResponse(userId, prompt);
 
     /* eslint-disable no-console */
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
             console.debug('/api/chat - Stream completed', { userId, traceId });
             await createAiExecution({
                 userId,
-                executionName: execution,
+                executionName,
                 prompt,
                 response: completion
             });

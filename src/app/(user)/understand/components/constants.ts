@@ -7,7 +7,7 @@ import { InsightTopic } from './types';
 export const aiExecutionNameToTopic = {
     [AiExecutionName.MoodAdvice]: InsightTopic.Moods,
     [AiExecutionName.MoodSummary]: InsightTopic.Moods,
-    Overcommitting: InsightTopic.Commitments
+    [AiExecutionName.Overcommitment]: InsightTopic.Commitments
 };
 
 export const questions: ItemGroup[] = [
@@ -29,7 +29,7 @@ export const questions: ItemGroup[] = [
         items: [
             {
                 label: 'Am I overcommitting?',
-                value: 'Overcommitting' // TODO add the actual AiExecution
+                value: AiExecutionName.Overcommitment
             }
         ]
     }
