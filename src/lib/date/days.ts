@@ -58,3 +58,25 @@ export function isBetween(date: Date, startDate: Date, endDate: Date) {
         (isBefore(date, endDate) || isSameDay(date, endDate))
     );
 }
+
+export function findDateTimeframe({ dateToFind, timeframes }: {
+    dateToFind: Date,
+    timeframes: Date[]
+}): {
+    startTimeframe: { index: number, date: Date },
+    endTimeframe: { index: number, date: Date }
+} | null {
+    const startTimeframeIndex = timeframes.findIndex((startTimeframe, index) => {
+        const endTimeframe = timeframes[index + 1];
+        const isLastTimeframe = index === timeframes.length - 1;
+
+        return isLastTimeframe ? false : isBetween(dateToFind, startTimeframe, endTimeframe);
+    });
+
+    const timeframeFound = startTimeframeIndex !== -1;
+
+    return timeframeFound ? {
+        startTimeframe: { index: startTimeframeIndex, date: timeframes[startTimeframeIndex] },
+        endTimeframe: { index: startTimeframeIndex + 1, date: timeframes[startTimeframeIndex + 1] }
+    } : null;
+}
