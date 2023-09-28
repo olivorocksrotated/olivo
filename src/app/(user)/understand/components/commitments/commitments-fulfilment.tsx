@@ -2,9 +2,11 @@
 
 import { BarChart, Card, Subtitle, Title } from '@tremor/react';
 import { sub } from 'date-fns';
+import { useMemo } from 'react';
 
+import { newEmptyArrayOfLength } from '@/lib/array/new-empty-array-of-length';
 import { isOverdue } from '@/lib/commitments/filter';
-import { isBetween } from '@/lib/date/days';
+import { findDateTimeframe } from '@/lib/date/days';
 import { formatDate } from '@/lib/date/format';
 
 import { ClientCommitment } from '../../../organize/types';
@@ -13,6 +15,10 @@ interface Props {
     commitments: ClientCommitment[];
 }
 
+const formatWeekLabel = (startDate: Date, endDate: Date) => `${formatDate(startDate, 'dd/MM')}-${formatDate(endDate, 'dd/MM')}`;
+
+const onTimeKey = 'On time';
+const overdueKey = 'Overdue';
 const now = new Date();
 const weeks = [
     sub(now, { weeks: 4 }),
@@ -21,40 +27,28 @@ const weeks = [
     sub(now, { weeks: 1 }),
     now
 ];
-const getCommitmentWeek = ({ doneBy }: ClientCommitment) => weeks.reduce((weeksAcc, currentWeekDate, currentIndex, originalWeeks) => {
-    const weekFound = weeksAcc !== -1;
-    const isLastWeek = currentIndex === originalWeeks.length - 1;
-    if (weekFound || isLastWeek) {
-        return weeksAcc;
-    }
-
-    const startDate = currentWeekDate;
-    const endDate = originalWeeks[currentIndex + 1];
-
-    return isBetween(doneBy, startDate, endDate) ? currentIndex : weeksAcc;
-}, -1);
-
-const formatWeekLabel = (startDate: Date, endDate: Date) => `${formatDate(startDate, 'dd/MM')}-${formatDate(endDate, 'dd/MM')}`;
 
 export default function CommitmentsFulfilment({ commitments }: Props) {
-    const commitmentsSplitByFulfilment = commitments.reduce((commitmentsAcc, commitment) => {
-        const week: number = getCommitmentWeek(commitment);
-        const weekEntry = commitmentsAcc[week];
-        const isOverdueCommitment = isOverdue(now)(commitment);
+    const insights = useMemo(() => commitments.reduce((acc, currentCommitment) => {
+        const timeframe = findDateTimeframe({ dateToFind: currentCommitment.doneBy, timeframes: weeks });
+        if (!timeframe) {
+            return acc;
+        }
 
-        commitmentsAcc[week] = {
-            ...commitmentsAcc[week],
-            'On time': !isOverdueCommitment ? weekEntry['On time'] + 1 : weekEntry['On time'],
-            Overdue: isOverdueCommitment ? weekEntry.Overdue + 1 : weekEntry.Overdue
+        const isOverdueCommitment = isOverdue(now)(currentCommitment);
+        const entryKey = isOverdueCommitment ? overdueKey : onTimeKey;
+        const week = timeframe.startTimeframe.index;
+
+        return {
+            ...acc,
+            [week]: { ...acc[week], [entryKey]: acc[week][entryKey] + 1 }
         };
-
-        return commitmentsAcc;
-    }, [
-        { week: 0, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[0], weeks[1]) },
-        { week: 1, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[1], weeks[2]) },
-        { week: 2, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[2], weeks[3]) },
-        { week: 3, 'On time': 0, Overdue: 0, weekLabel: formatWeekLabel(weeks[3], weeks[4]) }
-    ]);
+    }, newEmptyArrayOfLength(weeks.length - 1).map((_, index) => ({
+        week: index,
+        [onTimeKey]: 0,
+        [overdueKey]: 0,
+        weekLabel: formatWeekLabel(weeks[index], weeks[index + 1])
+    }))), [commitments]);
 
     return (
         <Card>
@@ -62,7 +56,7 @@ export default function CommitmentsFulfilment({ commitments }: Props) {
             <Subtitle>Last 4 weeks</Subtitle>
             <BarChart
                 className="mt-6"
-                data={commitmentsSplitByFulfilment}
+                data={insights}
                 index="weekLabel"
                 stack={true}
                 categories={['On time', 'Overdue']}
