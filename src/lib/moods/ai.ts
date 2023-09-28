@@ -16,7 +16,7 @@ function createPrompt({ action, startDate, endDate, moods }: {
         ${action}
         'Excellent is better than good, good is better than average, average is better than okayish, and okayish is better than bad.'
         This is how I felt from the ${formatDate(startDate)} until the ${formatDate(endDate)}:
-        ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment}`)}
+        ${moods.map((mood) => `${formatDate(mood.createdAt)}: I felt ${mood.status}. ${mood.comment};`)}
     `;
 }
 
@@ -29,7 +29,7 @@ export async function createMoodSummaryPrompt(userId: string): Promise<string> {
     });
 
     return createPrompt({
-        action: 'Tell me in detail how you perceive my mood. Use empathetic voice and tone. Avoid just summarizing what happened, focus on finding patterns.',
+        action: 'Tell me in detail how you perceive my mood. Provide a brief summary of what happened, and focus on finding patterns.',
         moods,
         ...executionTimeframe
     });

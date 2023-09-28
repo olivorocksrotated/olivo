@@ -6,12 +6,13 @@ import { z } from 'zod';
 import { createAiExecution } from '@/lib/ai/create';
 import { getStreamedAiResponse } from '@/lib/ai/get';
 import { getServerSession } from '@/lib/auth/session';
+import { createOvercommitmentPrompt } from '@/lib/commitments/ai';
 import { createMoodAdvicePrompt, createMoodSummaryPrompt } from '@/lib/moods/ai';
 
 const executionPrompt: { [key in AiExecutionName]: (userId: string) => Promise<string> } = {
     [AiExecutionName.MoodSummary]: createMoodSummaryPrompt,
     [AiExecutionName.MoodAdvice]: createMoodAdvicePrompt,
-    [AiExecutionName.Overcommitment]: async () => 'Hello'
+    [AiExecutionName.Overcommitment]: createOvercommitmentPrompt
 };
 
 const aiSdkBodySchema = z.object({

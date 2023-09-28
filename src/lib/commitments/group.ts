@@ -4,15 +4,15 @@ import { isOverdue } from './filter';
 
 export type TimedCommitment = Pick<Commitment, 'doneBy' | 'doneAt'>;
 
-export function groupCommitmentsByOverdue({
+export function groupCommitmentsByOverdue<T extends TimedCommitment>({
     commitments,
     referenceDate
 }: {
-    commitments: TimedCommitment[],
+    commitments: T[],
     referenceDate: Date
 }): {
-    overdue: TimedCommitment[],
-    onTime: TimedCommitment[]
+    overdue: T[],
+    onTime: T[]
 } {
     const isOverdueComparedToReferenceDate = isOverdue(referenceDate);
 
@@ -25,7 +25,7 @@ export function groupCommitmentsByOverdue({
             onTime: !shouldBeDone ? [...acc.onTime, currentCommitment] : acc.onTime
         };
     }, {
-        overdue: [] as TimedCommitment[],
-        onTime: [] as TimedCommitment[]
+        overdue: [] as T[],
+        onTime: [] as T[]
     });
 }
