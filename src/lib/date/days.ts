@@ -10,10 +10,8 @@ export function todayAtMidnightUTC() {
 
 export function todayAtLocalHour(hour: number) {
     const now = new Date();
-    const moment = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, 0, 0);
-    const timeUntilMoment = moment.getTime() - now.getTime();
 
-    return { moment, timeUntilMoment };
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, 0, 0);
 }
 
 export function yesterdayAtZeroHourUTC() {

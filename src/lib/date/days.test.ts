@@ -33,25 +33,23 @@ describe('lib date', () => {
             it('should return the current local date at 17 hours', () => {
                 const todayAt17 = todayAtLocalHour(17);
 
-                expect(todayAt17.moment.getFullYear()).toBe(2023);
-                expect(todayAt17.moment.getMonth()).toBe(4);
-                expect(todayAt17.moment.getDate()).toBe(23);
-                expect(todayAt17.moment.getHours()).toBe(17);
-                expect(todayAt17.moment.getMinutes()).toBe(0);
-                expect(todayAt17.moment.getMilliseconds()).toBe(0);
-                expect(todayAt17.timeUntilMoment).toBe(-1810000);
+                expect(todayAt17.getFullYear()).toBe(2023);
+                expect(todayAt17.getMonth()).toBe(4);
+                expect(todayAt17.getDate()).toBe(23);
+                expect(todayAt17.getHours()).toBe(17);
+                expect(todayAt17.getMinutes()).toBe(0);
+                expect(todayAt17.getMilliseconds()).toBe(0);
             });
 
             it('should return the current local date at 23 hours', () => {
                 const todayAt17 = todayAtLocalHour(23);
 
-                expect(todayAt17.moment.getFullYear()).toBe(2023);
-                expect(todayAt17.moment.getMonth()).toBe(4);
-                expect(todayAt17.moment.getDate()).toBe(23);
-                expect(todayAt17.moment.getHours()).toBe(23);
-                expect(todayAt17.moment.getMinutes()).toBe(0);
-                expect(todayAt17.moment.getMilliseconds()).toBe(0);
-                expect(todayAt17.timeUntilMoment).toBe(19790000);
+                expect(todayAt17.getFullYear()).toBe(2023);
+                expect(todayAt17.getMonth()).toBe(4);
+                expect(todayAt17.getDate()).toBe(23);
+                expect(todayAt17.getHours()).toBe(23);
+                expect(todayAt17.getMinutes()).toBe(0);
+                expect(todayAt17.getMilliseconds()).toBe(0);
             });
         });
 

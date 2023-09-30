@@ -1,3 +1,4 @@
+import { differenceInMilliseconds } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 import { todayAtLocalHour } from '@/lib/date/days';
@@ -43,7 +44,7 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
             });
         }, {
             id: 'start-of-day-commitments',
-            milliseconds: todayAtLocalHour(10).timeUntilMoment
+            milliseconds: differenceInMilliseconds(todayAtLocalHour(10), new Date())
         });
 
         scheduleAndStore((id) => {
@@ -61,7 +62,7 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
             });
         }, {
             id: 'end-of-day-commitments',
-            milliseconds: todayAtLocalHour(16).timeUntilMoment
+            milliseconds: differenceInMilliseconds(todayAtLocalHour(16), new Date())
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [unfinishedCommitmentsForToday]);
