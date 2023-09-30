@@ -38,11 +38,14 @@ export default function CommitmentsFulfilment({ commitments }: Props) {
         const isOverdueCommitment = isOverdue(now)(currentCommitment);
         const entryKey = isOverdueCommitment ? overdueKey : onTimeKey;
         const week = timeframe.startTimeframe.index;
+        const weekEntry = acc[week];
 
-        return {
-            ...acc,
-            [week]: { ...acc[week], [entryKey]: acc[week][entryKey] + 1 }
+        acc[week] = {
+            ...weekEntry,
+            [entryKey]: weekEntry[entryKey] + 1
         };
+
+        return acc;
     }, newEmptyArrayOfLength(weeks.length - 1).map((_, index) => ({
         week: index,
         [onTimeKey]: 0,
@@ -59,7 +62,7 @@ export default function CommitmentsFulfilment({ commitments }: Props) {
                 data={insights}
                 index="weekLabel"
                 stack={true}
-                categories={['On time', 'Overdue']}
+                categories={[onTimeKey, overdueKey]}
                 colors={['blue', 'teal']}
                 yAxisWidth={48}
             />
