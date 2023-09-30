@@ -8,21 +8,29 @@ import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
 import { stringToJSON } from '../validators/string-to-json';
 
-export const createCommitmentAction = zact(z.object({
+const createValidator = z.object({
     title: z.string(),
     doneBy: z.string().datetime(),
     description: stringToJSON.optional()
-}))(
+});
+
+export async function createCommitment({ userId, title, doneBy, description }: {
+    userId: string
+} & z.infer<typeof createValidator>) {
+    return prisma.commitment.create({
+        data: {
+            ownerId: userId,
+            title,
+            doneBy,
+            ...!description ? {} : { description }
+        }
+    });
+}
+
+export const createCommitmentAction = zact(createValidator)(
     async ({ title, doneBy, description }) => {
         const { user } = await getServerSession();
-        const createdCommitment = await prisma.commitment.create({
-            data: {
-                ownerId: user.id,
-                title,
-                doneBy,
-                ...!description ? {} : { description }
-            }
-        });
+        const createdCommitment = await createCommitment({ userId: user.id, title, doneBy, description });
 
         revalidatePath('/commitments');
 

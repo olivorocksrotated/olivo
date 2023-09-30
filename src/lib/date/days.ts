@@ -8,12 +8,10 @@ export function todayAtMidnightUTC() {
     return new Date(new Date().setUTCHours(24, 0, 0, 0));
 }
 
-export function todayAtHour(hour: number) {
+export function todayAtLocalHour(hour: number) {
     const now = new Date();
-    const moment = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, 0, 0);
-    const timeUntilMoment = moment.getTime() - now.getTime();
 
-    return { moment, timeUntilMoment };
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, 0, 0);
 }
 
 export function yesterdayAtZeroHourUTC() {
@@ -57,4 +55,26 @@ export function isBetween(date: Date, startDate: Date, endDate: Date) {
         (isAfter(date, startDate) || isSameDay(date, startDate)) &&
         (isBefore(date, endDate) || isSameDay(date, endDate))
     );
+}
+
+export function findDateTimeframe({ dateToFind, timeframes }: {
+    dateToFind: Date,
+    timeframes: Date[]
+}): {
+    startTimeframe: { index: number, date: Date },
+    endTimeframe: { index: number, date: Date }
+} | null {
+    const startTimeframeIndex = timeframes.findIndex((startTimeframe, index) => {
+        const endTimeframe = timeframes[index + 1];
+        const isLastTimeframe = index === timeframes.length - 1;
+
+        return isLastTimeframe ? false : isBetween(dateToFind, startTimeframe, endTimeframe);
+    });
+
+    const timeframeFound = startTimeframeIndex !== -1;
+
+    return timeframeFound ? {
+        startTimeframe: { index: startTimeframeIndex, date: timeframes[startTimeframeIndex] },
+        endTimeframe: { index: startTimeframeIndex + 1, date: timeframes[startTimeframeIndex + 1] }
+    } : null;
 }

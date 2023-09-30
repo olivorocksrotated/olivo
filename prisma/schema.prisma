@@ -175,4 +175,5 @@ enum NotificationType {
 enum AiExecutionName {
   MoodSummary
   MoodAdvice
+  Overcommitment
 }

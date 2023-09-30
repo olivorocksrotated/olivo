@@ -1,5 +1,5 @@
 import { add, sub } from 'date-fns';
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { isOverdue } from './filter';
 
@@ -9,7 +9,11 @@ describe('commitments filter', () => {
         const isOverdueWithDate = isOverdue(initialDate);
 
         beforeEach(() => {
-            vitest.useFakeTimers({ now: initialDate });
+            vi.useFakeTimers({ now: initialDate });
+        });
+
+        afterEach(() => {
+            vi.clearAllTimers();
         });
 
         describe('true', () => {

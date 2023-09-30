@@ -28,10 +28,7 @@ export default function Insights({
             ) : null}
 
             {selectedTopic === InsightTopic.Commitments ? (
-                <div>
-                    <div className="mb-8"><MoodBullet moods={thisMonthMoods} /></div>
-                    <CommitmentsFulfilment commitments={last4WeeksCommitments} />
-                </div>
+                <CommitmentsFulfilment commitments={last4WeeksCommitments} />
             ) : null}
         </>
     );

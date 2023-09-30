@@ -1,5 +1,5 @@
 import { sub } from 'date-fns';
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { getRelativeDate, getRelativeDateWithoutTime } from './format';
 
@@ -8,7 +8,11 @@ describe('lib date', () => {
         const initialDate = new Date('2023-05-23T15:30:10Z');
 
         beforeEach(() => {
-            vitest.useFakeTimers({ now: initialDate });
+            vi.useFakeTimers({ now: initialDate });
+        });
+
+        afterEach(() => {
+            vi.clearAllTimers();
         });
 
         describe('getRelativeDate', () => {
