@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { todayAtHour } from '@/lib/date/days';
+import { todayAtLocalHour } from '@/lib/date/days';
 import { createDesktopNotification } from '@/lib/notifications/desktop';
 
 import { NotificationCommitment } from '../types';
@@ -43,7 +43,7 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
             });
         }, {
             id: 'start-of-day-commitments',
-            milliseconds: todayAtHour(10).timeUntilMoment
+            milliseconds: todayAtLocalHour(10).timeUntilMoment
         });
 
         scheduleAndStore((id) => {
@@ -61,7 +61,7 @@ export default function useScheduleNotifications({ unfinishedCommitmentsForToday
             });
         }, {
             id: 'end-of-day-commitments',
-            milliseconds: todayAtHour(16).timeUntilMoment
+            milliseconds: todayAtLocalHour(16).timeUntilMoment
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [unfinishedCommitmentsForToday]);

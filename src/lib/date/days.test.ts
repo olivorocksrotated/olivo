@@ -1,20 +1,61 @@
 import { add, sub } from 'date-fns';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { findDateTimeframe, isBetween } from './days';
+import { findDateTimeframe, isBetween, todayAtLocalHour, todayAtMidnightUTC, todayAtZeroHourUTC } from './days';
 
 describe('lib date', () => {
     describe('days', () => {
+        const now = new Date('2023-05-23T15:30:10Z');
+
+        beforeEach(() => {
+            vi.useFakeTimers({ now });
+        });
+
+        afterEach(() => {
+            vi.clearAllTimers();
+        });
+
+        describe('todayAtZeroHourUTC', () => {
+            it('should return the current date at 0 hours', () => {
+                const expectedDate = new Date('2023-05-23T00:00:00Z');
+                expect(todayAtZeroHourUTC()).toStrictEqual(expectedDate);
+            });
+        });
+
+        describe('todayAtMidnightUTC', () => {
+            it('should return the current date at midnight, which is the first instant of the next day', () => {
+                const expectedDate = new Date('2023-05-24T00:00:00Z');
+                expect(todayAtMidnightUTC()).toStrictEqual(expectedDate);
+            });
+        });
+
+        describe('todayAtLocalHour', () => {
+            it('should return the current local date at 17 hours', () => {
+                const todayAt17 = todayAtLocalHour(17);
+
+                expect(todayAt17.moment.getFullYear()).toBe(2023);
+                expect(todayAt17.moment.getMonth()).toBe(4);
+                expect(todayAt17.moment.getDate()).toBe(23);
+                expect(todayAt17.moment.getHours()).toBe(17);
+                expect(todayAt17.moment.getMinutes()).toBe(0);
+                expect(todayAt17.moment.getMilliseconds()).toBe(0);
+                expect(todayAt17.timeUntilMoment).toBe(-1810000);
+            });
+
+            it('should return the current local date at 23 hours', () => {
+                const todayAt17 = todayAtLocalHour(23);
+
+                expect(todayAt17.moment.getFullYear()).toBe(2023);
+                expect(todayAt17.moment.getMonth()).toBe(4);
+                expect(todayAt17.moment.getDate()).toBe(23);
+                expect(todayAt17.moment.getHours()).toBe(23);
+                expect(todayAt17.moment.getMinutes()).toBe(0);
+                expect(todayAt17.moment.getMilliseconds()).toBe(0);
+                expect(todayAt17.timeUntilMoment).toBe(19790000);
+            });
+        });
+
         describe('isBetween', () => {
-            const now = new Date('2023-05-23T15:30:10Z');
-            beforeEach(() => {
-                vi.useFakeTimers({ now });
-            });
-
-            afterEach(() => {
-                vi.clearAllTimers();
-            });
-
             it('should return true if the date is after the start date and before the end date', () => {
                 expect(isBetween(
                     now,
@@ -49,16 +90,6 @@ describe('lib date', () => {
         });
 
         describe('findDateTimeframe', () => {
-            const now = new Date('2023-05-23T15:30:10Z');
-
-            beforeEach(() => {
-                vi.useFakeTimers({ now });
-            });
-
-            afterEach(() => {
-                vi.clearAllTimers();
-            });
-
             describe('sorted timeframes', () => {
                 const timeframes = [
                     sub(now, { weeks: 4 }),
