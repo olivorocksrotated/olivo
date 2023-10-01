@@ -8,6 +8,8 @@ import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiCompone
 import Popover from '@/app/components/ui/popover/popover';
 import { getFirstName, getNameAcronym } from '@/lib/name/name';
 
+import Notifications from '../../../notifications/notifications';
+
 export default function UserMenu() {
     const { data: session } = useSession();
     const nameAcronym = getNameAcronym(session?.user.name);
@@ -16,7 +18,8 @@ export default function UserMenu() {
     const [isClosed] = useCloseUiComponent();
 
     return (
-        <div className="flex gap-2 pr-2">
+        <div className="flex items-center gap-3 pr-2">
+            <Notifications />
             <div className="relative h-8 min-h-[2rem] w-8 min-w-[2rem]">
                 <span className="sr-only">Open user menu</span>
                 <Popover
@@ -25,10 +28,10 @@ export default function UserMenu() {
                     close={isClosed}
                     openComponent={
                         <Image
-                            className="min-h-[2rem] min-w-[2rem] cursor-pointer rounded-full object-cover hover:outline hover:outline-indigo-600"
+                            className="min-h-[1.75rem] min-w-[1.75rem] cursor-pointer rounded-full object-cover hover:outline hover:outline-indigo-600"
                             src={session?.user.image ?? ''}
-                            width={32}
-                            height={32}
+                            width={28}
+                            height={28}
                             alt={nameAcronym}
                         />
                     }
