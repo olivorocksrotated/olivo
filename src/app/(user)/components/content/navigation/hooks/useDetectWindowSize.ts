@@ -9,12 +9,15 @@ export default function useDetectWindowSize(): {
     isXl: boolean,
     is2Xl: boolean
     } {
-    const [width, setWidth] = useState<number>(window.innerWidth);
+    const [width, setWidth] = useState<number>(0);
 
     function handleWindowSizeChange() {
-        setWidth(window.innerWidth);
+        if (typeof window !== 'undefined') {
+            setWidth(window.innerWidth);
+        }
     }
     useEffect(() => {
+        handleWindowSizeChange();
         window.addEventListener('resize', handleWindowSizeChange);
 
         return () => {
