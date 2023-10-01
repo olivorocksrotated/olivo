@@ -22,7 +22,7 @@ export default function NavigationLinks() {
 
     return (
         <AnimatePresence mode="wait">
-            <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="mt-2 space-y-2 border-t border-gray-700 pt-4">
+            <ul onMouseLeave={() => setHovered(selectedHoverIndex)} className="space-y-2">
                 {links.map((currentLink) => (
                     <Fragment key={currentLink.id}>
                         {currentLink.hasSeparator ? <li className="border-t border-neutral-600"></li> : null}
