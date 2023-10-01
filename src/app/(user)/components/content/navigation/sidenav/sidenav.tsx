@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import useDetectWindowSize from '../hooks/useDetectWindowSize';
 import NavigationLinks from './navigation-links';
 
 interface Props {
@@ -12,20 +13,28 @@ interface Props {
 }
 
 export default function Sidenav({
+    isSidenavCollapsed,
     isMobileOpen,
     onMobileBackdropClicked
 }: Props) {
+    const { isTiny: isMobile } = useDetectWindowSize();
     const asideStyle = clsx(
-        'fixed left-0 top-0 z-30 mt-12 h-screen w-56 -translate-x-full overflow-y-auto border-r border-neutral-900 bg-neutral-950 px-3 py-4 transition-transform',
+        'fixed left-0 top-0 z-30 mt-12 h-screen w-44 -translate-x-full overflow-y-auto border-r border-neutral-900 bg-neutral-950 px-3 py-4 transition-transform',
         'sm:translate-x-0',
         { 'translate-x-0': isMobileOpen }
     );
 
     return (
         <>
-            <aside aria-label="Side navigation" className={asideStyle}>
+            <motion.aside
+                aria-label="Side navigation"
+                className={asideStyle}
+                animate={{
+                    width: isMobile ? '176px' : isSidenavCollapsed ? '52px' : '176px'
+                }}
+            >
                 <NavigationLinks />
-            </aside>
+            </motion.aside>
             <AnimatePresence>
                 {isMobileOpen ? (
                     <motion.div
