@@ -10,7 +10,7 @@ import { IoCloseOutline } from 'react-icons/io5';
 import IconButton from '../icon-button/icon-button';
 
 const modalStyles = cva(
-    'fixed left-2/4 top-2/4 max-h-[85vh] w-full max-w-[90vw] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded bg-neutral-900 p-6',
+    'fixed left-2/4 top-2/4 z-40 max-h-[85vh] w-full max-w-[90vw] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded bg-neutral-900 p-6',
     {
         variants: {
             size: {
@@ -64,7 +64,7 @@ export default function Modal({
     );
 
     return (
-        <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen} modal={true}>
             <Dialog.Trigger asChild><div>{openComponent}</div></Dialog.Trigger>
             <AnimatePresence>
                 {isDialogOpen ?
@@ -75,7 +75,7 @@ export default function Modal({
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <Dialog.Overlay forceMount className="fixed inset-0 bg-black opacity-60" />
+                            <Dialog.Overlay forceMount className="fixed inset-0 z-30 bg-black opacity-60" />
                             <Dialog.Content
                                 forceMount
                                 className={modalStyles({ size })}
