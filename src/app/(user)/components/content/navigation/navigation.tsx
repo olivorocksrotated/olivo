@@ -3,28 +3,49 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-import useDetectWindowSize from './hooks/useDetectWindowSize';
 import Sidenav from './sidenav/sidenav';
 import Topnav from './topnav/topnav';
 
+export interface NavigationOpen {
+    isDesktopOpen: boolean;
+    isMobileOpen: boolean;
+}
 
-export default function Navigation() {
-    const [isOpen, setIsOpen] = useState(true);
-    const { isTiny: isMobile } = useDetectWindowSize();
+export const defaultNavigationOpenState: NavigationOpen = {
+    isDesktopOpen: true,
+    isMobileOpen: false
+};
+
+interface Props {
+    onNavigationOpenChanged: (state: NavigationOpen) => void
+}
+
+export default function Navigation({ onNavigationOpenChanged }: Props) {
+    const [navigationOpen, setNavigationOpen] = useState<NavigationOpen>(defaultNavigationOpenState);
     const url = `${usePathname()}${useSearchParams()}`;
 
-    const closeSidenav = useCallback(() => setIsOpen(false), []);
+    const setNavigationState = useCallback((stateUpdate: Partial<NavigationOpen>) => {
+        setNavigationOpen((previous) => ({ ...previous, ...stateUpdate }));
+    }, []);
 
     useEffect(() => {
-        if (isMobile) {
-            closeSidenav();
-        }
-    }, [isMobile, url, closeSidenav]);
+        setNavigationState({ isMobileOpen: false });
+    }, [url, setNavigationState]);
+
+    useEffect(() => {
+        onNavigationOpenChanged(navigationOpen);
+    }, [navigationOpen, onNavigationOpenChanged]);
 
     return (
         <>
-            <Topnav onSidenavButtonClicked={() => setIsOpen((previous) => !previous)} />
-            <Sidenav isOpen={isOpen} onMobileBackdropClicked={closeSidenav} />
+            <Topnav
+                onDesktopSidenavClicked={() => setNavigationState({ isDesktopOpen: !navigationOpen.isDesktopOpen })}
+                onMobileSidenavClicked={() => setNavigationState({ isMobileOpen: !navigationOpen.isMobileOpen })}
+            />
+            <Sidenav
+                navigationOpen={navigationOpen}
+                onMobileBackdropClicked={() => setNavigationState({ isMobileOpen: false })}
+            />
         </>
     );
 }

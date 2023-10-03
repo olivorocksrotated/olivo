@@ -3,20 +3,28 @@
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { NavigationOpen } from '../navigation';
 import NavigationLinks from './navigation-links';
 
 interface Props {
-    isOpen: boolean;
+    navigationOpen: NavigationOpen;
     onMobileBackdropClicked: () => void
 }
 
 export default function Sidenav({
-    isOpen,
+    navigationOpen,
     onMobileBackdropClicked
 }: Props) {
     const asideStyle = clsx(
-        'fixed left-0 top-0 z-20 mt-12 h-screen w-44 -translate-x-full overflow-y-auto border-r border-neutral-900 bg-neutral-950 px-3 py-4 transition-transform',
-        { 'translate-x-0': isOpen }
+        'fixed left-0 top-0 z-20 mt-12 h-screen w-44 overflow-y-auto border-r border-neutral-900 bg-neutral-950 px-3 py-4 transition-transform',
+        {
+            'sm:translate-x-0': navigationOpen.isDesktopOpen,
+            'sm:-translate-x-full': !navigationOpen.isDesktopOpen
+        },
+        {
+            'translate-x-0': navigationOpen.isMobileOpen,
+            '-translate-x-full': !navigationOpen.isMobileOpen
+        }
     );
 
     return (
@@ -25,7 +33,7 @@ export default function Sidenav({
                 <NavigationLinks />
             </aside>
             <AnimatePresence>
-                {isOpen ? (
+                {navigationOpen.isMobileOpen ? (
                     <motion.div
                         key="sidenav-backdrop"
                         onClick={onMobileBackdropClicked}
