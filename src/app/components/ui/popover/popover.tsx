@@ -8,6 +8,8 @@ interface Props {
     children: React.ReactNode;
     openComponent: React.ReactNode;
     align?: 'start' | 'center' | 'end';
+    sideOffset?: number | undefined,
+    alignOffset?: number | undefined,
     close?: boolean;
     onClose?: () => void;
 }
@@ -16,6 +18,8 @@ export default function Popover({
     children,
     openComponent,
     align = 'start',
+    sideOffset,
+    alignOffset,
     close,
     onClose = () => undefined
 }: Props) {
@@ -39,7 +43,7 @@ export default function Popover({
             <AnimatePresence>
                 {isPopoverOpen ?
                     <RadixPopover.Portal key="popover" forceMount>
-                        <RadixPopover.Content align={align}>
+                        <RadixPopover.Content align={align} alignOffset={alignOffset} sideOffset={sideOffset}>
                             <motion.div
                                 className="rounded bg-neutral-700 p-2 text-sm shadow-sm"
                                 initial={{ opacity: 0 }}

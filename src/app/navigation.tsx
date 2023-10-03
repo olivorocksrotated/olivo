@@ -1,7 +1,7 @@
-import { AiFillHome } from 'react-icons/ai';
 import { HiOutlineLightBulb } from 'react-icons/hi2';
 import { MdConnectWithoutContact, MdPendingActions } from 'react-icons/md';
 import { PiCirclesThreePlus, PiTrendUpBold } from 'react-icons/pi';
+import { RiHomeLine } from 'react-icons/ri';
 import { TbMoodCheck } from 'react-icons/tb';
 
 export type NavigationLink = {
@@ -17,43 +17,43 @@ export const links: NavigationLink[] = [
         id: '(home)',
         path: '/',
         title: 'Home',
-        icon: <AiFillHome size={18} />
+        icon: <RiHomeLine size={19} />
     },
     {
         id: 'pending',
         path: '/pending',
         title: 'Pending',
-        icon: <MdPendingActions size={18} />
+        icon: <MdPendingActions size={19} />
     },
     {
         id: 'organize',
         path: '/organize',
         title: 'Organize',
-        icon: <PiCirclesThreePlus size={18} />
+        icon: <PiCirclesThreePlus size={19} />
     },
     {
         id: 'reflect',
         path: '/reflect',
         title: 'Reflect',
-        icon: <TbMoodCheck size={18} />
+        icon: <TbMoodCheck size={19} />
     },
     {
         id: 'understand',
         path: '/understand',
         title: 'Understand',
-        icon: <HiOutlineLightBulb size={18} />
+        icon: <HiOutlineLightBulb size={19} />
     },
     {
         id: 'connect',
         path: '/connect',
         title: 'Connect',
-        icon: <MdConnectWithoutContact size={18} />,
+        icon: <MdConnectWithoutContact size={19} />,
         hasSeparator: true
     },
     {
         id: 'improve',
         path: '/improve',
         title: 'Improve',
-        icon: <PiTrendUpBold size={18} />
+        icon: <PiTrendUpBold size={19} />
     }
 ];

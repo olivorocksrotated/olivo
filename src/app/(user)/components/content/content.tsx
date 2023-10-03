@@ -1,14 +1,25 @@
-import Notifications from '../notifications/notifications';
-import Sidenav from './sidenav/sidenav';
+'use client';
+
+import clsx from 'clsx';
+import { useState } from 'react';
+
+import Navigation, { defaultNavigationOpenState } from './navigation/navigation';
 
 export default function Content({ children }: { children: React.ReactNode }) {
+    const [isDesktopNavigationOpen, setIsDesktopNavigationOpen] = useState<boolean>(defaultNavigationOpenState.isDesktopOpen);
+
+    const contentStyles = clsx(
+        'h-auto pt-12 transition-all',
+        { 'sm:ml-44': isDesktopNavigationOpen },
+        { 'sm:ml-0': !isDesktopNavigationOpen }
+    );
+
     return (
-        <main className="h-screen sm:flex sm:p-6 sm:pr-0">
-            <div className="flex items-center justify-between p-3 sm:items-start sm:p-0">
-                <Sidenav />
-                <Notifications />
-            </div>
-            <div className="max-h-full grow p-5 sm:overflow-y-auto sm:py-0">{children}</div>
-        </main>
+        <>
+            <Navigation onNavigationOpenChanged={(newState) => setIsDesktopNavigationOpen(newState.isDesktopOpen)} />
+            <main aria-label="Content" className={contentStyles}>
+                <div className="p-5">{children}</div>
+            </main>
+        </>
     );
 }
