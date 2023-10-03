@@ -18,12 +18,12 @@ export default function NavigationLinks() {
                         <li
                             className={`
                                 ${isSameIdOrHome(currentLink.id) ? 'border-b border-b-red-400 bg-neutral-700' : ''}
-                                h-9 max-h-9 cursor-pointer rounded px-1 py-2
+                                h-9 max-h-9 cursor-pointer rounded px-3 py-2
                                 hover:bg-neutral-800
                             `}
                         >
                             <Link href={currentLink.path} className="flex items-center gap-4 text-sm font-thin text-white">
-                                <span className="text-gray-400">{currentLink.icon}</span>
+                                <span className="text-neutral-200">{currentLink.icon}</span>
                                 <span>{currentLink.title}</span>
                             </Link>
                         </li>

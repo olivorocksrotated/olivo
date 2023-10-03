@@ -1,7 +1,7 @@
-import { AiFillHome } from 'react-icons/ai';
 import { HiOutlineLightBulb } from 'react-icons/hi2';
 import { MdConnectWithoutContact, MdPendingActions } from 'react-icons/md';
 import { PiCirclesThreePlus, PiTrendUpBold } from 'react-icons/pi';
+import { RiHomeLine } from 'react-icons/ri';
 import { TbMoodCheck } from 'react-icons/tb';
 
 export type NavigationLink = {
@@ -17,7 +17,7 @@ export const links: NavigationLink[] = [
         id: '(home)',
         path: '/',
         title: 'Home',
-        icon: <AiFillHome size={19} />
+        icon: <RiHomeLine size={19} />
     },
     {
         id: 'pending',

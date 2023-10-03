@@ -24,7 +24,7 @@ export default function Topnav({ onDesktopSidenavClicked, onMobileSidenavClicked
     return (
         <nav aria-label="Top navigation" className="fixed left-0 top-0 h-12 w-full border-b border-neutral-900 bg-neutral-950 p-2">
             <div className="flex justify-between">
-                <div className="flex w-56 items-center gap-2 pl-1">
+                <div className="flex w-56 items-center gap-2 pl-2">
                     <div>
                         <div className="block sm:hidden">{openMenuButton(onMobileSidenavClicked)}</div>
                         <div className="hidden sm:block">{openMenuButton(onDesktopSidenavClicked)}</div>
