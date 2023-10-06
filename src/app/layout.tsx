@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
     return (
         <html lang="en">
             <Fonts />
-            <body className="min-w-[320px]">
+            <body className="h-screen min-w-[320px]">
                 {children}
                 <ToastContainer />
                 <AnalyticsWrapper />
