@@ -28,8 +28,8 @@ export default function UnderstandClient({
 
     return (
         <div>
-            <div className="mb-8 w-96">
-                <h3 className="mb-2">Select a question you would like to answer</h3>
+            <div className="mb-8 w-full sm:w-96">
+                <h3 className="mb-2">What would you like to understand more about?</h3>
                 <Select
                     itemGroups={questions}
                     label="What would you like to understand more about?"
