@@ -9,7 +9,7 @@ export default function Content({ children }: { children: React.ReactNode }) {
     const [isDesktopNavigationOpen, setIsDesktopNavigationOpen] = useState<boolean>(defaultNavigationOpenState.isDesktopOpen);
 
     const contentStyles = clsx(
-        'h-auto pt-12 transition-all',
+        'h-screen overflow-y-auto pt-12 transition-all',
         { 'sm:ml-44': isDesktopNavigationOpen },
         { 'sm:ml-0': !isDesktopNavigationOpen }
     );

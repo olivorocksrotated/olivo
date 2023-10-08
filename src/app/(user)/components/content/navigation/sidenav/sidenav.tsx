@@ -16,14 +16,15 @@ export default function Sidenav({
     onMobileBackdropClicked
 }: Props) {
     const asideStyle = clsx(
-        'fixed left-0 top-0 z-20 mt-12 h-screen w-44 overflow-y-auto border-r border-neutral-900 bg-neutral-950 px-3 py-4 transition-transform',
+        'fixed left-0 top-0 z-20 mt-12 h-screen w-44 overflow-y-auto border-r border-neutral-900 bg-neutral-950 px-3 py-4 transition-all',
+        'sm:z-0',
         {
-            'sm:translate-x-0': navigationOpen.isDesktopOpen,
-            'sm:-translate-x-full': !navigationOpen.isDesktopOpen
+            'sm:ml-0': navigationOpen.isDesktopOpen,
+            'sm:-ml-56': !navigationOpen.isDesktopOpen
         },
         {
-            'translate-x-0': navigationOpen.isMobileOpen,
-            '-translate-x-full': !navigationOpen.isMobileOpen
+            'ml-0': navigationOpen.isMobileOpen,
+            '-ml-56': !navigationOpen.isMobileOpen
         }
     );
 
