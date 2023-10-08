@@ -2,12 +2,13 @@
 
 import { NotificationStatus } from '@prisma/client';
 import clsx from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 import { useZact } from 'zact/client';
 
+import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
+import Popover from '@/app/components/ui/popover/popover';
 import useInterval from '@/lib/hooks/useInterval';
 import { fetchFromApi, ResourcePath } from '@/lib/http/fetch';
 import { HttpMethod } from '@/lib/http/types';
@@ -22,7 +23,7 @@ const isNotificationOpen = (notification: Pick<NotificationItem, 'status'>) => n
 export default function Notifications() {
     useRequestDesktopPermission();
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isClosed] = useCloseUiComponent();
     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
     const tenMinutes = 60 * 1000 * 10;
@@ -42,75 +43,48 @@ export default function Notifications() {
 
     const hasOpenNotifications = notifications.some(isNotificationOpen);
 
-    const asideStyle = clsx(
-        'fixed right-0 top-0 z-40 h-screen w-56 transition-transform',
-        'sm:w-96',
-        { 'translate-x-full': !isOpen },
-        { '-translate-x-0': isOpen }
-    );
-
     const { mutate: markAllAsRead } = useZact(markAllNotificationsAsReadAction);
 
     const handleCloseNotifications = () => {
-        setIsOpen(false);
         if (hasOpenNotifications) {
             markAllAsRead(null);
         }
     };
 
     return (
-        <div>
-            <div>
+        <Popover
+            align="end"
+            sideOffset={4}
+            close={isClosed}
+            openComponent={
                 <IconButton
                     icon={IoMdNotifications}
-                    onClick={() => setIsOpen(true)}
                     label="Open notifications"
                     ping={hasOpenNotifications}
                     size="s"
-                    data-drawer-target="notifications"
-                    data-drawer-toggle="notifications"
                     aria-controls="notifications"
                 />
+            }
+            onClose={handleCloseNotifications}
+        >
+            <div
+                className="h-52 max-h-96 max-w-xs overflow-y-auto sm:w-96 sm:max-w-none"
+            >
+                {notifications.length > 0 ? (
+                    <ul role="list" className="divide-y divide-gray-600">
+                        {notifications.map((notification) => (
+                            <li
+                                key={notification.id} role="listitem" className={clsx(
+                                    'mb-4 rounded p-3 sm:p-4',
+                                    { 'outline outline-indigo-500': isNotificationOpen(notification) }
+                                )}
+                            >
+                                <NotificationEntry notification={notification} />
+                            </li>
+                        ))}
+                    </ul>) :
+                    <div className="p-2">You do not have any notifications yet</div>}
             </div>
-
-            <aside id="notifications" className={asideStyle} aria-label="Notifications">
-                <div
-                    className="h-full overflow-y-auto px-3 py-4"
-                    style={{
-                        background: 'rgb(35, 37, 38)',
-                        border: '1px solid hsla(0,0%,100%,.05)'
-                    }}
-                >
-                    {notifications.length > 0 ? (
-                        <ul role="list" className="divide-y divide-gray-600">
-                            {notifications.map((notification) => (
-                                <li
-                                    key={notification.id} role="listitem" className={clsx(
-                                        'mb-4 rounded p-3 sm:p-4',
-                                        { 'outline outline-indigo-500': isNotificationOpen(notification) }
-                                    )}
-                                >
-                                    <NotificationEntry notification={notification} />
-                                </li>
-                            ))}
-                        </ul>) :
-                        <div className="p-2">You do not have any notifications yet</div>}
-                </div>
-            </aside>
-
-            <AnimatePresence>
-                {isOpen ? (
-                    <motion.div
-                        key="notifications-backdrop"
-                        onClick={handleCloseNotifications}
-                        className="absolute left-0 top-0 z-10 h-screen w-screen bg-slate-900"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.6 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                    </motion.div>) : null}
-            </AnimatePresence>
-        </div>
+        </Popover>
     );
 }
