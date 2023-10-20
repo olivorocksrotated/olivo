@@ -1,8 +1,7 @@
 import { JWT } from 'next-auth/jwt';
 import { describe, expect, it } from 'vitest';
 
-import { userCreatedEvent } from '@/flows/signup/events';
-import { inngest } from '@/lib/inngest/client';
+import { EventName, inngest } from '@/lib/inngest/client';
 
 import jwtCallback from './jwt';
 
@@ -79,7 +78,7 @@ describe('lib auth', () => {
                     });
 
                     expect(inngest.send).toHaveBeenCalledWith({
-                        name: userCreatedEvent.name,
+                        name: EventName.UserCreated,
                         data: { userId: user.id }
                     });
                 });
