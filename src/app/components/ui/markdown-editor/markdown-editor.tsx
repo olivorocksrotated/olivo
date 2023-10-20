@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'cva';
 import { useState } from 'react';
 import { IoMdEye } from 'react-icons/io';
 import { IoCodeSlashOutline } from 'react-icons/io5';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 import IconButton from '../icon-button/icon-button';
