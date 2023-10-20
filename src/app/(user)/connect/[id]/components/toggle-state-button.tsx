@@ -1,6 +1,6 @@
 'use client';
 
-import { experimental_useOptimistic as useOptimistic } from 'react';
+import { useOptimistic } from 'react';
 import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
