@@ -2,8 +2,8 @@ import { Account, Profile, User } from 'next-auth';
 import { AdapterUser } from 'next-auth/adapters';
 import { JWT } from 'next-auth/jwt';
 
-import { userCreatedEvent } from '@/flows/signup/events';
-import { sendEvent } from '@/lib/inngest/send-event';
+import { EventName } from '@/lib/inngest/client';
+import { safeSendEvent } from '@/lib/inngest/send-event';
 
 export default async function jwtCallback({ token, user, trigger, isNewUser }: {
     token: JWT;
@@ -15,8 +15,8 @@ export default async function jwtCallback({ token, user, trigger, isNewUser }: {
     session?: any;
 }) {
     if (trigger === 'signUp') {
-        await sendEvent({
-            name: userCreatedEvent.name,
+        await safeSendEvent({
+            name: EventName.UserCreated,
             data: { userId: user.id }
         });
     }
