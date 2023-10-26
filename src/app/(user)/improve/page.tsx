@@ -108,7 +108,7 @@ export default function Improve() {
                                     <div className="relative mb-4 flex flex-wrap gap-4">
                                         {
                                             categories.map((category) => (
-                                                <CategoryCard key={category.id} category={category} onCategorySelected={handleCategoryChange} />
+                                                <CategoryCard key={category.id} category={category} isSelected={feedbackNote.categories.some(({ name }) => name === category.name)} onCategorySelected={handleCategoryChange} />
                                             ))
                                         }
                                     </div>}
