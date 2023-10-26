@@ -83,13 +83,13 @@ export default function Improve() {
     const categories = getFeedbackCategories();
     const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
-    const feedbackSteps = [
-        'whom do you want to feedback?',
-        'something to praise or improve?',
-        'what areas do you want to focus on?',
-        'what do you want to share?',
-        'any comments?'
-    ];
+    const feedbackSteps: {[key: number]: string} = {
+        1: 'whom do you want to feedback?',
+        2: 'something to praise or improve?',
+        3: 'what dimensions?',
+        4: 'what areas do you recommend to focus on?',
+        5: 'any comments?'
+    };
 
     return (
         <div>
