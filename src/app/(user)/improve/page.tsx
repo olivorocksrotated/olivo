@@ -95,8 +95,8 @@ export default function Improve() {
         <div>
             <div className="min-h-[512px] max-w-lg">
                 <div className="min-h-full">
-                    <div>
-                        <FeedbackStepper step={feedbackStep} stepTitle={feedbackSteps[feedbackStep]} />
+                    <div className="min-h-[150px]">
+                        <FeedbackStepper stepTitle={feedbackSteps[feedbackStep]} />
                     </div>
 
                     <div className="mb-3 w-full overflow-hidden">
