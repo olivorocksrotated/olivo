@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
+import Button from '@/app/components/ui/button/button';
 import { getFeedbackCategories, getFeedbackSuggestionTags } from '@/lib/feedback/categories';
 import { Category, FeedbackEntry, FeedbackSuggestionTag, FeedbackType } from '@/lib/feedback/types';
 
@@ -82,23 +83,23 @@ export default function Improve() {
     const categories = getFeedbackCategories();
     const feedbackSuggestionTags = getFeedbackSuggestionTags();
 
-    const feedbackSteps = [
-        'whom do you want to feedback?',
-        'something to praise or improve?',
-        'what areas do you want to focus on?',
-        'what do you want to share?',
-        'any comments?'
-    ];
+    const feedbackSteps: {[key: number]: string} = {
+        1: 'whom do you want to feedback?',
+        2: 'something to praise or improve?',
+        3: 'what dimensions?',
+        4: 'what areas do you recommend to focus on?',
+        5: 'any comments?'
+    };
 
     return (
         <div>
             <div className="min-h-[512px] max-w-lg">
-                <div>
-                    <div>
-                        <FeedbackStepper step={feedbackStep} stepTitle={feedbackSteps[feedbackStep]} />
+                <div className="min-h-full">
+                    <div className="min-h-[150px]">
+                        <FeedbackStepper stepTitle={feedbackSteps[feedbackStep]} />
                     </div>
 
-                    <div className="w-full overflow-hidden">
+                    <div className="mb-3 w-full overflow-hidden">
                         <AnimatePresence mode="wait">
                             <motion.div key={feedbackStep ? feedbackStep : ''} animate={animationProps.animate} initial={animationProps.initial} exit={animationProps.exit} transition={transition}>
                                 {feedbackStep === 1 && <UserSelector connections={connections} onUserSelected={handleChange} />}
@@ -107,7 +108,7 @@ export default function Improve() {
                                     <div className="relative mb-4 flex flex-wrap gap-4">
                                         {
                                             categories.map((category) => (
-                                                <CategoryCard key={category.id} category={category} onCategorySelected={handleCategoryChange} />
+                                                <CategoryCard key={category.id} category={category} isSelected={feedbackNote.categories.some(({ name }) => name === category.name)} onCategorySelected={handleCategoryChange} />
                                             ))
                                         }
                                     </div>}
@@ -127,25 +128,25 @@ export default function Improve() {
 
                     <div className="flex flex-wrap justify-between gap-y-2">
                         {feedbackStep > 1 &&
-                            <div className="cursor-pointer">
-                                <div onClick={previousStep} className="group relative inline-flex items-center justify-center overflow-hidden rounded-md p-0.5 font-bold">
-                                    <span className="absolute h-full w-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05]"></span>
-
-                                    <span className="relative rounded-md bg-gray-900 px-6 py-3 transition-all duration-500 ease-out group-hover:bg-gray-900/0">
-                                        <span className="relative text-slate-200">Previous step</span>
-                                    </span>
-                                </div>
+                            <div>
+                                <Button
+                                    type="button"
+                                    intent="default"
+                                    w="full"
+                                    label="Previous step"
+                                    disabled={feedbackStep <= 1}
+                                    onClick={previousStep}
+                                />
                             </div>}
 
-                        <div className="cursor-pointer">
-                            <div className="group relative inline-flex items-center justify-center overflow-hidden rounded-md p-0.5 font-bold">
-                                <span className="absolute h-full w-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05]"></span>
-
-                                <span className="relative rounded-md bg-gray-900 px-6 py-3 transition-all duration-500 ease-out group-hover:bg-gray-900/0">
-                                    {feedbackStep < 5 && <span onClick={nextStep} className="relative text-slate-200">Next step</span>}
-                                    {feedbackStep === 5 && <span onClick={saveFeedback} className="relative text-slate-200">Save!</span>}
-                                </span>
-                            </div>
+                        <div>
+                            <Button
+                                type="button"
+                                intent="default"
+                                w="full"
+                                label={feedbackStep === 5 ? 'Save it!' : 'Next step'}
+                                onClick={feedbackStep === 5 ? saveFeedback : nextStep}
+                            />
                         </div>
                     </div>
                 </div>
