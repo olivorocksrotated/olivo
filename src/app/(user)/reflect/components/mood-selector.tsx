@@ -2,7 +2,7 @@
 
 import { Mood, MoodStatus } from '@prisma/client';
 import clsx from 'clsx';
-import { HookActionStatus, useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hook';
 import { useEffect, useState } from 'react';
 import { TbMoodCheck } from 'react-icons/tb';
 import { useZact } from 'zact/client';
@@ -16,6 +16,7 @@ import Textarea from '@/app/components/ui/textarea/textarea';
 import type { createMoodAction } from '@/lib/moods/create';
 import { updateMoodAction } from '@/lib/moods/update';
 import { createBasicClientNotification } from '@/lib/notifications/create';
+import { isLoading } from '@/lib/server-actions/status';
 
 interface Props {
     todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
@@ -38,8 +39,6 @@ export const moodMap: { [name in MoodStatus]: MoodOption } = {
 const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
 const moodOptions = Object.values(moodMap);
-
-const isLoading = (status: HookActionStatus) => status === 'executing';
 
 export default function MoodSelector({ todaysMood, createMoodAction }: Props) {
     const [selectedMood, setSelectedMood] = useState(nullState);
