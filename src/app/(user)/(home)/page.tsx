@@ -1,4 +1,5 @@
 import { getServerSession } from '@/lib/auth/session';
+import { createMoodAction } from '@/lib/moods/create';
 import { getTodaysMood } from '@/lib/moods/get';
 import { getFirstName } from '@/lib/name/name';
 
@@ -14,7 +15,7 @@ export default async function Home() {
     return (
         <div className="flex flex-col gap-5 py-4 xl:flex-row xl:items-center xl:gap-10">
             <PageTitle text={`👋 Hey, ${firstName}`} />
-            <MoodSelector todaysMood={todaysMood} />
+            <MoodSelector todaysMood={todaysMood} createMoodAction={createMoodAction} />
         </div>
     );
 }
