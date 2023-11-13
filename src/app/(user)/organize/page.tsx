@@ -1,6 +1,7 @@
 import { getServerSession } from '@/lib/auth/session';
 import { createCommitmentAction } from '@/lib/commitments/create';
 import { getCommitments } from '@/lib/commitments/get';
+import { updateCommitmentAction } from '@/lib/commitments/update';
 import { forceCast } from '@/lib/types/type-caster';
 
 import EinsenhowerMatrix from './components/einsenhower-matrix/eisenhower-matrix';
@@ -44,6 +45,7 @@ export default async function Organize() {
                     overdue={forceCast<ServerCommitment[], ClientCommitment[]>(overdue)}
                     resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}
                     createCommitmentAction={createCommitmentAction}
+                    updateCommitmentAction={updateCommitmentAction}
                 />
             </div>
             <div className="max-w-3xl">
