@@ -2,12 +2,11 @@
 
 import { NoteStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
-import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
-import { createServerActionUnknownError } from '../server-actions/errors';
+import { action } from '../server-actions/safe-action-client';
 
 async function updateNoteStatus(id: string, userId: string, status: NoteStatus) {
     await prisma.note.update({
@@ -16,19 +15,13 @@ async function updateNoteStatus(id: string, userId: string, status: NoteStatus) 
     });
 }
 
-export const updateNoteStatusAction = zact(z.object({
+export const updateNoteStatusAction = action(z.object({
     id: z.string(), status: z.nativeEnum(NoteStatus)
-}))(
-    async ({ id, status }) => {
-        try {
-            const { user } = await getServerSession();
-            await updateNoteStatus(id, user.id, status);
+}), async ({ id, status }) => {
+    const { user } = await getServerSession();
+    await updateNoteStatus(id, user.id, status);
 
-            revalidatePath('/pending');
+    revalidatePath('/pending');
 
-            return { status: 'success' };
-        } catch (error) {
-            return createServerActionUnknownError();
-        }
-    }
-);
+    return { status: 'success' };
+});
