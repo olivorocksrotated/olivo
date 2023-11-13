@@ -1,12 +1,12 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAction } from 'next-safe-action/hook';
 import { useState } from 'react';
-import { useZact } from 'zact/client';
 
 import { createConnectionAction } from '@/lib/network/create';
 import { Connection } from '@/lib/network/types';
-import { getServerActionErrorMessage, isServerActionError } from '@/lib/server-actions/errors';
+import { isError, isLoading } from '@/lib/server-actions/status';
 
 import ConnectButton from './connect-button';
 import ConnectionCard from './connection-card';
@@ -30,7 +30,7 @@ function AnimatedCard({ children, id }: { children: React.ReactNode; id: string 
 }
 
 export function ConnectionList({ connections }: { connections: Connection[]}) {
-    const { mutate: createConnection, isLoading, data } = useZact(createConnectionAction);
+    const { execute: createConnection, status, result } = useAction(createConnectionAction);
     const [interaction, setInteraction] = useState(false);
 
     async function onConnectionRequested(email: string) {
@@ -58,10 +58,10 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
                         <ConnectionCard connection={connection} />
                     </AnimatedCard>
                 ))}
-                {isLoading ? <AnimatedCard id="feedbackCard"><ConnectionLoader /></AnimatedCard> : null}
-                {isServerActionError(data) && interaction ? (
+                {isLoading(status) ? <AnimatedCard id="feedbackCard"><ConnectionLoader /></AnimatedCard> : null}
+                {isError(status) && interaction ? (
                     <AnimatedCard id="feedbackCardError">
-                        <ConnectionError onClose={onErrorCardClosed} text={getServerActionErrorMessage(data)} />
+                        <ConnectionError onClose={onErrorCardClosed} text={result.serverError ?? ''} />
                     </AnimatedCard>
                 ) : null}
             </div>

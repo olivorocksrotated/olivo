@@ -1,15 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
-import {
-    createServerActionSuccessResponse,
-    createServerActionUnknownErrorResponse
-} from '../server-actions/response';
+import { action } from '../server-actions/safe-action-client';
 
 async function createNote(userId: string, text: string, tags?: string[]) {
     const data = {
@@ -35,19 +31,13 @@ async function createNote(userId: string, text: string, tags?: string[]) {
     return prisma.note.create({ data });
 }
 
-export const createNoteAction = zact(z.object({
+export const createNoteAction = action(z.object({
     text: z.string(), tags: z.array(z.string()).optional()
-}))(
-    async ({ text, tags }) => {
-        try {
-            const { user } = await getServerSession();
-            await createNote(user.id, text, tags);
+}), async ({ text, tags }) => {
+    const { user } = await getServerSession();
+    await createNote(user.id, text, tags);
 
-            revalidatePath('/pending');
+    revalidatePath('/pending');
 
-            return createServerActionSuccessResponse();
-        } catch (error) {
-            return createServerActionUnknownErrorResponse();
-        }
-    }
-);
+    return { status: 'success' };
+});

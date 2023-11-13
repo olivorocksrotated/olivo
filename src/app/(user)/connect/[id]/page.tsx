@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { getConnection } from '@/lib/network/connection/get';
+import { updateConnectionStateAction } from '@/lib/network/connection/update';
 
 import Avatar from '../components/avatar/avatar';
 import { AvatarSize } from '../components/avatar/types';
@@ -26,7 +27,11 @@ export default async function ConnectionPage({ params }: { params: { id: string 
                 </div>
             </div>
             <div>
-                <ToggleStateButton id={params.id} isConnected={connection.active}></ToggleStateButton>
+                <ToggleStateButton
+                    id={params.id}
+                    isConnected={connection.active}
+                    updateConnectionStateAction={updateConnectionStateAction}
+                />
             </div>
         </div>
     );

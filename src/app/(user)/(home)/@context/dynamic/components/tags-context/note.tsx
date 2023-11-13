@@ -3,9 +3,9 @@
 import { NoteStatus } from '@prisma/client';
 import { generateHTML } from '@tiptap/react';
 import { motion } from 'framer-motion';
+import { useAction } from 'next-safe-action/hook';
 import { BsCheck } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
-import { useZact } from 'zact/client';
 
 import { updateNoteStatusAction } from '@/lib/notes/update-status';
 
@@ -22,7 +22,7 @@ function ActionButton({ children, onClick }: { children: React.ReactNode; onClic
 export default function Note({ text, id }: { text: string, id: string }) {
     const doc = JSON.parse(text);
 
-    const { mutate: updateNoteStatus } = useZact(updateNoteStatusAction);
+    const { execute: updateNoteStatus } = useAction(updateNoteStatusAction);
 
     const remove = () => updateNoteStatus({ id, status: NoteStatus.Archived });
     const resolve = () => updateNoteStatus({ id, status: NoteStatus.Resolved });

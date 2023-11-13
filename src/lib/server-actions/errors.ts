@@ -1,11 +1,17 @@
-import { ServerActionError, ServerActionResponse } from './types';
+export class ServerActionError extends Error {
+    type: string;
 
-export const defaultServerErrorMessage = 'Oh no, something went wrong!';
-
-export function isServerActionError(response: ServerActionResponse | null): response is ServerActionError {
-    return response?.status === 'error';
+    constructor(message: string, type: string) {
+        super(message);
+        this.type = type;
+    }
 }
 
-export function getServerActionErrorMessage(response: ServerActionError | null): string {
-    return response?.message ?? '';
+export const defaultServerError = new ServerActionError('Something unexpected happen. Please try again.', 'UnknownServerError');
+
+export function createServerActionError({ type, message }: {
+    type: string,
+    message: string
+}): ServerActionError {
+    return new ServerActionError(message, type);
 }

@@ -1,41 +1,18 @@
 import { describe, expect, it } from 'vitest';
 
-import { getServerActionErrorMessage, isServerActionError } from './errors';
-import { ServerActionError } from './types';
+import { createServerActionError } from './errors';
 
-describe('lib server actions', () => {
+describe('lib server action', () => {
     describe('errors', () => {
-        describe('isServerActionError', () => {
-            it('should return true if the response is a server action error', () => {
-                expect(isServerActionError({
-                    status: 'error',
-                    type: 'type',
-                    message: 'message'
-                })).toBe(true);
-            });
+        describe('createServerActionError', () => {
+            it('should return a ServerActionError', () => {
+                const type = 'type';
+                const message = 'message';
 
-            it('should return false if the response is not a server action error', () => {
-                expect(isServerActionError(new Error('error') as any)).toBe(false);
-            });
+                const error = createServerActionError({ type, message });
 
-            it('should return false if the response is null', () => {
-                expect(isServerActionError(null)).toBe(false);
-            });
-        });
-
-        describe('getServerActionErrorMessage', () => {
-            it('should return the message of the error', () => {
-                const error: ServerActionError = {
-                    status: 'error',
-                    type: 'type',
-                    message: 'message'
-                };
-
-                expect(getServerActionErrorMessage(error)).toBe('message');
-            });
-
-            it('should return an empty string if the error is null', () => {
-                expect(getServerActionErrorMessage(null)).toBe('');
+                expect(error.message).toBe(message);
+                expect(error.type).toBe(type);
             });
         });
     });

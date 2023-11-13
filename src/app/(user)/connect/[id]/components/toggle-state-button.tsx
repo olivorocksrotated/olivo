@@ -1,16 +1,22 @@
 'use client';
 
+import { useAction } from 'next-safe-action/hook';
 import { useOptimistic } from 'react';
-import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
-import { updateConnectionStateAction } from '@/lib/network/connection/update';
+import type { updateConnectionStateAction } from '@/lib/network/connection/update';
 
-export default function ToggleStateButton({ id, isConnected }: { id: string; isConnected: boolean }) {
-    const { mutate: changeConnectionState } = useZact(updateConnectionStateAction);
+interface Props {
+    id: string;
+    isConnected: boolean;
+    updateConnectionStateAction: typeof updateConnectionStateAction;
+}
+
+export default function ToggleStateButton({ id, isConnected, updateConnectionStateAction }: Props) {
+    const { execute: changeConnectionState } = useAction(updateConnectionStateAction);
     const [optimisticIsConnected, changeIsConnectedOptimistically] = useOptimistic<boolean, boolean>(
         isConnected,
-        (state, newState) => newState
+        (_, newState) => newState
     );
 
     async function toggleState() {

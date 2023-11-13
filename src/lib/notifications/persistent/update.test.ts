@@ -3,7 +3,6 @@ import { revalidatePath } from 'next/cache';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '@/lib/prisma/client';
-import { defaultServerErrorMessage } from '@/lib/server-actions/errors';
 
 import { createNotification } from './create';
 import { getNotifications } from './get';
@@ -124,7 +123,7 @@ describe('lib notifications', () => {
                 vi.spyOn(prisma.notification, 'updateMany').mockRejectedValueOnce(expectedError);
 
                 const { serverError } = await markAllNotificationsAsReadAction(undefined);
-                expect(serverError).toBe(defaultServerErrorMessage);
+                expect(serverError).toBe(expectedError.message);
             });
         });
     });

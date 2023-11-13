@@ -1,14 +1,10 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
-import {
-    createServerActionSuccessResponse,
-    createServerActionUnknownErrorResponse
-} from '../server-actions/response';
+import { action } from '../server-actions/safe-action-client';
 
 async function updateNote(id: string, userId: string, text: string, tags?: string[]) {
     const data = { ownerId: userId, text };
@@ -33,19 +29,11 @@ async function updateNote(id: string, userId: string, text: string, tags?: strin
     return prisma.note.update({ where, data });
 }
 
-export const updateNoteAction = zact(z.object({
+export const updateNoteAction = action(z.object({
     id: z.string(), text: z.string(), tags: z.array(z.string()).optional()
-}))(
-    async ({ id, text, tags }) => {
-        try {
-            const { user } = await getServerSession();
-            await updateNote(id, user.id, text, tags);
+}), async ({ id, text, tags }) => {
+    const { user } = await getServerSession();
+    await updateNote(id, user.id, text, tags);
 
-            revalidatePath('/workspace');
-
-            return createServerActionSuccessResponse();
-        } catch (error) {
-            return createServerActionUnknownErrorResponse();
-        }
-    }
-);
+    revalidatePath('/workspace');
+});
