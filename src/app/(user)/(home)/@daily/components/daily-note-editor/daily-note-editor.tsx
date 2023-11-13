@@ -4,8 +4,8 @@ import { Note } from '@prisma/client';
 import { Node } from '@tiptap/pm/model';
 import { Selection } from '@tiptap/pm/state';
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react';
+import { useAction } from 'next-safe-action/hook';
 import { useState } from 'react';
-import { useZact } from 'zact/client';
 
 import Loader from '@/app/components/ui/loader/loader';
 import useDebouncedCallback from '@/lib/hooks/useDebouncedCallback';
@@ -41,7 +41,7 @@ function EditorLoader() {
 export function DailyNoteEditor({ note, tags }: { note: Note, tags: string[] }) {
     const [isSaving, setIsSaving] = useState(false);
     const [selection, setSelection] = useState<Selection>();
-    const { mutate: handleSave } = useZact(updateNoteAction);
+    const { execute: handleSave } = useAction(updateNoteAction);
 
     const debounceSelection = useDebouncedCallback(setSelection, 500, [note.id]);
 
