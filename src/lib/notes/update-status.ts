@@ -8,9 +8,6 @@ import { z } from 'zod';
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
 import { createServerActionUnknownError } from '../server-actions/errors';
-import {
-    createServerActionSuccessResponse
-} from '../server-actions/response';
 
 async function updateNoteStatus(id: string, userId: string, status: NoteStatus) {
     await prisma.note.update({
@@ -29,7 +26,7 @@ export const updateNoteStatusAction = zact(z.object({
 
             revalidatePath('/pending');
 
-            return createServerActionSuccessResponse();
+            return { status: 'success' };
         } catch (error) {
             return createServerActionUnknownError();
         }
