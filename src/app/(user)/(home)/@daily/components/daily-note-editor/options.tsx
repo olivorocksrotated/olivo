@@ -1,7 +1,7 @@
 import { Selection } from '@tiptap/pm/state';
+import { useAction } from 'next-safe-action/hook';
 import { AiOutlinePushpin } from 'react-icons/ai';
 import { MdEditNote } from 'react-icons/md';
-import { useZact } from 'zact/client';
 
 import { createNoteAction } from '@/lib/notes/create';
 
@@ -9,7 +9,7 @@ import { getTagsFromFragment } from '../../../components/editor-utils';
 
 
 export default function Options({ selection }: { selection?: Selection }) {
-    const { mutate: createNote } = useZact(createNoteAction);
+    const { execute: createNote } = useAction(createNoteAction);
 
     function createNoteFromSelection(extraTags?: string[]) {
         if (selection) {

@@ -1,6 +1,6 @@
 'use client';
+import { useAction } from 'next-safe-action/hook';
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { useZact } from 'zact/client';
 
 import Input from '@/app/components/ui/input/input';
 import RichTextEditor from '@/app/components/ui/rich-text-editor/rich-text-editor';
@@ -27,7 +27,7 @@ function AddTags() {
     const [value, setValue] = useState('');
 
     const onInput = (event: any) => setValue(event.target.value);
-    const { mutate: createNote } = useZact(createNoteAction);
+    const { execute: createNote } = useAction(createNoteAction);
     const action = {
         label: 'Save notes',
         execute: () => createNote({ text: commandContext })
@@ -61,7 +61,7 @@ const subCommands: CommandsList = {
 
 export default function QuickNotesCommand() {
     const [text, setText] = useState('');
-    const { mutate: createNote } = useZact(createNoteAction);
+    const { execute: createNote } = useAction(createNoteAction);
     const action = {
         label: 'Save notes',
         execute: () => createNote({ text })
