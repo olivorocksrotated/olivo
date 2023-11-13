@@ -3,6 +3,8 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import clsx from 'clsx';
 
+import type { createCommitmentAction } from '@/lib/commitments/create';
+
 import { ClientCommitment } from '../../types';
 import CommitmentsList from './commitments-list';
 
@@ -11,9 +13,10 @@ interface Props {
     next: ClientCommitment[];
     overdue: ClientCommitment[];
     resolved: ClientCommitment[];
+    createCommitmentAction: typeof createCommitmentAction
 }
 
-export default function CommitmentsTabs({ today, next, overdue, resolved }: Props) {
+export default function CommitmentsTabs({ today, next, overdue, resolved, createCommitmentAction }: Props) {
     const tabStyles = clsx(
         'px-4 py-2',
         'hover:bg-neutral-700',
@@ -33,16 +36,28 @@ export default function CommitmentsTabs({ today, next, overdue, resolved }: Prop
                 <Tabs.Trigger value="resolved" className={tabStyles}>Resolved</Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="today" className={tabContentStyles}>
-                <CommitmentsList commitments={today} />
+                <CommitmentsList
+                    commitments={today}
+                    createCommitmentAction={createCommitmentAction}
+                />
             </Tabs.Content>
             <Tabs.Content value="next" className={tabContentStyles}>
-                <CommitmentsList commitments={next} />
+                <CommitmentsList
+                    commitments={next}
+                    createCommitmentAction={createCommitmentAction}
+                />
             </Tabs.Content>
             <Tabs.Content value="overdue" className={tabContentStyles}>
-                <CommitmentsList commitments={overdue} />
+                <CommitmentsList
+                    commitments={overdue}
+                    createCommitmentAction={createCommitmentAction}
+                />
             </Tabs.Content>
             <Tabs.Content value="resolved" className={tabContentStyles}>
-                <CommitmentsList commitments={resolved} />
+                <CommitmentsList
+                    commitments={resolved}
+                    createCommitmentAction={createCommitmentAction}
+                />
             </Tabs.Content>
         </Tabs.Root>
     );

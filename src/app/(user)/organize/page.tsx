@@ -1,4 +1,5 @@
 import { getServerSession } from '@/lib/auth/session';
+import { createCommitmentAction } from '@/lib/commitments/create';
 import { getCommitments } from '@/lib/commitments/get';
 import { forceCast } from '@/lib/types/type-caster';
 
@@ -42,6 +43,7 @@ export default async function Organize() {
                     next={forceCast<ServerCommitment[], ClientCommitment[]>(next)}
                     overdue={forceCast<ServerCommitment[], ClientCommitment[]>(overdue)}
                     resolved={forceCast<ServerCommitment[], ClientCommitment[]>(resolved)}
+                    createCommitmentAction={createCommitmentAction}
                 />
             </div>
             <div className="max-w-3xl">

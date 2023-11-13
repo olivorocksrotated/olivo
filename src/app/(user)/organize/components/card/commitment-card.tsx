@@ -1,5 +1,6 @@
 'use client';
 
+import { JSONContent } from '@tiptap/react';
 import { useEffect, useState } from 'react';
 import { useZact } from 'zact/client';
 
@@ -12,7 +13,9 @@ import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import RichTextEditor from '@/app/components/ui/rich-text-editor/rich-text-editor';
 import { updateCommitmentAction } from '@/lib/commitments/update';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
+import { safeJSONParse } from '@/lib/json/parse';
 import onEnterPressed from '@/lib/keys/enter';
+import { isObject } from '@/lib/validators/is-object';
 
 import { ClientCommitment } from '../../types';
 import CommitmentEntry from './commitment-entry';
@@ -30,7 +33,9 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
     const [editCommitment, setEditCommitment] = useState({
         ...commitment,
         doneBy: formatDate(originalCommitment.doneBy),
-        description: JSON.parse(originalCommitment.description ?? '{}') as object
+        description: isObject(originalCommitment.description) ?
+            originalCommitment.description as JSONContent :
+            safeJSONParse<JSONContent>(originalCommitment.description ?? '{}')
     });
     const [isClosed, closeModal] = useCloseUiComponent();
 
@@ -84,7 +89,11 @@ export default function CommitmentCard({ commitment: originalCommitment }: Props
                 <div className="mb-4 w-full border-t border-neutral-600"></div>
                 <div className="mb-4">
                     <div className="mb-2"><label>Description</label></div>
-                    <RichTextEditor value={editCommitment.description} height="s" onChange={(description) => setEditCommitment({ ...editCommitment, description })} />
+                    <RichTextEditor
+                        value={editCommitment.description}
+                        height="s"
+                        onChange={(description) => setEditCommitment({ ...editCommitment, description })}
+                    />
                 </div>
             </ModalContent>
             <ModalFooter>

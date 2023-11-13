@@ -9,12 +9,12 @@ import { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { getRelativeDateWithoutTime } from '@/lib/date/format';
 
-import { ClientCommitment } from '../../types';
+import { ServerCommitment } from '../../types';
 import StatusPopover from '../actions/status-popover';
 import OverdueStatusMarker from '../status-marker/overdue';
 
 interface Props {
-    commitment: ClientCommitment;
+    commitment: ServerCommitment;
 }
 
 export default function CommitmentEntry({ commitment: originalCommitment }: Props) {
