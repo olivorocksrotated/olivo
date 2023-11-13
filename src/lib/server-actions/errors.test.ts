@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createServerActionError, createServerActionUnknownError, defaultServerError } from './errors';
+import { createServerActionError } from './errors';
 
 describe('lib server action', () => {
     describe('errors', () => {
@@ -13,15 +13,6 @@ describe('lib server action', () => {
 
                 expect(error.message).toBe(message);
                 expect(error.type).toBe(type);
-            });
-        });
-
-        describe('createServerActionUnknownError', () => {
-            it('should return an UnknownErrorResponse ServerActionError', () => {
-                const error = createServerActionUnknownError();
-
-                expect(error.message).toBe(defaultServerError.message);
-                expect(error.type).toBe(defaultServerError.type);
             });
         });
     });

@@ -5,7 +5,6 @@ import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
-import { createServerActionUnknownError } from '../server-actions/errors';
 import { action } from '../server-actions/safe-action-client';
 
 async function createNote(userId: string, text: string, tags?: string[]) {
@@ -35,14 +34,10 @@ async function createNote(userId: string, text: string, tags?: string[]) {
 export const createNoteAction = action(z.object({
     text: z.string(), tags: z.array(z.string()).optional()
 }), async ({ text, tags }) => {
-    try {
-        const { user } = await getServerSession();
-        await createNote(user.id, text, tags);
+    const { user } = await getServerSession();
+    await createNote(user.id, text, tags);
 
-        revalidatePath('/pending');
+    revalidatePath('/pending');
 
-        return { status: 'success' };
-    } catch (error) {
-        return createServerActionUnknownError();
-    }
+    return { status: 'success' };
 });

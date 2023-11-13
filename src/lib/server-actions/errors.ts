@@ -15,7 +15,3 @@ export function createServerActionError({ type, message }: {
 }): ServerActionError {
     return new ServerActionError(message, type);
 }
-
-export function createServerActionUnknownError() {
-    return createServerActionError(defaultServerError);
-}
