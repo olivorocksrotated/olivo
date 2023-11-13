@@ -3,22 +3,14 @@ import { createSafeActionClient } from 'next-safe-action';
 import { defaultServerError, ServerActionError } from './errors';
 
 export const action = createSafeActionClient({
-    handleReturnedServerError(error): {
+    handleReturnedServerError(error: Error | ServerActionError): {
         serverError: string,
         type: string,
         error: Error
     } {
-        if (error instanceof ServerActionError) {
-            return {
-                serverError: error.message,
-                type: error.type,
-                error
-            };
-        }
-
         return {
-            serverError: defaultServerError.message,
-            type: defaultServerError.type,
+            serverError: error.message ?? defaultServerError.message,
+            type: (error as ServerActionError).type ?? defaultServerError.type,
             error
         };
     }

@@ -1,19 +1,15 @@
-import { ServerActionError, ServerActionSuccess } from './types';
+import { defaultServerError, ServerActionError } from './errors';
+import { ServerActionSuccess } from './types';
 
-export function createServerActionErrorResponse({ type, message }: {
+export function createServerActionError({ type, message }: {
     type: string,
     message: string
 }): ServerActionError {
-    return { status: 'error', type, message };
+    return new ServerActionError(message, type);
 }
 
-export function createServerActionUnknownErrorResponse() {
-    const unknownServerError = {
-        type: 'UnknownServerError',
-        message: 'Something unexpected happen. Please try again.'
-    };
-
-    return createServerActionErrorResponse(unknownServerError);
+export function createServerActionUnknownError() {
+    return createServerActionError(defaultServerError);
 }
 
 export function createServerActionSuccessResponse(): ServerActionSuccess {

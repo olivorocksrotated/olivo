@@ -7,7 +7,7 @@ import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
 import {
     createServerActionSuccessResponse,
-    createServerActionUnknownErrorResponse
+    createServerActionUnknownError
 } from '../server-actions/response';
 
 async function updateNote(id: string, userId: string, text: string, tags?: string[]) {
@@ -45,7 +45,7 @@ export const updateNoteAction = zact(z.object({
 
             return createServerActionSuccessResponse();
         } catch (error) {
-            return createServerActionUnknownErrorResponse();
+            return createServerActionUnknownError();
         }
     }
 );

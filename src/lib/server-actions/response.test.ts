@@ -1,29 +1,28 @@
 import { describe, expect, it } from 'vitest';
 
-import { createServerActionErrorResponse, createServerActionSuccessResponse, createServerActionUnknownErrorResponse } from './response';
-import { ServerActionError } from './types';
+import { defaultServerError } from './errors';
+import { createServerActionError, createServerActionSuccessResponse, createServerActionUnknownError } from './response';
 
 describe('lib server action', () => {
     describe('response', () => {
-        describe('createServerActionErrorResponse', () => {
+        describe('createServerActionError', () => {
             it('should return a ServerActionError', () => {
                 const type = 'type';
                 const message = 'message';
-                const expectedError: ServerActionError = { status: 'error', type, message };
 
-                expect(createServerActionErrorResponse({ type, message })).toStrictEqual(expectedError);
+                const error = createServerActionError({ type, message });
+
+                expect(error.message).toBe(message);
+                expect(error.type).toBe(type);
             });
         });
 
-        describe('createServerActionUnknownErrorResponse', () => {
+        describe('createServerActionUnknownError', () => {
             it('should return an UnknownErrorResponse ServerActionError', () => {
-                const expectedError: ServerActionError = {
-                    status: 'error',
-                    type: 'UnknownServerError',
-                    message: 'Something unexpected happen. Please try again.'
-                };
+                const error = createServerActionUnknownError();
 
-                expect(createServerActionUnknownErrorResponse()).toStrictEqual(expectedError);
+                expect(error.message).toBe(defaultServerError.message);
+                expect(error.type).toBe(defaultServerError.type);
             });
         });
 
