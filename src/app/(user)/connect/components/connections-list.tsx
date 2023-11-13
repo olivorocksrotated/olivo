@@ -6,7 +6,6 @@ import { useZact } from 'zact/client';
 
 import { createConnectionAction } from '@/lib/network/create';
 import { Connection } from '@/lib/network/types';
-import { getServerActionErrorMessage, isServerActionError } from '@/lib/server-actions/errors';
 
 import ConnectButton from './connect-button';
 import ConnectionCard from './connection-card';
@@ -59,9 +58,9 @@ export function ConnectionList({ connections }: { connections: Connection[]}) {
                     </AnimatedCard>
                 ))}
                 {isLoading ? <AnimatedCard id="feedbackCard"><ConnectionLoader /></AnimatedCard> : null}
-                {isServerActionError(data) && interaction ? (
+                {data?.status === 'error' && interaction ? (
                     <AnimatedCard id="feedbackCardError">
-                        <ConnectionError onClose={onErrorCardClosed} text={getServerActionErrorMessage(data)} />
+                        <ConnectionError onClose={onErrorCardClosed} text={data?.message ?? ''} />
                     </AnimatedCard>
                 ) : null}
             </div>
