@@ -7,7 +7,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
     reactStrictMode: true,
     experimental: {
-        serverActions: true,
         outputFileTracingExcludes: {
             '*': [
                 './node_modules/@swc/core-linux-x64-gnu',
