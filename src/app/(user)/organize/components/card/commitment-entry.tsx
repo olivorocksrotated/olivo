@@ -1,23 +1,27 @@
 'use client';
 
 import { CommitmentStatus } from '@prisma/client';
+import { useAction } from 'next-safe-action/hook';
 import { useEffect, useState } from 'react';
-import { useZact } from 'zact/client';
 
 import { isOverdue } from '@/lib/commitments/filter';
-import { updateCommitmentAction } from '@/lib/commitments/update';
+import type { updateCommitmentAction } from '@/lib/commitments/update';
 import { todayAtZeroHourUTC } from '@/lib/date/days';
 import { getRelativeDateWithoutTime } from '@/lib/date/format';
 
-import { ClientCommitment } from '../../types';
+import { ServerCommitment } from '../../types';
 import StatusPopover from '../actions/status-popover';
 import OverdueStatusMarker from '../status-marker/overdue';
 
 interface Props {
-    commitment: ClientCommitment;
+    commitment: ServerCommitment;
+    updateCommitmentAction: typeof updateCommitmentAction
 }
 
-export default function CommitmentEntry({ commitment: originalCommitment }: Props) {
+export default function CommitmentEntry({
+    commitment: originalCommitment,
+    updateCommitmentAction
+}: Props) {
     const [commitment, setCommitment] = useState(originalCommitment);
 
     useEffect(() => {
@@ -27,7 +31,7 @@ export default function CommitmentEntry({ commitment: originalCommitment }: Prop
     const now = todayAtZeroHourUTC();
     const isPastCommitment = isOverdue(now)(commitment);
 
-    const { mutate: update } = useZact(updateCommitmentAction);
+    const { execute: update } = useAction(updateCommitmentAction);
 
     const handleStatusChange = async (status: CommitmentStatus) => {
         setCommitment((previous) => ({ ...previous, status }));

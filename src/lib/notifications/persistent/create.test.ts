@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import prisma from '@/lib/prisma/client';
+import { defaultServerErrorMessage } from '@/lib/server-actions/errors';
 
 import { createNotification, createNotificationAction } from './create';
 import { getNotifications } from './get';
@@ -53,7 +54,7 @@ describe('lib notifications', () => {
 
         describe('createNotificationAction', () => {
             it('should create a notification and return its id', async () => {
-                const id = await createNotificationAction(notification);
+                const { data: id } = await createNotificationAction(notification);
                 const retrievedNotification = await getNotifications({ userId });
 
                 expect(retrievedNotification[0].id).toBe(id);
@@ -68,27 +69,30 @@ describe('lib notifications', () => {
                 const expectedError = new Error('Ups');
                 vi.spyOn(prisma.notification, 'create').mockRejectedValueOnce(expectedError);
 
-                await expect(createNotificationAction(notification)).rejects.toThrowError(expectedError);
+                const { serverError } = await createNotificationAction(notification);
+                expect(serverError).toBe(defaultServerErrorMessage);
             });
 
             describe('validations', () => {
                 it('should return a validation error if the title is not a string', async () => {
-                    const expectedError = new Error('Validation error: Expected string, received number at "title"');
-                    await expect(createNotificationAction({ ...notification, title: (1 as any) })).rejects.toThrowError(expectedError);
+                    const expectedError = new Error('Expected string, received number');
+                    const { validationError } = await createNotificationAction({ ...notification, title: (1 as any) });
+
+                    expect(validationError?.title).to.include(expectedError.message);
                 });
 
                 it('should return a validation error if the payload is not an object', async () => {
-                    const expectedError = new Error('Validation error: Expected object, received string at "payload"');
-                    await expect(createNotificationAction({ ...notification, payload: ('nope' as any) })).rejects.toThrowError(expectedError);
+                    const expectedError = new Error('Expected object, received string');
+                    const { validationError } = await createNotificationAction({ ...notification, payload: ('nope' as any) });
+
+                    expect(validationError?.payload).to.include(expectedError.message);
                 });
 
                 it('should return a validation error if the type is not a NotificationType', async () => {
-                    try {
-                        await createNotificationAction({ ...notification, type: ('nope' as any) });
-                    } catch (error: any) {
-                        expect(error.message).toContain('Validation error: Invalid enum value');
-                        expect(error.message).toContain('received \'nope\' at "type"');
-                    }
+                    const expectedError = new Error('Invalid enum value');
+                    const { validationError } = await createNotificationAction({ ...notification, type: ('nope' as any) });
+
+                    expect(validationError?.type?.[0]).to.include(expectedError.message);
                 });
             });
         });

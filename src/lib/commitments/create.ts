@@ -1,11 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { zact } from 'zact/server';
 import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
+import { action } from '../server-actions/safe-action-client';
 import { stringToJSON } from '../validators/string-to-json';
 
 const createValidator = z.object({
@@ -27,13 +27,11 @@ export async function createCommitment({ userId, title, doneBy, description }: {
     });
 }
 
-export const createCommitmentAction = zact(createValidator)(
-    async ({ title, doneBy, description }) => {
-        const { user } = await getServerSession();
-        const createdCommitment = await createCommitment({ userId: user.id, title, doneBy, description });
+export const createCommitmentAction = action(createValidator, async ({ title, doneBy, description }) => {
+    const { user } = await getServerSession();
+    const createdCommitment = await createCommitment({ userId: user.id, title, doneBy, description });
 
-        revalidatePath('/commitments');
+    revalidatePath('/commitments');
 
-        return createdCommitment.id;
-    }
-);
+    return createdCommitment.id;
+});

@@ -2,9 +2,9 @@
 
 import { Mood, MoodStatus } from '@prisma/client';
 import clsx from 'clsx';
+import { useAction } from 'next-safe-action/hook';
 import { useEffect, useState } from 'react';
 import { TbMoodCheck } from 'react-icons/tb';
-import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
@@ -12,12 +12,15 @@ import Modal from '@/app/components/ui/modal/modal';
 import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import Textarea from '@/app/components/ui/textarea/textarea';
-import { createMoodAction } from '@/lib/moods/create';
-import { updateMoodAction } from '@/lib/moods/update';
+import type { createMoodAction } from '@/lib/moods/create';
+import type { updateMoodAction } from '@/lib/moods/update';
 import { createBasicClientNotification } from '@/lib/notifications/create';
+import { isLoading } from '@/lib/server-actions/status';
 
 interface Props {
     todaysMood: Pick<Mood, 'id' | 'status' | 'comment' | 'createdAt'> | null;
+    createMoodAction: typeof createMoodAction;
+    updateMoodAction: typeof updateMoodAction;
 }
 
 export interface MoodOption {
@@ -37,7 +40,11 @@ const nullMoodOption: MoodOption = { icon: '', name: '' as MoodStatus };
 const nullState = { option: nullMoodOption, comment: '' };
 const moodOptions = Object.values(moodMap);
 
-export default function MoodSelector({ todaysMood }: Props) {
+export default function MoodSelector({
+    todaysMood,
+    createMoodAction,
+    updateMoodAction
+}: Props) {
     const [selectedMood, setSelectedMood] = useState(nullState);
     const [isClosed, closeModal] = useCloseUiComponent();
 
@@ -50,11 +57,11 @@ export default function MoodSelector({ todaysMood }: Props) {
         };
     }), [todaysMood]);
 
-    const { mutate: createMood, isLoading: isCreatingMood } = useZact(createMoodAction);
-    const { mutate: updateMood } = useZact(updateMoodAction);
+    const { execute: createMood, status } = useAction(createMoodAction);
+    const { execute: updateMood } = useAction(updateMoodAction);
 
     const handleMoodSave = async () => {
-        if (!selectedMood.option.name || isCreatingMood) {
+        if (!selectedMood.option.name || isLoading(status)) {
             return;
         }
 

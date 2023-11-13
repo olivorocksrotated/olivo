@@ -1,8 +1,8 @@
 'use client';
 
 import { JSONContent } from '@tiptap/react';
+import { useAction } from 'next-safe-action/hook';
 import { useState } from 'react';
-import { useZact } from 'zact/client';
 
 import Button from '@/app/components/ui/button/button';
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
@@ -13,16 +13,20 @@ import ModalContent from '@/app/components/ui/modal/modal-content';
 import ModalFooter from '@/app/components/ui/modal/modal-footer';
 import RichTextEditor from '@/app/components/ui/rich-text-editor/rich-text-editor';
 import TextLink from '@/app/components/ui/text-link/text-link';
-import { createCommitmentAction } from '@/lib/commitments/create';
+import type { createCommitmentAction } from '@/lib/commitments/create';
 import { dateInputToISOString, formatDate } from '@/lib/date/format';
 import onEnterPressed from '@/lib/keys/enter';
 
-export default function AddButton() {
+export interface Props {
+    createCommitmentAction: typeof createCommitmentAction
+}
+
+export default function AddButton({ createCommitmentAction }: Props) {
     const nullCommitment = { title: '', doneBy: formatDate(new Date(), 'yyyy-MM-dd'), description: {} as JSONContent };
     const [commitment, setCommitment] = useState(nullCommitment);
     const [isClosed, closeModal] = useCloseUiComponent();
 
-    const { mutate: createCommitment } = useZact(createCommitmentAction);
+    const { execute: createCommitment } = useAction(createCommitmentAction);
 
     const onSave = async () => {
         if (!commitment.title || !commitment.doneBy) {

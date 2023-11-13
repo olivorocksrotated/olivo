@@ -2,9 +2,9 @@
 
 import { NotificationStatus } from '@prisma/client';
 import clsx from 'clsx';
+import { useAction } from 'next-safe-action/hook';
 import { useEffect, useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
-import { useZact } from 'zact/client';
 
 import { useCloseUiComponent } from '@/app/components/ui/hooks/useCloseUiComponent';
 import IconButton from '@/app/components/ui/icon-button/icon-button';
@@ -43,7 +43,7 @@ export default function Notifications() {
 
     const hasOpenNotifications = notifications.some(isNotificationOpen);
 
-    const { mutate: markAllAsRead } = useZact(markAllNotificationsAsReadAction);
+    const { execute: markAllAsRead } = useAction(markAllNotificationsAsReadAction);
 
     const handleCloseNotifications = () => {
         if (hasOpenNotifications) {
