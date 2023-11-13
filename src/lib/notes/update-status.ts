@@ -7,9 +7,9 @@ import { z } from 'zod';
 
 import { getServerSession } from '../auth/session';
 import prisma from '../prisma/client';
+import { createServerActionUnknownError } from '../server-actions/errors';
 import {
-    createServerActionSuccessResponse,
-    createServerActionUnknownError
+    createServerActionSuccessResponse
 } from '../server-actions/response';
 
 async function updateNoteStatus(id: string, userId: string, status: NoteStatus) {
