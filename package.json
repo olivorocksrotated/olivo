@@ -31,7 +31,8 @@
     "dependencies:check": "ncu",
     "dependencies:update": "ncu -u && npm install && npm test && npm run lint:fix",
     "analyze": "cross-env ANALYZE=true next build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "node fix-next-safe-action.js"
   },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
