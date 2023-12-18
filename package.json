@@ -31,8 +31,7 @@
     "dependencies:check": "ncu",
     "dependencies:update": "ncu -u && npm install && npm test && npm run lint:fix",
     "analyze": "cross-env ANALYZE=true next build",
-    "prepare": "husky install",
-    "postinstall": "node fix-next-safe-action.js"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
@@ -65,7 +64,7 @@
     "inngest": "^3.7.3",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
-    "next-safe-action": "^5.2.1",
+    "next-safe-action": "^5.2.3",
     "openai-edge": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
