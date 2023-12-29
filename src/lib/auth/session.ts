@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession as nextAuthGetServerSession, Session } from 'next-auth';
+import { Session } from 'next-auth';
 
-import { authOptions } from '@/config/auth';
+import { auth } from '../../config/auth';
 
 export async function getServerSession(req: NextApiRequest | undefined = undefined, res: NextApiResponse<any> | undefined = undefined) {
     const isApiRequest = !!req && !!res;
 
     const session = isApiRequest ?
-        await nextAuthGetServerSession(req, res, authOptions) :
-        await nextAuthGetServerSession(authOptions);
+        await auth(req, res) :
+        await auth();
 
     if (session?.user?.id && session?.user?.email) {
         return session as Session;
