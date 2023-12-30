@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Session } from 'next-auth';
 
-import { auth } from '../../config/auth';
+import { auth } from '@/config/auth';
 
 export async function getServerSession(req: NextApiRequest | undefined = undefined, res: NextApiResponse<any> | undefined = undefined) {
     const isApiRequest = !!req && !!res;

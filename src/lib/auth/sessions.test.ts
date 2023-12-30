@@ -1,6 +1,7 @@
 import { describe, expect, it, Mock } from 'vitest';
 
-import { auth } from '../../config/auth';
+import { auth } from '@/config/auth';
+
 import { getServerSession } from './session';
 
 describe('lib auth', () => {
