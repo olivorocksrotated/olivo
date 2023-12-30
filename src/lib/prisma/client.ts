@@ -7,7 +7,7 @@ import { isDevEnvironment } from '../environment';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-const prisma = globalForPrisma.prisma || new PrismaClient({ log: ['info', 'warn', 'error'] }).$extends(withAccelerate());
+const prisma = globalForPrisma.prisma || new PrismaClient({ log: ['warn', 'error'] }).$extends(withAccelerate());
 
 if (isDevEnvironment()) {
     globalForPrisma.prisma = prisma;
