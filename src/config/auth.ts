@@ -5,6 +5,7 @@ import GoogleProvider from '@auth/core/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth from 'next-auth';
 
+import authorized from '@/lib/auth/callbacks/authorize';
 import jwt from '@/lib/auth/callbacks/jwt';
 import redirect from '@/lib/auth/callbacks/redirect';
 import session from '@/lib/auth/callbacks/session';
@@ -45,7 +46,7 @@ if (isDevEnvironment()) {
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers,
-    callbacks: { redirect, session, jwt },
+    callbacks: { authorized, redirect, session, jwt },
     session: { strategy: 'jwt' as const },
     pages: {
         signIn: '/signin'
