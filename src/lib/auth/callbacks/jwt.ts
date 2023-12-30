@@ -1,6 +1,6 @@
+import { AdapterUser } from '@auth/core/adapters';
+import { JWT } from '@auth/core/jwt';
 import { Account, Profile, User } from 'next-auth';
-import { AdapterUser } from 'next-auth/adapters';
-import { JWT } from 'next-auth/jwt';
 
 import { EventName } from '@/lib/inngest/client';
 import { safeSendEvent } from '@/lib/inngest/send-event';

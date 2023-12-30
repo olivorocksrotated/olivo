@@ -1,4 +1,4 @@
-import { JWT } from 'next-auth/jwt';
+import { JWT } from '@auth/core/jwt';
 import { describe, expect, it } from 'vitest';
 
 import { EventName, inngest } from '@/lib/inngest/client';

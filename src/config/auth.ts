@@ -1,9 +1,11 @@
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { Provider } from 'next-auth/providers';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
+import { Provider } from '@auth/core/providers';
+import CredentialsProvider from '@auth/core/providers/credentials';
+import GithubProvider from '@auth/core/providers/github';
+import GoogleProvider from '@auth/core/providers/google';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import NextAuth from 'next-auth';
 
+import authorized from '@/lib/auth/callbacks/authorize';
 import jwt from '@/lib/auth/callbacks/jwt';
 import redirect from '@/lib/auth/callbacks/redirect';
 import session from '@/lib/auth/callbacks/session';
@@ -44,9 +46,11 @@ if (isDevEnvironment()) {
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers,
-    callbacks: { redirect, session, jwt },
+    callbacks: { authorized, redirect, session, jwt },
     session: { strategy: 'jwt' as const },
     pages: {
         signIn: '/signin'
     }
 };
+
+export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth(authOptions as any);

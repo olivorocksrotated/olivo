@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client/edge';
+import { withAccelerate } from '@prisma/extension-accelerate';
 
 import { isDevEnvironment } from '../environment';
 
@@ -6,7 +7,7 @@ import { isDevEnvironment } from '../environment';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-const prisma = globalForPrisma.prisma || new PrismaClient({ log: ['info', 'warn', 'error'] });
+const prisma = globalForPrisma.prisma || new PrismaClient({ log: ['warn', 'error'] }).$extends(withAccelerate());
 
 if (isDevEnvironment()) {
     globalForPrisma.prisma = prisma;
