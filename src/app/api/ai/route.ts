@@ -9,6 +9,8 @@ import { getServerSession } from '@/lib/auth/session';
 import { createOvercommitmentPrompt } from '@/lib/commitments/ai';
 import { createMoodAdvicePrompt, createMoodSummaryPrompt } from '@/lib/moods/ai';
 
+export const runtime = 'edge';
+
 const executionPrompt: { [key in AiExecutionName]: (userId: string) => Promise<string> } = {
     [AiExecutionName.MoodSummary]: createMoodSummaryPrompt,
     [AiExecutionName.MoodAdvice]: createMoodAdvicePrompt,
