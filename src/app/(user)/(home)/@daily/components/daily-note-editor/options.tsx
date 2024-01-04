@@ -1,5 +1,5 @@
 import { Selection } from '@tiptap/pm/state';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { AiOutlinePushpin } from 'react-icons/ai';
 import { MdEditNote } from 'react-icons/md';
 

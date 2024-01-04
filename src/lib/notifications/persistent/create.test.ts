@@ -75,23 +75,23 @@ describe('lib notifications', () => {
             describe('validations', () => {
                 it('should return a validation error if the title is not a string', async () => {
                     const expectedError = new Error('Expected string, received number');
-                    const { validationError } = await createNotificationAction({ ...notification, title: (1 as any) });
+                    const { validationErrors } = await createNotificationAction({ ...notification, title: (1 as any) });
 
-                    expect(validationError?.title).to.include(expectedError.message);
+                    expect(validationErrors?.title).to.include(expectedError.message);
                 });
 
                 it('should return a validation error if the payload is not an object', async () => {
                     const expectedError = new Error('Expected object, received string');
-                    const { validationError } = await createNotificationAction({ ...notification, payload: ('nope' as any) });
+                    const { validationErrors } = await createNotificationAction({ ...notification, payload: ('nope' as any) });
 
-                    expect(validationError?.payload).to.include(expectedError.message);
+                    expect(validationErrors?.payload).to.include(expectedError.message);
                 });
 
                 it('should return a validation error if the type is not a NotificationType', async () => {
                     const expectedError = new Error('Invalid enum value');
-                    const { validationError } = await createNotificationAction({ ...notification, type: ('nope' as any) });
+                    const { validationErrors } = await createNotificationAction({ ...notification, type: ('nope' as any) });
 
-                    expect(validationError?.type?.[0]).to.include(expectedError.message);
+                    expect(validationErrors?.type?.[0]).to.include(expectedError.message);
                 });
             });
         });

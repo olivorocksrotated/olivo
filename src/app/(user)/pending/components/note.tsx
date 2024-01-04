@@ -8,7 +8,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { generateHTML } from '@tiptap/react';
 import { motion } from 'framer-motion';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { BsCheck } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
 

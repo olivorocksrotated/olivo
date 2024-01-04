@@ -1,7 +1,7 @@
 'use client';
 
 import { JSONContent } from '@tiptap/react';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useState } from 'react';
 
 import Button from '@/app/components/ui/button/button';

@@ -1,4 +1,4 @@
-import { HookActionStatus } from 'next-safe-action/hook';
+import { HookActionStatus } from 'next-safe-action/hooks';
 
 export function isLoading(status: HookActionStatus) {
     return status === 'executing';

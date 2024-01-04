@@ -2,7 +2,7 @@
 
 import { Mood, MoodStatus } from '@prisma/client';
 import clsx from 'clsx';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useState } from 'react';
 import { TbMoodCheck } from 'react-icons/tb';
 
