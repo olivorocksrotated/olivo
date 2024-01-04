@@ -2,7 +2,7 @@
 
 import { NotificationStatus } from '@prisma/client';
 import clsx from 'clsx';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useState } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 

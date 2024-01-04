@@ -1,5 +1,5 @@
 'use client';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 import Input from '@/app/components/ui/input/input';

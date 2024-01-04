@@ -1,7 +1,7 @@
 'use client';
 
 import { CommitmentStatus } from '@prisma/client';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useState } from 'react';
 
 import { isOverdue } from '@/lib/commitments/filter';

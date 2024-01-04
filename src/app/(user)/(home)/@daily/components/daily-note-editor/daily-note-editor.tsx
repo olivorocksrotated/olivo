@@ -4,7 +4,7 @@ import { Note } from '@prisma/client';
 import { Node } from '@tiptap/pm/model';
 import { Selection } from '@tiptap/pm/state';
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react';
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { useState } from 'react';
 
 import Loader from '@/app/components/ui/loader/loader';

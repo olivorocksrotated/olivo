@@ -1,6 +1,6 @@
 'use client';
 
-import { useAction } from 'next-safe-action/hook';
+import { useAction } from 'next-safe-action/hooks';
 import { useOptimistic } from 'react';
 
 import Button from '@/app/components/ui/button/button';
